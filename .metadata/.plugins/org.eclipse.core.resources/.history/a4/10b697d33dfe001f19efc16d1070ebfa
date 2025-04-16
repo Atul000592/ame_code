@@ -1,0 +1,850 @@
+package nic.ame.app.ama.controller;
+
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
+import nic.ame.app.admin.dto.DropDownDto;
+import nic.ame.app.admin.dto.MedicalBoardMemberDto;
+import nic.ame.app.admin.dto.UserRoleMapDto;
+import nic.ame.app.admin.model.MedicalBoard;
+import nic.ame.app.admin.model.MedicalBoardMember;
+import nic.ame.app.admin.model.RefMedicalExamType;
+import nic.ame.app.admin.repository.ForceRepo;
+import nic.ame.app.admin.repository.MedicalBoardIndividualMappingRepo;
+import nic.ame.app.admin.repository.MedicalBoardMemberRepo;
+import nic.ame.app.admin.repository.MedicalBoardRepo;
+import nic.ame.app.admin.repository.RankRepo;
+import nic.ame.app.admin.repository.RefMedicalExamTypeRepo;
+import nic.ame.app.admin.service.MedicalBoardIndividualMappingService;
+import nic.ame.app.admin.service.RefForceService;
+import nic.ame.app.ama.dto.DealingHandDto;
+import nic.ame.app.ama.service.AmaDealingHandService;
+import nic.ame.app.ama.serviceImpl.SubordinateService_1_Impl;
+import nic.ame.app.ama.serviceImpl.SubordinateService_3_Impl;
+import nic.ame.app.master.dto.AppointmentListDto;
+import nic.ame.app.master.dto.FileUploadDto;
+import nic.ame.app.master.dto.ForcePersonnelDto;
+import nic.ame.app.master.medical.model.AmeMasterStatus;
+import nic.ame.app.master.medical.model.AmeReviewCandidatesList;
+import nic.ame.app.master.medical.model.Investigation;
+
+import nic.ame.app.master.medical.model.PhysicalMeasurement;
+
+import nic.ame.app.master.medical.service.AmeAssesmentServicePart_1;
+import nic.ame.app.master.medical.service.AmeAssessmentServicePart_2;
+import nic.ame.app.master.medical.service.AmeMasterStatusService;
+import nic.ame.app.master.medical.serviceImpl.AmeAssessmentServicePart_2_impl;
+import nic.ame.app.master.model.AlertAndNotification;
+import nic.ame.app.master.model.AmeApplicationFlowStatus;
+import nic.ame.app.master.model.AmeStatusCode;
+import nic.ame.app.master.model.ApplicationStateDescription;
+import nic.ame.app.master.model.Force;
+import nic.ame.app.master.model.ForcePersonnel;
+import nic.ame.app.master.model.TTAppointmentAme;
+import nic.ame.app.master.model.TTOrderFileRoleCreation;
+import nic.ame.app.master.repository.AlertAndNotificationRepository;
+import nic.ame.app.master.repository.AmeParametersRepository;
+import nic.ame.app.master.repository.AmeReviewCandidatesListRepository;
+import nic.ame.app.master.repository.AmeStatusCodeRepository;
+import nic.ame.app.master.repository.ApplicationStateDescriptionRepository;
+import nic.ame.app.master.repository.ForcePersonnelRepository;
+import nic.ame.app.master.repository.TTAppointmentAmeRepo;
+import nic.ame.app.master.repository.TTDealingHandRepo;
+import nic.ame.app.master.service.AmeApplicationFlowStatusService;
+import nic.ame.app.master.service.AmeAppointmentAndDeclarationService;
+import nic.ame.app.master.service.ForcePersonalService;
+import nic.ame.app.master.service.ForcePersonnelService;
+import nic.ame.app.master.service.LoginUserDetails;
+import nic.ame.app.master.service.MapUriToUserService;
+import nic.ame.app.master.service.UserRoleService;
+import nic.ame.app.sms.SMSConfigurationConstantsAME;
+import nic.ame.app.sms.SMSTemplateDto;
+import nic.ame.app.sms.SMSTemplateService;
+import nic.ame.app.sms.SmsResponse;
+import nic.ame.constant.CommonConstant;
+import nic.ame.constant.RegexValidation;
+import nic.ame.master.util.CreateAlertAndNotification;
+import nic.ame.master.util.GetIpAddressClient;
+import nic.ame.master.util.RandomCodeGenerator;
+import nic.ame.master.util.RegexPatternHanlder;
+
+
+@Controller
+@Transactional
+@EnableTransactionManagement
+public class AmaFunctionalController {
+
+	@Autowired
+	private SubordinateService_1_Impl service_1;
+
+	Logger logger = LoggerFactory.getLogger(AmaAmeDeclarationController.class);
+
+	@Autowired
+	private AmeAssessmentServicePart_2 ameAssessmentServicePart_2;
+
+	@Autowired
+	private AmeAssessmentServicePart_2_impl ameAssessmentServicePart_2_impl;
+
+	@Autowired
+	private AmeAssesmentServicePart_1 assesmentPart1Service;
+
+	@Autowired
+	private LoginUserDetails loginUserDetails;
+
+	@Autowired
+	private AmeApplicationFlowStatusService ameApplicationFlowStatusService;
+
+	@Autowired
+	private AmeMasterStatusService ameMasterStatusService;
+
+	@Autowired
+	private RankRepo rankRepo;
+
+	@Autowired
+	private ForcePersonalService forcePersonalService;
+
+	@Autowired
+	private MedicalBoardIndividualMappingService boardIndividualMappingService;
+
+	@Autowired
+	private MedicalBoardIndividualMappingRepo medicalBoardIndividualMappingRepo;
+
+	@Autowired
+	private AmeAppointmentAndDeclarationService ameAppointmentAndDeclarationService;
+
+	@Autowired
+	private MedicalBoardRepo medicalBoardRepo;
+
+	@Autowired
+	private RefForceService refForceService;
+
+	@Autowired
+	private SubordinateService_3_Impl service_3_Impl;
+
+	@Autowired
+	private AmaDealingHandService amaDealingHandService;
+
+	@Autowired
+	private ForcePersonnelRepository forcePersonnelRepository;
+
+	@Autowired
+	private UserRoleService userRoleService;
+
+	@Autowired
+	private AmeParametersRepository ameParametersRepository;
+
+	@Autowired
+	private MedicalBoardMemberRepo medicalBoardMemberRepo;
+
+	@Autowired
+	private ForceRepo forceRepo;
+
+	@Autowired
+	private MapUriToUserService mapUriToUserService;
+	@Autowired
+	private ForcePersonnelService forcePersonnelService;
+
+	@Autowired
+	private TTAppointmentAmeRepo appointmentAmeRepo;
+	
+	@Autowired 
+	private AmeReviewCandidatesListRepository ameReviewCandidatesListRepository;
+	
+	@Autowired
+	private AmeStatusCodeRepository ameStatusCodeRepository;
+	
+	
+	@Autowired
+	private SMSTemplateService smsTemplateService;
+	
+	@Autowired
+	private CreateAlertAndNotification createAlertAndNotification;
+	
+	@Autowired
+	private AlertAndNotificationRepository alertAndNotificationRepository;
+	
+	
+	@Autowired
+	private ApplicationStateDescriptionRepository applicationStateDescriptionRepository;
+	
+	
+	@Autowired
+	private RefMedicalExamTypeRepo refMedicalExamTypeRepo;
+
+
+	@RequestMapping(path = "/upload-file-page", method = RequestMethod.POST)
+	public String uploadFilePage(@RequestParam("ameId") String ameId, Model model,
+			@RequestParam("candidateForcePersonalId") String candidateForcePersonalId, HttpSession httpSession) {
+
+		
+		
+		System.out.println("dwaaaaaaaaaaaaaaaa");
+		model.addAttribute("ameId", ameId);
+		model.addAttribute("candidateForcePersonalId", candidateForcePersonalId);
+
+		int rCode = (int) httpSession.getAttribute("rCodeMedical");
+		logger.info("rCode>>>>>>>>>" + rCode);
+
+		String URI = mapUriToUserService.getUriForUploadDeclarationForm(rCode);
+		logger.info("URI>>>>>>>>>" + URI);
+
+		String forcePersonalId = (String) httpSession.getAttribute("forcepersonalId");
+
+		ForcePersonnelDto candidateForcePersonal = loginUserDetails
+				.getCandicateForcePersonalId(candidateForcePersonalId);
+
+		String candidateGazettedNonGazettedFlag = rankRepo
+				.getGazettedNonGazettedFlag(candidateForcePersonal.getRank().trim());
+
+		String gazettedNonGazettedFlag = (String) httpSession.getAttribute("gazettedNonGazettedFlag");
+		model.addAttribute("gazettedNonGazettedFlag", gazettedNonGazettedFlag);
+
+		model.addAttribute("candidateGazettedNonGazettedFlag", candidateGazettedNonGazettedFlag);
+
+		model.addAttribute("loginUserDetails", loginUserDetails.getCandicateForcePersonalId(forcePersonalId));
+
+		model.addAttribute("candidateDetails", loginUserDetails.getCandicateForcePersonalId(candidateForcePersonalId));
+
+		return URI;
+	}
+
+	@PostMapping("/upload-file")
+	public String uploadFile(Model model, MultipartFile file, String ameId, String candidateForcePersonalId,
+			HttpServletRequest request, HttpSession httpSession) {
+		String fileName = service_1.uploadAmeDeclarationFile(file, ameId, candidateForcePersonalId, request);
+		if (fileName != null) {
+
+			AmeApplicationFlowStatus ameApplicationFlowStatus = ameApplicationFlowStatusService
+					.getApplicationFlowDataByAmeId(ameId);
+			ameApplicationFlowStatus.setAmeFormUploadFlag(
+					Integer.parseInt(ameParametersRepository.getAmeParameterValue(CommonConstant.AME_STATUS_YES_FLAG)));
+			ameApplicationFlowStatus.setEsignByCandidate(1);
+			Boolean res = ameApplicationFlowStatusService.updateApplicationFlowStatus(ameApplicationFlowStatus);
+			logger.info("updateApplicationFlowStatus successFully............>>>>>>>" + res);
+		}
+		int rCode = (int) httpSession.getAttribute("rCodeMedical");
+		logger.info("rCode>>>>>>>>>" + rCode);
+
+		String URI = mapUriToUserService.getUriForUploadDeclarationFinal(rCode);
+		logger.info("URI>>>>>>>>>" + URI);
+
+		logger.info("FileUploaded>>>>>>>" + fileName);
+
+		return "redirect:/" + URI;
+	}
+
+	// ------------- Saving PhysicalMeasurement data into
+	// database------------------//
+
+	@RequestMapping(path = "/physical-measurement-ama", method = RequestMethod.POST)
+	public String savePhysicalMeasurement(@ModelAttribute PhysicalMeasurement physicalMeasurement,
+			@RequestParam String forcePersonalId, @RequestParam String ameId, Model model,
+			RedirectAttributes redirectAttributes) {
+
+		Optional<PhysicalMeasurement> optional = ameAssessmentServicePart_2.getPhysicalMeasurmentByAmeId(ameId);
+		if (!optional.isPresent()) {
+			ameAssessmentServicePart_2.savePhysicalMeasurement(physicalMeasurement, ameId);
+			logger.info(">>>>>>>>>>>>>>> Save First Time Physical Measurement");
+		} else {
+			ameAssessmentServicePart_2.updatePhysicalMeasurement(ameId, physicalMeasurement);
+			logger.info(">>>>>>>>>>>>>>>  Physical Measurement Updated Successfully");
+
+		}
+
+		model.addAttribute("forcepersonalId", forcePersonalId);
+		model.addAttribute("ameId", ameId);
+
+		redirectAttributes.addFlashAttribute("forcepersonalId", forcePersonalId);
+		redirectAttributes.addFlashAttribute("ameId", ameId);
+
+		return "redirect:/form-index-page-ama";
+	}
+
+	@RequestMapping(path = "/form-index-page-ama", method = RequestMethod.GET)
+	public String redirectToFromIndexPage(Model model, HttpServletRequest request, HttpSession session) {
+		String candidateForcepersonalId = null;
+		String ameId = null;
+
+		Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
+		if (inputFlashMap != null) {
+			candidateForcepersonalId = (String) inputFlashMap.get("forcepersonalId");
+			ameId = (String) inputFlashMap.get("ameId");
+		}
+		AmeMasterStatus ameMasterStatus = new AmeMasterStatus();
+		ameMasterStatus = ameMasterStatusService.getAmeMasterStatus(ameId);
+		model.addAttribute("ameMasterStatus", ameMasterStatus);
+		if (candidateForcepersonalId != null && ameId != null) {
+			String forcePersonalId = (String) session.getAttribute("forcepersonalId");
+			model.addAttribute("loginUserDetails", loginUserDetails.getCandicateForcePersonalId(forcePersonalId));
+			model.addAttribute("candidateDetails",
+					loginUserDetails.getCandicateForcePersonalId(candidateForcepersonalId));
+			if (forcePersonalId == null) {
+				model.addAttribute("errorMsg", "You have been sign out // Session expired.....!");
+				return "bootstrap_medical_temp/login-page";
+			}
+
+			model.addAttribute("forcepersonalId", candidateForcepersonalId);
+			model.addAttribute("ameId", ameId);
+			return "medical-sub-ordinate/form-index-page-ma";
+		} else {
+			model.addAttribute("errorMsg", "You have been sign out // Session expired.....!");
+			return "bootstrap_medical_temp/index";
+
+		}
+
+	}
+
+	// Investigation data save and update Action mapping
+	@RequestMapping(path = "/assessment-investigation-save-update-ama", method = RequestMethod.POST)
+	public String saveAssessmentInvestigation(RedirectAttributes redirectAttributes,
+			@ModelAttribute Investigation investigation, @RequestParam("ameId") String ameId,
+			@RequestParam("forcepersonalId") String forcepersonalId) {
+		// EyeFactor eyefactor=new EyeFactor();
+		String mssge = null;
+		Optional<Investigation> optional = ameAssessmentServicePart_2_impl.getInvestigationByAmeId(ameId);
+		if (!optional.isEmpty()) {
+
+			boolean result = ameAssessmentServicePart_2_impl.updateInvestigation(optional.get().getAmeId(),
+					investigation);
+
+			mssge = "Data updated";
+			System.out.println("Result>>>>>>>>>>>>" + result);
+
+		} else {
+			Boolean resBoolean = ameAssessmentServicePart_2_impl.saveInvestigation(investigation);
+			mssge = "Data save Successfully";
+			System.out.println(resBoolean);
+		}
+
+		redirectAttributes.addFlashAttribute("forcepersonalId", forcepersonalId);
+		redirectAttributes.addFlashAttribute("ameId", ameId);
+		redirectAttributes.addFlashAttribute("mssge", mssge);
+		return "redirect:/form-index-page-ama";
+	}
+
+//	--------------------------Reschedule appointment-------------------------  //
+	
+	@RequestMapping(value = "/give-appointment-to-force-personal-for-ama", method = RequestMethod.POST)
+	public String giveAppointmentToForcepersonalForAma(@RequestParam("boardId") String boardId,
+			@RequestParam("forcepersonalId") String forcepersonalId, Model model) {
+
+		List<MedicalBoardMemberDto> boardMemberDtos = boardIndividualMappingService
+				.getAmeAppointmentPendingListByBoardId(boardId, Integer.parseInt(
+						ameParametersRepository.getAmeParameterValue(CommonConstant.AME_APPOINTMENT_PENDING)));
+		List<AppointmentListDto> listOfAppointment = ameAppointmentAndDeclarationService.getAppointmentDtoList(boardId);
+		model.addAttribute("boardMemberDtos", boardMemberDtos);
+		model.addAttribute("boardId", boardId);
+
+		model.addAttribute("LoginForcePersonalId", forcepersonalId);
+		model.addAttribute("listOfAppointment", listOfAppointment);
+		model.addAttribute("loginUserDetails", loginUserDetails.getLoginUserDetails(forcepersonalId));
+		
+		return "medical-sub-ordinate/give-appointment-to-force-personal-for-ama";
+	}
+	
+	
+	@RequestMapping(value = "/give-appointment-to-force-personal-po", method = RequestMethod.POST)
+	public String giveAppointmentToForcepersonalForpo(@RequestParam("boardId") String boardId,
+			@RequestParam("forcepersonalId") String forcepersonalId, Model model) {
+
+		List<MedicalBoardMemberDto> boardMemberDtos = boardIndividualMappingService
+				.getAmeAppointmentPendingListByBoardId(boardId, Integer.parseInt(
+						ameParametersRepository.getAmeParameterValue(CommonConstant.AME_APPOINTMENT_PENDING)));
+		List<AppointmentListDto> listOfAppointment = ameAppointmentAndDeclarationService.getAppointmentDtoList(boardId);
+		model.addAttribute("boardMemberDtos", boardMemberDtos);
+		model.addAttribute("boardId", boardId);
+
+		model.addAttribute("LoginForcePersonalId", forcepersonalId);
+		model.addAttribute("listOfAppointment", listOfAppointment);
+		model.addAttribute("loginUserDetails", loginUserDetails.getLoginUserDetails(forcepersonalId));
+		
+		return "po-template/give-appointment-to-force-personal-for-po";
+	}
+	
+//	--------------------------Reschedule appointment-------------------------  //
+	
+	@PostMapping("reschedule-appointment-for-force-personnel")
+	public ResponseEntity<?> rescheduleAppointmentForForcePersonnel(@RequestBody Map<String,Object> data,HttpSession httpSession,HttpServletRequest request){
+		try {
+		
+		Map<String,Object> response = new HashMap<>();
+		Map<String,String> errors= new HashMap<>();
+		
+		String boardId =  String.valueOf(data.get("boardId"));
+		String candidateForcePersonnelId =  String.valueOf(data.get("forcePersonnelId"));
+		String loggedInUserForcepersonnelId = (String) httpSession.getAttribute("forcepersonalId");
+		
+		
+		String fromDateString = (String)data.get("fromDate");
+		String toDateString =(String)data.get("toDate");
+		Date fromDate = null;
+		Date toDate = null;
+		
+		String AMEYear=medicalBoardRepo.getBoardYear(boardId);
+		TTAppointmentAme byBoardIdAndCandidateForcePersonalIdAndYear = appointmentAmeRepo.getByBoardIdAndForcePersonalIdAndDeclarationYear(boardId, candidateForcePersonnelId, AMEYear).get();
+	
+		//if (byBoardIdAndCandidateForcePersonalIdAndYear.isPresent()) {}
+		
+		int isAppointmentValid = byBoardIdAndCandidateForcePersonalIdAndYear.getIsAppointmentValid();
+		SimpleDateFormat dateFormatter= new SimpleDateFormat("yyyy-MM-dd");
+		
+		Optional<ForcePersonnelDto> forcePersonnel = forcePersonnelService.getForcePersonnelDetailsByForcePersonnelId(candidateForcePersonnelId);
+		ForcePersonnelDto forcePersonnelDto=forcePersonnel.get();
+		
+		//TTAppointmentAme appointmentAmeForRescheduleFlagUpdate = appointmentAmeRepo.findByBoardIdAndForcePersonalId(boardId, loggedInUserForcepersonnelId).get();
+		medicalBoardIndividualMappingRepo.updateAppointmentStatus(1,boardId, candidateForcePersonnelId);
+		
+		
+		
+		TTAppointmentAme appointmentAme = new TTAppointmentAme();
+		
+		if(fromDateString==null) {
+			errors.put("reschedule-fromDate", RegexValidation.EMPTY_FIELD_MESSAGE );
+		}
+		if(fromDateString!=null) {
+			if (!RegexPatternHanlder.isValidString(fromDateString)) {
+				errors.put("reschedule-fromDate", RegexValidation.SPECIAL_CHARATER_ERROR_MESSAGE);
+
+			}
+		}
+		if(toDateString==null) {
+			errors.put("reschedule-toDate", RegexValidation.EMPTY_FIELD_MESSAGE );
+		}
+		if(toDateString!=null) {
+			if (!RegexPatternHanlder.isValidString(toDateString)) {
+				errors.put("reschedule-fromDate", RegexValidation.SPECIAL_CHARATER_ERROR_MESSAGE);
+
+			}
+		}
+		
+		if(toDateString!=null && fromDateString!=null) {
+			if (RegexPatternHanlder.isValidString(toDateString)&&RegexPatternHanlder.isValidString(fromDateString)) {
+				fromDate=dateFormatter.parse(fromDateString);
+				toDate=dateFormatter.parse(toDateString);
+			       if(!fromDate.before(toDate)) {
+			    	   errors.put("reschedule-toDate", RegexValidation.TO_DATE_MESSAGE);
+			    		errors.put("reschedule-fromDate", RegexValidation.FROM_DATE_MESSAGE);
+			       } if(fromDate.equals(toDate)) {
+			    	   errors.put("toDate", RegexValidation.EQUAL_DATE_MESSAGE);
+			    		errors.put("fromDate", RegexValidation.EQUAL_DATE_MESSAGE);
+			       }
+
+			}
+		}
+		
+		
+		if (!errors.isEmpty()) {
+			response.put("isValid", false);
+			response.put("errors", errors);
+			return ResponseEntity.ok(response);
+
+		} else {
+			
+			if(isAppointmentValid==5){
+				appointmentAmeRepo.updateRescheduleFlag(candidateForcePersonnelId, boardId);
+				appointmentAme.setIsAppointmentValid(1);
+				appointmentAme.setAmeRemarkCode(0);
+				appointmentAme.setBoardId(boardId);
+				appointmentAme.setCreatedBy(loggedInUserForcepersonnelId);
+				appointmentAme.setCreatedOn(Calendar.getInstance().getTime());
+				appointmentAme.setDeclarationInvalidFlag(0);
+				appointmentAme.setDeclarationStatus(0);
+				appointmentAme.setDeclarationYear(AMEYear);
+				appointmentAme.setForceNo(forcePersonnelDto.getForceNo());
+				appointmentAme.setForcePersonalId(candidateForcePersonnelId);
+				appointmentAme.setFromDate(fromDate);
+				appointmentAme.setToDate(toDate);
+				appointmentAme.setIrlaNo(forcePersonnelDto.getForceId());
+				appointmentAme.setLastModifiedOn(Calendar.getInstance().getTime());
+				appointmentAme.setLastModifiedBy(loggedInUserForcepersonnelId);
+				appointmentAme.setLastModifiedFrom(GetIpAddressClient.getIpAddressFromHeaderClient(request));
+				appointmentAme.setUnitNo(Integer.parseInt(forcePersonnelDto.getUnit()));
+				appointmentAme.setIsAppointmentValid(1);
+				appointmentAme.setRescheduleFlag(false);
+				if(appointmentAmeRepo.save(appointmentAme)!=null) {
+					SMSTemplateDto smsTemplateDto=new SMSTemplateDto();
+					smsTemplateDto.setIrlaNo(forcePersonnelDto.getForceId());
+				    smsTemplateDto.setFromDate(fromDateString);
+				    smsTemplateDto.setMobileNumber(forcePersonnelDto.getMobileNumber().toString());
+				    smsTemplateDto.setToDate(toDateString);
+		        	smsTemplateDto.setMobileNumber(String.valueOf(forcePersonnelDto.getMobileNumber()));
+		        	smsTemplateDto.setCountryIsdCode("91");
+		            smsTemplateDto.setBoardUnitPlace(boardId);
+		        	SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd-MM-YYYY");
+		       	    smsTemplateDto.setAmeCompletedOnDate(simpleDateFormat.format(forcePersonnelDto.getLastAmeDate()));
+		       	   SmsResponse smsresponse=smsTemplateService.rescheduleAppointmentSMS(smsTemplateDto,SMSConfigurationConstantsAME.DLT_TEMPLATE_ID_RESCHEDULING_APPOINTMENT);
+		       	Optional<ApplicationStateDescription> applicationStateDescription=applicationStateDescriptionRepository.findById(55);
+		    	
+		    	Optional<RefMedicalExamType> examType=refMedicalExamTypeRepo.findById(1L);
+		       	    AlertAndNotification alertAndNotificationRecieved=createAlertAndNotification.saveAlertAndNotification(request, forcePersonnel, smsresponse.getMessage(), 
+						applicationStateDescription, examType,"Reschedule Message Sent Successfully");
+		       	    
+		        alertAndNotificationRepository.save(alertAndNotificationRecieved);
+				
+				
+				
+					response.put("isValid", true);
+					response.put("message", "Appointment rescheduled successfully!!");
+					return ResponseEntity.ok(response);
+				 }
+				else{
+					response.put("isValid", false);
+				response.put("message", "Something went wrong while saving the data!");
+				return ResponseEntity.ok(response);
+				}
+				
+				}
+			
+			
+			else if(isAppointmentValid==6) {
+				AmeReviewCandidatesList ameReviewCandidate= ameReviewCandidatesListRepository.getByBoardIdAndCandidateForcePersonalIdAndYear(boardId, candidateForcePersonnelId,AMEYear).get();
+				 Optional<AmeStatusCode> ameStatusCode = ameStatusCodeRepository.getByCode(0);
+				 ameReviewCandidate.setAmeStatusCode(ameStatusCode.get());
+				 ameReviewCandidate.setRescheduleFlag(false);
+
+				
+				appointmentAmeRepo.updateRescheduleFlag(candidateForcePersonnelId, boardId);
+				appointmentAme.setIsAppointmentValid(1);
+				appointmentAme.setAmeRemarkCode(0);
+				appointmentAme.setBoardId(boardId);
+				appointmentAme.setCreatedBy(loggedInUserForcepersonnelId);
+				appointmentAme.setCreatedOn(Calendar.getInstance().getTime());
+				appointmentAme.setDeclarationInvalidFlag(0);
+				appointmentAme.setDeclarationStatus(0);
+				appointmentAme.setDeclarationYear(AMEYear);
+				appointmentAme.setForceNo(forcePersonnelDto.getForceNo());
+				appointmentAme.setForcePersonalId(candidateForcePersonnelId);
+				appointmentAme.setFromDate(fromDate);
+				appointmentAme.setToDate(toDate);
+				appointmentAme.setIrlaNo(forcePersonnelDto.getForceId());
+				appointmentAme.setLastModifiedOn(Calendar.getInstance().getTime());
+				appointmentAme.setLastModifiedBy(loggedInUserForcepersonnelId);
+				appointmentAme.setLastModifiedFrom(GetIpAddressClient.getIpAddressFromHeaderClient(request));
+				appointmentAme.setUnitNo(Integer.parseInt(forcePersonnelDto.getUnit()));
+				appointmentAme.setIsAppointmentValid(1);
+				appointmentAme.setRescheduleFlag(false);
+				if(appointmentAmeRepo.save(appointmentAme)!=null) {
+					
+					response.put("isValid", true);
+					response.put("message", "Appointment rescheduled successfully!!");
+					return ResponseEntity.ok(response);
+				 }
+				else{
+					response.put("isValid", false);
+				response.put("message", "Something went wrong while saving the data!");
+				return ResponseEntity.ok(response);}
+			}
+			
+		
+		
+		
+		
+		}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occured!");
+		}
+		return null;
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	@RequestMapping(value = "/send-request-to-save-ame-appointmnet-for-forcePersonal", method = RequestMethod.POST)
+	public ResponseEntity<?> saveAmeAppointmentList(@RequestBody List<String> data, HttpSession httpSession,
+			HttpServletRequest httpServletRequest) {
+		
+		Map<String,Object> response = new HashMap<>();
+		Map<String,String> errors= new HashMap<>();
+		
+		int size = data.size();
+		String toDateString = data.get(size - 2);
+		String fromDateString = data.get(size - 3);
+		String boardId = data.get(size - 1);
+		String remark = data.get(size - 4);
+		String forcepersonalIdLogin = (String) httpSession.getAttribute("forcepersonalId");
+
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date fromDate = null;
+		Date toDate = null;
+		
+		
+		
+		if(fromDateString==null) {
+			errors.put("fromDate", RegexValidation.EMPTY_FIELD_MESSAGE );
+		}
+		if(fromDateString!=null) {
+			if (!RegexPatternHanlder.isValidString(fromDateString)) {
+				errors.put("fromDate", RegexValidation.SPECIAL_CHARATER_ERROR_MESSAGE);
+
+			}
+		}
+		if(toDateString==null) {
+			errors.put("toDate", RegexValidation.EMPTY_FIELD_MESSAGE );
+		}
+		if(toDateString!=null) {
+			if (!RegexPatternHanlder.isValidString(toDateString)) {
+				errors.put("fromDate", RegexValidation.SPECIAL_CHARATER_ERROR_MESSAGE);
+
+			}
+		}
+		
+		if(toDateString!=null && fromDateString!=null) {
+			if (RegexPatternHanlder.isValidString(toDateString)&&RegexPatternHanlder.isValidString(fromDateString)) {
+				try {
+					fromDate=dateFormatter.parse(fromDateString);
+					toDate=dateFormatter.parse(toDateString);
+				} catch (ParseException e) {
+					
+					e.printStackTrace();
+					return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occured!");
+				}
+				
+			       if(!fromDate.before(toDate)) {
+			    	   errors.put("toDate", RegexValidation.TO_DATE_MESSAGE);
+			    		errors.put("fromDate", RegexValidation.FROM_DATE_MESSAGE);
+			       }
+			      
+			}
+		}
+
+		if (remark.isBlank()
+				|| remark.isEmpty()) {
+			errors.put("remark", RegexValidation.EMPTY_FIELD_MESSAGE);
+		}
+
+		if (!remark.isBlank()
+				|| !remark.isEmpty()) {
+
+			if (!RegexPatternHanlder
+					.isValidString(remark)) {
+				errors.put("remark", RegexValidation.SPECIAL_CHARATER_ERROR_MESSAGE);
+			}
+		}
+		
+		if (!errors.isEmpty()) {
+			response.put("isValid", false);
+			response.put("errors", errors);
+			return ResponseEntity.ok(response);
+
+		} else {
+		
+
+		for (int i = 0; i < size - 4; i++) {
+
+			medicalBoardIndividualMappingRepo.updateAppointmentStatus(
+					Integer.parseInt(
+							ameParametersRepository.getAmeParameterValue(CommonConstant.AME_APPOINTMENT_PROVIDED)),
+					data.get(i).trim(), boardId);
+			ameAppointmentAndDeclarationService.saveAmeAppointmentDetails(data.get(i), forcepersonalIdLogin,
+					fromDateString, toDateString, remark, boardId, httpServletRequest);
+			logger.info("data saved..." + i + ">>>>>>>>>>>" + boardId + "data " + data.get(i));
+		}
+		
+		List<MedicalBoardMemberDto> boardMemberDtos = boardIndividualMappingService
+				.getAmeAppointmentPendingListByBoardId(boardId, Integer.parseInt(
+						ameParametersRepository.getAmeParameterValue(CommonConstant.AME_APPOINTMENT_PENDING)));
+		List<AppointmentListDto> listOfAppointment = ameAppointmentAndDeclarationService.getAppointmentDtoList(boardId);
+		Map<String, Object> list = new HashMap<>();
+		
+		response.put("isValid", true);
+		response.put("boardMemberDtos", boardMemberDtos);
+		response.put("listOfAppointment", listOfAppointment);
+		response.put("message", "Appointment rescheduled successfully!!");
+		return ResponseEntity.ok(response);
+		}
+	}
+
+	@RequestMapping(value = "/search-fp-dh-assign", method = RequestMethod.POST)
+	public String searchForcePersonalDealingHandByIrlaNumber(Model model, HttpSession httpSession,
+			@RequestParam("boardId") String boardId) {
+		System.out.println(">>>>>>>>>>>>>>>>>>" + ">>>>>>>>>>>>>>>>" + boardId);
+
+		String loginForcePersonalId = (String) httpSession.getAttribute("forcepersonalId");
+		model.addAttribute("loginUserDetails", loginUserDetails.getLoginUserDetails(loginForcePersonalId));
+		List<DropDownDto> downDtosList = new ArrayList<>();
+
+		List<MedicalBoardMember> medicalBoardsList = medicalBoardMemberRepo.findByForcePersonalId(loginForcePersonalId);
+		for (MedicalBoardMember medicalBoardMember : medicalBoardsList) {
+			MedicalBoard medicalBoardData = medicalBoardRepo.getByBoardId(medicalBoardMember.getBoardId());
+			if (medicalBoardData.getBoardId() != null) {
+				DropDownDto downDto = new DropDownDto();
+				StringBuffer buffer = new StringBuffer();
+				String place = refForceService.getUnitNameByUnitId(
+						Integer.parseInt(medicalBoardData.getBoardAtForceNo()), medicalBoardData.getPlace());
+
+				buffer = buffer.append(medicalBoardData.getBoardId()).append(" || " + place)
+						.append(" || " + medicalBoardData.getUsedFor() + " || ");
+				if (medicalBoardData.getGazettedFlag() == 1) {
+					buffer.append("Gazetted");
+				} else {
+					buffer.append("Non-Gazetted");
+				}
+				downDto.setBoardId(medicalBoardData.getBoardId());
+				downDto.setValue(buffer.toString());
+				downDtosList.add(downDto);
+			}
+		}
+		MedicalBoard medicalBoard = medicalBoardRepo.getByBoardId(boardId);
+		List<ForcePersonnelDto> getForcePeronalDto = service_3_Impl.getDealingHandAssignmentList(
+				medicalBoard.getPlace(), Integer.parseInt(medicalBoard.getBoardAtForceNo()));
+		model.addAttribute("getForcePeronalDto", getForcePeronalDto);
+		model.addAttribute("boardIdDealinghand", boardId);
+		model.addAttribute("downDtosList", downDtosList);
+
+		return "medical-sub-ordinate/assign-dealing-hand-to-unit";
+	}
+
+	@RequestMapping(value = "/assign-dealing-hand-to-board", method = RequestMethod.POST)
+	public String saveDealingHandForBoard(Model model, @RequestParam("roleIdIdDealingHand") String roleIdIdDealingHand,
+			@RequestParam("boardIdDealingHand") String boardIdDealingHand,
+			@RequestParam("forcePersonalIdAssignRole") String forcePersonalIdAssignRole,
+
+			@RequestParam("file") MultipartFile[] files, @RequestParam("orderNumber") String orderNumber,
+			@RequestParam("name_irlaNo") String Name_Irla_No, @RequestParam("designation") String designation,
+			@RequestParam("department") String department,
+			@RequestParam("orderDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date orderDate,
+			@RequestParam("remark") String remark, HttpSession session, HttpServletRequest request) {
+
+		logger.info("forcePersonalIdAssignRole" + forcePersonalIdAssignRole);
+		logger.info("roleIdIdDealingHand" + roleIdIdDealingHand);
+		logger.info("boardIdDealingHand" + boardIdDealingHand);
+		// String message = null;
+
+		String transactionalId = RandomCodeGenerator.getTransactionalIdUserRole();
+		String forcePersonalIdLogin = (String) session.getAttribute("forcepersonalId");
+		model.addAttribute("loginUserDetails", loginUserDetails.getLoginUserDetails(forcePersonalIdLogin));
+
+		FileUploadDto fileUploadDto = new FileUploadDto();
+		for (MultipartFile file : files) {
+
+			fileUploadDto.setFileName(file.getOriginalFilename());
+			fileUploadDto.setFileType(file.getContentType());
+			try {
+				fileUploadDto.setFileContent(file.getBytes());
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+
+		}
+		fileUploadDto.setDepartment(Integer.parseInt(department));
+		fileUploadDto.setDesignation(designation);
+		fileUploadDto.setName_IrlaNo(Name_Irla_No);
+		fileUploadDto.setOrderNo(orderNumber);
+
+		fileUploadDto.setOrderDate(orderDate);
+		fileUploadDto.setRemark(remark);
+
+		Optional<ForcePersonnel> forcePersonal = forcePersonnelRepository.getByForcePersonnelId(forcePersonalIdLogin);
+		ForcePersonnel forcePersonal2 = new ForcePersonnel();
+		if (!forcePersonal.isEmpty()) {
+			forcePersonal2 = forcePersonal.get();
+		}
+		UserRoleMapDto userRoleMapDto = new UserRoleMapDto();
+
+		userRoleMapDto.setMappedBy(forcePersonalIdLogin);
+		userRoleMapDto.setMappedByName(forcePersonal2.getName());
+		userRoleMapDto.setMappedOn(Calendar.getInstance().getTime());
+		userRoleMapDto.setForcePersonalId(forcePersonalIdAssignRole);
+		userRoleMapDto.setRoleId(roleIdIdDealingHand);
+		userRoleMapDto.setStatus(
+				Integer.parseInt(ameParametersRepository.getAmeParameterValue(CommonConstant.USER_ROLE_STATUS_ACTIVE)));
+
+		userRoleService.createDealingHandByBoardMember(userRoleMapDto, fileUploadDto, transactionalId,
+				boardIdDealingHand, request);
+
+		model.addAttribute("dealingHandList", amaDealingHandService.getDealingHandByBoardId(boardIdDealingHand));
+		return "medical-sub-ordinate/list-dealing-hand-to-board";
+
+	}
+
+	@PostMapping("get-personal-details-for-role-assignment-dealing-hand")
+	public ResponseEntity<?> getpersonaldetailsforroleassignmentDealingHand(
+			@RequestParam("forcePersonalId") String forcePersonalId, @RequestParam("boardId") String boardId,
+			Model model, HttpSession httpSession) {
+
+		int roleCodeId = Integer
+				.parseInt(ameParametersRepository.getAmeParameterValue(CommonConstant.MEDICAL_DEALING_HAND_ROLE_CODE));
+		logger.info(">>>>>>>>>>>>>>>> " + forcePersonalId);
+		Map<String, Object> map = new HashMap<>();
+		ForcePersonnelDto forcePersonnelDto = forcePersonalService.getForcePersonalDetails(forcePersonalId);
+		boolean result = amaDealingHandService.getExistingDealingHandByBoardIdAndForcePersonalId(boardId,
+				forcePersonalId);
+		logger.warn("Result >>>>>>>>>>>>" + result);
+		List<Force> departmentList = forceRepo.findAll();
+
+		map.put("departmentList", departmentList);
+		map.put("boardId", boardId);
+		map.put("forcePersonalId", forcePersonalId);
+		map.put("forcePersonalDto", forcePersonnelDto);
+		map.put("roleCodeId", roleCodeId);
+
+		if (result) {
+			map.put("statusCode", 0);
+			map.put("message", "For BoardID >>>> (" + boardId + ") Name >>>>>> (" + forcePersonnelDto.getName()
+					+ ") is Dealing <Note:-> " + "Can Not assign More than  One Personal for same role  Again.....!");
+			return ResponseEntity.status(HttpStatus.OK).body(map);
+
+		} else {
+			map.put("statusCode", 1);
+
+			return ResponseEntity.status(HttpStatus.OK).body(map);
+		}
+
+	}
+
+	@GetMapping(path = "/view-dealing-hand-list")
+	public String viewDealingHandList(Model model, HttpSession httpSession) {
+
+		String boardId = (String) httpSession.getAttribute("boardId");
+		logger.info("BoardId>>>>>>>>>>>>>>>" + boardId);
+		List<DealingHandDto> dealingHandList = amaDealingHandService.getDealingHandByBoardId(boardId);
+		model.addAttribute("dealingHandList", dealingHandList);
+		String forcePersonalIdLogin = (String) httpSession.getAttribute("forcepersonalId");
+		model.addAttribute("loginUserDetails", loginUserDetails.getLoginUserDetails(forcePersonalIdLogin));
+		return "medical-sub-ordinate/view-dealing-hand-list";
+	}
+
+}

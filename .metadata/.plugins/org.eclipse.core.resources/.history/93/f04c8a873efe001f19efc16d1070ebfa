@@ -1,0 +1,122 @@
+package nic.ame.master.util;
+
+import java.util.Calendar;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import jakarta.servlet.http.HttpServletRequest;
+import nic.ame.app.admin.model.RefMedicalExamType;
+import nic.ame.app.admin.repository.RefMedicalExamTypeRepo;
+import nic.ame.app.master.dto.ForcePersonnelDto;
+import nic.ame.app.master.model.AlertAndNotification;
+import nic.ame.app.master.model.ApplicationStateDescription;
+import nic.ame.app.master.model.ForcePersonnel;
+import nic.ame.app.master.repository.AlertAndNotificationRepository;
+
+@Service
+public class CreateAlertAndNotification {
+
+	
+	
+	Logger logger=LoggerFactory.getLogger(CreateAlertAndNotification.class);
+	
+	
+	
+	
+	
+	 public AlertAndNotification saveAlertAndNotification(HttpServletRequest request,Optional<ForcePersonnelDto> forcePersonnelOptional,
+			 String message,Optional<ApplicationStateDescription> applicationStateDescriptionOptional,
+			 Optional<RefMedicalExamType> examTypeOptional,
+			 String loggerMessage,String senderForcePersonnel,String sendBy) {
+		 
+		 
+		 logger.info("Logger Message >>>>>>>> :"+loggerMessage);
+		 
+		AlertAndNotification alertAndNotification= new AlertAndNotification();
+    	Optional<ApplicationStateDescription> applicationStateDescription=applicationStateDescriptionOptional;
+    	alertAndNotification.setApplicationStateDescription(applicationStateDescription.get());
+    
+    	alertAndNotification.setReceiverForcePersonnelId(forcePersonnelOptional.get().getForcePersonalId());
+    	alertAndNotification.setReceiverEmail(forcePersonnelOptional.get().getEmailId());
+    	alertAndNotification.setReceiverMobileNumber(forcePersonnelOptional.get().getMobileNumber());
+    	
+    	Optional<RefMedicalExamType> examType=examTypeOptional;
+        alertAndNotification.setExamType(examType.get());
+        
+    	alertAndNotification.setSendByForcePersonnelId(senderForcePersonnel);
+    	alertAndNotification.setSendFrom(GetIpAddressClient.getIpAddressFromHeaderClient(request));
+    	alertAndNotification.setSendBy(sendBy);
+    	alertAndNotification.setSendOn(Calendar.getInstance().getTime());
+    	
+    	alertAndNotification.setLastModifiedFrom(GetIpAddressClient.getIpAddressFromHeaderClient(request));
+    	alertAndNotification.setLastModifiedBy(forcePersonnelOptional.get().getForcePersonalId());
+    	alertAndNotification.setLastModifiedOn(Calendar.getInstance().getTime());
+    	alertAndNotification.setMessage(message);
+		
+    	return alertAndNotification;
+    	
+}
+	
+	 public AlertAndNotification saveAlertAndNotificationForFinalAMEResult(HttpServletRequest request,Optional<ForcePersonnel> forcePersonnelOptional,
+			 String message,Optional<ApplicationStateDescription> applicationStateDescriptionOptional,
+			 Optional<RefMedicalExamType> examTypeOptional,
+			 String loggerMessage,String senderForcePersonnel,String sendBy) {
+		 
+		 
+		 logger.info("Logger Message >>>>>>>> :"+loggerMessage);
+		 
+		AlertAndNotification alertAndNotification= new AlertAndNotification();
+    	Optional<ApplicationStateDescription> applicationStateDescription=applicationStateDescriptionOptional;
+    	alertAndNotification.setApplicationStateDescription(applicationStateDescription.get());
+    
+    	alertAndNotification.setReceiverForcePersonnelId(forcePersonnelOptional.get().getForcePersonalId());
+    	alertAndNotification.setReceiverEmail(forcePersonnelOptional.get().getEmailId());
+    	alertAndNotification.setReceiverMobileNumber(forcePersonnelOptional.get().getMobileNumber());
+    	
+    	Optional<RefMedicalExamType> examType=examTypeOptional;
+        alertAndNotification.setExamType(examType.get());
+        
+    	alertAndNotification.setSendByForcePersonnelId(senderForcePersonnel);
+    	alertAndNotification.setSendFrom(GetIpAddressClient.getIpAddressFromHeaderClient(request));
+    	alertAndNotification.setSendBy(sendBy);
+    	alertAndNotification.setSendOn(Calendar.getInstance().getTime());
+    	
+    	alertAndNotification.setLastModifiedFrom(GetIpAddressClient.getIpAddressFromHeaderClient(request));
+    	alertAndNotification.setLastModifiedBy(forcePersonnelOptional.get().getForcePersonalId());
+    	alertAndNotification.setLastModifiedOn(Calendar.getInstance().getTime());
+    	alertAndNotification.setMessage(message);
+		
+    	return alertAndNotification;
+    	
+	 }
+    	 public AlertAndNotification saveAlertAndNotificationForRescheduling(HttpServletRequest request,ForcePersonnel forcePersonnelOptional,
+    			Optional<ApplicationStateDescription> applicationStateDescriptionOptional,
+    			 Optional<RefMedicalExamType> examTypeOptional, String message) {
+    		 
+    		 
+    	
+    		AlertAndNotification alertAndNotification= new AlertAndNotification();
+        	Optional<ApplicationStateDescription> applicationStateDescription=applicationStateDescriptionOptional;
+        	alertAndNotification.setApplicationStateDescription(applicationStateDescription.get());
+        
+        	alertAndNotification.setReceiverForcePersonnelId(forcePersonnelOptional.get().getForcePersonalId());
+        	alertAndNotification.setReceiverEmail(forcePersonnelOptional.get().getEmailId());
+        	alertAndNotification.setReceiverMobileNumber(forcePersonnelOptional.get().getMobileNumber());
+        	Optional<RefMedicalExamType> examType=examTypeOptional;
+            alertAndNotification.setExamType(examType.get());
+        	alertAndNotification.setSendFrom(GetIpAddressClient.getIpAddressFromHeaderClient(request));
+        	alertAndNotification.setSendOn(Calendar.getInstance().getTime());
+        	
+        	alertAndNotification.setLastModifiedFrom(GetIpAddressClient.getIpAddressFromHeaderClient(request));
+        	alertAndNotification.setLastModifiedBy(forcePersonnelOptional.get().getForcePersonalId());
+        	alertAndNotification.setLastModifiedOn(Calendar.getInstance().getTime());
+        	alertAndNotification.setMessage(message);
+    		
+        	return alertAndNotification;
+}
+	
+	
+}

@@ -1,0 +1,371 @@
+package nic.ame.app.sms;
+
+import java.io.Writer;
+import java.net.URISyntaxException;
+import java.io.StringWriter;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import io.jsonwebtoken.io.IOException;
+import nic.ame.app.test.controller.StringChunker;
+
+@Service
+public class SMSServiceTemplateImpl implements SMSTemplateService {
+
+	Logger logger=LoggerFactory.getLogger(SMSServiceTemplateImpl.class);
+
+	@Autowired
+	private FreeMarkerTemplateConfiguration freeMarkerTemplateConfiguration;
+
+	private String result;
+	private String message;
+	
+	//----------Individual mapped to board SMS----------//
+	
+    @Override
+    public SmsResponse individualMappedToBoardSMS(SMSTemplateDto smsTemplateDto,String templateId) {
+		
+		//smsTemplateDto.setTemplateId(templateId);
+
+        logger.info(" >>>>>>>> board mapping message.......Start");
+        
+
+
+		Configuration configuration = null;
+		try {
+			configuration = freeMarkerTemplateConfiguration.getInstance();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		Map<String, String> data = new HashMap<String, String>();
+		
+		 List<String> chunks=StringChunker.divideStringIntoChunks(smsTemplateDto.getBoardUnitPlace(), 30);
+		 String boardPlace = null,boardPlace1 = null;
+		 
+		data.put(SMSConfigurationConstantsAME.IRLA_NUMBER,smsTemplateDto.getIrlaNo());
+	    data.put(SMSConfigurationConstantsAME.AME_YEAR,smsTemplateDto.getYear());
+	    for(int i=0;i<chunks.size();i++) {
+	    	if(i==0)
+	    		boardPlace=chunks.get(i);
+	    	if(i==1)
+	    		boardPlace1=chunks.get(i);	    	
+	    }
+    	data.put(SMSConfigurationConstantsAME.AME_BOARD_PLACE,boardPlace);
+
+	    if(boardPlace1!=null)
+	    	data.put(SMSConfigurationConstantsAME.AME_BOARD_PLACE1,boardPlace1);
+	    else
+	    	data.put(SMSConfigurationConstantsAME.AME_BOARD_PLACE1,"");
+
+	    
+        //Send SMS
+		Template smsTemplate = null;
+		try {
+			smsTemplate = configuration.getTemplate("MappingSMS.ftl");
+		} catch (java.io.IOException e) {
+			e.printStackTrace();
+		}
+
+		Writer smsWriter = new StringWriter();
+		try {
+			smsTemplate.process(data, smsWriter);
+		} catch (TemplateException | java.io.IOException e) {
+			e.printStackTrace();
+		}
+
+		String smsContent = smsWriter.toString();
+
+		logger.trace("\n\nSMS : " + smsContent + "\n\n");
+		
+		
+		
+		result=SMSAmeUtil.sendMessage(smsTemplateDto.getCountryIsdCode(),smsTemplateDto.getMobileNumber(),smsContent,templateId);
+		
+		logger.info(" >>>>>>>> board mapping message.......End");
+		if(result.isEmpty()) {
+			result=null;
+		}
+		SmsResponse smsResponse=new SmsResponse();
+		smsResponse.setResult(result);
+		smsResponse.setMessage(smsContent);
+		logger.info("SMS send Result:"+smsResponse);
+		return smsResponse;
+
+    }
+  //----------AME Appointment Completed SMS----------//
+	@Override
+	public SmsResponse preAmeSMS(SMSTemplateDto smsTemplateDto, String templateId) {
+		logger.info(" >>>>>>>> board mapping message.......Start");
+        Configuration configuration = null;
+		try {
+			configuration = freeMarkerTemplateConfiguration.getInstance();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		Map<String, String> data = new HashMap<String, String>();
+		
+		data.put(SMSConfigurationConstantsAME.IRLA_NUMBER,smsTemplateDto.getIrlaNo());
+		
+		data.put(SMSConfigurationConstantsAME.AME_YEAR,smsTemplateDto.getYear());
+		data.put(SMSConfigurationConstantsAME.FROM_DATE,smsTemplateDto.getFromDate());
+		data.put(SMSConfigurationConstantsAME.TO_DATE,smsTemplateDto.getToDate());
+		
+		 List<String> chunks=StringChunker.divideStringIntoChunks(smsTemplateDto.getBoardUnitPlace(), 30);
+		 String boardPlace = null,boardPlace1 = null;
+		 for(int i=0;i<chunks.size();i++) {
+		    	if(i==0)
+		    		boardPlace=chunks.get(i);
+		    	if(i==1)
+		    		boardPlace1=chunks.get(i);	    	
+		    }
+	    	data.put(SMSConfigurationConstantsAME.AME_BOARD_PLACE,boardPlace);
+
+		    if(boardPlace1!=null)
+		    	data.put(SMSConfigurationConstantsAME.AME_BOARD_PLACE1,boardPlace1);
+		    else
+		    	data.put(SMSConfigurationConstantsAME.AME_BOARD_PLACE1,"");
+
+		
+        //Send SMS
+		Template smsTemplate = null;
+		try {
+			smsTemplate = configuration.getTemplate("PreAMESMS.ftl");
+		} catch (java.io.IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		Writer smsWriter = new StringWriter();
+		try {
+			smsTemplate.process(data, smsWriter);
+		} catch (TemplateException | java.io.IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		String smsContent = smsWriter.toString();
+
+		logger.trace("\n\nSMS : " + smsContent + "\n\n");
+		
+		
+		
+		
+		result=SMSAmeUtil.sendMessage(smsTemplateDto.getCountryIsdCode(),smsTemplateDto.getMobileNumber(),smsContent,templateId);
+		
+		logger.info(" >>>>>>>> board mapping message.......End");
+		if(result.isEmpty()) {
+			result=null;
+		}
+		SmsResponse smsResponse=new SmsResponse();
+		smsResponse.setResult(result);
+		smsResponse.setMessage(smsContent);
+		logger.info("SMS send Result:"+smsResponse);
+		return smsResponse;
+	}
+
+	//----------AME Completed SMS----------//
+	
+	@Override
+	public SmsResponse ameSMS(SMSTemplateDto smsTemplateDto, String templateId) {
+		logger.info(" >>>>>>>> AME FINAL CATEGORY SMS.......Start");
+        Configuration configuration = null;
+		try {
+			configuration = freeMarkerTemplateConfiguration.getInstance();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		Map<String, String> data = new HashMap<String, String>();
+		
+		data.put(SMSConfigurationConstantsAME.IRLA_NUMBER,smsTemplateDto.getIrlaNo());
+		data.put(SMSConfigurationConstantsAME.AME_COMPLETED_ON_DATE,smsTemplateDto.getAmeCompletedOnDate().toString());
+		
+		 List<String> chunks=StringChunker.divideStringIntoChunks(smsTemplateDto.getCategoryAwarded(), 30);
+		 String categoryAwarded = null,categoryAwarded1 = null,categoryAwarded2=null;
+		 for(int i=0;i<chunks.size();i++) {
+		    	if(i==0)
+		    		categoryAwarded=chunks.get(i);
+		    	if(i==1)
+		    		categoryAwarded1=chunks.get(i);
+		    	if(i==2)
+		    		categoryAwarded2=chunks.get(i);
+		    }
+	    	data.put(SMSConfigurationConstantsAME.CATEGORY_AWARDED_PART1,categoryAwarded);
+
+		    if(categoryAwarded1!=null) {
+		    	data.put(SMSConfigurationConstantsAME.CATEGORY_AWARDED_PART2,categoryAwarded1);
+		    }
+		    else {
+		    	data.put(SMSConfigurationConstantsAME.CATEGORY_AWARDED_PART2,"");
+		    }
+		    	
+		    
+		    
+		    if(categoryAwarded2!=null) {
+		    	data.put(SMSConfigurationConstantsAME.CATEGORY_AWARDED_PART3,categoryAwarded2);
+		    
+		    }else { 
+		    	data.put(SMSConfigurationConstantsAME.CATEGORY_AWARDED_PART3,"");
+
+		    }
+		
+		
+		
+		
+        //Send SMS
+		Template smsTemplate = null;
+		try {
+			smsTemplate = configuration.getTemplate("AMESMS.ftl");
+		} catch (java.io.IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		Writer smsWriter = new StringWriter();
+		try {
+			smsTemplate.process(data, smsWriter);
+		} catch (TemplateException | java.io.IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		String smsContent = smsWriter.toString();
+
+		logger.trace("\n\nSMS : " + smsContent + "\n\n");
+		
+		
+		
+		
+		result=SMSAmeUtil.sendMessage(smsTemplateDto.getCountryIsdCode(),smsTemplateDto.getMobileNumber(),smsContent,templateId);
+		
+		logger.info(" >>>>>>>> AME FINAL CATEGORY SMS .......End");
+		if(result.isEmpty()) {
+			result=null;
+		}
+		SmsResponse smsResponse=new SmsResponse();
+		smsResponse.setResult(result);
+		smsResponse.setMessage(smsContent);
+		logger.info("SMS send Result:"+smsResponse);
+		return smsResponse;
+	}
+//----------RMB SMS----------//
+	@Override
+	public SmsResponse reviewMedicalBoardSMS(SMSTemplateDto smsTemplateDto, String templateId) {
+		logger.info(" >>>>>>>> ReviewMedicalBoard  message.......Start");
+        Configuration configuration = null;
+		try {
+			configuration = freeMarkerTemplateConfiguration.getInstance();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		Map<String, String> data = new HashMap<String, String>();
+		
+		data.put(SMSConfigurationConstantsAME.IRLA_NUMBER,smsTemplateDto.getIrlaNo());
+		
+		 List<String> chunks=StringChunker.divideStringIntoChunks(smsTemplateDto.getCategoryAwarded(), 30);
+		 String categoryAwarded = null,categoryAwarded1 = null,categoryAwarded2=null;
+		 for(int i=0;i<chunks.size();i++) {
+		    	if(i==0)
+		    		categoryAwarded=chunks.get(i);
+		    	if(i==1)
+		    		categoryAwarded1=chunks.get(i);
+		    	if(i==2)
+		    		categoryAwarded2=chunks.get(i);
+		    }
+	    	data.put(SMSConfigurationConstantsAME.CATEGORY_AWARDED_PART1,categoryAwarded);
+
+		    if(categoryAwarded1!=null) {
+		    	data.put(SMSConfigurationConstantsAME.CATEGORY_AWARDED_PART2,categoryAwarded1);
+		    }
+		    else {
+		    	data.put(SMSConfigurationConstantsAME.CATEGORY_AWARDED_PART2,"");
+		    }
+		    	
+		    
+		    
+		    if(categoryAwarded2!=null) {
+		    	data.put(SMSConfigurationConstantsAME.CATEGORY_AWARDED_PART3,categoryAwarded2);
+		    
+		    }else { 
+		    	data.put(SMSConfigurationConstantsAME.CATEGORY_AWARDED_PART3,"");
+
+		    }
+		    
+			data.put(SMSConfigurationConstantsAME.AME_COMPLETED_ON_DATE,smsTemplateDto.getAmeCompletedOnDate());
+			data.put(SMSConfigurationConstantsAME.AME_REVIEW_DATE,smsTemplateDto.getAmeReviewDate());
+			
+
+
+
+        //Send SMS
+		Template smsTemplate = null;
+		try {
+			smsTemplate = configuration.getTemplate("ReviewMedicalBoard.ftl");
+		} catch (java.io.IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		Writer smsWriter = new StringWriter();
+		try {
+			smsTemplate.process(data, smsWriter);
+		} catch (TemplateException | java.io.IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		String smsContent = smsWriter.toString();
+
+		logger.trace("\n\nSMS : " + smsContent + "\n\n");
+		
+		
+		
+		
+		result=SMSAmeUtil.sendMessage(smsTemplateDto.getCountryIsdCode(),smsTemplateDto.getMobileNumber(),smsContent,templateId);
+		
+		logger.info(" >>>>>>>> ReviewMedicalBoard message.......End");
+		if(result.isEmpty()) {
+			result=null;
+		}
+		SmsResponse smsResponse=new SmsResponse();
+		smsResponse.setResult(result);
+		smsResponse.setMessage(smsContent);
+		logger.info("SMS send Result:"+smsResponse);
+		return smsResponse;
+	}
+	@Override
+	public SmsResponse reschedulingAppoitment(SMSTemplateDto smsTemplateDto, String templateId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+
+  
+
+   
+	
+	
+	
+		
+	
+
+}

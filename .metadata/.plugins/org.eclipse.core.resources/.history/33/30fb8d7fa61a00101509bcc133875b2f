@@ -1,0 +1,848 @@
+package nic.ame.app.master.serviceImpl;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
+
+import nic.ame.app.admin.repository.RefRoleMedicalRepo;
+import nic.ame.app.admin.repository.RefRoleRepo;
+import nic.ame.app.master.repository.AmeParametersRepository;
+import nic.ame.app.master.service.MapUriToUserService;
+import nic.ame.master.util.MapUriToUser;
+
+@Service
+public class MapUriToUserServiceImpl implements MapUriToUserService {
+
+	@Autowired
+	private AmeParametersRepository ameParametersRepository;
+
+	@Autowired
+	private RefRoleRepo refRoleRepo;
+
+	@Autowired
+	private RefRoleMedicalRepo refRoleMedicalRepo;
+
+	// ==================medical===============role=================
+
+	@Override
+	public String getUriForShowingAmeDeclarationFormToUser(int id) {
+
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(id);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+
+			if (roleCode.equals("mb1") || roleCode.equals("mb2"))
+				roleCode = "bm";
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriForShowingAmeDeclarationFormToUser(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+	@Override
+	public String getUriForShowingAmeDeclarationListToUser(int rCode) {
+
+		Optional<String> getRoleCode = refRoleRepo.findRoleCodeByRoleId(String.valueOf(rCode));
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriForShowingAmeDeclarationListToUser(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+//=================medical role table==========================//
+	@Override
+	public String getUriForShowingAmeDeclarationListToUserMedicalRole(int rCode) {
+
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(rCode);
+
+		String uri;
+
+		String roleCode;
+		roleCode = getRoleCode.get();
+		if (!getRoleCode.isEmpty()) {
+
+			if (roleCode.equals("mb1") || roleCode.equals("mb2"))
+				roleCode = "bm";
+		} else if (roleCode.equals("po")) {
+			roleCode = "po";
+		}
+		roleCode = getRoleName(roleCode);
+
+		int uriCode = MapUriToUser.getUriForShowingAmeDeclarationListToUser(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+	@Override
+	public String getUriAfterAMEDeclarationDataCheck(int id) {
+
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(id);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			if (roleCode.equals("mb1") || roleCode.equals("mb2"))
+				roleCode = "bm";
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriAfterAMEDeclarationDataCheck(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+	@Override
+	public String getUriForPendingAndUpLoad(int id) {
+
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(id);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			if (roleCode.equals("mb1") || roleCode.equals("mb2"))
+				roleCode = "bm";
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriForPendingAndUpLoad(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+	@Override
+	public String getUriForApplicationUnderProcess(int id) throws Exception {
+
+	    Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(id);
+	    if (getRoleCode.isEmpty()) {
+	        throw new Exception("Role Code not Found");
+	    }
+
+	    String roleCode = getRoleCode.get();
+
+	  
+	    if (roleCode.equalsIgnoreCase("mb1") || roleCode.equalsIgnoreCase("mb2")) {
+	        roleCode = "bm";
+	    }
+
+	    int uriCode;
+
+	
+	    if (roleCode.equalsIgnoreCase("AA")) {
+	        uriCode = MapUriToUser.getUriForApplicationUnderProcess("AA");
+	    } else {
+	        uriCode = MapUriToUser.getUriForApplicationUnderProcess(roleCode);
+	    }
+
+	    String uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+	    return uri;
+	}
+
+	@Override
+	public String getUriForApplicationUnderProcessAndFillReport(int id) {
+
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(id);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			if (roleCode.equals("mb1") || roleCode.equals("mb2"))
+				roleCode = "bm";
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriForApplicationUnderProcessAndFillReport(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+	@Override
+	public String getUriForViewUserRoleDetails(int rCode) {
+
+		Optional<String> getRoleCode = refRoleRepo.findRoleCodeByRoleId(String.valueOf(rCode));
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+		} else {
+			roleCode = "na";
+		}
+		int uriCode = MapUriToUser.getUriForViewUserRoleDetails(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+	@Override
+	public String getUriManageExistingRole(int rCode) {
+
+		Optional<String> getRoleCode = refRoleRepo.findRoleCodeByRoleId(String.valueOf(rCode));
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriManageExistingRole(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+//====================================================================================================================================================//
+
+	@Override
+	public String getUriForPhysiacalMesurmentFormToUser(int rCode) {
+
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(rCode);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriToDisplayPhysicalMeasurmentForm(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+	@Override
+	public String getUriForPhychologicalAssessmentAsLaidDown(int rCode) {
+
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(rCode);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriToForPhychologicalAssessmentAsLaidDownForm(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+
+	}
+
+	@Override
+	public String getUriForHearing(int rCode) {
+
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(rCode);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriToForHearingForm(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+	@Override
+	public String getUriForappendages(int rCode) {
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(rCode);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriToForAppendagesForm(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+	@Override
+	public String getUriForEye(int rCode) {
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(rCode);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriToForEyeForm(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+	@Override
+	public String getUriForGeneralExaminationUser(int rCode) {
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(rCode);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriToForGeneralExaminationForm(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+	@Override
+	public String getUriForCNSCNMReflex(int rCode) {
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(rCode);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriToForCNSCNMReflexForm(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+	@Override
+	public String getUriForAbdomenUser(int rCode) {
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(rCode);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriToForAbdominForm(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+//===========================================View Service=============================================//
+
+	@Override
+	public String getUriForPhysicalMeasurementViewForm(int rCode) {
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(rCode);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriToForPhysicalMeasurementView(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+	@Override
+	public String getUriForPsychologyViewForm(int rCode) {
+		// psychology
+
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(rCode);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriToForPsychologyView(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+	@Override
+	public String getUriForHearingViewForm(int rCode) {
+
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(rCode);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriToForHearingView(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+	@Override
+	public String getUriForGeneralExaminationViewForm(int rCode) {
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(rCode);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriToForGeneralExaminationView(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+	@Override
+	public String getUriForCNSReflexesViewForm(int rCode) {
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(rCode);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriToForCNSReflexesView(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+	@Override
+	public String getUriForAbdominAndRespiratoryViewForm(int rCode) {
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(rCode);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriToForAbdominAndRespiratoryView(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+	@Override
+	public String getUriForAppendagesViewForm(int rCode) {
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(rCode);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriToForAppendagesView(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+	@Override
+	public String getUriForEyeFactotrViewForm(int rCode) {
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(rCode);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriToForEyeFactorView(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+	@Override
+	public String getUriForInvestigationUser(int rCode) {
+
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(rCode);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriToForInvestigationForm(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+	@Override
+	public String getUriForFinalDetailsProcess(int rCode) {
+
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(rCode);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriToForFinalDetails(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+	@Override
+	public String getUriForPrintAmeDeclarationFormToUser(int rCode) {
+
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(rCode);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriToForPrintingDeclarationForm(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+	@Override
+	public String getUriForGynecology(int rCode) {
+
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(rCode);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriToFormGynecology(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+	@Override
+	public String getUriForgynecologyViewForm(int rCode) {
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(rCode);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriToForgynecologyViewView(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+	@Override
+	public String getUriForUploadDeclarationForm(int rCode) {
+
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(rCode);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+		} else {
+			roleCode = "na";
+		}
+		roleCode = getRoleName(roleCode);
+
+		int uriCode = MapUriToUser.getUriToUploadDeclarationForm(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+	@Override
+	public String getUriForUploadDeclarationFinal(int rCode) {
+		// TODO Auto-generated method stub
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(rCode);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriToUploadDeclarationFinal(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+	@Override
+	public String getUriForCheckListForCandidate(int rCode) {
+		// TODO Auto-generated method stub
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(rCode);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriToCheckUplistUpload(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+	@Override
+	public String getUriForAmeResltDisplay(int id) {
+
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(id);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriForAmeResltDisplayCode(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+
+	public static String getRoleName(String code) {
+		if (code.equalsIgnoreCase("mb1") || code.equalsIgnoreCase("mb2"))
+			return "bm";
+		return code;
+	}
+
+	@Override
+	public String getUriForAmePendingStatusAma(int rCode) {
+		Optional<String> getRoleCode = refRoleMedicalRepo.findRoleNameById(rCode);
+
+		String uri;
+
+		String roleCode;
+
+		if (!getRoleCode.isEmpty()) {
+			roleCode = getRoleCode.get();
+			roleCode = getRoleName(roleCode);
+		} else {
+			roleCode = "na";
+		}
+
+		int uriCode = MapUriToUser.getUriToForAmependingStatus(roleCode);
+
+		uri = ameParametersRepository.getAmeParameterValue(uriCode);
+
+		return uri;
+	}
+}

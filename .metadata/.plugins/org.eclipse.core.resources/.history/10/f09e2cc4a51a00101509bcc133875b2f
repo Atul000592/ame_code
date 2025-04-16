@@ -1,0 +1,1314 @@
+package nic.ame.app.master.controller;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.RequestContextUtils;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import nic.ame.app.admin.model.Rank;
+import nic.ame.app.admin.model.Rank;
+import nic.ame.app.admin.repository.RankMasterRepository;
+import nic.ame.app.admin.repository.RankRepo;
+import nic.ame.app.admin.repository.ForceRepo;
+import nic.ame.app.admin.service.RefForceService;
+import nic.ame.app.ama.dto.DealingHandDto;
+import nic.ame.app.ama.service.AmaDealingHandService;
+import nic.ame.app.board.member.repository.AmeDeclarationFilesRepo;
+import nic.ame.app.board.member.repository.CheckUpListRepo;
+import nic.ame.app.master.dto.AmeApplicationFlowStatusDto;
+import nic.ame.app.master.dto.AmeDeclarationIndividualDto;
+import nic.ame.app.master.dto.AmeDeclarationIndividualModelDto;
+import nic.ame.app.master.dto.AmeFinalDetailDto;
+import nic.ame.app.master.dto.ForcePersonnelDto;
+import nic.ame.app.master.medical.model.AmeAppointmentDetails;
+import nic.ame.app.master.medical.model.AmeDeclarationFiles;
+import nic.ame.app.master.medical.model.AmeMasterStatus;
+import nic.ame.app.master.medical.model.CheckUpList;
+import nic.ame.app.master.medical.service.AmeAssessmentServicePart_2;
+import nic.ame.app.master.medical.service.AmeFinalDetailService;
+import nic.ame.app.master.medical.service.AmeMasterStatusService;
+import nic.ame.app.master.medical.serviceImpl.AmeAssessmentServicePart_1_impl;
+import nic.ame.app.master.model.AmeDeclarationIndividualDetails;
+import nic.ame.app.master.model.AmeDeclarationIndividualModel;
+import nic.ame.app.master.model.FinalCategoryRemarkTemp;
+import nic.ame.app.master.model.Force;
+import nic.ame.app.master.model.ForcePersonnel;
+import nic.ame.app.master.model.go.AmeFinalReportDetailsGo;
+import nic.ame.app.master.model.go.AmeFinalReportFileDirGo;
+import nic.ame.app.master.model.go.repository.AmeFinalReportDetailsGoRepository;
+import nic.ame.app.master.model.go.repository.AmeFinalReportFileDirGoRepository;
+import nic.ame.app.master.repository.AmeApplicationFlowStatusRepo;
+import nic.ame.app.master.repository.AmeDeclarationIndividualDetailsRepo;
+import nic.ame.app.master.repository.AmeDeclarationRepository;
+import nic.ame.app.master.repository.FinalCategoryRemarkTempRepo;
+import nic.ame.app.master.repository.ForcePersonnelRepository;
+import nic.ame.app.master.service.AmeApplicationFlowStatusService;
+import nic.ame.app.master.service.AmeAppointmentService;
+import nic.ame.app.master.service.ForcePersonnelService;
+import nic.ame.app.master.service.LoginUserDetails;
+import nic.ame.app.master.service.MapUriToUserService;
+import nic.ame.constant.CommonConstant;
+
+@Controller
+public class MasterFunctionalController {
+
+	@Autowired
+	private AmeDeclarationIndividualDetailsRepo ameDeclarationIndividualDetailsRepo;
+
+	@Autowired
+	private AmeDeclarationRepository ameDeclarationRepository;
+
+	@Autowired
+	private LoginUserDetails loginUserDetails;
+
+	@Autowired
+	private ForcePersonnelRepository forcePersonnelRepository;
+	
+	@Autowired
+	private AmaDealingHandService amaDealingHandService;
+
+	@Autowired
+	private AmeAssessmentServicePart_2 ameAssessmentServicePart_2;
+	
+	
+	@Autowired
+	private AmeApplicationFlowStatusService ameApplicationFlowStatusService;
+	
+
+	
+	@Autowired
+	private AmeAppointmentService ameAppointmentService;
+	
+	@Autowired
+	private AmeMasterStatusService ameMasterStatusService;
+	
+	@Autowired
+	private MapUriToUserService mapUriToUserService;
+	
+	@Autowired
+	private RankRepo rankRepo;
+	
+	@Autowired
+	private RankMasterRepository rankMasterRepository;
+	
+	@Autowired
+	private ForceRepo forceRepo;
+
+
+	
+	@Autowired
+	private AmeFinalDetailService ameFinalDetailService;
+	
+	
+	
+	
+	@Autowired
+	private FinalCategoryRemarkTempRepo finalCategoryRemarkTempRepo;
+	
+	
+	@Autowired
+	private AmeApplicationFlowStatusRepo ameApplicationFlowStatusRepo;
+	
+	@Autowired
+	AmeAssessmentServicePart_1_impl ameAssessmentServicePart_1_impl;
+	
+	@Autowired
+	ForcePersonnelService forcePersonnelService;
+
+	@Autowired
+     private RefForceService refForceService;
+	
+	@Autowired
+	private AmeDeclarationFilesRepo  ameDeclarationFilesRepo;
+	
+		
+	@Autowired
+	AmeFinalReportFileDirGoRepository ameFinalReportFileDirGoRepository;
+	@Autowired
+	AmeFinalReportDetailsGoRepository ameFinalReportDetailsGoRepository;
+	
+	
+	@Autowired
+	private CheckUpListRepo checkUpListRepo;
+	   String rank;
+	   String  new_unit ;
+	
+	   Logger logger = LogManager.getLogger(MasterFunctionalController.class);
+
+	// ========================show-ame-declartion-form-details-to-ama-boardmember-dealinghand=============================//
+
+	@RequestMapping(path = "/show-ame-declaration-form-details", method = RequestMethod.POST)
+	public String showAmeDeclarationDetailsToUser(@RequestParam("forcepersonalId") String candidateForcePercenalId,
+			@RequestParam("ameId") String ameId, Model model, HttpSession httpSession) {
+
+		logger.info(">>>>Forcepersonal>>" + candidateForcePercenalId + ">>>>>>>>>>>>AME-ID" + ameId);
+
+		String forcepersonalId = (String) httpSession.getAttribute("forcepersonalId");
+
+		int rCode = (int) httpSession.getAttribute("rCodeMedical");
+    
+		List<AmeDeclarationFiles>  declarationFileDetails=ameDeclarationFilesRepo.findByAmeId(ameId);
+		
+		String uri = null,fileName=null,filePath=null;
+		if(declarationFileDetails.size()>0) {
+			 
+			fileName=declarationFileDetails.get(0).getFileName();
+			filePath=declarationFileDetails.get(0).getFilePath();
+			
+			if(rCode==2)
+				uri="po-template/view-declaration-pdf";
+			else if(rCode==3||rCode==4)
+				uri="medical-bm/view-declaration-pdf";
+			else if(rCode==1)
+				uri="medical-sub-ordinate/view-declaration-pdf";
+			else if(rCode==12)
+				uri="dealinghand/view-declaration-pdf";
+			}
+		else {
+
+			logger.info("rCode>>>>>>>>>"+rCode);
+			uri = mapUriToUserService.getUriForShowingAmeDeclarationFormToUser(rCode);
+			logger.info("URI info......>>"+uri);
+		}
+		
+		model.addAttribute("fileName",fileName);
+		model.addAttribute("filePath",filePath);
+        
+		String gazettedNonGazettedFlag = (String) httpSession.getAttribute("gazettedNonGazettedFlag");
+		model.addAttribute("gazettedNonGazettedFlag", gazettedNonGazettedFlag);
+
+		Optional<AmeDeclarationIndividualDetails> ameDeclarationIndividualDetailsOptional = ameDeclarationIndividualDetailsRepo.findByAmeId(ameId);
+		Optional<AmeDeclarationIndividualModel> ameDeclarationIndividualModelOptional = 
+				ameDeclarationRepository.findByForcePersonalIdData(candidateForcePercenalId,ameId);
+
+		AmeDeclarationIndividualDetails ameDeclarationIndividualDetailsOptionalData = new AmeDeclarationIndividualDetails();
+		AmeDeclarationIndividualModel ameDeclarationIndividualModelOptionalData = new AmeDeclarationIndividualModel();
+		ForcePersonnelDto candidateForcepersonnel=loginUserDetails.getCandicateForcePersonalId(candidateForcePercenalId);    
+		
+		model.addAttribute("loginUserDetails", loginUserDetails.getCandicateForcePersonalId(forcepersonalId));
+		model.addAttribute("candidateDetails", candidateForcepersonnel);
+         
+		logger.info("URI Path for File >>>>>>>>>>>>>>>>"+uri);
+		
+		if (ameDeclarationIndividualDetailsOptional.isPresent() && ameDeclarationIndividualModelOptional.isPresent()) {
+			logger.info(">>>>>>> ameID :- " + ameDeclarationIndividualDetailsOptional.get().getAmeId());
+			logger.info(">>>>>>>>>ForcePersonalId :-" + ameDeclarationIndividualModelOptional.get().getForcePersonalId());
+			ameDeclarationIndividualModelOptionalData = ameDeclarationIndividualModelOptional.get();
+			
+			model.addAttribute("designation",rankRepo.findById(ameDeclarationIndividualModelOptionalData.getDesignation()).get().getRankFullName());
+			
+			ameDeclarationIndividualDetailsOptionalData = ameDeclarationIndividualDetailsOptional.get();
+			
+			model.addAttribute("forcepersonalId", candidateForcePercenalId);
+			model.addAttribute("name", ameDeclarationIndividualModelOptionalData.getName());
+			model.addAttribute("forceId", ameDeclarationIndividualModelOptionalData.getForceId());
+			model.addAttribute("dataList1", ameDeclarationIndividualDetailsOptionalData);
+			model.addAttribute("individualModel", ameDeclarationIndividualModelOptionalData);
+			model.addAttribute("AmeId", ameId);
+			
+			return uri;
+		} else {
+			
+			model.addAttribute("forcepersonalId", candidateForcePercenalId);
+			model.addAttribute("details", ameDeclarationIndividualDetailsOptionalData);
+			model.addAttribute("individualModel", ameDeclarationIndividualModelOptionalData);
+			model.addAttribute("AmeId", ameId);
+		
+			return uri;
+		}
+
+	}
+	
+	
+	@RequestMapping(path ="print-ame-declaration-form-details", method = RequestMethod.POST)
+	public String printAmeDeclarationDetailsToUser(
+			@RequestParam("forcepersonalId") String candidateForcePercenalId,
+			@RequestParam("ameId") String ameId,
+			Model model,
+			HttpSession httpSession) {
+
+		
+
+	    logger.debug(">>>>Forcepersonal>>"+candidateForcePercenalId +">>>>>>>>>>>>AME-ID"+ameId);
+		
+		 String gazettedNonGazettedFlag=(String) httpSession.getAttribute("gazettedNonGazettedFlag");
+		 model.addAttribute("gazettedNonGazettedFlag", gazettedNonGazettedFlag);
+	    if(!ameId.isEmpty()) {
+            
+	    	Optional<AmeDeclarationIndividualDetails> optional=ameDeclarationIndividualDetailsRepo.findByAmeId(ameId);
+			Optional<AmeDeclarationIndividualModel> optional2=ameDeclarationRepository.findByForcePersonalIdData(candidateForcePercenalId,ameId);
+			AmeDeclarationIndividualDetails details=new AmeDeclarationIndividualDetails();
+			AmeDeclarationIndividualModel individualModel=new AmeDeclarationIndividualModel();
+			Optional<AmeAppointmentDetails> appointmentDetails=ameAssessmentServicePart_2.ameAppointmentDetails(ameId);
+			ForcePersonnel forcePersonal=ameAssessmentServicePart_1_impl.getforceForcePersonal(candidateForcePercenalId);
+	      ForcePersonnelDto	forcePersonnelDtoIndividualModel=forcePersonnelService.getForcePersonnelDetailsByForcePersonnelId(candidateForcePercenalId).get();
+			int forceNo=forcePersonal.getForceNo();
+			String unit=forcePersonal.getUnit();
+			String previousUnit =null;
+			String newUnit =null;
+			Date appointmentDate = null;
+			String date = null;
+			
+			String amePlace=ameApplicationFlowStatusRepo.getAmePlaceByBoardIdAndAmeId(ameId.trim());
+			
+			if(!appointmentDetails.isEmpty()) {
+				 appointmentDate=appointmentDetails.get().getAppointmentDate();
+				 SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd-MM-yyyy");
+			     date =simpleDateFormat.format(appointmentDate);
+			}
+			
+		    model.addAttribute("amePlace", amePlace);
+		    model.addAttribute("currentDate",Calendar.getInstance().getTime());
+			if(optional.isPresent()&& optional2.isPresent()) {
+				logger.info(">>>>>>> ameID :- "+optional.get().getAmeId());
+				logger.info(">>>>>>>>>ForcePersonalId :-"+optional2.get().getForcePersonalId());
+				
+				individualModel=optional2.get();
+				rank= rankRepo.findById(individualModel.getRank()).get().getRankFullName();
+			    details=optional.get();
+			    
+			   // previousUnit=refForceService.getUnitNameByUnitId(forceNo,individualModel.getPrevious_unit());
+			   // newUnit=refForceService.getUnitNameByUnitId(forceNo,individualModel.getCurent_new_unit());
+				unit =refForceService.getUnitNameByUnitId(forceNo,unit);
+			    
+			    model.addAttribute("details",details);
+				model.addAttribute("individualModel",individualModel);
+		        model.addAttribute("AmeId", ameId);
+		        model.addAttribute("rank", rank);
+				model.addAttribute("forcepersonalId", candidateForcePercenalId);
+                model.addAttribute("forcePersonnelDtoIndividualModel", forcePersonnelDtoIndividualModel);
+		       
+		        model.addAttribute("appointmentDate",date);
+		        //model.addAttribute("unit", unit);
+		       // model.addAttribute("previousUnit", previousUnit);
+		        model.addAttribute("newUnit", newUnit);
+		        return"medical-sub-ordinate/view/print-ame-declaration-userInfo-to-ama-form";			
+		        
+			}
+			else {
+		
+			
+				model.addAttribute("details",details);
+				model.addAttribute("individualModel",individualModel);
+		        model.addAttribute("AmeId", ameId);
+		        model.addAttribute("previousUnit", previousUnit);
+		        model.addAttribute("newUnit", newUnit);
+		        model.addAttribute("unit", unit);
+		        model.addAttribute("rank", rank);
+				model.addAttribute("forcepersonalId", candidateForcePercenalId);
+                model.addAttribute("forcePersonnelDtoIndividualModel", forcePersonnelDtoIndividualModel);
+
+		        return"medical-sub-ordinate/view/print-ame-declaration-userInfo-to-ama-form";			}
+			}
+	  
+		 return "redirect:/medical-subordinate-dashboard";
+		
+	}
+	
+	
+	
+
+	// ==========================show Ame declaration list to AMA \ Board Member \
+	// Dealing Hand================================//
+
+	@GetMapping("/show-ame-declaration-list")
+	public String showDeclarationtoControllerdh(HttpSession httpSession, Model model) {
+
+		String forcepersonalId = (String) httpSession.getAttribute("forcepersonalId");
+		int rCode = (int) httpSession.getAttribute("rCodeMedical");
+		String boardId = (String) httpSession.getAttribute("boardId");
+		final String URI = mapUriToUserService.getUriForShowingAmeDeclarationListToUserMedicalRole(rCode);
+		logger.info("rCode>>>>>>>>>"+rCode+">>>>>>>>>>>>>>>>BoardId>>>>>>>>>>>>>>>>"+boardId);
+		logger.info("URI>>>>>>>>>"+URI);
+		if (forcepersonalId == null) {
+
+			model.addAttribute("errorMsg",
+					"INVALID USER TRY TO GET THE DATA ..........!.......Invalid request or session expired");
+			return "bootstrap_medical_temp/login-page";
+		}
+
+		List<AmeApplicationFlowStatusDto> AppointmentCompletedListDisplay = ameApplicationFlowStatusService
+				.ameApplicationFlowStatusDtos(boardId);
+		
+		
+		model.addAttribute("AppointmentCompletedListDisplay", AppointmentCompletedListDisplay);
+		
+		String candidateGazettedNonGazettedFlag = (String) httpSession.getAttribute("candidateGazettedNonGazettedFlag");
+		model.addAttribute("candidateGazettedNonGazettedFlag", candidateGazettedNonGazettedFlag);
+
+		String gazettedNonGazettedFlag = (String) httpSession.getAttribute("gazettedNonGazettedFlag");
+		model.addAttribute("gazettedNonGazettedFlag", gazettedNonGazettedFlag);
+
+		List<DealingHandDto> ameApplicationFlowStatusDtos = amaDealingHandService
+				.listOfDeclarationCompletePendingForApproval(boardId);
+		model.addAttribute("loginUserDetails", loginUserDetails.getCandicateForcePersonalId(forcepersonalId));
+		if (ameApplicationFlowStatusDtos.isEmpty()) {
+			model.addAttribute("message", "HAVE NO RECORD TO DISPALY...! ");
+			return URI;
+
+		}
+		model.addAttribute("declarationDetails", ameApplicationFlowStatusDtos);
+
+		return URI;
+	}
+
+	
+	
+	
+		
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// ================================================Provide-Appointment-to-the-force-personal=========================================//
+
+	@RequestMapping(path = "/ame-declaration-checked-approved",method = RequestMethod.POST)
+	public String ameDeclarationCheckedApproved(
+			@RequestParam("forcepersonalId") String candidateForcepersonalId,
+			@RequestParam("ameId") String ameId,
+			@RequestParam("remark") String remark,Model model,HttpServletRequest servletRequest) {
+		
+	      	String URI = null;
+		
+
+		HttpSession httpSession = servletRequest.getSession(false);
+		if (httpSession == null) {
+			model.addAttribute("errorMsg", "INVALID USER TRY TO GET THE DATA ..........!.......INVALID REQUEST");
+			return "bootstrap_medical_temp/index";
+		}
+		
+	    int rCode= (int) httpSession.getAttribute("rCodeMedical");
+	    logger.info("rCode>>>>>>>>>"+rCode);
+		
+		//URI=mapUriToUserService.getUriAfterAMEDeclarationDataCheck(rCode);
+		
+		
+		if(rCode==3||rCode==4)
+			URI="redirect:/role-map-to-ame-bm-dashboard";
+		if(rCode==2)
+			URI="redirect:/po-dashboard";
+		if(rCode==1)
+			URI="redirect:/medical-subordinate-dashboard";
+		logger.info("URI>>>>>>>>>"+URI);
+		
+		String candidateGazettedNonGazettedFlag = (String) httpSession.getAttribute("candidateGazettedNonGazettedFlag");
+		model.addAttribute("candidateGazettedNonGazettedFlag", candidateGazettedNonGazettedFlag);
+		String gazettedNonGazettedFlag = (String) httpSession.getAttribute("gazettedNonGazettedFlag");
+		model.addAttribute("gazettedNonGazettedFlag", gazettedNonGazettedFlag);
+
+	
+		logger.info(">>> forcepersonalId >>>" + candidateForcepersonalId + ">>> ameId >>>" + ameId);
+
+	
+		Optional<ForcePersonnel> optional = forcePersonnelRepository.getByForcePersonnelId(candidateForcepersonalId);
+		if (!optional.isPresent()) {
+			model.addAttribute("error-message",
+					"sorry for inconvenience....Our Team is working on to solve the issue.");
+			return "bootstrap_medical_temp/error-page";
+
+		}
+		
+		model.addAttribute("forcepersonalId", candidateForcepersonalId);
+		model.addAttribute("ameId", ameId);
+		boolean result = ameAssessmentServicePart_2.updateAmeStatus(ameId,remark);
+
+		if (result) {
+			logger.info("Appointment given Sucessfully >>>" + result);
+			}
+
+	
+		return URI;
+
+	}
+	
+	
+	
+	
+	//====================================================display-declaration-requests-completed"==========================================//
+	
+	@RequestMapping(path = "/display-pending-requests-upload-checkup", method = RequestMethod.GET)
+	public String displayDeclarationRequestsCompleted(Model model, HttpServletRequest httpServletRequest) {
+		HttpSession httpSession = httpServletRequest.getSession();
+		String boardId = (String) httpSession.getAttribute("boardId");
+		String forcepersonalId = (String) httpSession.getAttribute("forcepersonalId");
+		logger.info("controlling force personalId :" + forcepersonalId);
+		logger.info("controlling BoardId >>> :" + boardId);
+
+		int rCode = (int) httpSession.getAttribute("rCodeMedical");
+		
+		String uri=mapUriToUserService.getUriForPendingAndUpLoad(rCode);
+		logger.info("rCode>>>>>>>>>"+rCode+">>>>>>>>>>>>>>>>BoardId>>>>>>>>>>>>>>>>"+boardId);
+		logger.info("URI>>>>>>>>>"+uri);
+
+		Optional<ForcePersonnel> optional = forcePersonnelRepository.getByForcePersonnelId(forcepersonalId);
+		String gazettedNonGazettedFlag = (String) httpSession.getAttribute("gazettedNonGazettedFlag");
+
+		String candidateGazettedNonGazettedFlag = (String) httpSession.getAttribute("candidateGazettedNonGazettedFlag");
+		model.addAttribute("candidateGazettedNonGazettedFlag", candidateGazettedNonGazettedFlag);
+
+		model.addAttribute("gazettedNonGazettedFlag", gazettedNonGazettedFlag);
+		String unit = optional.get().getUnit();
+		Integer forceNo = optional.get().getForceNo();
+		
+		logger.info(">>>>Display Controller page>>>" + unit + ">>>>>>forceNumber>>" + forceNo);
+		if (forcepersonalId == null) {
+			httpSession.invalidate();
+			model.addAttribute("errorMsg", "INVALID USER TRY TO GET THE DATA ..........!.......INVALID REQUEST");
+			return "bootstrap_medical_temp/index";
+		}
+
+		model.addAttribute("loginUserDetails", loginUserDetails.getLoginUserDetails(forcepersonalId));
+		
+	List<AmeDeclarationIndividualModel> declarationIndividualDetails = 
+			ameDeclarationRepository.findDataForAMAAppointmentList(boardId);
+	List<AmeDeclarationIndividualModelDto> declarationIndividualDetailsList=new ArrayList<>();
+	
+	for (AmeDeclarationIndividualModel ameDM : declarationIndividualDetails) {
+		AmeDeclarationIndividualModelDto adto=new AmeDeclarationIndividualModelDto();
+		adto.setAmeId(ameDM.getAmeId());
+		adto.setForcePersonalId(ameDM.getForcePersonalId());
+		adto.setForceId(ameDM.getForceId());
+		adto.setName(ameDM.getName());
+		
+		adto.setDesignation(rankRepo.findById(ameDM.getRank()).get().getRankFullName());
+		adto.setDeclarationDate(ameDM.getDeclarationDate());
+		declarationIndividualDetailsList.add(adto);
+		
+		
+	}
+
+	
+    List<AmeApplicationFlowStatusDto> AppointmentCompletedList =
+    		ameApplicationFlowStatusService.getAmeApplicationFlowStatusListUploadCompletedByBoardId(boardId);
+    
+    
+		
+    if (declarationIndividualDetails.isEmpty()) {
+			model.addAttribute("message", "HAVE NO RECORD TO DISPLAY ");
+			if (AppointmentCompletedList.size() >= 1) {
+				model.addAttribute("AppointmentCompletedList", AppointmentCompletedList);
+			}
+			return uri;
+		} else {
+			if (AppointmentCompletedList.size() >= 1) {
+				model.addAttribute("AppointmentCompletedList", AppointmentCompletedList);
+				model.addAttribute("declarationDetails", declarationIndividualDetailsList);
+			} else {
+				model.addAttribute("declarationDetails", declarationIndividualDetailsList);
+				model.addAttribute("AppointmentCompletedList", AppointmentCompletedList);
+			}
+		}
+		model.addAttribute("declarationDetails", declarationIndividualDetailsList);
+		model.addAttribute("AppointmentCompletedList", AppointmentCompletedList);
+          logger.info("URI>>>>>"+uri);
+		return uri;
+
+	}
+	
+	
+	
+	
+	
+	//==============================================application-under-process==============================//
+	
+	@GetMapping("application-under-process-ma")
+	public String displayDeclarationRequestsUnderProcess(Model model, HttpServletRequest httpServletRequest) throws Exception {
+	         
+		HttpSession httpSession=httpServletRequest.getSession();
+		
+		String value = (String) httpSession.getAttribute("boardId");
+		String message=null;
+		if (value == null) {
+			
+			Map<String,Object> inputFlashMap = (Map<String, Object>) RequestContextUtils.getInputFlashMap(httpServletRequest);
+		    if (inputFlashMap != null) {
+		    	
+
+		    	httpSession =  (HttpSession) inputFlashMap.get("session");
+		    	logger.info("Restored old session  after esign :");
+		    	message=(String) inputFlashMap.get("message");
+
+		    	
+		    } 
+		}
+
+		String boardId=(String)httpSession.getAttribute("boardId");
+		int rCode = (int) httpSession.getAttribute("rCodeMedical");
+	
+		String uri = mapUriToUserService.getUriForApplicationUnderProcess(rCode);
+
+		logger.info("rCode>>>>>>>>>"+rCode+">>>>>>>>>>>>>>>>BoardId>>>>>>>>>>>>>>>>"+boardId);
+		logger.info("URI>>>>>>>>>"+uri);
+		// ---------getting forcepersonalId from session----------------//
+		String loggedinForcePersonalId = (String) httpSession.getAttribute("forcepersonalId");
+
+		String gazettedNonGazettedFlag = (String) httpSession.getAttribute("gazettedNonGazettedFlag");
+		
+		model.addAttribute("gazettedNonGazettedFlag", gazettedNonGazettedFlag);
+
+		String candidateGazettedNonGazettedFlag = (String) httpSession.getAttribute("candidateGazettedNonGazettedFlag");
+		model.addAttribute("candidateGazettedNonGazettedFlag", candidateGazettedNonGazettedFlag);
+
+		logger.info("display application under process  loggedinForcePersonalId :" + loggedinForcePersonalId);
+
+	
+		if (loggedinForcePersonalId == null) {
+			httpSession.invalidate();
+			model.addAttribute("errorMsg", "INVALID USER TRY TO GET THE DATA ..........!.......INVALID REQUEST");
+			return "bootstrap_medical_temp/index";
+		}
+		model.addAttribute("loginUserDetails", loginUserDetails.getLoginUserDetails(loggedinForcePersonalId));
+		
+		List<AmeDeclarationIndividualDto> ameUnderProcessPersonalDetails=new ArrayList<>();
+
+		List<AmeFinalDetailDto> listOfAmeCompletedOrUnderReviewDataList =new ArrayList<>();
+		
+		if(rCode==3||rCode==4) {
+			ameUnderProcessPersonalDetails=ameAppointmentService.getAmeApplicationStatusDetails(boardId);
+			for (AmeDeclarationIndividualDto ameDeclarationIndividualDto : ameUnderProcessPersonalDetails) {
+				if (ameDeclarationIndividualDto.getAmeFinalStatus() == 0) {
+					ameDeclarationIndividualDto.setAmeFormFill(CommonConstant.OPEN);
+					ameDeclarationIndividualDto.setEsignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+					ameDeclarationIndividualDto.setFinalUploadFlag(CommonConstant.CLOSE_OR_COMPLETED);
+					ameDeclarationIndividualDto.setPhysicalSignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+				}
+
+				else if (ameDeclarationIndividualDto.getAmeFinalStatus() == 5) {
+					if(ameDeclarationIndividualDto.getPhysicalReportUploadBy()==0) {
+
+						if (ameDeclarationIndividualDto.getBoardMemberESignStatus() == 0) {
+
+							ameDeclarationIndividualDto.setAmeFormFill(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setEsignStatus(CommonConstant.OPEN);
+							ameDeclarationIndividualDto.setFinalUploadFlag(CommonConstant.OPEN);
+							ameDeclarationIndividualDto.setPhysicalSignStatus(CommonConstant.OPEN);
+						}
+						
+						else if(ameDeclarationIndividualDto.getBoardMemberESignStatus() == 5){
+							ameDeclarationIndividualDto.setAmeFormFill(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setEsignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setFinalUploadFlag(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setPhysicalSignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+
+							
+						}
+
+						
+						
+						
+					}
+					
+					
+					else if(ameDeclarationIndividualDto.getPhysicalReportUploadBy() == 5) {
+						
+						ameDeclarationIndividualDto.setAmeFormFill(CommonConstant.CLOSE_OR_COMPLETED);
+						ameDeclarationIndividualDto.setEsignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+						ameDeclarationIndividualDto.setFinalUploadFlag(CommonConstant.CLOSE_OR_COMPLETED);
+						ameDeclarationIndividualDto.setPhysicalSignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+						
+					}
+					
+	             else if(ameDeclarationIndividualDto.getPhysicalReportUploadBy()==10) {
+						
+						ameDeclarationIndividualDto.setAmeFormFill(CommonConstant.CLOSE_OR_COMPLETED);
+						ameDeclarationIndividualDto.setEsignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+						ameDeclarationIndividualDto.setFinalUploadFlag(CommonConstant.CLOSE_OR_COMPLETED);
+						ameDeclarationIndividualDto.setPhysicalSignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+						
+					}
+				
+				
+					
+
+				} else if (ameDeclarationIndividualDto.getAmeFinalStatus() == 10) {
+					
+					
+					if(ameDeclarationIndividualDto.getPhysicalReportUploadBy()==0) {
+						if (ameDeclarationIndividualDto.getBoardMemberESignStatus() == 0) {
+
+							ameDeclarationIndividualDto.setAmeFormFill(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setEsignStatus(CommonConstant.OPEN);
+							ameDeclarationIndividualDto.setFinalUploadFlag(CommonConstant.OPEN);
+							ameDeclarationIndividualDto.setPhysicalSignStatus(CommonConstant.OPEN);
+						}
+						
+						else if (ameDeclarationIndividualDto.getBoardMemberESignStatus() == 5) {
+
+							ameDeclarationIndividualDto.setAmeFormFill(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setEsignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setFinalUploadFlag(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setPhysicalSignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+						}
+						
+						else if (ameDeclarationIndividualDto.getBoardMemberESignStatus() == 10) {
+
+							ameDeclarationIndividualDto.setAmeFormFill(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setEsignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setFinalUploadFlag(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setPhysicalSignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+						}
+						
+						else if (ameDeclarationIndividualDto.getBoardMemberESignStatus() == 15) {
+
+							ameDeclarationIndividualDto.setAmeFormFill(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setEsignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setFinalUploadFlag(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setPhysicalSignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+						}
+						
+						
+						
+					
+
+						
+						
+					}
+					else if(ameDeclarationIndividualDto.getPhysicalReportUploadBy()==5) {
+							
+							ameDeclarationIndividualDto.setAmeFormFill(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setEsignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setFinalUploadFlag(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setPhysicalSignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+							
+						}
+						
+						else if(ameDeclarationIndividualDto.getPhysicalReportUploadBy()==10) {
+							ameDeclarationIndividualDto.setAmeFormFill(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setEsignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setFinalUploadFlag(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setPhysicalSignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+							
+						}
+					
+				
+
+				}
+				
+			}
+		}if(rCode==1) {
+			ameUnderProcessPersonalDetails = ameAppointmentService.getAmeAppointmentCompletedDetails(boardId);
+			ameUnderProcessPersonalDetails=ameUnderProcessPersonalDetails.stream().filter(s1->s1.getFinalUploadFlag()!=1).collect(Collectors.toList());
+
+			listOfAmeCompletedOrUnderReviewDataList=ameFinalDetailService.
+					listOfAmeStatusCompletedOrUnderReview(boardId,CommonConstant.AME_NORMAL_CLOSE,CommonConstant.AME_FINAL_FLAG_UPLOAD_COMPLETED);
+			
+		} else if (rCode == 2) {			
+			ameUnderProcessPersonalDetails = ameAppointmentService.getAmeApplicationStatusDetails(boardId);
+			for (AmeDeclarationIndividualDto ameDeclarationIndividualDto : ameUnderProcessPersonalDetails) {
+				if (ameDeclarationIndividualDto.getAmeFinalStatus() == 0) {
+					ameDeclarationIndividualDto.setAmeFormFill(CommonConstant.OPEN);
+					ameDeclarationIndividualDto.setEsignStatus(CommonConstant.OPEN);
+					ameDeclarationIndividualDto.setFinalUploadFlag(CommonConstant.CLOSE_OR_COMPLETED);
+					ameDeclarationIndividualDto.setPhysicalSignStatus(CommonConstant.OPEN);
+				}
+
+				else if (ameDeclarationIndividualDto.getAmeFinalStatus() == 5) {
+					if(ameDeclarationIndividualDto.getPhysicalReportUploadBy()==0) {
+
+						if (ameDeclarationIndividualDto.getBoardMemberESignStatus() == 0) {
+
+							ameDeclarationIndividualDto.setAmeFormFill(CommonConstant.OPEN);
+							ameDeclarationIndividualDto.setEsignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setFinalUploadFlag(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setPhysicalSignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+						}
+
+						else if (ameDeclarationIndividualDto.getBoardMemberESignStatus() == 5) {
+
+							ameDeclarationIndividualDto.setAmeFormFill(CommonConstant.OPEN);
+							ameDeclarationIndividualDto.setEsignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setFinalUploadFlag(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setPhysicalSignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+						}
+						
+						
+
+						
+						
+						
+					}
+					
+					
+					else if(ameDeclarationIndividualDto.getPhysicalReportUploadBy()==5) {
+						
+						ameDeclarationIndividualDto.setAmeFormFill(CommonConstant.OPEN);
+						ameDeclarationIndividualDto.setEsignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+						ameDeclarationIndividualDto.setFinalUploadFlag(CommonConstant.OPEN);
+						ameDeclarationIndividualDto.setPhysicalSignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+						
+					}
+					
+	else if(ameDeclarationIndividualDto.getPhysicalReportUploadBy()==10) {
+						
+						ameDeclarationIndividualDto.setAmeFormFill(CommonConstant.CLOSE_OR_COMPLETED);
+						ameDeclarationIndividualDto.setEsignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+						ameDeclarationIndividualDto.setFinalUploadFlag(CommonConstant.CLOSE_OR_COMPLETED);
+						ameDeclarationIndividualDto.setPhysicalSignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+						
+					}
+					else {
+						ameDeclarationIndividualDto.setAmeFormFill(CommonConstant.CLOSE_OR_COMPLETED);
+						ameDeclarationIndividualDto.setEsignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+						ameDeclarationIndividualDto.setFinalUploadFlag(CommonConstant.CLOSE_OR_COMPLETED);
+						ameDeclarationIndividualDto.setPhysicalSignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+						
+					}
+				
+					
+
+				} else if (ameDeclarationIndividualDto.getAmeFinalStatus() == 10) {
+					
+					
+					if(ameDeclarationIndividualDto.getPhysicalReportUploadBy()==0) {
+						
+						if (ameDeclarationIndividualDto.getBoardMemberESignStatus() == 0) {
+
+							ameDeclarationIndividualDto.setAmeFormFill(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setEsignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setFinalUploadFlag(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setPhysicalSignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+						}
+
+						else if (ameDeclarationIndividualDto.getBoardMemberESignStatus() == 5) {
+
+							ameDeclarationIndividualDto.setAmeFormFill(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setEsignStatus(CommonConstant.OPEN);
+							ameDeclarationIndividualDto.setFinalUploadFlag(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setPhysicalSignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+						}
+						
+						else if (ameDeclarationIndividualDto.getBoardMemberESignStatus() == 10) {
+
+							ameDeclarationIndividualDto.setAmeFormFill(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setEsignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setFinalUploadFlag(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setPhysicalSignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+						}
+						
+						else if (ameDeclarationIndividualDto.getBoardMemberESignStatus() == 15) {
+
+							ameDeclarationIndividualDto.setAmeFormFill(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setEsignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setFinalUploadFlag(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setPhysicalSignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+						}
+						
+						
+						
+					
+
+						
+						
+					}
+					else if(ameDeclarationIndividualDto.getPhysicalReportUploadBy()==5) {
+							
+							ameDeclarationIndividualDto.setAmeFormFill(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setEsignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setFinalUploadFlag(CommonConstant.OPEN);
+							ameDeclarationIndividualDto.setPhysicalSignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+							
+						}
+						
+						else if(ameDeclarationIndividualDto.getPhysicalReportUploadBy()==10) {
+							ameDeclarationIndividualDto.setAmeFormFill(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setEsignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setFinalUploadFlag(CommonConstant.CLOSE_OR_COMPLETED);
+							ameDeclarationIndividualDto.setPhysicalSignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+							
+						}
+					
+					
+
+					
+
+					else {
+						ameDeclarationIndividualDto.setAmeFormFill(CommonConstant.CLOSE_OR_COMPLETED);
+						ameDeclarationIndividualDto.setEsignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+						ameDeclarationIndividualDto.setFinalUploadFlag(CommonConstant.CLOSE_OR_COMPLETED);
+						ameDeclarationIndividualDto.setPhysicalSignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+					}
+
+				}
+
+			
+			}
+		}
+
+			
+			
+		
+		else if(rCode==12) {
+			ameUnderProcessPersonalDetails=ameAppointmentService.getAmeApplicationStatusDetails(boardId);
+			for (AmeDeclarationIndividualDto ameDeclarationIndividualDto : ameUnderProcessPersonalDetails) {
+				if(ameDeclarationIndividualDto.getAmeFinalStatus()!=0) {
+					if(ameDeclarationIndividualDto.getBoardMemberESignStatus()==5) {
+						
+						ameDeclarationIndividualDto.setAmeFormFill(CommonConstant.CLOSE_OR_COMPLETED);
+						ameDeclarationIndividualDto.setEsignStatus(CommonConstant.OPEN);
+						ameDeclarationIndividualDto.setFinalUploadFlag(CommonConstant.OPEN);
+						ameDeclarationIndividualDto.setPhysicalSignStatus(CommonConstant.OPEN);
+					}else {
+						ameDeclarationIndividualDto.setAmeFormFill(CommonConstant.CLOSE_OR_COMPLETED);
+						ameDeclarationIndividualDto.setEsignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+						ameDeclarationIndividualDto.setFinalUploadFlag(CommonConstant.CLOSE_OR_COMPLETED);
+						ameDeclarationIndividualDto.setPhysicalSignStatus(CommonConstant.CLOSE_OR_COMPLETED);
+					}
+					
+					
+					
+				}else {
+					ameDeclarationIndividualDto.setAmeFormFill(CommonConstant.OPEN);
+					ameDeclarationIndividualDto.setEsignStatus(CommonConstant.ACTION_NOT_REQUIRED_NOW);
+					ameDeclarationIndividualDto.setFinalUploadFlag(CommonConstant.ACTION_NOT_REQUIRED_NOW);
+					ameDeclarationIndividualDto.setPhysicalSignStatus(CommonConstant.ACTION_NOT_REQUIRED_NOW);
+				}
+				
+			}
+
+
+		}
+		
+		
+		
+		
+		
+		
+		model.addAttribute("loginUserDetails", loginUserDetails.getLoginUserDetails(loggedinForcePersonalId));
+
+		
+		if (ameUnderProcessPersonalDetails.isEmpty()) {
+			model.addAttribute("message", "NO RECORD FOUND......! ");
+			if(listOfAmeCompletedOrUnderReviewDataList.isEmpty()) {
+				
+			}else {
+				model.addAttribute("listOfAmeCompletedOrUnderReviewDataList",listOfAmeCompletedOrUnderReviewDataList);
+			}
+			
+			return uri;
+		}else {
+			model.addAttribute("declarationDetails", ameUnderProcessPersonalDetails);
+			
+			if(listOfAmeCompletedOrUnderReviewDataList.isEmpty()) {
+			
+			}else {
+				model.addAttribute("listOfAmeCompletedOrUnderReviewDataList",listOfAmeCompletedOrUnderReviewDataList);
+			}
+		}
+	
+		model.addAttribute("message", message);
+         logger.info("URI >>>"+uri);
+		return uri;
+	}	
+     
+	
+	
+	
+	
+	
+	
+	//====================================================declaration-requests-completed-action"==========================================//
+	
+			@RequestMapping(path = "/declaration-requests-completed-ma",method = {RequestMethod.GET,RequestMethod.POST})
+			public String declarationRequestsCompleted(
+					@RequestParam("forcepersonalId") String candidateForcepersonalId,
+					@RequestParam("ameId") String ameId,
+					HttpServletRequest  httpServletRequest,
+					Model model,
+					HttpSession httpSession) {
+				
+				String message = null;
+				Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(httpServletRequest);
+				if (inputFlashMap != null) {
+					message = (String) inputFlashMap.get("message");
+
+				}
+
+				
+				logger.info(">>> candidateForcepersonalId >>>"+candidateForcepersonalId+">>> ameId >>>"+ ameId);
+				
+				String forcePersonalId=(String) httpSession.getAttribute("forcepersonalId");
+				
+				int rCode=(int) httpSession.getAttribute("rCodeMedical");
+				
+				String uri=mapUriToUserService.getUriForApplicationUnderProcessAndFillReport(rCode);
+				
+				logger.info("rCode>>>>>>>>>"+rCode);
+				logger.info("URI>>>>>>>>>"+uri);
+				//=====================forcePersonalId===============//
+				if(forcePersonalId==null) {
+					httpSession.invalidate();
+					model.addAttribute("errorMsg", "You have been sign out // Session expired.....! or Invalid User....");
+					return "bootstrap_medical_temp/index";
+				 }
+				 String gazettedNonGazettedFlag=(String) httpSession.getAttribute("gazettedNonGazettedFlag");
+				 model.addAttribute("gazettedNonGazettedFlag", gazettedNonGazettedFlag);
+				   AmeMasterStatus ameMasterStatus=new AmeMasterStatus();
+			       ameMasterStatus= ameMasterStatusService.getAmeMasterStatus(ameId);
+			       
+			       if(ameMasterStatus.getAmeId()==null) {
+			    	   model.addAttribute("finalDetails","N");
+			       }
+			       model.addAttribute("ameMasterStatus", ameMasterStatus);
+			       Optional<ForcePersonnelDto> loginUserDetailsData = forcePersonnelService.getForcePersonnelDetailsByForcePersonnelId(forcePersonalId);
+				Optional<ForcePersonnelDto> candidateDetailsData = forcePersonnelService.getForcePersonnelDetailsByForcePersonnelId(candidateForcepersonalId);
+				
+				String candidateGazettedNonGazettedFlag= rankRepo.getGazettedNonGazettedFlag(candidateDetailsData.get().getRank().trim());
+				
+			     model.addAttribute("candidateGazettedNonGazettedFlag", candidateGazettedNonGazettedFlag);
+			     httpSession.setAttribute("candidateGazettedNonGazettedFlag",candidateGazettedNonGazettedFlag);
+			     
+				model.addAttribute("loginUserDetails", loginUserDetailsData.get());
+				model.addAttribute("candidateDetails", candidateDetailsData.get());
+				
+				//AmeDeclarationIndividualModel declarationIndividualModel=ameDeclarationRepository.findByForceIdandAmeId(candidateForcepersonalId,ameId);
+			
+			//	ForcePersonnelDto forcePersonal=new ForcePersonnelDto();
+				
+				Optional<ForcePersonnelDto> optional=forcePersonnelService.getForcePersonnelDetailsByForcePersonnelId(candidateForcepersonalId);
+				if(!optional.isPresent()) {
+					
+					model.addAttribute("error-message","sorry for inconvenience....Our engineers are working on to solve the issue.");
+					return "bootstrap_medical_temp/error-page";
+					
+				}
+			//	forcePersonal=optional.get();
+				model.addAttribute("forcepersonalId",candidateForcepersonalId);
+				model.addAttribute("ameId",ameId);
+				model.addAttribute("message", message);
+	              
+				return uri;
+			    }
+			    
+			
+			
+			
+			
+			//============================create rank drop down by department===========================================//
+	/*		
+			@PostMapping("/create-rank-drop-down-by-department")
+			ResponseEntity<?> createRankDropDownByDepartment(@RequestParam("forceId") String forceId) {
+
+				int force_id = Integer.parseInt(forceId);
+				List<Force> departmentList = forceRepo.findAll();
+				
+				List<RankMaster> rankMastersList=rankMasterRepository.findByForceId(force_id);
+				Map<String,Object> map=new HashMap<>();
+				map.put("rankList", rankMastersList);
+				map.put("departmentList", departmentList);
+				
+				
+				return ResponseEntity.status(HttpStatus.OK).body(map);
+
+	}
+*/
+			@PostMapping("/create-rank-drop-down-by-department")
+			ResponseEntity<?> createRankDropDownByDepartment(@RequestParam("forceNo") String forceNumber) {
+
+				int forceNo = Integer.parseInt(forceNumber);
+				List<Force> departmentList = forceRepo.findAll();
+				List<Rank> rankList = rankRepo.findAll();
+				rankList=rankList.stream().filter(s->s.getForceNo()==forceNo).collect(Collectors.toList());
+				
+				Map<String,Object> map=new HashMap<>();
+				map.put("rankList", rankList);
+				map.put("departmentList", departmentList);
+				
+				
+				return ResponseEntity.status(HttpStatus.OK).body(map);
+
+	}
+	
+			/* =========================== get-sub-category-value-by-category ==================== */
+			
+			@PostMapping("get-sub-category-value-by-category")
+			public ResponseEntity<?> getSubCategoryValueByCategory(@RequestParam("categoryType") String categoryType,@RequestParam("ameId") String ameId){
+				
+				System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+categoryType+">>>>>>>>>>>>"+ameId);
+
+				AmeMasterStatus ameMasterStatus=new AmeMasterStatus();
+				ameMasterStatus=ameMasterStatusService.getAmeMasterStatus(ameId);
+				String category = null;
+				
+				
+				if (categoryType.trim().equalsIgnoreCase("S")) {
+					category=ameMasterStatus.getPsycological_shape();
+
+				}
+				
+				if (categoryType.trim().equalsIgnoreCase("H")) {
+					category=ameMasterStatus.getHearingShape();
+				}
+				
+				if (categoryType.trim().equalsIgnoreCase("UA")) {
+					category=ameMasterStatus.getUpperLimbShape();
+				}
+				
+				if (categoryType.trim().equalsIgnoreCase("LA")) {
+					category=ameMasterStatus.getLowerLimbShape();
+				}
+				
+				if (categoryType.trim().equalsIgnoreCase("SA")) {
+					category=ameMasterStatus.getSpineShape();
+				}
+				
+				
+				
+				if (categoryType.trim().equalsIgnoreCase("P")) {
+					category=ameMasterStatus.getPhysicalShape();
+				}
+				if (categoryType.trim().equalsIgnoreCase("E")) {
+					category=ameMasterStatus.getEyeShape();
+				}
+				if (categoryType.trim().equalsIgnoreCase("G")) {
+					category=ameMasterStatus.getGynaecologyShape();
+				}
+				
+				
+				Map<String,String> map=new HashMap<>();
+				map.put("subCategoryType", category);
+				map.put("categoryType",categoryType);
+			
+				
+				
+				
+				return ResponseEntity.status(HttpStatus.OK).body(map);
+			}
+			
+			/* ================== add-final-comment-for-down-category ======================== */
+			
+			
+			@RequestMapping(value="add-final-comment-for-down-category",method = RequestMethod.POST)
+			public ResponseEntity<?> addFinalCommentForDownCategory(
+					@RequestParam("categoryTypeValue") String categoryTypeValue,
+					@RequestParam("ameId") String ameId,
+					@RequestParam("subCategoryValue") String subCategoryValue,
+					@RequestParam("comment") String comment )
+			{
+				logger.info("categoryTypeValue >>>"+categoryTypeValue+">>ameId>>>"+ameId+">>>subCategoryValue>>>"+subCategoryValue+"comment>>>"+comment);
+				Map<String,Object> responseMap=new HashMap<>(); 
+				FinalCategoryRemarkTemp finalCategoryRemarkTemp=new FinalCategoryRemarkTemp();
+				finalCategoryRemarkTemp.setAmeId(ameId);
+				finalCategoryRemarkTemp.setCategoryType(categoryTypeValue);
+				finalCategoryRemarkTemp.setSubCategoryType(subCategoryValue);
+	    		if(categoryTypeValue.equalsIgnoreCase("S"))
+	    			finalCategoryRemarkTemp.setCategoryTypeName("Psychology");
+	    		if(categoryTypeValue.equalsIgnoreCase("H"))
+	    			finalCategoryRemarkTemp.setCategoryTypeName("Hearing");
+	    		if(categoryTypeValue.equalsIgnoreCase("UA"))
+	    			finalCategoryRemarkTemp.setCategoryTypeName("UpperLimb");
+	    		if(categoryTypeValue.equalsIgnoreCase("LA"))
+	    			finalCategoryRemarkTemp.setCategoryTypeName("LowerLimb");
+	    		if(categoryTypeValue.equalsIgnoreCase("SA"))
+	    			finalCategoryRemarkTemp.setCategoryTypeName("Spine");
+	    		if(categoryTypeValue.equalsIgnoreCase("P"))
+	    			finalCategoryRemarkTemp.setCategoryTypeName("Physical");
+	    		if(categoryTypeValue.equalsIgnoreCase("E"))
+	    			finalCategoryRemarkTemp.setCategoryTypeName("Eye");
+	    		if(categoryTypeValue.equalsIgnoreCase("G"))
+	    			finalCategoryRemarkTemp.setCategoryTypeName("Gynecology");
+				finalCategoryRemarkTemp.setComment(comment.trim());
+			
+		    Optional<?> optional=finalCategoryRemarkTempRepo.checkExistingCommentByCategory(ameId,categoryTypeValue);
+			if(optional.isEmpty()) {
+				finalCategoryRemarkTempRepo.save(finalCategoryRemarkTemp);
+				responseMap.put("code",1);
+				responseMap.put("message","New Comment has been Added.......!");
+				
+				
+			}
+			
+			else {
+				responseMap.put("code",0);
+				responseMap.put("message","<Warning..>Comment Already Exist In the comment section............!");
+			}
+			
+			List<FinalCategoryRemarkTemp> finalCategoryRemarkTemps=new ArrayList<>();
+			finalCategoryRemarkTemps=finalCategoryRemarkTempRepo.findByAmeId(ameId);
+			
+			responseMap.put("CommentTable",finalCategoryRemarkTemps);
+				
+				
+				return ResponseEntity.status(HttpStatus.ACCEPTED).body(responseMap);
+			}
+
+			
+			
+			/* =================== delete-final-comment-for-down-category =========================== */
+			
+			
+			@GetMapping(value="delete-final-comment-for-down-category")
+			public ResponseEntity<?> deleteFinalCommentForDownCategory(
+					@RequestParam("id") int id ,@RequestParam("ameId") String ameId )
+			{
+				logger.info("id"+id);
+			
+				Map<String, Object> responseMap=new HashMap<>();
+		    //Optional<?> optional=finalCategoryRemarkTempRepo.checkExistingCommentByCategory(ameId,categoryTypeValue);
+			
+				finalCategoryRemarkTempRepo.deleteById(id);
+				logger.info("Comment has been deleted............!");
+				
+				List<FinalCategoryRemarkTemp> finalCategoryRemarkTemps=new ArrayList<>();
+				finalCategoryRemarkTemps=finalCategoryRemarkTempRepo.findByAmeId(ameId);
+				
+				responseMap.put("CommentTable",finalCategoryRemarkTemps);
+				responseMap.put("message","comment has been deleted.......!");
+				
+				
+				return ResponseEntity.status(HttpStatus.ACCEPTED).body(responseMap);
+			}
+			
+			//=================================================================================================================//
+			
+			
+
+			@RequestMapping(path = "declaration-requests-completed-ma-upload-final-report",method = RequestMethod.POST)
+			public String declarationRequestsCompletedFinalReportUpload(
+					@RequestParam(value =  "forcepersonalId",required = false) String candidateForcepersonalId,
+					@RequestParam(value="ameId",required = false) String ameId,
+					HttpServletRequest  httpServletRequest,
+					Model model,
+					HttpSession httpSession) {
+				
+				String message = null;
+				
+				
+				
+				Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(httpServletRequest);
+				if (inputFlashMap != null) {
+					message = (String) inputFlashMap.get("message");
+					if(candidateForcepersonalId.equals(null)) {
+						candidateForcepersonalId=(String) inputFlashMap.get("forcepersonalId");
+					}
+					if(ameId.equals(null)) {
+						ameId=(String) inputFlashMap.get("ameId");
+					}
+				}
+
+				
+				logger.info(">>> candidateForcepersonalId >>>"+candidateForcepersonalId+">>> ameId >>>"+ ameId);
+				
+				String forcePersonalId=(String) httpSession.getAttribute("forcepersonalId");
+				
+				int rCode=(int) httpSession.getAttribute("rCodeMedical");
+				
+				String uri=mapUriToUserService.getUriForApplicationUnderProcessAndFillReport(rCode);
+				
+				logger.info("rCode>>>>>>>>>"+rCode);
+				logger.info("URI>>>>>>>>>"+uri);
+				//=====================forcePersonalId===============//
+				if(forcePersonalId==null) {
+					httpSession.invalidate();
+					model.addAttribute("errorMsg", "You have been sign out // Session expired.....! or Invalid User....");
+					return "bootstrap_medical_temp/index";
+				 }
+				 String gazettedNonGazettedFlag=(String) httpSession.getAttribute("gazettedNonGazettedFlag");
+				 model.addAttribute("gazettedNonGazettedFlag", gazettedNonGazettedFlag);
+				   AmeMasterStatus ameMasterStatus=new AmeMasterStatus();
+			       ameMasterStatus= ameMasterStatusService.getAmeMasterStatus(ameId);
+			       
+			       if(ameMasterStatus.getAmeId()==null) {
+			    	   model.addAttribute("finalDetails","N");
+			       }
+			       model.addAttribute("ameMasterStatus", ameMasterStatus);
+			       ForcePersonnelDto loginUserDetailsData=loginUserDetails.getLoginUserDetails(forcePersonalId);
+				ForcePersonnelDto candidateDetailsData=loginUserDetails.getCandicateForcePersonalId(candidateForcepersonalId);
+				
+				String candidateGazettedNonGazettedFlag= rankRepo.getGazettedNonGazettedFlag(candidateDetailsData.getRank().trim());
+				
+			     model.addAttribute("candidateGazettedNonGazettedFlag", candidateGazettedNonGazettedFlag);
+			     httpSession.setAttribute("candidateGazettedNonGazettedFlag",candidateGazettedNonGazettedFlag);
+			     
+				model.addAttribute("loginUserDetails", loginUserDetailsData);
+				model.addAttribute("candidateDetails", candidateDetailsData);
+				
+				//AmeDeclarationIndividualModel declarationIndividualModel=ameDeclarationRepository.findByForceIdandAmeId(candidateForcepersonalId,ameId);
+			
+				//ForcePersonnelDto forcePersonal=new ForcePersonnelDto();
+				
+				Optional<ForcePersonnelDto> optional=forcePersonnelService.getForcePersonnelDetailsByForcePersonnelId(candidateForcepersonalId);
+				if(!optional.isPresent()) {
+					
+					model.addAttribute("error-message","sorry for inconvenience....Our engineers are working on to solve the issue.");
+					return "bootstrap_medical_temp/error-page";
+					
+				}
+				Optional<AmeFinalReportDetailsGo> ameFinalReportDetailsGoOptional= ameFinalReportDetailsGoRepository.findByAmeIdAndStatus(ameId, 1);
+				if(ameFinalReportDetailsGoOptional.isPresent()) {
+					AmeFinalReportDetailsGo ameFinalReportDetailsGo= new AmeFinalReportDetailsGo();
+					ameFinalReportDetailsGo = ameFinalReportDetailsGoOptional.get();
+				    Optional<AmeFinalReportFileDirGo> ameFinalReportFileDirGoOptional = ameFinalReportFileDirGoRepository.findByUniqueAmeId(ameFinalReportDetailsGo.getUniqueAmeId());
+					if(ameFinalReportFileDirGoOptional.isPresent()) {
+						AmeFinalReportFileDirGo ameFinalReportFileDirGo = new AmeFinalReportFileDirGo();
+						ameFinalReportFileDirGo=ameFinalReportFileDirGoOptional.get();
+						model.addAttribute("ameFinalReportFileDirGo",ameFinalReportFileDirGo);
+					}
+					else {
+						model.addAttribute("ameFinalReportFileDirGo", new AmeFinalReportFileDirGo());
+					}
+				}
+				
+			//	AmeFinalReportFileDirGo ameFinalReportFileDirGo= ameFinalReportFileDirGoRepository.
+				//forcePersonal=optional.get();
+				
+				model.addAttribute("forcepersonalId",candidateForcepersonalId);
+				model.addAttribute("ameId",ameId);
+				model.addAttribute("message", message);
+				System.out.println(">>>>>>>>>>>>>>>"+uri);
+	              
+				return uri+"-final-report-upload";
+			    }
+			    
+			
+		
+			
+			@PostMapping("/check-up-list-to-candidate-view")
+			public String checkUpListToCandidateView(Model model, String ameId, String CandidateforcePersonalId,
+					HttpSession httpSession) {
+				String URI="medical-sub-ordinate/view/checkuplist";
+				
+
+				String gazettedNonGazettedFlag = (String) httpSession.getAttribute("gazettedNonGazettedFlag");
+				model.addAttribute("gazettedNonGazettedFlag", gazettedNonGazettedFlag);
+				String forcePersonalId = (String) httpSession.getAttribute("forcepersonalId");
+				model.addAttribute("loginUserDetails", loginUserDetails.getCandicateForcePersonalId(forcePersonalId));
+				model.addAttribute("candidateDetails", loginUserDetails.getCandicateForcePersonalId(CandidateforcePersonalId));
+
+				int rCode = (int) httpSession.getAttribute("rCodeMedical");
+		    
+				logger.info("rCode>>>>>>>>>"+rCode);
+				//String uri = mapUriToUserService.getUriForCheckListForCandidate(rCode);
+				//logger.info("rCode>>>>>>>>>"+uri);
+				List<CheckUpList> candidateCheckUpList=checkUpListRepo.findByAmeId(ameId);
+				logger.info("candidateCheckUpList"+candidateCheckUpList);
+				System.out.println(URI);
+				return URI;
+			}
+		
+		
+			
+}
