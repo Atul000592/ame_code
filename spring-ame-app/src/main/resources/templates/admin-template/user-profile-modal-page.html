@@ -1,0 +1,57 @@
+<!DOCTYPE html >
+<html  lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<!-- Modal -->
+	<div id="profileModal" class="modal fade" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true" th:fragment="user-profile-modal">
+		<div class="modal-dialog">
+			<div class="modal-content" style="width: 120%;">
+				<div class="modal-header">
+					<h5 class="modal-title" id="profileModalLabel">Profile Details</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-8">
+							<p class="profile-text"><b>IRLA	 / REGT No :</b> <span id="forceId"></span></p>
+							<p class="profile-text"><b>Designation / Rank :</b> <span id="profileDesignation"></span></p>
+							<p class="profile-text"><b>Unit :</b> <span id="unit"></span></p>
+							<p class="profile-text"><b>Attach Unit :</b> <span id="attachUnit"></span></p>
+							<p class="profile-text"><b>Gender :</b> <span id="profileGender"></span></p>
+							<p class="profile-text"><b>Mobile :</b> <span id="profileMobile"></span></p>
+							<p class="profile-text"><b>Email :</b> <span id="profileEmail"></span></p>
+							<p class="profile-text"><b>Marital Status :</b> <span id="profileMaritalStatus"></span></p>
+							<p class="profile-text"><b>DOB :</b> <span id="dob"></span></p>
+							<p class="profile-text"><b>Joining Date :</b> <span id="joiningDate"></span></p>
+							
+						</div>
+						<div class="col-md-4">
+							<div class="user-photo">
+								<img src="/images/userImage.jpg">
+							</div>
+							<div class="clearfix"></div>
+									<p class="profile-text fw-bold text-center"><span id="profileName"></span></p>
+					
+						
+						</div>
+					</div>
+
+
+
+
+
+
+
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

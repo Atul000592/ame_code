@@ -1,0 +1,488 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+<head>
+	<title>AMA DashBoard</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css" />
+	<!-- Custom styles for this template -->
+	<link rel="stylesheet" href="css/base.css" />
+	<link rel="stylesheet" href="css/base-responsive.css" />
+	<link rel="stylesheet" href="css/animate.min.css" />
+	<link rel="stylesheet" href="css/slicknav.min.css" />
+	<link rel="stylesheet" href="css/master1.css" />
+	<link rel="stylesheet" href="css/font-awesome.min.css" />
+	<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+
+	<link rel="stylesheet" href="vendor/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css">
+
+
+	<!-- Bootstrap core JavaScript -->
+	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="js/jquery.slicknav.min.js"></script>
+	<script src="js/dashboard.js"></script>
+	<script src="js/local/disable-back-button.js"></script>
+	<script src="js/local/resetChangeForget.js"></script>
+
+
+</head>
+
+
+<body>
+
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+
+		<div th:replace="~{user-management-template/force-admin-user/mg-left-menu::sidebar-wrapper-menu-cpf}"></div>
+
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<div th:replace="~{user-management-template/force-admin-user/nav-bar-mg::sidebar-wrapper-menu-nav-cpf}">
+			</div>
+
+			<div class="container my-2 ">
+
+				<!-- Content Row -->
+
+
+
+				<div class="proc-box p-3 text-start " id="b-homedb">
+
+
+					<span style="font-size: 18px; color: red; margin: auto;" th:text="${message}"></span>
+
+					<form th:action="@{create-new-notification}" th:object="${notification}"
+						enctype="multipart/form-data" method="post"  class="m-0">
+
+						<h5 class="text-center fw-bold">
+							<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Create
+							Notification
+							</h3>
+							<hr>
+
+							<div class="row mb-3">
+								<label for="title" class="col-sm-2 col-form-label fw-semibold">Title</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" th:field="*{title}"
+										placeholder="Enter the notification title" required />
+								</div>
+							</div>
+
+							<div class="row mb-3">
+								<label for="description" class="col-sm-2 col-form-label fw-semibold">Description</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="description" th:field="*{description}"
+										name="description" placeholder="Enter the order description" required />
+								</div>
+							</div>
+
+							<div class="row mb-3">
+								<label class="col-2 col-form-label fw-semibold">Visible from(Date) </label>
+								<div class="col-4 col-auto">
+									<input type="date" class="form-control" id="visibleFromDate"
+										name="visibleFromDateRequest" required
+										th:max="${#dates.format(#dates.createNow(),'yyyy-MM-dd')}" />
+								</div>
+
+								<label class="col-2 col-form-label fw-semibold">Visible to(Date) </label>
+								<div class="col-4 col-auto">
+									<input type="date" class="form-control" name="visibleToDateRequest" required
+										th:min="${#dates.format(#dates.createNow(),'yyyy-MM-dd')}" />
+								</div>
+							</div>
+							<div class="row mb-3">
+								<label for="fileInput" class="col-sm-2 col-form-label fw-semibold">Attach
+									File</label>
+								<div class="col-sm-4">
+									<input class="form-control" type="file" name="file" id="fileInput"
+										onchange="validateFileSize()" accept=".pdf,.docx" required />
+								</div>
+							</div>
+
+							<hr>
+							
+							
+							<div class="row">
+								<div class="col-sm-6">
+
+									<div class="row mb-3">
+										<label for="orderNo" class="col-4 col-form-label fw-semibold">Order
+											No. </label>
+										<div class="col-8 col-auto">
+											<input type="text" class="form-control" id="orderNo" th:field="*{orderNo}"
+												name="orderNo" placeholder="Enter Order No." required />
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-6">
+
+									<div class="row mb-3">
+
+
+										<label class="col-4 col-form-label fw-semibold">Order Date</label>
+										<div class="col-8 col-auto">
+											<input type="date" class="form-control" name="orderDateRequest"
+												placeholder="Enter order date"
+												th:max="${#dates.format(#dates.createNow(),'yyyy-MM-dd')}" required />
+										</div>
+									</div>
+
+
+
+
+								</div>
+								<div class="col-sm-6">
+
+									<div class="row mb-3">
+										<label class="col-sm-4 col-form-label fw-semibold">Organization</label>
+
+										<div class="col-sm-8">
+											<select th:field="*{ministryDepartment}" class="form-select col-sm-12"
+												name="ministryDepartment" id="departmentId" required
+												onchange="getDesignationList(this)">
+
+												<option th:each="refForce:${refForces}" th:value="${refForce.forceNo}"
+													th:text="${refForce.forceName}" />
+
+											</select>
+										</div>
+									</div>
+
+
+
+								</div>
+								<div class="col-sm-6">
+
+
+									<div class="row mb-3">
+										<label for="orderDesignation"
+											class="col-sm-4 col-form-label fw-semibold">Designation</label>
+										<div class="col-sm-8">
+
+											<select class="form-select" name="orderDesignation" id="orderDesignation"
+												onchange="getForcePersonnelList(this)" required>
+												<option value="0">Select</option>
+											</select>
+										</div>
+									</div>
+
+
+								</div>
+								<div class="col-sm-6">
+
+									<div class="row mb-3">
+										<label for="orderBy" class="col-sm-4 col-form-label fw-semibold">Order
+											By</label>
+										<div class="col-sm-8">
+
+											<select class="form-select" name="orderBy" id="orderByDropDown"
+												style="text-transform:uppercase" required>
+												<option value="">select</option>
+											</select>
+										</div>
+
+									</div>
+
+								</div>
+
+							</div>
+
+							<hr>
+
+
+							<div class="w-100">
+
+						
+
+
+								<button class="btn btn-info btn3d flost-start" type="reset">
+									<span><i class="bi bi-arrow-repeat"></i>
+										Reset</span>
+								</button>
+								
+								<button class="btn btn-primary btn3d float-end" type="submit">
+															<span><i class="bi bi-check2"></i>
+
+																Submit</span>
+														</button>
+
+							</div>
+
+					</form>
+
+				</div>
+
+			</div>
+			<div class="my-5" id="b-homedb"></div>
+
+
+
+
+		</div>
+		<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+
+
+
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function (e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function () {
+			$('#backtotop').click(function () {
+				$("html, body").animate({
+					scrollTop: 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function () {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function () {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(document).ready(function () {
+			$("#editUser-on a").click(function () {
+				//Do stuff when clicked
+				$("#editUser").submit();
+			});
+		});
+	</script>
+
+
+
+	<!-- Signup Modal -->
+	<div class="modal fade" id="signout-modal">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header text-center d-block p-5 border-bottom-0">
+					<h3 class="modal-title">Sign Out?</h3>
+					<button type="button" class="close position-absolute" style="right: 15px; top: 8px;"
+						data-dismiss="modal">&times;</button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body">
+					<p class="text-center">Are you sure you want to Sign Out?</p>
+					<div class="text-center py-4">
+						<form action="sign-out">
+							<button type="submit" class="btn btn-primary b-btn mx-3">Sign
+								Out</button>
+							<button class="btn btn-secondary mx-3" data-dismiss="modal">Cancel</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function () {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function () {
+			$("#one-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+
+	<script>
+		function completedRequest() {
+			alert("NO AME REQUEST COMPLETED YET.................!")
+			return false;
+		}
+
+
+
+		function getDesignationList(e) {
+
+			var forceId = e.value;
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			$.ajax({
+
+				type: "post",
+				url: "create-rank-drop-down-by-department",
+				cache: false,
+				dataType: 'json',
+
+				data: {forceNo: forceId},
+				beforeSend: function (xhr) {
+
+					xhr.setRequestHeader(header, token);
+				},
+				success: function (response) {
+					//createDepartmentDropDown(response.departmentList)
+
+					createRankDropDown(response.rankList);
+
+
+
+
+				},
+				error: function () {
+					alert('Error while request..');
+				}
+
+			});
+		}
+
+
+
+		function createRankDropDown(departmentList) {
+
+
+			var dropdown3 = document.getElementById("orderDesignation");
+			dropdown3.innerHTML = "";
+			for (let i = 0; i < departmentList.length; i++) {
+				const option = document.createElement("option");
+				option.text = departmentList[i].rankFullName;
+				option.value = departmentList[i].id;
+				dropdown3.appendChild(option);
+			}
+		}
+
+
+
+
+		function getForcePersonnelList(e) {
+
+			const department = $("#departmentId").val();
+			const designation = e.value;
+
+			const dataToSend = {
+				department: department,
+				designation: designation
+			}
+
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+
+
+			$.ajax({
+				type: 'POST',
+				url: 'get-force-personnel-list-for-role-assigning',
+				data: JSON.stringify(dataToSend),
+				contentType: 'application/json',
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader(header, token);
+				},
+				success: function (response) {
+					if (response.forcePersonnelList) {
+						console.log(response.forcePersonnelList);
+
+						const orderByDropDown = document.getElementById("orderByDropDown");
+						orderByDropDown.innerHTML = '';
+						response.forcePersonnelList.forEach(item => {
+							const option = document.createElement('option');
+							option.value = item.name;
+							option.textContent = item.forceId + "-" + item.name + "-" + item.designation + "-" + item.unitName;
+							orderByDropDown.appendChild(option);
+						});
+
+
+
+
+					}
+
+					else {
+
+
+						console.log(response.personnelOthersList);
+
+						const orderByDropDown = document.getElementById("orderByDropDown");
+						orderByDropDown.innerHTML = '';
+						response.personnelOthersList.forEach(item => {
+							const option = document.createElement('option');
+							option.value = item.name;
+							option.textContent = item.name + "-" + item.designation;
+							orderByDropDown.appendChild(option);
+						});
+
+
+
+
+					}
+
+
+				},
+				complete: function () {
+					$('#loading-overlay').hide();
+					$('body').removeClass('loading');
+				},
+				error: function (xhr, status, error) {
+
+					alert("Please fill the form again somthing went WRONG!");
+					console.error(error);
+				}
+			});
+		}
+	</script>
+
+</body>
+
+</html>

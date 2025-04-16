@@ -1,0 +1,387 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>AME DashBoard Controller</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css" />
+<!-- Custom styles for this template -->
+<link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/base-responsive.css" />
+<link rel="stylesheet" href="css/animate.min.css" />
+<link rel="stylesheet" href="css/slicknav.min.css" />
+<link rel="stylesheet" href="css/font-awesome.min.css" />
+<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
+	type="text/css">
+
+<script src="vendor/charts/Chart.js"></script>
+<script src="vendor/charts/moment.min.js"></script>
+<script src="vendor/charts/Chart.min.js"></script>
+<script src="vendor/charts/utils.js"></script>
+
+</head>
+
+
+<body>
+<!-- 
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
+		<a class="navbar-brand" href="#">Logo</a>
+		<ul class="navbar-nav">
+			<li class="nav-item">
+				<a class="nav-link" href="#">Link</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#">Link</a>
+			</li>
+		</ul>
+	</nav>
+ -->
+
+
+	
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+		<div th:replace="~{medical-sub-ordinate/left-menu-ama::sidebar-wrapper-menu-ama}"></div>
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<div th:replace="~{medical-sub-ordinate/nav-bar::sidebar-wrapper-menu-nav-ama}"></div>
+
+			<div class="container-fluid">
+				<!-- ================candidate Details-=======================-->
+						
+						<div class="row" style="background-color: #ebebeb;margin-left:65px; width:1000px; margin-top: 10px;; float:inline-start;">
+							<div class="col-md-2" style="font-weight: bold;">IRLA No/F No:</div>
+							<div class="col-md-2">
+								<span th:text="${candidateDetails.forceId}"></span>
+							</div>
+							<div class="col-md-2" style="font-weight: bold;">Name:</div>
+							<div class="col-md-2">
+								<span th:text="${candidateDetails.name}"></span>
+							</div>
+							<div class="col-md-2" style="font-weight: bold;">Gender:</div>
+							<div class="col-md-2">
+								<span th:text="${candidateDetails.gender}"></span>
+							</div>
+						</div>
+						<div class="row" style="background-color: #ebebeb;margin-left:65px; width:1000px;float:inline-start;">
+							<div class="col-md-2" style="font-weight: bold;">Force Name:</div>
+							<div class="col-md-2">
+								<span th:if="${candidateDetails.force_no==1}">
+									Assam Rifle
+								</span>
+								<span th:if="${candidateDetails.force_no==2}">
+									Border Security Force (BSF)
+								</span>
+						
+							</div>
+							<div class="col-md-2" style="font-weight: bold;">Rank/Designation:</div>
+							<div class="col-md-2">
+								<span th:text="${candidateDetails.designation}"></span>
+							</div>
+								<div class="col-md-3">
+							<label>Grade</label>
+						</div>
+						<div class="col-md-3">
+							<span th:if="${candidateGazettedNonGazettedFlag=='Y'}" th:text="GazettedOfficer"></span>
+								<span th:unless="${candidateGazettedNonGazettedFlag=='Y'}" th:text="NonGazettedOfficer"></span>
+						</div>
+						</div>
+      </div>
+                         <!-- candidate details end-->
+
+
+			<div class="container">
+				
+				
+			
+				<table class="table">
+				<thead>
+					<tr>
+						<td colspan="4">
+							<label><h4>Investigation</h4></label>
+						</td>
+					</tr>
+				</thead>
+					<tbody>
+					<tr>
+						<td><label>HB&nbsp;(gm/dL)</label></td>
+						<td><span th:text="${investigation.hb}" ></span> </td>
+						<td><label>Urine examination for allages:</label></td>
+						<td><span th:text="${investigation.urine}" ></span></td>
+					</tr>
+					<tr>
+						<td><label>Blood Suger-F(mg/dL)</label></td>
+						<td><span th:text="${investigation.blood_sugar}" ></span> </td>
+						<td><label>Blood Suger-PP(mg/dL)</label></td>
+						<td><span th:text="${investigation.blood_sugar_pp}" ></span></td>
+					</tr>
+					<tr>
+						<td><label>ECG(after age of 45 Years)</label></td>
+						<td><span th:text="${investigation.eCG}" ></span> </td>
+						
+					</tr>
+					<tr>
+						<td colspan="4"><label>Lipid Profile</label></td>
+					</tr>
+					<tr>
+						<td><label>S Cholesterol</label></td>
+						<td><span th:text="${investigation.s_cholesterol}" ></span> </td>
+						<td><label>HDL</label> </td>
+					    <td><span th:text="${investigation.hdl}" ></span> </td>
+					</tr>
+					<tr>
+						<td><label>Ratio</label></td>
+						<td><span th:text="${investigation.ratio}" ></span> </td>
+						<td><label>Trigyceride:</label> </td>
+					    <td><span th:text="${investigation.triglyceride}" ></span> </td>
+					</tr>
+					<tr>
+						<td><label>LDL</label></td>
+						<td><span th:text="${investigation.ldl}" ></span> </td>
+						<td><label>VLDL</label> </td>
+					    <td><span th:text="${investigation.vLDL}" ></span> </td>
+					</tr>
+					<tr>
+						<td colspan="4"><label>Blood Urea</label></td>
+					</tr>
+					<tr>
+						<td><label>S. Creatinine</label> </td>
+						<td><span th:text="${investigation.s_creatinine}" ></span></td>
+						<td><label> Uric Acid</label></td>
+						<td><span th:text="${investigation.uric_acid}" ></span> </td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>
+							<form th:action="@{/back-to-index-page-ama}" method="post" id="back-to-home">
+								<input type="hidden" name="forcepersonalId" th:value="${forcepersonalId}">
+								<input type="hidden" name="ameId" th:value="${ameId}">
+								<input type="submit" value="Back">
+							
+							</form>
+						</td>
+					</tr>
+				</div>
+
+	</div>
+
+
+
+
+	</div>
+	<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+<script>
+	function backToHome(){
+		
+	$("#back-to-home").submit();
+	}
+</script>
+
+
+	<!-- Bootstrap core JavaScript -->
+	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="js/jquery.slicknav.min.js"></script>
+	<script src="js/dashboard.js"></script>
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function() {
+			$('#backtotop').click(function() {
+				$("html, body").animate({
+					scrollTop : 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function() {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function() {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+	<!-- Signup Modal -->
+	<div class="modal fade" id="signout-modal">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header text-center d-block p-5 border-bottom-0">
+					<h3 class="modal-title">Sign Out?</h3>
+					<button type="button" class="close position-absolute"
+						style="right: 15px; top: 8px;" data-dismiss="modal">&times;</button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body">
+					<p class="text-center">Are you sure you want to Sign Out?</p>
+					<div class="text-center py-4">
+						<form action="sign-out">
+							<button type="submit" class="btn btn-primary b-btn mx-3">Sign
+								Out</button>
+							<button class="btn btn-secondary mx-3" data-dismiss="modal">Cancel</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function() {
+			$("#one-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+<script>
+var currentTab = 0; // Current tab is set to be the first tab (0)
+showTab(currentTab); // Display the current tab
+
+function showTab(n) {
+  // This function will display the specified tab of the form...
+  var x = document.getElementsByClassName("tab");
+  x[n].style.display = "block";
+  //... and fix the Previous/Next buttons:
+	
+  if (n == 0) {
+    document.getElementById("prevBtn").style.display = "none";
+  } else {
+    document.getElementById("prevBtn").style.display = "inline";
+  }
+  if (n == (x.length - 1)) {
+    document.getElementById("nextBtn").innerHTML = "Submit";
+  } else {
+    document.getElementById("nextBtn").innerHTML = "Next";
+  }
+  //... and run a function that will display the correct step indicator:
+  fixStepIndicator(n);
+  fixTabIndicator(n)
+}
+
+function nextPrev(n) {
+  // This function will figure out which tab to display
+  var x = document.getElementsByClassName("tab");
+  // Exit the function if any field in the current tab is invalid:
+  if (n == 1 && !validateForm()) return false;
+  // Hide the current tab:
+  x[currentTab].style.display = "none";
+  // Increase or decrease the current tab by 1:
+  currentTab = currentTab + n;
+  // if you have reached the end of the form...
+  if (currentTab >= x.length) {
+    // ... the form gets submitted:
+    document.getElementById("regForm").submit();
+    return false;
+  }
+  // Otherwise, display the correct tab:
+  showTab(currentTab);
+}
+
+function validateForm() {
+  // This function deals with validation of the form fields
+  var x, y, i, valid = true;
+  x = document.getElementsByClassName("tab");
+  y = x[currentTab].getElementsByTagName("input");
+  // A loop that checks every input field in the current tab:
+  for (i = 0; i < y.length; i++) {
+    // If a field is empty...
+    if (y[i].value == "") {
+      // add an "invalid" class to the field:
+      y[i].className += " invalid";
+      // and set the current valid status to false
+      valid = false;
+    }
+  }
+  // If the valid status is true, mark the step as finished and valid:
+  if (valid) {
+    document.getElementsByClassName("step")[currentTab].className += " finish";
+  }
+  return valid; // return the valid status
+}
+
+function fixStepIndicator(n) {
+  // This function removes the "active" class of all steps...
+  var i, x = document.getElementsByClassName("step");
+  for (i = 0; i < x.length; i++) {
+    x[i].className = x[i].className.replace(" active", "");
+  }
+  //... and adds the "active" class on the current step:
+  x[n].className += " active";
+}
+function fixTabIndicator(n) {
+	  // This function removes the "active" class of all steps...
+	  var i, x = document.getElementsByClassName("tabstatus");
+	  for (i = 0; i < x.length; i++) {
+	    x[i].className = x[i].className.replace(" active", "");
+	  }
+	  //... and adds the "active" class on the current step:
+	  x[n].className += " active";
+	}
+</script>
+
+</body>
+</html>

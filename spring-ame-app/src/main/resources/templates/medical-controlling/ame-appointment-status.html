@@ -1,0 +1,318 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>AMA DashBoard</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css" />
+<!-- Custom styles for this template -->
+<link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/base-responsive.css" />
+<link rel="stylesheet" href="css/animate.min.css" />
+<link rel="stylesheet" href="css/slicknav.min.css" />
+<link rel="stylesheet" href="css/master1.css" />
+<link rel="stylesheet" href="css/font-awesome.min.css" />
+<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
+	type="text/css">
+	
+
+	<!-- Bootstrap core JavaScript -->
+	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="js/jquery.slicknav.min.js"></script>
+<script src="js/local/resetChangeForget.js"></script>
+
+
+<!--data Table Css files-->
+
+ <link rel="stylesheet" href="css/local/dataTableCss/dataTables.bootstrap5.min.css" />
+
+ 
+ <!--data Table js Files-->
+
+ 	<script type="text/javascript"src="js/local/dataTableJs/jquery.dataTables.min.js"></script>
+ 	<script src="js/local/dataTableJs/dataTables.bootstrap5.min.js"></script>
+<script>
+
+	 $(document).ready( function () {
+		$('#example').DataTable();
+	} );
+	
+</script>
+
+</head>
+
+
+<body class="d-flex flex-column h-100">
+
+	<main class="flex-shrink-0">
+		<div class="d-flex" id="wrapper">
+
+			<!-- Sidebar -->
+
+			<div
+				th:replace="~{user-management-template/controlling-officer/mg-left-menu::sidebar-wrapper-menu-cho}"></div>
+
+			<!-- /#sidebar-wrapper -->
+
+			<!-- Page Content -->
+			<div id="page-content-wrapper">
+
+				<div
+					th:replace="~{user-management-template/controlling-officer/nav-bar-mg::sidebar-wrapper-menu-nav-cho}"></div>
+
+
+				
+
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-12" id="b-homedb">
+							<div class="wisecountnactionbg">
+								<h4 class="b-latest-data">
+									AME Status</h4>
+									<hr>
+							<table class="table table-striped table-bordered" id="example">
+								<thead class="table-light">
+									<tr>
+										<th>IRLA No.</th>
+
+										 <th>Name</th>
+										<th>Unit</th>
+										<th>Appointment</th>
+										<th>From date</th>
+										<th>To date</th>
+										<th>Declaration Status</th>
+										<th>Declaration Date
+										<th>AME Status</th>
+
+									</tr>
+								</thead>
+								<tr th:each="allWithCompletedAppointmentItem:${allWithCompletedAppointment}">
+									<td th:text="${allWithCompletedAppointmentItem.candidateIrlaNo}"></td>
+
+									<td th:text="${allWithCompletedAppointmentItem.candidateName}"></td>
+									
+									<td th:text="${allWithCompletedAppointmentItem.unitName}"></td>
+
+									<td>
+										<span th:if="${allWithCompletedAppointmentItem.appointmentStatus=='C'}" th:text="'&#9989'+' Completed'"></span>
+										<span th:if="${allWithCompletedAppointmentItem.appointmentStatus=='P'}" th:text="'&#10060'+' Pending'"></span>
+
+										<span th:if="${allWithCompletedAppointmentItem.appointmentStatus=='L'}" th:text="Missed"></span>
+
+											
+										
+									</td>
+									
+									
+									
+									
+									<td>
+										<span th:if="${allWithCompletedAppointmentItem.fromDate!=null}"
+											th:text="${#dates.format(allWithCompletedAppointmentItem.fromDate,'dd-MM-yyyy')}">
+										</span>
+										<span th:unless="${allWithCompletedAppointmentItem.fromDate!=null}" th:text="'&#10134'">
+										</span>
+									</td>
+									
+									<td>
+										<span th:if="${allWithCompletedAppointmentItem.toDate!=null}"
+											th:text="${#dates.format(allWithCompletedAppointmentItem.toDate,'dd-MM-yyyy')}">
+										</span>
+										<span th:unless="${allWithCompletedAppointmentItem.fromDate!=null}" th:text="'&#10134'">
+										</span>
+									</td>
+									
+									<td>
+										<span th:if="${allWithCompletedAppointmentItem.declarationStatus=='C'}" th:text="Completed"></span>
+										<span th:if="${allWithCompletedAppointmentItem.declarationStatus=='P'}" th:text="Pending"></span>
+
+
+									</td>
+									
+
+										<td>
+											<span th:if="${allWithCompletedAppointmentItem.declarationYear!=null}"
+												th:text="${#dates.format(allWithCompletedAppointmentItem.declarationYear,'dd-MM-yyyy')}">
+											</span>
+											<span th:unless="${allWithCompletedAppointmentItem.declarationYear!=null}" th:text="'&#10134'">
+											</span>
+										</td>
+									<td>
+										--
+									</td>
+								
+								</tr>
+								
+								
+								
+
+
+
+
+								</tbody>
+							</table>
+									
+								
+									
+								</h4>
+
+		
+
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+				<div class="my-5" id="b-homedb"></div>
+
+			</div>
+
+		</div>
+
+
+		</div>
+		<!-- /#page-content-wrapper -->
+
+		</div>
+		</div>
+	</main>
+	<!-- /#wrapper -->
+
+
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function() {
+			$('#backtotop').click(function() {
+				$("html, body").animate({
+					scrollTop : 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function() {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function() {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+		
+			$(document).ready(function () {
+			$("#editUser-on a").click(function () {
+				//Do stuff when clicked
+				$("#editUser").submit();
+			});
+		});
+
+		
+		
+	</script>
+
+
+
+	<!-- Signup Modal -->
+	<div class="modal fade" id="signout-modal">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Sign Out?</h5>
+
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<!-- Modal body -->
+						<div class="modal-body">
+							<p class="text-center">Are you sure you want to Sign Out?</p>
+							<form action="sign-out">
+								<div class="row">
+									<div class="col-md-6">
+										<button type="submit" class="btn btn-primary">Sign
+											Out</button>
+									</div>
+									<div class="col-md-6">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Cancel</button>
+									</div>
+
+								</div>
+
+							</form>
+
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>
+
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function() {
+			$("#one-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+
+	<script>
+	function completedRequest(){
+		alert("NO AME REQUEST COMPLETED YET.................!")
+		return false;
+	}
+	
+</script>
+
+</body>
+</html>

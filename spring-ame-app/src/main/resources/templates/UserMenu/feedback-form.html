@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Feedback Form</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+	<style>
+		
+		.feedback-bg {
+    width: 100%;
+    background-image: url(images/feedback_bg.jpg);
+    background-size: cover;
+    height: 100%;
+    background-position: center;
+}
+.gradient-bg {
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(#005776, #ffff003b);
+}
+.card-bg {
+    background: hwb(0deg 100% 0% / 30%);
+    margin-top: 50%;
+    position: relative;
+    display: grid;
+    border-radius: 20px !important;
+;
+}
+.card-bg .card {
+    width: 90%;
+    left: 5%;
+    top: -8%;
+    border-bottom: solid 10px #005776 !important;
+    border-radius: 20px !important;
+    padding: 30px !important;
+}
+.card-bg .card h2 {
+    margin: 0;
+    background: #005776;
+    border-radius: 20px;
+    color: #fff;
+    margin-top: -80px;
+    line-height: 50px;
+    font-size: 30px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.star-rating {
+        display: flex; /* Align stars horizontally */
+        gap: 10px; /* Add space between stars */
+        color: rgb(255, 128, 0);
+    }
+
+    .star-wrapper {
+        font-size: 50px;
+        cursor: pointer;
+        transition: transform 0.6s ease, color 0.2s ease; /* Smooth hover animation */
+    }
+
+    .star-wrapper:hover {
+        color: gold;
+        transform: scale(1.3); /* Increase size on hover */
+    }
+
+    .star-wrapper.selected {
+        color: gold; /* Highlight selected stars */
+    }
+.submit-btn {
+    border-radius: 20px !important;
+    display: flow !important;
+    margin: 0 auto;
+    margin-bottom: -52px;
+    width: 150px;
+    margin-top: 50px;
+}
+
+	</style>
+</head>
+
+<body class="feedback-bg">
+<div class="gradient-bg">
+
+	<!-- Begin user menu bar -->
+	<div th:replace="~{UserMenu/user-menu-master::sidebar-wrapper-user-master}"></div>
+
+	<div class="d-flex" id="wrapper">
+
+		<div th:replace="~{UserMenu/left-menu-user::sidebar-wrapper-menu-user}"></div>
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+			<div th:replace="~{UserMenu/nav-bar-user::sidebar-wrapper-menu-nav-user}"></div>
+			<span style="font-size: 18px; color: red; margin: auto;align-content: center;" th:text="${message}"></span>
+
+			<div class="container-fluid p-0">
+
+
+				<form th:action="@{dashboard-user}" method="Get" class="d-none">
+
+					<input type="submit" value="Back" class="btn btn-primary btn-md">
+				</form>
+
+
+
+				<!-- Feedback Form -->
+				<div class="d-flex justify-content-center align-items-center">
+					<div class="col-md-4">
+						<div class="card-bg shadow">
+						<div class="card shadow p-3 border-0">
+							<h2 class="text-center">Feedback Form</h2>
+							<form th:action="@{/submit-feedback}" method="post">
+								<div class="row my-3">
+									<label for="irlaNo" class="col-sm-3 fw-semibold ">IRLA No.</label>
+									<div class="col-sm-9">
+										<input type="hidden" name="irlaNo" th:value="${feedbackForm.irlaNo}">
+										<span th:text="${loginUserDetails.forceId}"></span>
+									</div>
+								</div>
+
+									<div class="row my-3">
+										<label for="name" class="col-sm-3 fw-semibold">Name</label>
+										<div class="col-sm-9">
+											<input type="hidden" name="name" th:value="${feedbackForm.name}">
+											<span th:text="${loginUserDetails.name}"></span>
+										</div>
+									</div>
+									<div class="row my-3">
+
+										<label for="designation" class="col-sm-3 fw-semibold">Designation</label>
+										<div class="col-sm-9">
+											<input type="hidden" name="designation"
+												th:value="${feedbackForm.designation}">
+											<span th:text="${loginUserDetails.designation}"></span>
+										</div>
+									</div>
+									<div class="row my-3">
+										<label for="forceName" class="col-sm-3 fw-semibold">Force</label>
+										<div class="col-sm-9">
+											<input type="hidden" name="forceName"
+												th:value="${loginUserDetails.forceName}">
+											<span th:text="${loginUserDetails.forceName}"></span>
+										</div>
+									</div>
+									<div class="row my-3">
+
+										<label for="feedback" class="col-sm-3 fw-semibold">Feedback</label>
+										<div class="col-sm-9">
+											<textarea class="form-control" rows="5" id="feedback" name="feedback"
+												required></textarea>
+										</div>
+									</div>
+									<div class="row my-3">
+   									 <label class="col-sm-3 fw-semibold">Star Rating</label>
+  									 <div class="col-sm-7">
+        							<div class="star-rating">
+            							<div class="star-wrapper" data-value="1" onclick="selectRating(1)">★</div>
+            							<div class="star-wrapper" data-value="2" onclick="selectRating(2)">★</div>
+            							<div class="star-wrapper" data-value="3" onclick="selectRating(3)">★</div>
+            							<div class="star-wrapper" data-value="4" onclick="selectRating(4)">★</div>
+            							<div class="star-wrapper" data-value="5" onclick="selectRating(5)">★</div>
+        							</div>
+        							<input type="hidden" id="starRating" name="starRating" value="0" required>
+    							</div>
+							</div>
+									<input type="hidden" name="forceNo" th:value="${loginUserDetails.forceNo}" />
+									<input type="hidden" name="unit" th:value="${loginUserDetails.unit}" />
+
+					
+								<button type="submit" class="btn btn-primary submit-btn">Submit</button>
+							</form>
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		function selectRating(value) {
+			document.querySelectorAll('.star-wrapper').forEach(wrapper => {
+				wrapper.classList.remove('selected');
+			});
+			const selectedWrapper = document.querySelector(`.star-wrapper[data-value="${value}"]`);
+			selectedWrapper.classList.add('selected');
+			document.getElementById('starRating').value = value;
+		}
+	</script>
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function () {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function () {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+	<script>
+		// Get the button
+		let mybutton = document.getElementById("backtotop");
+
+		// When the user scrolls down 20px from the top of the document, show the button
+		window.onscroll = function () {
+			scrollFunction()
+		};
+
+		function scrollFunction() {
+			if (document.body.scrollTop > 20
+				|| document.documentElement.scrollTop > 20) {
+				mybutton.style.display = "block";
+			} else {
+				mybutton.style.display = "none";
+			}
+		}
+
+		// When the user clicks on the button, scroll to the top of the document
+		function topFunction() {
+			document.body.scrollTop = 0;
+			document.documentElement.scrollTop = 0;
+		}
+	</script>
+
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function (e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function () {
+			$('#backtotop').click(function () {
+				$("html, body").animate({
+					scrollTop: 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function () {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function () {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+
+
+
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function () {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+
+
+	<script>
+
+		$(document).ready(function () {
+			$("#alert-and-notification-marquee").mouseenter(() => {
+				const marquee = document
+					.getElementById("alert-and-notification-marquee");
+
+				marquee.stop();
+			})
+		});
+
+
+
+		$(document).ready(function () {
+			$("#alert-and-notification-marquee").mouseleave(() => {
+				const marquee = document
+					.getElementById("alert-and-notification-marquee");
+
+				marquee.start();
+			})
+		});
+
+
+
+	</script>
+
+	<script>
+		$(document).ready(function () {
+
+			pageScroll();
+			$("#contain").mouseover(function () {
+				clearTimeout(my_time);
+			}).mouseout(function () {
+				pageScroll();
+			});
+
+		});
+
+		var my_time;
+		function pageScroll() {
+			var objDiv = document.getElementById("contain");
+			objDiv.scrollTop = objDiv.scrollTop + 1;
+			if ((objDiv.scrollTop + 330) == objDiv.scrollHeight) {
+				objDiv.scrollTop = 0;
+			}
+			my_time = setTimeout('pageScroll()', 25);
+		}
+	</script>
+
+	<script>
+		function selectRating(value) {
+    // Remove 'selected' class from all stars
+    document.querySelectorAll('.star-wrapper').forEach(wrapper => {
+        wrapper.classList.remove('selected');
+    });
+
+    // Highlight stars up to the selected one
+    for (let i = 1; i <= value; i++) {
+        document.querySelector(`.star-wrapper[data-value="${i}"]`).classList.add('selected');
+    }
+
+    // Set the hidden input value
+    document.getElementById('starRating').value = value;
+}
+
+// Validation on form submission
+document.querySelector('form').addEventListener('submit', function (event) {
+    const starRating = document.getElementById('starRating').value;
+    
+    if (starRating === "0" || starRating === "") {
+        alert('Please select a star rating before submitting the form.');
+        event.preventDefault(); // Prevent form submission
+    }
+});
+
+
+	</script>
+
+</body>
+
+</html>

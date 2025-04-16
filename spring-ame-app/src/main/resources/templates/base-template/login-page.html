@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en" class="h-100" data-bs-theme="auto">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+
+<title>AME 2020 | Homepage</title>
+
+<link rel="stylesheet" th:href="@{vendor/bootstrap/css/bootstrap.min.css}" />
+<!-- Custom styles for this template -->
+<link rel="stylesheet" th:href="@{css/base.css}" />
+<link rel="stylesheet" th:href="@{css/base-responsive.css}" />
+<link rel="stylesheet" th:href="@{css/animate.min.css}" />
+<link rel="stylesheet" th:href="@{css/slicknav.min.css}" />
+<link rel="stylesheet" th:href="@{css/font-awesome.min.css}" />
+<link rel="stylesheet" th:href="@{vendor/fontawesome-free/css/all.min.css}" />
+<!-- <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" > -->
+
+<link rel="stylesheet" href="vendor/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css">
+
+<!-- Bootstrap core JavaScript -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="js/jquery.slicknav.min.js"></script>
+<script src="vendor/jquery-ui/jquery-ui.js"></script>
+
+
+
+<!--crytp-->
+<script src="js/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+<script src="js/ajax/libs/crypto-js/4.1.1/encryptMessage.js"></script>
+<script src="js/local/resetChangeForget.js"></script>
+
+
+
+
+<script src="js/popper.min.js"></script>
+
+<script>
+	function myFunction(x) {
+		x.classList.toggle("change");
+	}
+</script>
+
+<style>
+	#captcha-img {
+		width: 100%;
+		height: 38px;
+	}
+</style>
+
+<style>
+	@keyframes blink {
+		0% {
+			opacity: 1;
+		}
+
+		50% {
+			opacity: 0;
+		}
+
+		100% {
+			opacity: 1;
+		}
+	}
+
+	.blinking-text {
+		text-align: center;
+		margin-top: 20%;
+		font-size: 24px;
+		color: green;
+		animation: blink 2s infinite;
+	}
+</style>
+
+</head>
+
+
+<body class="d-flex flex-column h-100 b-bg-image">
+
+
+
+	<div class="top-head">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-6">
+					<p>
+						<img src="images/indian-flag.png" title="indian-flag" alt="indian flag" width="25" class="me-1">
+						<span class="hindi-text">भारत सरकार</span> | <span class="eng-text">Government of India</span>
+					</p>
+				</div>
+				<div class="col-md-6">
+
+
+				</div>
+
+
+			</div>
+
+
+		</div>
+
+	</div>
+
+
+	<header class="header">
+
+
+
+
+
+		<div class="container-fluid">
+			<div class="row d-flex">
+				<div class="col-md-3">
+
+					<div class="logo-wrap">
+						<img src="images/emblem-dark.png" class="emblem-logo" title="National Emblem of India"
+							alt="emblem of india logo">
+
+
+						<h4 class="mb-0"> Central Armed Police Forces</h4>
+						<br>
+						<p><span style="margin-right: 100px;">गृह मंत्रालय</span> <br> <span>Ministry of Home
+								Affairs.</span></p>
+					</div>
+
+
+
+				</div>
+
+				<div class="col-md-6 text-center">
+					<h2 class="web-logo">Annual Medical Examination </span> </h2>
+				</div>
+				<div class="col-md-3">
+					<img src="images/collage_CAPF.jpg" title="collage_CAPF" alt="collage_CAPFo"
+						class="img-fluid logo-right">
+				</div>
+			</div>
+
+		</div>
+
+
+	</header>
+
+	<!-- Begin page content -->
+	<main class="flex-shrink-0">
+
+
+
+		<div class="py-5">
+			<div class="container">
+				<div class="row justify-content-between">
+
+					<div class="col-lg-5 float-start">
+
+						<ul class="footer-logo">
+							<li><a onclick="return sitevisit()" href="https://www.assamrifles.gov.in/english/"
+									target="_blank" rel="noopener noreferrer"
+									title="Assam Rifiles (External Site that opens in a new window)"><img
+										src="images/assam-rifles-logo.png" alt="Assam Rifiles"
+										title="Assam Rifiles(External Site that opens in a new window)"></a></li>
+							<li><a onclick="return sitevisit()" href="http://bsf.gov.in/" target="_blank"
+									rel="noopener noreferrer"><img src="images/border-security-force-logo.png" alt="BSF"
+										title="BSF (External Site that opens in a new window)"></a></li>
+							<li><a onclick="return sitevisit()" href="http://www.cisf.gov.in/" target="_blank"
+									rel="noopener noreferrer"><img src="images/central-industrial-security-force.png"
+										alt="CISF" title="CISF (External Site that opens in a new window)"></a></li>
+							<li><a onclick="return sitevisit()" href="https://crpf.gov.in/" target="_blank"
+									rel="noopener noreferrer"><img src="images/Central-Reserve-Police-Force-logo.png"
+										alt="CRPF" title="CRPF (External Site that opens in a new window)"></a></li>
+							<li><a onclick="return sitevisit()" href="https://www.itbpolice.nic.in/" target="_blank"
+									rel="noopener noreferrer"><img src="images/Indo-tibetian-police-force.png"
+										alt="ITBP" title="ITBP (External Site that opens in a new window)"></a></li>
+							<li><a onclick="return sitevisit()" href="https://nsg.gov.in/" target="_blank"
+									rel="noopener noreferrer"
+									title="NSG (External Site that opens in a new window)"><img
+										src="images/national-security-guard(NSG)-logo.png" alt="NSG"
+										title="NSG(External Site that opens in a new window)"></a></li>
+							<li><a onclick="return sitevisit()" href="https://ssb.gov.in/" target="_blank"
+									rel="noopener noreferrer"
+									title="SSB (External Site that opens in a new window)"><img
+										src="images/sashastra-seema-bal-logo.png" alt="SSB"
+										title="SSB(External Site that opens in a new window)"> </a></li>
+						</ul>
+
+					</div>
+					<div class="col-lg-4">
+
+						<div class="login-wrap">
+
+							<h2>Login</h2>
+
+							<div style="color: red">
+								<p th:text="${errorMsg}"></p>
+							</div>
+							<form th:action="@{login-process}" method="post" class="m-0" id="loginform">
+
+								<div class="mb-3">
+									<label for="login-email-1">Force</label>
+									<select id="forceName_id" name="forceName" class="form-select">
+										<option value="0">Select</option>
+										<option th:each="forceList: ${refForceList}" th:value="${forceList.forceNo}"
+											th:text="${forceList.forceName}">
+										</option>
+									</select>
+								</div>
+
+								<div class="mb-3">
+									<label for="login-email-1">User Id</label>
+									<input type="text" class="form-control" placeholder="Enter User Id" name="username"
+										id="usernameId" required="required" maxlength="10" autocomplete="off">
+								</div>
+								<div class="mb-3">
+									<label for="login-pwd-1">Password</label>
+									<input type="password" class="form-control" placeholder="Enter Password"
+										name="password" min="8" id="passwordId" autocomplete="off" max="20">
+								</div>
+
+								<div class="mb-3">
+									<label>Captcha</label>
+
+
+
+									<div class="row mb-3" id="captcha">
+
+
+										<div class="col-6 pe-0">
+
+											<img id="captcha-img" class="rounded-start-2" th:src="@{/captcha}"
+												alt="Captcha Image">
+
+										</div>
+										<div class="col-4 px-0"><input type="text" name="captcha"
+												class="form-control rounded-0" autocomplete="off"></div>
+
+										<div class="col-2 ps-0">
+											<span onclick="refreshCaptcha()"
+												class="btn btn-danger rounded-start-0 float-end w-100"><i
+													class="bi bi-arrow-repeat"></i></span>
+										</div>
+									</div>
+
+
+									<input type="hidden" id="randomKey" th:value="${randomKey}">
+									<input type="hidden" id="randomId" th:value="${randomId}">
+									<input type="hidden" id="salt" th:value="${salt}">
+									<div class="text-center ">
+										<button type="button" class="btn btn-primary w-100 btn3d mt-4" onclick="getPassword()">Log
+											In</button>
+									</div>
+									<div class="mt-3 text-center">
+										<a href="forgot-password">Forgot Password?</a>
+									</div>
+							</form>
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Modal -->
+		<div class="modal fade" id="confirmedSubmit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+			aria-labelledby="OTP-Alart" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-4" id="exampleModalCenteredScrollableTitle"><b>Annual Medical
+								Examination (AME) <span style="color: darkred;">(Web Application Alert)</span> </b></h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<p style="font-size: 16px; font-weight: 600; font-family: 'Courier New', Courier, monospace;">
+							Welcome to the Annual Medical Examination application. Please don't enter false data on live application. For demonstration, training
+							and learning purpose please
+							</span><a href="https://ame.capf.gov.in/demo">Click here</a></span>
+						</p>
+
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+
+	</main>
+
+
+	<!----------- Footer ------------>
+
+	<footer class="mt-auto footer-bs">
+		<div class="container">
+			<div class="row justify-content-between">
+				<div class="col-sm-12">
+					<div class="footer-nav">
+						<p>Quick Links —</p>
+
+						<ul class="list">
+							<li><a href="https://ame.capf.gov.in/demo">Ame Demo</a></li>
+
+						</ul>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+
+		<div class="footer-bootom">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-sm-2">
+
+						<img src="images/digital-india.png" alt="digital india logo" width="80">
+					</div>
+					<div class="col-sm-8">
+						<p>
+							This site is hosted by
+							<a href="https://www.nic.in/" target="_blank">National Informatics Centre</a> |
+							<a href="https://meity.gov.in/" target="_blank">Ministry of Electronics and IT</a> |
+							<a href="https://www.india.gov.in/" target="_blank">Govt. of India.</a>
+						</p>
+					</div>
+					<div class="col-sm-2 text-end">
+
+						<img src="images/NIC.png" alt="NIC logo" width="80">
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</footer>
+
+
+
+
+	<button onclick="topFunction()" id="backtotop" title="Go to top"><i class="fas fa-angle-up"></i></button>
+
+
+	<script>
+		// Get the button
+		let mybutton = document.getElementById("backtotop");
+
+		// When the user scrolls down 20px from the top of the document, show the button
+		window.onscroll = function () {scrollFunction()};
+
+		function scrollFunction() {
+			if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+				mybutton.style.display = "block";
+			} else {
+				mybutton.style.display = "none";
+			}
+		}
+
+		// When the user clicks on the button, scroll to the top of the document
+		function topFunction() {
+			document.body.scrollTop = 0;
+			document.documentElement.scrollTop = 0;
+		}
+	</script>
+
+
+
+
+
+
+
+
+	<script>
+		$(document).ready(function () {
+
+			const modal = document.querySelector('#confirmedSubmit');
+			var modalInstance = new bootstrap.Modal(modal);
+			modalInstance.show();
+
+			$(".b-navdropdown-click").click(function () {
+				if ($(".b-navdropdown").hasClass("hide")) {
+					$(".b-navdropdown").addClass("show");
+					$(".b-navdropdown").removeClass("hide");
+					// $(".b-icon-up").show();
+					// $(".b-icon-down").hide();
+				}
+				else if ($(".b-navdropdown").hasClass("show")) {
+					$(".b-navdropdown").addClass("hide");
+					$(".b-navdropdown").removeClass("show");
+					// $(".b-icon-down").show();
+					// $(".b-icon-up").hide();
+				}
+			});
+		});
+
+
+
+	</script>
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+
+</body>
+
+</html>

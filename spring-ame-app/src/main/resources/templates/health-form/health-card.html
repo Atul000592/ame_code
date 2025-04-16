@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Health Card Form</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  
+  <style>
+    /* Custom CSS */
+    body {
+      background-color: #f5f5f5;
+    }
+    
+    .form-container {
+      max-width:1500 ;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      font-weight: 500;
+    }
+    
+    .form-control {
+      border-radius: 4px;
+      box-shadow: none;
+    }
+    
+    .photo-preview {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .photo-preview i {
+      font-size: 150px;
+      color: #bbb;
+    }
+    
+    .tab-content {
+      margin-top: 20px;
+    }
+	.nav-tabs .nav-link {
+      font-weight: bold;
+      color: #ffffff;
+      background-color: #87CEEB;
+      border-color: #87CEEB;
+    }
+    
+    .nav-tabs .nav-link.active {
+
+    }
+	#tab-content1 {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 5px;
+  }
+  #tab-content2{
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 5px;
+  }
+  #tab-content3 {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 5px;
+  }
+  #tab-content4{
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 5px;
+  }
+	#tab-content5 {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 5px;
+  }
+	#tab-content6{
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 5px;
+  }
+	#tab-content7 {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 5px;
+  }
+	 #tab-content8 {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 5px;
+  }
+
+ #tab-content9 {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 5px;
+  }
+   #tab-content10 {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 5px;
+  }
+  /* Field styles */
+  .field-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .field-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+  }
+
+  .field-input:focus {
+    outline: none;
+    box-shadow: 0 0 5px #ccc;
+  }
+
+  /* Button style */
+  .submit-btn {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .submit-btn:hover {
+    background-color: #45a049;
+  }
+  
+  .photo-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+#photo-preview {
+  max-width: 200px;
+  max-height: 200px;
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="form-container">
+      <h2>Health Card Form</h2>
+      <div class="photo-preview">
+        <i class="fas fa-user-circle"></i>
+      </div>
+      <form>
+        <div class="form-group">
+          <label for="photo">Photo of individual:</label>
+          <input type="file" class="form-control" id="photo" onchange="previewPhoto(event)">
+        </div>
+        <!-- Other form fields go here -->
+      </form>
+      
+        <!-- Tab navigation -->
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" id="tab1" data-bs-toggle="tab" href="#tab-content1"><strong>Personal Information</strong></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="tab2" data-bs-toggle="tab" href="#tab-content2"><strong>Medical History</strong></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="tab3" data-bs-toggle="tab" href="#tab-content3"><strong>Surgical History</strong></a>
+        </li>
+		<li class="nav-item">
+          <a class="nav-link" id="tab4" data-bs-toggle="tab" href="#tab-content4"><strong>Gynae/Obsteric history where applicable</strong></a>
+        </li>
+		<li class="nav-item">
+          <a class="nav-link" id="tab5" data-bs-toggle="tab" href="#tab-content5"><strong>Record of admission in hospital</strong></a>
+        </li>
+		<li class="nav-item">
+          <a class="nav-link" id="tab6" data-bs-toggle="tab" href="#tab-content6"><strong>Record of Medical Leave</strong></a>
+        </li>
+		<li class="nav-item">
+          <a class="nav-link" id="tab6" data-bs-toggle="tab" href="#tab-content7"><strong>Dental Examination and Treatment</strong></a>
+        </li>
+		<li class="nav-item">
+          <a class="nav-link" id="tab6" data-bs-toggle="tab" href="#tab-content8"><strong>Record of Vaccination Taken</strong></a>
+        </li>
+		<li class="nav-item">
+          <a class="nav-link" id="tab6" data-bs-toggle="tab" href="#tab-content9"><strong>Annual Medical Checkup and Categorization</strong></a>
+        </li>
+		<li class="nav-item">
+          <a class="nav-link" id="tab6" data-bs-toggle="tab" href="#tab-content10"><strong>Review Medical Examination</strong></a>
+        </li>
+      </ul>
+      
+    <div >
+	
+	<p align="right"> <button onclick="printPDF()"  value="Print PDF" >Print</button></p>
+	
+	</div>
+      <div class="tab-content " id="pdf2convert">
+        <!-- Tab 1 content -->
+        <div class="tab-pane fade show active " id="tab-content1">
+		<h3>Personal Information</h3>
+    <div class="form-group">
+    <label for="photo">Photo:</label>
+    <div class="photo-container">     
+      <img id="photo-preview" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Placeholder_Person.jpg/464px-Placeholder_Person.jpg" alt="Photo Preview">
+    </div>
+  </div>
+  
+
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name">
+          </div>
+          <div class="form-group">
+            <label for="father-name">Father's Name:</label>
+            <input type="text" class="form-control" id="father-name">
+          </div>
+          <div class="form-group">
+            <label for="identification-mark">Identification Mark:</label>
+            <input type="text" class="form-control" id="identification-mark">
+          </div>
+          <div class="form-group">
+            <label for="date-of-birth">Date of Birth:</label>
+            <input type="date" class="form-control" id="date-of-birth">
+          </div>
+          <div class="form-group">
+            <label for="date-of-joining">Date of Joining:</label>
+            <input type="date" class="form-control" id="date-of-joining">
+          </div>
+          <div class="form-group">
+            <label for="unit">Unit:</label>
+            <input type="text" class="form-control" id="unit">
+          </div>
+          <div class="form-group">
+            <label for="home-address">Home/Permanent Address:</label>
+            <textarea class="form-control" id="home-address" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="emergency-contact">Contact No. and Address in case of emergency:</label>
+            <textarea class="form-control" id="emergency-contact" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="mobile">Mobile No.:</label>
+            <input type="text" class="form-control" id="mobile">
+          </div>
+          <div class="form-group">
+            <label for="email">Email ID:</label>
+            <input type="email" class="form-control" id="email">
+          </div>
+          <div class="form-group">
+            <label for="next-of-kin">Name and Address of Next of Kin:</label>
+            <textarea class="form-control" id="next-of-kin" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="next-of-kin-tel">Tel No. of Next of Kin:</label>
+            <input type="text" class="form-control" id="next-of-kin-tel">
+          </div>
+        </div>
+        
+        <!-- Tab 2 content -->
+        <div class="tab-pane fade" id="tab-content2">
+		<h3>Health Information</h3>
+          <div class="form-group">
+            <label for="std-hiv">STD/HIV:</label>
+            <input type="text" class="form-control" id="std-hiv">
+          </div>
+          <div class="form-group">
+            <label for="hypertension">Hypertension:</label>
+            <input type="text" class="form-control" id="hypertension">
+          </div>
+          <div class="form-group">
+            <label for="heart-disease">Heart Disease:</label>
+            <input type="text" class="form-control" id="heart-disease">
+          </div>
+          <div class="form-group">
+            <label for="tuberculosis">Tuberculosis:</label>
+            <input type="text" class="form-control" id="tuberculosis">
+          </div>
+          <div class="form-group">
+            <label for="bronchial-asthma">Bronchial Asthma:</label>
+            <input type="text" class="form-control" id="bronchial-asthma">
+          </div>
+          <div class="form-group">
+            <label for="jaundice">Jaundice:</label>
+            <input type="text" class="form-control" id="jaundice">
+          </div>
+          <div class="form-group">
+            <label for="diabetes">Diabetes:</label>
+            <input type="text" class="form-control" id="diabetes">
+          </div>
+          <div class="form-group">
+            <label for="epilepsy">Epilepsy:</label>
+            <input type="text" class="form-control" id="epilepsy">
+          </div>
+          <div class="form-group">
+            <label for="malaria">Malaria:</label>
+            <input type="text" class="form-control" id="malaria">
+          </div>
+          <div class="form-group">
+            <label for="typhoid">Typhoid:</label>
+            <input type="text" class="form-control" id="typhoid">
+          </div>
+          <div class="form-group">
+            <label for="psychiatric-disorder">Psychiatric Disorder:</label>
+            <input type="text" class="form-control" id="psychiatric-disorder">
+          </div>
+          <div class="form-group">
+            <label for="other">Any Other:</label>
+            <input type="text" class="form-control" id="other">
+          </div>
+        </div>
+
+        <!-- Tab 3 content -->
+        <div class="tab-pane fade" id="tab-content3">
+		<h3>Surgical History</h3>
+          <div class="form-group">
+            <label for="appendectomy">Appendectomy:</label>
+            <input type="text" class="form-control" id="appendectomy">
+          </div>
+          <div class="form-group">
+            <label for="cholecystectomy">Cholecystectomy:</label>
+            <input type="text" class="form-control" id="cholecystectomy">
+          </div>
+          <div class="form-group">
+            <label for="head-injury">Head Injury:</label>
+            <input type="text" class="form-control" id="head-injury">
+          </div>
+          <div class="form-group">
+            <label for="fracture">Fracture:</label>
+            <input type="text" class="form-control" id="fracture">
+          </div>
+          <div class="form-group">
+            <label for="hernia-operated">Hernia (Operated):</label>
+            <input type="text" class="form-control" id="hernia-operated">
+          </div>
+          <div class="form-group">
+            <label for="hydrocele-operated">Hydrocele (Operated):</label>
+            <input type="text" class="form-control" id="hydrocele-operated">
+          </div>
+          <div class="form-group">
+            <label for="varicose-vein-operated">Varicose Vein (Operated):</label>
+            <input type="text" class="form-control" id="varicose-vein-operated">
+          </div>
+          <div class="form-group">
+            <label for="laprotomy">Laprotomy:</label>
+            <input type="text" class="form-control" id="laprotomy">
+          </div>
+          <div class="form-group">
+            <label for="other-surgical-history">Any Other:</label>
+            <input type="text" class="form-control" id="other-surgical-history">
+          </div>
+        </div>
+   
+	  <!-- Fourth tab content -->
+<div class="tab-pane fade " id="tab-content4">
+<h3>Gynae/Obsteric history where applicable</h3>
+  <div class="form-group">
+    <label for="date">Date:</label>
+    <input type="date" class="form-control" id="date">
+  </div>
+  <div class="form-group">
+    <label for="place-unit">Place/Unit:</label>
+    <input type="text" class="form-control" id="place-unit">
+  </div>
+  <div class="form-group">
+    <label for="disease">Disease:</label>
+    <input type="text" class="form-control" id="disease">
+  </div>
+  <div class="form-group">
+    <label for="remarks">Remarks/Categorization:</label>
+    <textarea class="form-control" id="remarks" rows="3"></textarea>
+  </div>
+</div>
+<!-- Fifth tab content -->
+<div class="tab-pane fade" id="tab-content5">
+<h3>Record of admission in hospital</h3>
+  <div class="form-group">
+    <label for="station">Station:</label>
+    <input type="text" class="form-control" id="station">
+  </div>
+  <div class="form-group">
+    <label for="date-admission">Date of Admission:</label>
+    <input type="date" class="form-control" id="date-admission">
+  </div>
+  <div class="form-group">
+    <label for="date-discharge">Date of Discharge:</label>
+    <input type="date" class="form-control" id="date-discharge">
+  </div>
+  <div class="form-group">
+    <label for="duration">Duration:</label>
+    <input type="text" class="form-control" id="duration">
+  </div>
+  <div class="form-group">
+    <label for="disease-diagnosis">Disease/Diagnosis:</label>
+    <input type="text" class="form-control" id="disease-diagnosis">
+  </div>
+  <div class="form-group">
+    <label for="particulars">Particulars/Disease/Disability:</label>
+    <textarea class="form-control" id="particulars" rows="3"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="categorization-discharge">Categorization on Discharge:</label>
+    <input type="text" class="form-control" id="categorization-discharge">
+  </div>
+</div>
+
+
+<!-- Sixth tab content -->
+<div class="tab-pane fade" id="tab-content6">
+<h3>Record of Medical Leave</h3>
+  <div class="form-group">
+    <label for="place">Place:</label>
+    <input type="text" class="form-control" id="place">
+  </div>
+  <div class="form-group">
+    <label for="date-from">Date From:</label>
+    <input type="date" class="form-control" id="date-from">
+  </div>
+  <div class="form-group">
+    <label for="date-to">Date To:</label>
+    <input type="date" class="form-control" id="date-to">
+  </div>
+  <div class="form-group">
+    <label for="diagnosis">Diagnosis:</label>
+    <input type="text" class="form-control" id="diagnosis">
+  </div>
+  <div class="form-group">
+    <label for="investigation-treatment">Investigation Done/Treatment Given:</label>
+    <textarea class="form-control" id="investigation-treatment" rows="3"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="category">Category:</label>
+    <input type="text" class="form-control" id="category">
+  </div>
+</div>
+
+<!-- seven tab content -->
+<div class="tab-pane fade" id="tab-content7">
+<h3>Dental Examination and Treatment</h3>
+  <div class="form-group">
+    <label for="dental-points">Details of Dental Points:</label>
+    <textarea class="form-control" id="dental-points" rows="3"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="dental-condition">Dental Condition of Enlistment/First Examination:</label>
+    <textarea class="form-control" id="dental-condition" rows="3"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="oral-hygiene">Oral Hygiene:</label>
+    <input type="text" class="form-control" id="oral-hygiene">
+  </div>
+  <div class="form-group">
+    <label for="denture-notation">Notation of Existing Denture:</label>
+    <input type="text" class="form-control" id="denture-notation">
+  </div>
+  <div class="form-group">
+    <label for="abnormality">Abnormality:</label>
+    <textarea class="form-control" id="abnormality" rows="3"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="date">Date:</label>
+    <input type="date" class="form-control" id="date">
+  </div>
+  <div class="form-group">
+    <label for="hospital-name">Name of Hospital/Place:</label>
+    <input type="text" class="form-control" id="hospital-name">
+  </div>
+  <div class="form-group">
+    <label for="reference-no">Reference No:</label>
+    <input type="text" class="form-control" id="reference-no">
+  </div>
+  <div class="form-group">
+    <label for="inspection-date">Date of Inspection/Treatment:</label>
+    <input type="date" class="form-control" id="inspection-date">
+  </div>
+  <div class="form-group">
+    <label for="treatment">Treatment:</label>
+    <textarea class="form-control" id="treatment" rows="3"></textarea>
+  </div>
+</div>
+<!-- Eighth tab content -->
+<div class="tab-pane fade" id="tab-content8">
+<h3>Record of Vaccination Taken</h3>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Vaccine</th>
+        <th>Date of 1st Dose</th>
+        <th>1st Dose Taken</th>
+        <th>Date of 2nd Dose</th>
+        <th>2nd Dose Taken</th>
+        <th>Date of 3rd Dose</th>
+        <th>3rd Dose Taken</th>
+        <th>Date of 4th Dose</th>
+        <th>4th Dose Taken</th>
+        <th>Booster Dose</th>
+        <th>Booster Dose Taken</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>TT</td>
+        <td><input type="date" class="form-control"></td>
+        <td><input type="checkbox" class="form-check-input"></td>
+        <td><input type="date" class="form-control"></td>
+        <td><input type="checkbox" class="form-check-input"></td>
+        <td><input type="date" class="form-control"></td>
+        <td><input type="checkbox" class="form-check-input"></td>
+        <td><input type="date" class="form-control"></td>
+        <td><input type="checkbox" class="form-check-input"></td>
+        <td><input type="date" class="form-control"></td>
+        <td><input type="checkbox" class="form-check-input"></td>
+      </tr>
+      <tr>
+        <td>Hep-B</td>
+        <td><input type="date" class="form-control"></td>
+        <td><input type="checkbox" class="form-check-input"></td>
+        <td><input type="date" class="form-control"></td>
+        <td><input type="checkbox" class="form-check-input"></td>
+        <td><input type="date" class="form-control"></td>
+        <td><input type="checkbox" class="form-check-input"></td>
+        <td><input type="date" class="form-control"></td>
+        <td><input type="checkbox" class="form-check-input"></td>
+        <td><input type="date" class="form-control"></td>
+        <td><input type="checkbox" class="form-check-input"></td>
+      </tr>
+      <tr>
+        <td>Typhoid</td>
+        <td><input type="date" class="form-control"></td>
+        <td><input type="checkbox" class="form-check-input"></td>
+        <td><input type="date" class="form-control"></td>
+        <td><input type="checkbox" class="form-check-input"></td>
+        <td><input type="date" class="form-control"></td>
+        <td><input type="checkbox" class="form-check-input"></td>
+        <td><input type="date" class="form-control"></td>
+        <td><input type="checkbox" class="form-check-input"></td>
+        <td><input type="date" class="form-control"></td>
+        <td><input type="checkbox" class="form-check-input"></td>
+      </tr>
+      <tr>
+        <td>ARV</td>
+        <td><input type="date" class="form-control"></td>
+        <td><input type="checkbox" class="form-check-input"></td>
+        <td><input type="date" class="form-control"></td>
+        <td><input type="checkbox" class="form-check-input"></td>
+        <td><input type="date" class="form-control"></td>
+        <td><input type="checkbox" class="form-check-input"></td>
+        <td><input type="date" class="form-control"></td>
+        <td><input type="checkbox" class="form-check-input"></td>
+        <td><input type="date" class="form-control"></td>
+        <td><input type="checkbox" class="form-check-input"></td>
+      </tr>
+      <tr>
+        <td>Others</td>
+        <td><input type="date" class="form-control"></td>
+        <td><input type="checkbox" class="form-check-input"></td>
+        <td><input type="date" class="form-control"></td>
+        <td><input type="checkbox" class="form-check-input"></td>
+        <td><input type="date" class="form-control"></td>
+        <td><input type="checkbox" class="form-check-input"></td>
+        <td><input type="date" class="form-control"></td>
+        <td><input type="checkbox" class="form-check-input"></td>
+        <td><input type="date" class="form-control"></td>
+        <td><input type="checkbox" class="form-check-input"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!-- Ninth tab content -->
+<div class="tab-pane fade" id="tab-content9">
+<h3>Annual Medical Checkup and Categorization</h3>
+  <form>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="station">Station</label>
+          <input type="text" class="form-control" id="station">
+        </div>
+        <div class="form-group">
+          <label for="unit">Unit</label>
+          <input type="text" class="form-control" id="unit">
+        </div>
+        <div class="form-group">
+          <label for="date">Date</label>
+          <input type="date" class="form-control" id="date">
+        </div>
+        <div class="form-group">
+          <label for="height">Height</label>
+          <input type="text" class="form-control" id="height">
+        </div>
+        <div class="form-group">
+          <label for="weight">Weight</label>
+          <input type="text" class="form-control" id="weight">
+        </div>
+        <div class="form-group">
+          <label for="chest">Chest</label>
+          <input type="text" class="form-control" id="chest">
+        </div>
+        <div class="form-group">
+          <label for="waistHipRatio">Waist/Hip Ratio</label>
+          <input type="text" class="form-control" id="waistHipRatio">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="pulse">Pulse</label>
+          <input type="text" class="form-control" id="pulse">
+        </div>
+        <div class="form-group">
+          <label for="bp">BP</label>
+          <input type="text" class="form-control" id="bp">
+        </div>
+        <div class="form-group">
+          <label for="sFactor">S Factor (Psychological)</label>
+          <input type="text" class="form-control" id="sFactor">
+        </div>
+        <div class="form-group">
+          <label for="hFactor">H Factor (Hearing)</label>
+          <input type="text" class="form-control" id="hFactor">
+        </div>
+        <div class="form-group">
+          <label for="aFactor">A Factor (Appendages)</label>
+          <input type="text" class="form-control" id="aFactor">
+        </div>
+        <div class="form-group">
+          <label for="pFactor">P Factor (Physical Capacity)</label>
+          <input type="text" class="form-control" id="pFactor">
+        </div>
+        <div class="form-group">
+          <label for="eFactor">E Factor (Eye Sight)</label>
+          <input type="text" class="form-control" id="eFactor">
+        </div>
+        <div class="form-group">
+          <label for="gFactor">G Factor (Gynae & Obs)</label>
+          <input type="text" class="form-control" id="gFactor">
+        </div>
+        <div class="form-group">
+          <label for="investigation">Investigation</label>
+          <textarea class="form-control" id="investigation" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="finalCategorization">Final Categorization</label>
+          <input type="text" class="form-control" id="finalCategorization">
+        </div>
+        <div class="form-group">
+          <label for="downgradeReason">Reason in Brief if Category is Downgraded</label>
+          <textarea class="form-control" id="downgradeReason" rows="3"></textarea>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<!-- Tenth tab content -->
+<div class="tab-pane fade" id="tab-content10">
+<h3>Review Medical Examination</h3>
+  <form>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="forceNo">Force No/IRLA</label>
+          <input type="text" class="form-control" id="forceNo">
+        </div>
+        <div class="form-group">
+          <label for="rank">Rank</label>
+          <input type="text" class="form-control" id="rank">
+        </div>
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" class="form-control" id="name">
+        </div>
+        <div class="form-group">
+          <label for="unitOffice">Unit/Office</label>
+          <input type="text" class="form-control" id="unitOffice">
+        </div>
+        <div class="form-group">
+          <label for="service">Service</label>
+          <input type="text" class="form-control" id="service">
+        </div>
+        <div class="form-group">
+          <label for="cadreTrade">Cadre/Trade</label>
+          <input type="text" class="form-control" id="cadreTrade">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="age">Age</label>
+          <input type="text" class="form-control" id="age">
+        </div>
+        <div class="form-group">
+          <label for="homeAddress">Home Address</label>
+          <input type="text" class="form-control" id="homeAddress">
+        </div>
+        <div class="form-group">
+          <label for="authorityOfBoard">Authority of Board</label>
+          <input type="text" class="form-control" id="authorityOfBoard">
+        </div>
+        <div class="form-group">
+          <label for="previousCategorization">Previous Categorization with Date</label>
+          <textarea class="form-control" id="previousCategorization" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="lmcNote">Brief Note on LMC and Employability Restriction if any</label>
+          <textarea class="form-control" id="lmcNote" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="dueDateReview">Due Date of Review</label>
+          <input type="date" class="form-control" id="dueDateReview">
+        </div>
+        <div class="form-group">
+          <label for="actualDateReview">Actual Date of Review Done</label>
+          <input type="date" class="form-control" id="actualDateReview">
+        </div>
+        <div class="form-group">
+          <label for="finding">Finding</label>
+          <input type="text" class="form-control" id="finding">
+        </div>
+        <div class="form-group">
+          <label for="reclassification">Reclassification</label>
+          <input type="text" class="form-control" id="reclassification">
+        </div>
+        <div class="form-group">
+          <label for="dateApproval">Date of Approval</label>
+          <input type="date" class="form-control" id="dateApproval">
+        </div>
+        <div class="form-group">
+          <label for="dueDateNextReview">Due Date of Next Review</label>
+          <input type="date" class="form-control" id="dueDateNextReview">
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+</div>
+
+
+
+
+  
+  <!-- Bootstrap JS -->
+  <script src="css/bootstrap.min.js"></script>
+  <!-- Font Awesome JS -->
+  <script src="css/font-awesome_5.15.4_js_all.min"></script>
+  <script src="css/html2pdf.bundle.min.js"></script>
+  <script src="css/jspdf/jspdf.umd.min.js"></script>
+
+
+  
+     
+	 
+	 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+        integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+
+        // https://html2canvas.hertzen.com/configuration
+        // https://rawgit.com/MrRio/jsPDF/master/docs/module-html.html#~html
+        // https://artskydj.github.io/jsPDF/docs/jsPDF.html
+        window.jsPDF = window.jspdf.jsPDF;
+        function generatePdf() {
+            let jsPdf = new jsPDF('p', 'pt', 'letter');
+            var htmlElement = document.getElementById('pdf2convert');
+            // you need to load html2canvas (and dompurify if you pass a string to html)
+            const opt = {
+                callback: function (jsPdf) {
+                    jsPdf.save("Test.pdf");
+                    // to open the generated PDF in browser window
+                    // window.open(jsPdf.output('bloburl'));
+                },
+                margin: [72, 72, 72, 72],
+                autoPaging: 'text',
+                html2canvas: {
+                    allowTaint: true,
+                    dpi: 300,
+                    letterRendering: true,
+                    logging: false,
+                    scale: .8
+                }
+            };
+
+            jsPdf.html(htmlElement, opt);
+        }
+		
+		function printPDF() {
+      
+       const element = document.getElementById("pdf2convert");
+      const options = {
+        margin: 10,
+        filename: 'Healthcard.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 ,useCORS: true},
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      const pdfElement = document.createElement('div'); // Create a temporary div to hold the combined content
+
+      const tabPanes = element.getElementsByClassName('tab-pane');
+      for (let i = 0; i < tabPanes.length; i++) {
+        const tabPane = tabPanes[i];
+        const clone = tabPane.cloneNode(true); // Clone the tab pane content
+
+        const pageBreak = document.createElement('div');
+        pageBreak.style.pageBreakAfter = 'always'; // Add a page break after each tab pane
+
+        pdfElement.appendChild(clone);
+        pdfElement.appendChild(pageBreak);
+      }
+
+      const jsPDFOptions = { unit: 'mm', format: 'a4', orientation: 'portrait' };
+
+      if (tabPanes[7]) {
+        // Check if the 8th tab exists
+        jsPDFOptions.orientation = 'landscape'; // Set the orientation to landscape for the 8th tab
+      }
+
+      options.jsPDF = jsPDFOptions;
+
+      html2pdf().set(options).from(pdfElement).save();
+    }
+    </script>
+
+  
+  <script>
+    function previewPhoto(event) {
+      var reader = new FileReader();
+      reader.onload = function() {
+        var photoPreview = document.querySelector('.photo-preview i');
+        photoPreview.classList.remove('fa-user-circle');
+        photoPreview.style.fontSize = 'inherit';
+        photoPreview.style.color = 'inherit';
+        photoPreview.style.backgroundImage = `url(${reader.result})`;
+      }
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  </script>
+  <!-- Include the jsPDF library -->
+
+
+<!-- JavaScript code -->
+
+  
+</body>
+</html>

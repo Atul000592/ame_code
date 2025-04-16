@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<div class="dashboard-bgcolor border-right" id="sidebar-wrapper"
+	th:fragment="sidebar-wrapper-menu-ra">
+	<div class="sidebar-heading">
+
+		<img src="images/collage_CAPF.jpg" title="collage_CAPF"
+			alt="collage_CAPFo" width="40px" class="rounded-circle me-2"> <span>
+			Annual Medical Examinations(AME)</span>
+
+
+
+	</div>
+	<div class="list-group list-group-flush b-leftmenu">
+
+		<ul id="sortable-menu">
+			<li><a href="dashboard-user">Home</a></li>
+		
+
+			<li class='sub-menu'><a href='javascript:void(0)'>AME(RO (GO's))
+					<i class="fa fa-caret-down"></i>
+			</a>
+				<ul>
+					<li><a class="b-newpage" href="#">Pending Request</a></li>
+					<li><a class="b-newpage" href='#'>Completed Request</a></li>
+					<li><a class="b-newpage" href='#'>Forwarded and Reviewed Request</a></li>
+						
+				
+				</ul></li>
+
+                <li class='sub-menu'><a href='javascript:void(0)'>AME(RO (NGO's))
+					<i class="fa fa-caret-down"></i>
+			</a>
+				<ul>
+					<li><a class="b-newpage" href="#">Pending Request</a></li>
+					<li><a class="b-newpage" href='#'>Completed Request</a></li>
+					<li><a class="b-newpage" href='#'>Forwarded and Reviewed Request</a></li>
+						
+				
+				</ul></li>
+			
+
+			
+			
+
+		</ul>
+	</div>
+</div>

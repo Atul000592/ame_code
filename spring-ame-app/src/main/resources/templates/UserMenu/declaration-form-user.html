@@ -1,0 +1,2012 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+
+<title>AME Declaration Form</title>
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<div th:replace="~{UserMenu/user-menu-master::sidebar-wrapper-user-master}"></div>
+
+
+<style>
+.modal-body p {
+    border-bottom: solid 1px #cccc;
+    padding: 7px 0;
+    margin: 3px 0;
+}
+.modal-body p span{ float:right}
+
+label{
+	font-size: 14px;
+	font-weight: 600;
+}
+
+</style>
+
+</head>
+
+
+
+<body>
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+		<div
+			th:replace="~{UserMenu/left-menu-user::sidebar-wrapper-menu-user}"></div>
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+			<div
+				th:replace="~{UserMenu/nav-bar-user::sidebar-wrapper-menu-nav-user}"></div>
+
+
+
+			<div class="container mt-3">
+			<form th:action="@{dashboard-user}" method="Get" id="form_back">
+				
+				</form>
+				<div class="wisecountnactionbg">
+					<h4 align="center">Declaration Form</h4>
+
+					<div id="step-one">
+						<div class="row justify-content-between">
+							<div class="col-sm-12 col-md-12">
+								<div class="v-progress mb-4">
+									<ul>
+										<li class="v-progress-item inprogress"><span>1.
+												Personal </span></li>
+										<li class="v-progress-item"><span>2. Ame
+												Declaration (PART 1) </span></li>
+										<li class="v-progress-item"><span>3. Ame
+												Declaration (PART 2) </span></li>
+
+									</ul>
+								</div>
+
+								<div class="form-warp mb-5">
+									<h5 class="form-header text-start">1. AME Declaration
+										Individual</h5>
+									<div class=" form-card p-3">
+										<div class="row">
+											<div class="col-md-6">
+												<div class="row">
+													<label class="col-md-3">Name </label>
+
+													<div class="col-md-9">
+														<sapan th:text="${amedeclarationdtoresponse.name}"
+															name="name" id="name" readonly="readonly" />
+
+														<span id="error_name" class="text-danger"></span>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-md-6">
+												<div class="row">
+													<label class="col-md-3">Unit</label>
+													<div class="col-md-9">
+														<p th:text="${amedeclarationdtoresponse.unit}"
+															name="PersonalUnit" id="PersonalUnitId" maxlength="10"
+															min="2" />
+														<span id="error_forcePersonalUnit" class="text-danger"></span>
+													</div>
+												</div>
+											</div>
+
+
+											<div class="col-md-6">
+												<div class="row">
+													<label class="col-md-3"> Rank/Designation</label>
+													<div class="col-md-9">
+														<p th:text="${amedeclarationdtoresponse.designation}"
+															name="Designation" id="DesignationId" maxlength="10"
+															min="2" />
+														<span id="error_forceDesignationId" class="text-danger"></span>
+													</div>
+												</div>
+
+											</div>
+
+											<div class="col-md-6">
+												<div class="row">
+													<label class="col-md-3">IRLA/REGT NO.</label>
+													<div class="col-md-9">
+														<p th:text="${amedeclarationdtoresponse.forceId}"
+															name="IRLA_no" id="IRLA_noId" maxlength="10" min="2" />
+														<span id="error_IRLA_noId" class="text-danger"></span>
+													</div>
+												</div>
+
+											</div>
+
+											<div class="col-md-6">
+												<div class="row">
+													<label class="col-md-3">Force Name</label>
+													<div class="col-md-9">
+														<p th:text="${forceName}" maxlength="10" min="2" />
+														<span id="error_IRLA_noId" class="text-danger"></span>
+													</div>
+												</div>
+
+
+											</div>
+										</div>
+										<hr>
+
+										<div class="row">
+											<div class="col-md-12 text-end">
+                                               
+												<button type="button" class="btn btn-light" onclick="getBackToHome()" >Cancel</button>
+
+												<button type="button" class="btn btn-primary"
+													id="step-btn-one">Next</button>
+
+											</div>
+
+										</div>
+									</div>
+
+								</div>
+
+							</div>
+
+
+						</div>
+					</div>
+
+<!--  Step One End -->
+					<div id="step-two">
+						<div class="row justify-content-between">
+
+							<div class="col-sm-12 col-md-12">
+
+								<div class="v-progress mb-4">
+									<ul>
+										<li class="v-progress-item completed"><span>1.
+												Personal </span></li>
+										<li class="v-progress-item inprogress"><span>2.
+												Ame Declaration (PART 1) </span></li>
+										<li class="v-progress-item"><span>3. Ame
+												Declaration (PART 2) </span></li>
+									</ul>
+								</div>
+
+								<div class="form-warp mb-5">
+									<h5 class="form-header text-start">2. Fill Personal
+										Details</h5>
+
+									<div class=" form-card p-3">
+
+										<div class="row">
+
+
+											<label class="col-md-9">1. Date of Recruitment
+												(joining in the Force)</label>
+											<div class="col-md-3">
+
+												<p th:text="${#dates.format(joinigDate, 'dd-MM-yyyy')}"
+													class="form-control" />
+												<span id="error_password" class="text-danger"></span>
+											</div>
+										</div>
+
+										<div class="row my-1">
+
+											<label class="col-md-9">2. Were you examined for any
+												ailment or hospitalized during last one year ?</label>
+
+											<div class="col-md-3">
+												<label class="radio-inline"> <input type="radio"
+													value="Y" id="major_ailment_hospitalized"
+													name="major_ailment_hospitalized"> Yes
+												</label> <label class="radio-inline"> <input type="radio"
+													value="N" id="major_ailment_hospitalized"
+													name="major_ailment_hospitalized" checked> No
+												</label>
+											</div>
+										</div>
+
+
+										<div class="row my-1">
+									
+												<label class="col-md-12">3. Are You a Patient of ?</label>
+												</div>
+<div class="row">								
+
+											<div class="col-md-9 ps-5 my-1">
+												<b> a) Hypertension (High Blood Pressure)</b>
+											</div>
+											<div class="col-md-3 my-1">
+												<label class="radio-inline"> <input type="radio"
+													value="Y" id="hypertension" name="hypertension">
+													Yes
+												</label> <label class="radio-inline"> <input type="radio"
+													value="N" id="hypertension" name="hypertension" checked>
+													No
+												</label>
+											</div>
+									
+										
+
+											<div class="col-md-9 ps-5 my-1">
+												<b>b) Ischemic Heart Disease</b>
+											</div>
+											<div class="col-md-3 my-1">
+												<label class="radio-inline"> <input type="radio"
+													value="Y" id="ischemicHeartDisease"
+													name="ischemicHeartDisease"> Yes
+												</label> <label class="radio-inline"> <input type="radio"
+													value="N" id="ischemicHeartDisease"
+													name="ischemicHeartDisease" checked> No
+												</label>
+											</div>
+									
+									
+
+											<div class="col-md-9 ps-5 my-1">
+												<b>c) Diabetes Mellitus</b>
+											</div>
+											<div class="col-md-3 my-1">
+												<label class="radio-inline"> <input type="radio"
+													value="Y" id="diabetesMellitus" name="diabetesMellitus">
+													Yes
+												</label> <label class="radio-inline"> <input type="radio"
+													value="N" id="diabetesMellitus" name="diabetesMellitus"
+													checked> No
+												</label>
+											</div>
+									
+								
+
+											<div class="col-md-9 ps-5 my-1">
+												<b>d) Chronic Cough &nbsp;/&nbsp;Bronchial
+													Asthma&nbsp;/&nbsp;COPD </b>
+											</div>
+											<div class="col-md-3 my-1">
+												<label class="radio-inline"> <input type="radio"
+													value="Y" id="copd" name="copd"> Yes
+												</label> <label class="radio-inline"> <input type="radio"
+													value="N" id="copd" name="copd" checked> No
+												</label>
+											</div>
+										
+
+											<div class="col-md-9 ps-5 my-1">
+												<b>e) Epilepsy </b>
+											</div>
+											<div class="col-md-3 my-1">
+												<label class="radio-inline"> <input type="radio"
+													value="Y" id="epilepsy" name="epilepsy"> Yes
+												</label> <label class="radio-inline"> <input type="radio"
+													value="N" id="epilepsy" name="epilepsy" checked> No
+												</label>
+											</div>
+								
+
+											<div class="col-md-9 ps-5 my-1">
+												<b>f) Persistent Headache </b>
+											</div>
+											<div class="col-md-3 my-1">
+												<label class="radio-inline"> <input type="radio"
+													value="Y" id="persistentHeadache" name="persistentHeadache">
+													Yes
+												</label> <label class="radio-inline"> <input type="radio"
+													value="N" id="persistentHeadache" name="persistentHeadache"
+													checked> No
+												</label>
+											</div>
+									
+
+											<div class="col-md-9 ps-5 my-1">
+												<b>g) Mental Instability </b>
+											</div>
+											<div class="col-md-3 my-1">
+												<label class="radio-inline"> <input type="radio"
+													value="Y" id="mentalInstability" name="mentalInstability">
+													Yes
+												</label> <label class="radio-inline"> <input type="radio"
+													value="N" id="mentalInstability" name="mentalInstability"
+													checked> No
+												</label>
+											</div>
+										</div>
+									
+							
+										<div class="row my-1">
+											<div class="col-md-9 ">
+												<label>4. Have You Suffered From Giddiness at any
+													time ?</label>
+											</div>
+											<div class="col-md-3">
+												<label class="radio-inline"> <input type="radio"
+													value="Y" id="giddiness" name="giddiness" required>
+													Yes
+												</label> <label class="radio-inline"> <input type="radio"
+													value="N" id="giddiness" name="giddiness" checked>
+													No
+												</label>
+
+											</div>
+
+										</div>
+							
+										<div class="row">
+											<div class="col-md-9 my-1">
+												<label>5. Did you suffered from Chest
+													Pain/Palpitation ?</label>
+											</div>
+
+											<div class="col-md-3 my-1">
+												<label class="radio-inline"> <input type="radio"
+													value="Y" id="chest_pain_palpitation"
+													name="chest_pain_palpitation" required> Yes
+												</label> <label class="radio-inline"> <input type="radio"
+													value="N" id="chest_pain_palpitation"
+													name="chest_pain_palpitation" checked> No
+												</label>
+											</div>
+										</div>
+							
+										<div class="row">
+											<div class="col-md-9 my-1">
+												<label>6. Did you ever suffered from Tuberculosis?</label>
+											</div>
+											<div class="col-md-3 my-1">
+												<label class="radio-inline"> <input type="radio"
+													value="Y" id="tb" name="tb"> Yes
+												</label> <label class="radio-inline"> <input type="radio"
+													value="N" id="tb" name="tb" checked> No
+												</label>
+											</div>
+										</div>
+							
+										<div class="row">
+										
+												<label class="col-md-12">7. Your</label>
+									
+										</div>
+										<div class="row">
+
+											<div class="col-md-9 ps-5 my-1">
+												<b>a) Appetite </b>
+											</div>
+											<div class="col-md-3 my-1">
+												<select class="form-select"
+													aria-label="Default select example" id="dropDownAppetite">
+													<option value="0">select option</option>
+													<option th:each="option : ${refAppetite}"
+														th:value="${option.name}" th:text="${option.name}"></option>
+												</select>
+											</div>
+										</div>
+										<div class="row">
+
+											<div class="col-md-9 ps-5 my-1">
+												<b>b) Sleep</b>
+											</div>
+											<div class="col-md-3 my-1">
+												<select class="form-select" id="dropDownSleep">
+													<option value="0">select option</option>
+													<option th:each="option1 : ${refSleeps}"
+														th:value="${option1.name}" th:text="${option1.name}"></option>
+												</select>
+											</div>
+										</div>
+
+					
+										<div class="row my-1">
+											<div class="col-md-9">
+												<label>8. Smoking habit (If yes, number of cigarettes
+													per day)</label>
+											</div>
+											<div class="col-md-3">
+												<label class="radio-inline"> <input type="radio"
+													name="smoking_habit" value="Y" id="smoking_habit">
+													Yes
+												</label> <label class="radio-inline"> <input type="radio"
+													name="smoking_habit" value="N" id="smoking_habit"
+													checked="checked"> No
+												</label>
+													<div id="pnudef">
+											<label class="radio-inline">Please Define Number</label> <input
+												type="number" id="number_of_cigarettes">
+										</div>
+											</div>
+										</div>
+							
+											
+										<div class="row my-1">
+											<div class="col-md-9">
+												<label> 9. Alcohol Intake (If yes, average quantity
+													per Day)</label>
+											</div>
+											<div class="col-md-3">
+												<label class="radio-inline"> <input type="radio"
+													name="alcohol_intake" value="Y" id="alcohol_intake">
+													Yes
+												</label> <label class="radio-inline"> <input type="radio"
+													name="alcohol_intake" value="N" id="alcohol_intake" checked>
+													No
+												</label>
+												<div id="pqundef">
+											<label class="radio-inline"> Please Define Quantity:
+												<input type="number" id="quantity_per_day" value="0">
+												ml
+											</label>
+										</div>
+											</div>
+									
+										
+									</div>
+
+										<div class="row my-1">
+											<div class="col-md-9">
+												<label>10. Any
+													accident&nbsp;/&nbsp;injury&nbsp;/&nbsp;major surgery
+													undergone so far?</label>
+											</div>
+											<div class="col-md-3">
+												<label class="radio-inline"> <input type="radio"
+													value="Y" id="accident_injury_surgery"
+													name="accident_injury_surgery"> Yes
+												</label> <label class="radio-inline"> <input type="radio"
+													value="N" id="accident_injury_surgery"
+													name="accident_injury_surgery" checked> No
+												</label>
+											</div>
+										</div>
+								
+										<div class="row my-1" >
+											<div class="col-md-9">
+												<label> 11. Have you been transferred recently or
+													under orders of transfer ? If so your</label>
+											</div>
+											<div class="col-md-3">
+												<label class="radio-inline"> <input type="radio"
+													name="transferred" value="Y" id="transferred_id">
+													Yes
+												</label> <label class="radio-inline"> <input type="radio"
+													name="transferred" value="N" id="transferred_id" checked>
+													No
+												</label>
+
+										
+							                </div>
+							                </div>
+							            <div class="row my-1" >
+											<div class="col-md-6">
+												</div>
+												<div class="col-md-6">
+												<div id="unitData">
+													<label class="radio-inline"> Previous Unit:</label> <select
+														id="previous_unit" class="form-select">
+														<option value="0">Select</option>
+														<option th:each="unitList : ${unitList}"
+															th:value="${unitList.unitName}"
+															th:text="${unitList.unitName}"></option>
+													</select> <label class="radio-inline"> New Unit:</label> <select
+														id="curent_new_unit" class="form-select">
+														<option value="0">Select</option>
+														<option th:each="unitList : ${unitList}"
+															th:value="${unitList.unitName}"
+															th:text="${unitList.unitName}"></option>
+													</select>
+
+												</div>
+											</div>
+											</div>
+										
+								
+										<br>
+										
+							
+										<div class="row my-1">
+											<div class="col-md-9">
+												<label>12. Date of Last AME :</label>
+											</div>
+
+											<div class="col-md-3">
+
+											<span th:if="${lastAmeDate!=null}" th:text="${#dates.format(lastAmeDate,'dd-MM-yyyy')}" id="last-ame-date_or_display" >
+											
+											</span>
+											<span th:if="${lastAmeDate!=null}">
+											<input type="hidden" id="last-ame-date_or" th:value="${lastAmeDate}">
+											</span>
+											<span th:unless="${lastAmeDate!=null}">
+												<input type="date" class="form-control" id="last-ame-date" th:max="${#dates.format(#dates.createNow(),'yyyy-MM-dd')}">
+												</span>
+
+											</div>
+										</div>
+							
+										<div class="row my-1">
+											<div class="col-md-9">
+												<label>13. Place of Last AME :</label>
+											</div>
+                                              <div class="col-md-3 my-1">
+                                              
+                                          	<span th:if="${lastAmePlace!=null}" th:text="${lastAmePlace}" th:id="place_last_ame_or" style="color: black"></span>
+                                          	<span th:unless="${lastAmePlace!=null}">
+                                          	
+                                            <select	id="place_last_ame" class="form-select">
+														<option value="0">Select</option>
+														<option th:each="unitList : ${unitList}"
+															th:value="${unitList.unitName}"
+															th:text="${unitList.unitName}"
+															></option>
+												</select>
+                                          	
+                                          	</span>
+
+
+											
+												 <span id="error_place" class="text-danger"></span>
+											</div>
+										</div>
+						
+									
+							
+										<div class="row">
+											<div class="col-md-8 my-1">
+												<label>14. Previous Medical Category :</label>
+											</div>
+
+											<div class="col-md-4 my-1">
+											<span th:if="${lastAMECategory!=null}" th:text="${lastAMECategory}" th:id="medical_cat_last_ame_or" style="color: black"></span>
+											<span th:unless="${lastAMECategory!=null}">
+											<input type="text" class="form-control" name="medical_cat_last_ame" id="medical_cat_last_ame">
+											
+											</span>
+											</div>
+										</div>
+							
+                             <hr>
+									
+										<div class="row">
+											<div class="col-md-12 text-end">
+
+												<button type="button" class="btn btn-light" id="cancel-btn-one">Previous</button>
+
+													<button type="button" class="btn btn-primary" id="step-btn-two">Next</button>
+
+											</div>
+
+										</div>
+										
+										
+										
+									
+								</div>
+							</div>
+
+
+
+
+						</div>
+
+					</div>
+				</div>
+
+
+
+
+
+
+<!--  Step Two End -->
+
+				<div id="step-three">
+
+					<div class="row justify-content-between">
+
+						<div class="col-sm-12 col-md-12">
+
+							<div class="v-progress mb-4">
+								<ul>
+									<li class="v-progress-item completed"><span>1.
+											Personal</span></li>
+									<li class="v-progress-item completed"><span>2. Ame
+											Declaration (PART 1)</span></li>
+									<li class="v-progress-item inprogress"><span>3. Ame
+											Declaration (PART 2)</span></li>
+								</ul>
+							</div>
+
+							<div class="form-warp mb-5">
+								<h5 class="form-header text-start">3. Ame Declaration
+									Individual Details SubType</h5>
+
+								<div class=" form-card p-3">
+
+									
+									
+										<div class="row">
+											<div class="col-md-9 my-1">
+												<label>I Agree/Don't agree to undergo<mark>HIV
+														Test *</mark>
+												</label>
+											</div>
+											<div class="col-md-3 my-1">
+												<label class="radio-inline"> <input type="radio"
+													value="Y" id="hivTest" name="hivTest" required> Yes
+												</label> <label class="radio-inline"> <input type="radio"
+													value="N" id="hivTest" name="hivTest"> No
+												</label>
+
+											</div>
+
+
+								</div>
+								
+<div class="row">
+											<div class="col-md-9 my-1">
+										<label>It is further certified that the above facts
+											stated by me are true to my best knowledge and belief. I have
+											not suppressed any fact concerning my health condition ever
+											in past and as is at present</label>
+											</div>
+											<div class="col-md-3 my-1">
+											 <label class="radio-inline">
+											<input type="checkbox" value="Y" id="certified_id"
+											name="certified_name" required>
+										</label>
+										
+									</div>
+									</div>
+									
+
+								<div class="row">
+										<div class="col-md-9 my-1">
+											<label> Date:</label>
+										</div>
+										<div class="col-md-3 my-1">
+											<span id="current_date"></span>
+										</div>
+									</div>
+									
+							
+									
+										<div class="row">
+										<div class="col-md-9 my-1">
+												<label class="inputLabel">Unit Name</label>
+													</div>
+											<div class="col-md-3 my-1">
+												 <select id="place_id_current" class="form-select">
+														<option value="0">Select</option>
+														<option th:each="unitList : ${unitList}"
+															th:value="${unitList.unitName}"
+															th:text="${unitList.unitName}"></option>
+												</select>
+
+										 <span id="error_place" class="text-danger"></span>
+											</div>
+
+
+
+										</div>
+									
+								
+											
+								
+									<hr>
+									
+									
+										<div class="row">
+											<div class="col-md-12 text-end">
+
+												<button type="button" class="btn btn-light" id="cancel-btn-three">Previous</button>
+
+													<button type="button" class="btn btn-primary" data-bs-toggle="modal" onclick="beforeFinalSubmit()" >Final Submit</button>
+
+											</div>
+
+										</div>
+										
+										
+
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+
+
+				<input type="hidden" name="boardId" id="boardId"
+					th:value="${boardId}">
+				<form th:action="@{/show-all-declaration}" id="formId" method="post"
+					name="formId"></form>
+
+			</div>
+
+		</div>
+
+
+	</div>
+	</div>
+
+
+
+	
+
+
+<script>
+		function setTextValueForInput(e){
+		if(e=='Y'||e=='y'){
+			return "YES";		
+			}else{
+				return "NO";
+			}
+          		
+	}
+	
+	
+	
+	function beforeFinalSubmit(){
+					var hivTest = $(
+			"input[name='hivTest']:checked")
+			.val();
+		var certified_name = $(
+			"input[name='certified_name']:checked")
+			.val();
+
+		if (hivTest == null) {
+			alert("please select the value HIV Test");
+			return false;
+		}
+		if (certified_name == null) {
+			alert("please self certify the given information");
+			return false;
+			} else if (certified_name == "N") {
+				alert("Please self certify the given information"+ "Check 'Yes' Option")
+				return false;
+				}
+
+		else{
+			 
+
+    var alimentIdShow=$("input[name='major_ailment_hospitalized']:checked").val();
+   $("#alimentIdShow").text(setTextValueForInput(alimentIdShow));
+
+   $("#hyperTensionShow").text(setTextValueForInput($("input[name='hypertension']:checked").val()));
+   
+    $("#ischemicShow").text(setTextValueForInput($("input[name='ischemicHeartDisease']:checked").val()));
+	
+	 $("#epilepsyShow").text(setTextValueForInput($("input[name='epilepsy']:checked").val()));
+     
+      $("#diabetesMellitusShow").text(setTextValueForInput($("input[name='diabetesMellitus']:checked").val()));
+     
+       $("#coughBronchialAsthmaCOPDShow").text(setTextValueForInput($("input[name='copd']:checked").val()));
+       
+        $("#persistentHeadacheShow").text(setTextValueForInput($("input[name='persistentHeadache']:checked").val()));
+        
+         $("#mentalInstabilityShow").text(setTextValueForInput($("input[name='mentalInstability']:checked").val()));
+         
+          $("#chestPainPalpitationShow").text(setTextValueForInput($("input[name='chest_pain_palpitation']:checked").val()));
+         
+           $("#tuberculosisShow").text(setTextValueForInput($("input[name='tb']:checked").val()));
+          
+            $("#appetiteShow").text($("#dropDownAppetite").val());
+             
+             $("#sleepShow").text($("#dropDownSleep").val());
+             
+              $("#giddinessShow").text(setTextValueForInput($("input[name='giddiness']:checked").val()));	 
+             
+               $("#smokingHabitShow").text(setTextValueForInput($("input[name='smoking_habit']:checked").val()));
+			
+			if($("input[name='smoking_habit']:checked").val()=='Y'){
+				 $("#quantitySmokingShow").text($("#number_of_cigarettes").val())
+			  }	else{
+				 $("#quantitySmokingShow").text(0);
+			    }				
+               $("#alcoholInTakeShow").text(setTextValueForInput($("input[name='alcohol_intake']:checked").val()));
+            
+              if($("input[name='alcohol_intake']:checked").val()=='Y'){
+				   $("#alcoholQuantityShow").text($("#quantity_per_day").val());
+			   }else{
+				   $("#alcoholQuantityShow").text(0);
+			     }
+                    $("#accidentInjuryShow").text(setTextValueForInput($("input[name='accident_injury_surgery']:checked").val()));
+                
+                    $("#transferredShow").text(setTextValueForInput($("input[name='transferred']:checked").val()));
+                    
+                   
+                    const element = document.getElementById('last-ame-date_or_display');
+                    if(element)
+                    {
+                    	const lastAmeDateSpan = document.getElementById('last-ame-date_or_display').textContent;
+                        
+                              $("#LastAmeDateShow").text(lastAmeDateSpan);
+
+                        
+                    }else{
+                    	 $("#LastAmeDateShow").text($("#last-ame-date").val());
+                    }
+                    
+                    
+                     
+                    // var previousMedicalCategoryShowId = $("#medical_cat_last_ame_text").text();
+                     const element3=document.getElementById('medical_cat_last_ame_or');
+                     if(element3){
+                    	 const lastAMECategorySpan = document.getElementById('medical_cat_last_ame_or').textContent;
+                    	  $("#previousMedicalCategoryShow").text(lastAMECategorySpan);
+                     }else{
+                    	 $("#previousMedicalCategoryShow").text($("#medical_cat_last_ame").val());
+                     }
+                    
+
+
+                     
+                     const element1=document.getElementById('place_last_ame_or');
+                     if(element1){
+                    	 const placeLastAmeSpan = document.getElementById('place_last_ame_or').textContent;
+                    	 $("#LastAmePalceShow").text(placeLastAmeSpan);
+                     }else{
+                    	  $("#LastAmePalceShow").text($("#place_last_ame").val());
+                     }
+                    
+                     
+
+                     
+                    	 
+                            
+                             
+                             
+                     
+                       
+                         $("#hivShow").text(setTextValueForInput($("input[name='hivTest']:checked").val()));
+                          $("#certifiedShow").text (setTextValueForInput($("input[name='certified_name']:checked").val()));
+                            $("#CurrentPalceShow").text($("#place_id_current").val());
+                            $("#previous_unit_show").text($("#previous_unit").val());
+                            $("#new_unit_show").text($("#curent_new_unit").val());
+
+  
+
+      const modal = document.querySelector('#FinalSubmit');
+      var modalInstance = new bootstrap.Modal(modal);
+       modalInstance.show();
+
+		}
+	}
+	
+
+	
+</script>
+
+
+
+
+
+ <!-- Modal -->
+    <div class="modal fade" id="FinalSubmit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="OTP-Alart" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-4" id="exampleModalCenteredScrollableTitle" style="margin: auto;"><b>Declaration Form</b></h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+  
+  <h6 class="modal-title fs-5">Individual Details</h6>
+  <hr>
+  <div class="row">
+	  <div class="col-md-3">
+		  <label>Name</label>
+	  </div>
+	  <div class="col-md-3">
+		  <span th:text="${amedeclarationdtoresponse.name}"></span>
+	  </div>
+	  <div class="col-md-3">
+		  <label>IRLA No</label>
+	  </div>
+	  <div class="col-md-3">
+		  <span th:text="${amedeclarationdtoresponse.forceId}"></span>
+	  </div>
+		  
+  </div>
+  <div class="row">
+	  <div class="col-md-3">
+		  <label>Force</label>
+	  </div>
+	  <div class="col-md-3">
+		  <span th:text="${forceName}"></span>
+	  </div>
+	  <div class="col-md-3">
+		  <label>Rank/Designation</label>
+	  </div>
+	  <div class="col-md-3">
+		  <span th:text="${amedeclarationdtoresponse.designation}"></span>
+	  </div>
+		  
+  </div>
+
+<br>
+<hr>
+
+<div class="row">
+	<div class="col-md-1">
+		1.
+	</div>
+	<div class="col-md-8">
+	<label>	Date of Recruitment (joining in the Force)</label>
+	</div>
+	<div class="col-md-3">
+		 <span th:text="${#dates.format(joinigDate, 'dd-MM-yyyy')}"></span>
+	</div>
+		
+</div>
+
+<div class="row">
+	<div class="col-md-1">
+		2.
+	</div>
+	<div class="col-md-8">
+	<label>	 Were you examined for any ailment or hospitalized during last one year ?</label>
+	</div>
+	<div class="col-md-3">
+		 <span id="alimentIdShow"></span>
+	</div>
+		
+</div>
+
+<div class="row">
+	<div class="col-md-1">
+		3.
+	</div>
+	<div class="col-md-8">
+	<label>	Are You a Patient of ?</label>
+	</div>
+	<div class="col-md-3">
+		
+	</div>
+		
+</div>
+
+<div class="row">
+	<div class="col-md-1">
+		
+	</div>
+	<div class="col-md-1">
+		
+	</div>
+	<div class="col-md-7">
+	<label>	a) Hypertension (High Blood Pressure)</label>
+	</div>
+	<div class="col-md-3">
+		 <span id="hyperTensionShow"></span>
+	</div>
+		
+</div><div class="row">
+	<div class="col-md-1">
+		
+	</div>
+	<div class="col-md-1">
+		
+	</div>
+	<div class="col-md-7">
+	<label>b) Ischemic Heart Disease</label>
+	</div>
+	<div class="col-md-3">
+		 <span id="ischemicShow"></span>
+	</div>
+		
+</div><div class="row">
+	<div class="col-md-1">
+		
+	</div>
+	<div class="col-md-1">
+		
+	</div>
+	<div class="col-md-7">
+	<label>	c) Diabetes Mellitus</label>
+	</div>
+	<div class="col-md-3">
+		 <span id="diabetesMellitusShow"></span>
+	</div>
+		
+</div><div class="row">
+	<div class="col-md-1">
+		
+	</div>
+	<div class="col-md-1">
+		
+	</div>
+	<div class="col-md-7">
+	<label>	d) Chronic Cough  / Bronchial Asthma / COPD</label>
+	</div>
+	<div class="col-md-3">
+		 <span id="coughBronchialAsthmaCOPDShow"></span>
+	</div>
+		
+</div>
+<div class="row">
+	<div class="col-md-1">
+		
+	</div>
+	<div class="col-md-1">
+		
+	</div>
+	<div class="col-md-7">
+	<label>e) Epilepsy</label>
+	</div>
+	<div class="col-md-3">
+		 <span id="epilepsyShow"></span>
+	</div>
+		
+</div>
+<div class="row">
+	<div class="col-md-1">
+		
+	</div>
+	<div class="col-md-1">
+		
+	</div>
+	<div class="col-md-7">
+	<label>	f) Persistent Headache</label>
+	</div>
+	<div class="col-md-3">
+		 <span id="persistentHeadacheShow"></span>
+	</div>
+		
+</div><div class="row">
+	<div class="col-md-1">
+		
+	</div>
+	<div class="col-md-1">
+		
+	</div>
+	<div class="col-md-7">
+	<label>	g) Mental Instability</label>
+	</div>
+	<div class="col-md-3">
+		 <span id="mentalInstabilityShow"></span>
+	</div>
+		
+</div>
+	
+	
+<div class="row">
+	<div class="col-md-1">
+		4.
+	</div>
+	<div class="col-md-8">
+	<label>	 Have You Suffered From Giddiness at any time ?</label>
+	</div>
+	<div class="col-md-3">
+		 <span id="giddinessShow"></span>
+	</div>
+		
+</div>
+
+<div class="row">
+	<div class="col-md-1">
+		5.
+	</div>
+	<div class="col-md-8">
+	<label>	Did you suffered from Chest Pain/Palpitation ?</label>
+	</div>
+	<div class="col-md-3">
+		 <span id="chestPainPalpitationShow"></span>
+	</div>
+		
+</div>
+
+<div class="row">
+	<div class="col-md-1">
+		6.
+	</div>
+	<div class="col-md-8">
+	<label> Did you ever suffered from Tuberculosis?</label>
+	</div>
+	<div class="col-md-3">
+		 <span id="tuberculosisShow"></span>
+	</div>
+		
+</div>
+<div class="row">
+	<div class="col-md-1">
+		7.
+	</div>
+	<div class="col-md-8">
+	<label>	 Your</label>
+	</div>
+	<div class="col-md-3">
+		
+	</div>
+		
+</div>
+<div class="row">
+	<div class="col-md-1">
+		
+	</div>
+	<div class="col-md-1">
+		
+	</div>
+	<div class="col-md-7">
+	<label>a) Appetite</label>
+	</div>
+	<div class="col-md-3">
+		 <span id="appetiteShow"></span>
+	</div>
+		
+</div>
+<div class="row">
+	<div class="col-md-1">
+		
+	</div>
+	<div class="col-md-1">
+		
+	</div>
+	<div class="col-md-7">
+	<label>b) Sleep</label>
+	</div>
+	<div class="col-md-3">
+		 <span id="sleepShow"></span>
+	</div>
+		
+</div>
+
+
+
+
+<div class="row">
+	<div class="col-md-1">
+		8. 
+	</div>
+	<div class="col-md-8">
+	<label>Smoking habit (If yes, number of cigarettes per day)	</label>
+	</div>
+	<div class="col-md-3">
+		 <span id="smokingHabitShow"></span>
+	</div>
+		
+</div>
+<div class="row">
+	<div class="col-md-1">
+		
+	</div>
+	<div class="col-md-1">
+		
+	</div>
+	<div class="col-md-7">
+	<label>a) Please Define Quantity:</label>
+	</div>
+	<div class="col-md-3">
+		 <span id="quantitySmokingShow"></span>
+	</div>
+		
+</div>
+
+<div class="row">
+	<div class="col-md-1">
+		9. 
+	</div>
+	<div class="col-md-8">
+	<label>Alcohol Intake (If yes, average quantity per Day)	</label>
+	</div>
+	<div class="col-md-3">
+		 <span id="alcoholInTakeShow"></span>
+	</div>
+		
+</div>
+<div class="row">
+	<div class="col-md-1">
+		
+	</div>
+	<div class="col-md-1">
+		
+	</div>
+	<div class="col-md-7">
+	<label>a) Please Define Quantity:</label>
+	</div>
+	<div class="col-md-3">
+		 <span id="alcoholQuantityShow"></span>
+	</div>
+		
+</div>	
+<div class="row">
+	<div class="col-md-1">
+		10.
+	</div>
+	<div class="col-md-8">
+	<label>	 Any accident / injury / major surgery undergone so far?</label>
+	</div>
+	<div class="col-md-3">
+		 <span id="accidentInjuryShow"></span>
+	</div>
+		
+</div>
+<div class="row">
+	<div class="col-md-1">
+		11.
+	</div>
+	<div class="col-md-8">
+	<label>	Have you been transferred recently or under orders of transfer ? If so your</label>
+	</div>
+	<div class="col-md-3">
+		 <span id="transferredShow"></span>
+	</div>
+	
+		
+</div>
+					<div class="row">
+						<div class="col-md-1"></div>
+						<div class="col-md-8">
+							<label>a )  Previous Unit</label>
+						</div>
+						<div class="col-md-3">
+							<span id="previous_unit_show"></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-1"></div>
+						<div class="col-md-8">
+						 <label>b ) New Unit</label>
+						</div>
+						<div class="col-md-3">
+							<span id="new_unit_show"></span>
+						</div>
+					</div>
+
+					<div class="row">
+	<div class="col-md-1">
+		12.
+	</div>
+	<div class="col-md-8">
+	<label>	 Date of Last AME :</label>
+	</div>
+	<div class="col-md-3">
+		  <span id="LastAmeDateShow"></span>
+	</div>
+		
+</div>
+<div class="row">
+	<div class="col-md-1">
+		13.
+	</div>
+	<div class="col-md-8">
+	<label>	Place of Last AME :</label>
+	</div>
+	<div class="col-md-3">
+		 <span id="LastAmePalceShow"></span>
+	</div>
+		
+</div>
+<div class="row">
+	<div class="col-md-1">
+		14.
+	</div>
+	<div class="col-md-8">
+	<label>	Previous Medical Category :</label>
+	</div>
+	<div class="col-md-3">
+		 <span id="previousMedicalCategoryShow"></span>
+	</div>
+		
+
+</div>
+<br>
+<hr>
+
+<div class="row">
+	
+	<div class="col-md-11">
+	<label>I Agree/Don't agree to undergoHIV Test *</label>
+	</div>
+	<div class="col-md-1">
+		 <span id="hivShow"></span>
+	</div>
+		
+</div>
+<br>
+<div class="row">
+	
+	<div class="col-md-11">
+	<label>It is further certified that the above facts stated by me are true to my best knowledge and belief.
+		 I have not suppressed any fact concerning my health condition ever in past and as is at present
+</label>
+	</div>
+	<div class="col-md-1">
+		 <span id="certifiedShow"></span>
+	</div>
+		
+</div>
+<br>
+<div class="row">
+
+	<div class="col-md-2">
+	<label>Current Date:-</label>
+	</div>
+	<div class="col-md-3">
+		<span th:text="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"></span>
+	</div>
+		
+</div>
+<br>
+<div class="row">
+
+	<div class="col-md-2">
+	<label>	Current Place</label>
+	</div>
+	<div class="col-md-3">
+		 <span id="CurrentPalceShow"></span>
+	</div>
+		
+</div>
+
+
+
+
+      </div>
+      <div class="modal-footer">
+       <button type="button" class="btn btn-light mx-2" data-bs-dismiss="modal">Cancel</button>
+<button type="button" class="btn btn-primary mx-2" data-bs-dismiss="modal" onclick="finalSubmitAmeDeclaration()" >I Agree</button> 
+      </div>
+    </div>
+  </div>
+  
+  </div>
+  
+<!--  Model confirm Submit-->
+  
+  <div class="modal fade" id="confirmedSubmit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="OTP-Alart" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg ">
+    <div class="modal-content">
+		   <div class="modal-header">
+        <h1 class="modal-title fs-4" id="exampleModalCenteredScrollableTitle" style="margin: auto;"><b>Declaration Form Submit</b></h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+		<p style="width: 70%; font-size: 16px;font-family: 'Courier New', Courier, monospace; margin-left: 20px;">
+			 Saved the Declaration . Do you want to leave this page and discard Any changes in the future ,No Futher Change will be allowed?
+		</p>
+	
+		<div class="modal-footer">
+		 <button type="button" class="btn btn-light mx-2" data-bs-dismiss="modal">Cancel</button>
+<button type="button" class="btn btn-primary mx-2" data-bs-dismiss="modal" onclick="finalSubmitAmeDeclarationAfterConfirmed()" >Final Submit</button> 
+  </div>
+  
+</div>
+</div>  
+	</div>
+  
+ 
+  
+  
+	<!-- Signup Modal -->
+	<div class="modal fade" id="signout-modal">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Sign Out?</h5>
+
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<!-- Modal body -->
+					<div class="modal-body">
+						<p class="text-center">Are you sure you want to Sign Out?</p>
+						<form action="sign-out">
+							<div class="row">
+								<div class="col-md-6">
+									<button type="submit" class="btn btn-primary">Sign Out</button>
+								</div>
+								<div class="col-md-6">
+									<button type="button" class="btn btn-secondary"
+										data-bs-dismiss="modal">Cancel</button>
+								</div>
+
+							</div>
+
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+</html>
+
+
+
+
+<!-- Menu Toggle Script -->
+<script>
+	$("#menu-toggle").click(function(e) {
+		e.preventDefault();
+		$("#wrapper").toggleClass("toggled");
+	});
+</script>
+
+
+<script>
+	$(document).ready(function() {
+		$('#backtotop').click(function() {
+			$("html, body").animate({
+				scrollTop : 0
+			}, 600);
+			return false;
+		});
+	});
+</script>
+
+
+<script>
+	$('.sub-menu ul').hide();
+	$('.sub-sub-menu ul').hide();
+	$(".sub-menu a").click(function() {
+		$(this).parent(".sub-menu").children("ul").slideToggle("100");
+		$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+	});
+
+	$(".sub-sub-menu a").click(function() {
+		$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+		$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+	});
+</script>
+
+<script src="vendor/jquery-ui/jquery-ui.js"></script>
+<script>
+	$(function() {
+		$("#sortable-menu").sortable();
+		$("#sortable-menu").disableSelection();
+
+		$("#sortable-cards").sortable();
+		$("#sortable-cards").disableSelection();
+	});
+</script>
+
+
+<script>
+	$(function() {
+		$("#one-item-row").on("click", function() {
+			$(".b-customize").addClass("col-lg-12", 300);
+			$(".b-customize").removeClass("col-lg-4", 300);
+			$(".b-customize").removeClass("col-lg-6", 300);
+
+		});
+
+		$("#two-item-row").on("click", function() {
+			$(".b-customize").addClass("col-lg-6", 300);
+			$(".b-customize").removeClass("col-lg-4", 300);
+			$(".b-customize").removeClass("col-lg-12", 300);
+
+		});
+
+		$("#three-item-row").on("click", function() {
+			$(".b-customize").addClass("col-lg-4", 300);
+			$(".b-customize").removeClass("col-lg-6", 300);
+			$(".b-customize").removeClass("col-lg-12", 300);
+
+		});
+
+	});
+</script>
+
+	
+
+
+<script>
+	function finalSubmitAmeDeclaration(){
+		
+           const modal = document.querySelector('#confirmedSubmit');
+           var modalInstance = new bootstrap.Modal(modal);
+           modalInstance.show();
+
+	}
+	
+	
+	function finalSubmitAmeDeclarationAfterConfirmed(){
+		var districtLgdCode = $('#districtId :selected').val();
+        var major_ailment_hospitalized = $("input[name='major_ailment_hospitalized']:checked").val();
+       var giddiness = $("input[name='giddiness']:checked").val();
+       var ischemicHeartDisease = $("input[name='ischemicHeartDisease']:checked").val();
+       var diabetesMellitus = $("input[name='diabetesMellitus']:checked").val();
+      var persistentHeadache = $("input[name='persistentHeadache']:checked").val();
+     var mentalInstability = $("input[name='mentalInstability']:checked").val();
+    var copd = $("input[name='copd']:checked").val();
+    var chest_pain_palpitation = $("input[name='chest_pain_palpitation']:checked").val();
+    var tb = $("input[name='tb']:checked").val();
+  
+    var smoking_habit = $("input[name='smoking_habit']:checked").val();
+    var number_of_cigarettes = $("#number_of_cigarettes").val();
+    var alcohol_intake = $("input[name='alcohol_intake']:checked").val();
+    var quantity_per_day = $("#quantity_per_day").val();
+    var accident_injury_surgery = $("input[name='accident_injury_surgery']:checked").val();
+    var epilepsy = $("input[name='epilepsy']:checked").val();
+    var declaration_subtype_flag_13 = $("input[name='declaration_subtype_flag_13']:checked").val();
+    var previous_unit = $("#previous_unit").val();
+    var current_unit = $("#curent_new_unit").val();
+var certified_id = $("input[name='certified_name']:checked").val();
+var hivTest = $("input[name='hivTest']:checked").val();
+var certified_name = $("input[name='certified_name']:checked").val();
+var dropDownAppetite = $("#dropDownAppetite").val();
+var dropDownSleep = $("#dropDownSleep").val();
+var forcePersonalIdData = $("#forcePersonalId").val();
+var nameData = $("#name").val();
+var ameIdData = $("#ameId").val();
+var lastAmePlace;
+var lastAmeDate;
+var medical_cat_last_ame_id;
+const lastAmePlaceId = document.getElementById('place_last_ame_or');
+const lastAmeDateId = document.getElementById('last-ame-date_or');
+const lastAmeCategoryId = document.getElementById('medical_cat_last_ame_or');
+   
+   if(lastAmePlaceId){
+	   lastAmePlace= document.getElementById('place_last_ame_or').textContent;
+   }else{
+	   lastAmePlace=$("#place_last_ame").val();
+   }
+
+   if(lastAmeDateId){
+	   lastAmeDate= document.getElementById('last-ame-date_or').value;
+   }else{
+	   lastAmeDate=$("#last-ame-date").val();
+   }
+   if(lastAmeCategoryId){
+	   medical_cat_last_ame_id= document.getElementById('medical_cat_last_ame_or').textContent;
+   }else{
+	   medical_cat_last_ame_id=$("#medical_cat_last_ame").val();
+   }
+
+
+   
+    
+
+
+//var lastAmeDateData = $("#lastAmeDate").val();
+var placeData = $("#place_id_current").val();
+var IRLA_no = $("#IRLA_no").val();
+var transferred_check_id = $("input[name='transferred']:checked").val();
+var  hypertension =$("input[name='hypertension']:checked").val();
+var token = $("meta[name='_csrf']").attr("content");
+var header = $("meta[name='_csrf_header']").attr("content");
+
+var boardId = $("#boardId").val();
+
+
+                                var formData = {
+
+											
+												place : placeData,
+												majorailmenthospitalized : major_ailment_hospitalized,
+												giddiness : giddiness,
+												tb : tb,
+												chestpainpalpitation : chest_pain_palpitation,
+											
+												smokinghabit : smoking_habit,
+												numberofcigarettes : number_of_cigarettes,
+												alcoholintake : alcohol_intake,
+												quantityperday : quantity_per_day,
+												accidentinjurysurgery : accident_injury_surgery,
+												transferredid : transferred_check_id,
+												lastAmePlace : lastAmePlace,
+												previousunit : previous_unit,
+												curentnewunit:current_unit,
+												certifiedid : certified_id,
+												copd : copd,
+												forceId : IRLA_no,
+												hivTest : hivTest,
+												selfCertifyAboveInfo : certified_name,
+												sleep : dropDownSleep,
+												appetite : dropDownAppetite,
+												epilepsy : epilepsy,
+												hypertension : hypertension,
+												ichaemicheart : ischemicHeartDisease,
+												diabetesmellitus : diabetesMellitus,
+												persistentheadache : persistentHeadache,
+												menatlinstability : mentalInstability,
+										        lastAmeStatus : medical_cat_last_ame_id,
+												lastAmeDate:lastAmeDate,
+												boardId : boardId
+
+											}
+
+											$.ajax({
+														type : 'POST',
+														contentType : "application/json",
+														url : 'AjaxHandlerPart1',
+														data : JSON.stringify(formData),
+														dataType : 'json',
+														beforeSend : function(
+																xhr) {
+                                                             xhr.setRequestHeader(header,token);
+														},
+
+														success : function(
+																result) {
+
+															if (result != null) {
+																alert("DATA HAS BEEN SAVED SUCESSFULLY......!")
+
+																$("#formId")
+																		.submit();
+
+															}
+
+														},
+														error : function(jqXHR,
+																exception) {
+															console
+																	.log('Error occured!!');
+														}
+													});
+
+	}
+	
+</script>
+
+
+
+
+
+
+
+<script>
+	$(document).ready(function() {
+
+		$('#stateId').on('change', function() {
+			var stateLgdCode = $(this).val();
+
+			$.ajax({
+				type : 'Post',
+				url : 'get-district-by-state',
+				data : {
+					stateLgdCode : stateLgdCode
+				},
+
+				success : function(data) {
+
+					const dropdown = document.getElementById("districtId");
+					dropdown.innerHTML = "";
+					const option = document.createElement("option");
+					option.text = 'Select';
+					option.value = 0;
+					// !-- option.setAttribute("data", data[i].forceId)-->
+					dropdown.appendChild(option);
+					for (let i = 0; i < data.length; i++) {
+						const option = document.createElement("option");
+						option.text = data[i].districtName;
+						option.value = data[i].districtLdgCode;
+						// !-- option.setAttribute("data", data[i].forceId)-->
+						dropdown.appendChild(option);
+					}
+
+				},
+				error : function(e) {
+
+					console.log("ERROR : ", e);
+
+				}
+			});
+		});
+
+	});
+</script>
+
+
+<!-- last ame place    -->
+
+<script>
+	$(document)
+			.ready(
+					function() {
+
+						$('#stateId_last_ame')
+								.on(
+										'change',
+										function() {
+											var stateLgdCode = $(this).val();
+
+											$
+													.ajax({
+														type : 'Post',
+														url : 'get-district-by-state',
+														data : {
+															stateLgdCode : stateLgdCode
+														},
+
+														success : function(data) {
+
+															const dropdown = document
+																	.getElementById("districtId_last_ame");
+															dropdown.innerHTML = "";
+															const option = document
+																	.createElement("option");
+															option.text = 'Select';
+															option.value = 0;
+															// !-- option.setAttribute("data", data[i].forceId)-->
+															dropdown
+																	.appendChild(option);
+															for (let i = 0; i < data.length; i++) {
+																const option = document
+																		.createElement("option");
+																option.text = data[i].districtName;
+																option.value = data[i].districtLdgCode;
+																// !-- option.setAttribute("data", data[i].forceId)-->
+																dropdown
+																		.appendChild(option);
+															}
+
+														},
+														error : function(e) {
+
+															console.log(
+																	"ERROR : ",
+																	e);
+
+														}
+													});
+										});
+
+					});
+</script>
+
+
+
+<script type="text/javascript">
+	$(document)
+			.ready(
+					function() {
+						$('#pnudef').hide();
+						$('#pqundef').hide();
+						$('#unitData').hide();
+						$('#medcat').hide();
+
+						$("input[name='smoking_habit']")
+								.change(
+										function() {
+											var val = $(
+													"input[name='smoking_habit']:checked")
+													.val();
+
+											if (val == 'Y') {
+												$('#pnudef').show();
+
+											} else {
+												$('#pnudef').hide();
+											}
+										});
+
+						$("input[name='alcohol_intake']")
+								.change(
+										function() {
+											var val1 = $(
+													"input[name='alcohol_intake']:checked")
+													.val();
+
+											if (val1 == 'Y') {
+												$('#pqundef').show();
+											} else {
+												$('#pqundef').hide();
+											}
+										});
+
+						$("input[name='transferred']")
+								.change(
+										function() {
+											var val1 = $(
+													"input[name='transferred']:checked")
+													.val();
+
+											if (val1 == 'Y') {
+												$('#unitData').show();
+											} else {
+												$('#unitData').hide();
+											}
+										});
+
+						$("input[name='defective_color_perception']")
+								.change(
+										function() {
+											var val1 = $(
+													"input[name='defective_color_perception']:checked")
+													.val();
+
+											if (val1 == 'Y') {
+												$('#medcat').show();
+											} else {
+												$('#medcat').hide();
+											}
+										});
+						$("input[name='certified_name']")
+								.change(
+										function() {
+											var val1 = $(
+													"input[name='certified_name']:checked")
+													.val();
+
+											if (val1 == 'Y') {
+												return true
+											} else {
+												alert("Please certify the given infromation..........!");
+											}
+										});
+
+					});
+</script>
+
+
+<script>
+	date = new Date();
+	year = date.getFullYear();
+	month = date.getMonth() + 1;
+	day = date.getDate();
+	document.getElementById("current_date").innerHTML = day  + "/" + month + "/" + year;
+</script>
+
+
+
+
+<script>
+
+$(document).ready(function(){
+
+	$("#step-btn-one").click(function(){
+	  $("#step-one").hide();
+	  $("#step-two").show();
+	  $("#step-three").hide();
+	
+	});
+
+	$("#step-btn-two").click(function(){
+		$("#step-one").hide();
+		$("#step-two").hide();
+	
+		
+		var dropDownAppetite = $("#dropDownAppetite").val();
+
+		var dropDownSleep = $("#dropDownSleep").val();
+
+		if (dropDownAppetite == 0
+			|| dropDownAppetite == '') {
+			alert("Describe Appetite Type...."
+				+ "\n 1.Normal \n 2.Low \n 3.High")
+				$("#step-one").hide();
+	            $("#step-two").show();
+	            $("#step-three").hide();
+			return false;
+		}
+		if (dropDownSleep == 0
+			|| dropDownSleep == '') {
+			alert("Describe Sleep Type ......"
+				+ "\n 1.Normal \n 2.Disturb")
+				$("#step-one").hide();
+	            $("#step-two").show();
+	            $("#step-three").hide();
+			return false;
+		}
+
+		var smoking_habit_check = $(
+			"input[name='smoking_habit']:checked")
+			.val();
+		var number_of_cigarettes_val = $(
+			"#number_of_cigarettes")
+			.val();
+		if (smoking_habit_check == 'Y') {
+			if (number_of_cigarettes_val == "") {
+				alert("Please provide the value for \n 1.number_of_cigarettes");
+				$("#step-one").hide();
+	            $("#step-two").show();
+	            $("#step-three").hide();
+				return false;
+			}
+
+		} else {
+
+			if (number_of_cigarettes_val != ""
+				|| number_of_cigarettes_val > 0) {
+
+				document
+					.getElementById("number_of_cigarettes").value = '';
+			}
+		}
+
+		var alcohol_intake_val = $(
+			"input[name='alcohol_intake']:checked")
+			.val();
+		var quantity_per_day_val1 = $(
+			"#quantity_per_day").val();
+
+		if (alcohol_intake_val == 'Y') {
+
+			if (quantity_per_day_val1 == 0) {
+				alert("Please provide the value for \n1.quantity_per_day_val");
+				$("#step-one").hide();
+	            $("#step-two").show();
+	            $("#step-three").hide();
+				return false;
+			}
+		} else {
+			if (quantity_per_day_val1 != 0) {
+				document
+					.getElementById("quantity_per_day").value = '';
+			}
+		}
+
+		var transferred_id_check = $(
+			"input[name='transferred']:checked")
+			.val();
+
+		if (transferred_id_check == 'Y') {
+			var previous_unit_value = $(
+				"#previous_unit").val();
+			var curent_new_unit_val = $(
+				"#curent_new_unit")
+				.val();
+			if (previous_unit_value == ""
+				|| curent_new_unit_val == "") {
+				alert("please provide the value ......!"
+					+ "\n 1. previous_unit_value \n 2.curent_new_unit");
+					$("#step-one").hide();
+	            $("#step-two").show();
+	            $("#step-three").hide();
+				return false;
+			}
+
+		} else {
+			document
+				.getElementById("previous_unit").value = '';
+			document
+				.getElementById("curent_new_unit").value = '';
+
+		}
+											
+												$("#step-three").show();
+		
+	
+	  });
+
+	  $("#step-btn-three").click(function(){
+		$("#step-one").hide();
+		$("#step-two").hide();
+		$("#step-three").hide();
+		
+	  });
+
+	
+	  $("#cancel-btn-one").click(function(){
+			$("#step-one").show();
+			$("#step-two").hide();
+			$("#step-three").hide();
+		  });
+
+		  $("#cancel-btn-two").click(function(){
+			$("#step-one").hide();
+			$("#step-two").hide();
+			$("#step-three").show();
+		  });
+
+		  $("#cancel-btn-three").click(function(){
+			$("#step-one").hide();
+			$("#step-two").show();
+			$("#step-three").hide();
+		  });
+
+	
+	  
+
+
+
+  });
+  
+  function getBackToHome(){
+	  alert("You Will Be Redirected to Home Page.....!")
+	  $("#form_back").submit();
+  }
+
+</script>
+

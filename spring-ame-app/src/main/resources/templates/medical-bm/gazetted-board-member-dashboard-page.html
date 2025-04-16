@@ -1,0 +1,311 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>BM DashBoard</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<div th:replace="~{medical-sub-ordinate/master-doc::master-wrapper-doc}"></div>
+
+</head>
+
+<style>
+.row-spacing {
+    margin-bottom: 20px; /* Adds vertical spacing */
+    text-align: left;    /* Aligns text to the left */
+}
+
+.proc-box {
+    padding: 20px;       /* Adds inner spacing */
+    border: 1px solid #ddd; /* Adds a light border for better visibility */
+    border-radius: 8px;  /* Rounds the corners for a modern look */
+    background-color: #f9f9f9; /* Light gray background for better aesthetics */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.proc-box h4 {
+    font-weight: bold;   /* Emphasizes the heading */
+    margin-bottom: 10px; /* Adds spacing below the heading */
+    color: #333;         /* Darker text color for better contrast */
+}
+
+.proc-box hr {
+    border-top: 1px solid #ccc; /* Subtle line */
+    margin-bottom: 15px;        /* Adds spacing below */
+}
+
+</style>
+
+<body>
+
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+
+		<div th:replace="~{medical-bm/left-menu-bm::sidebar-wrapper-menu-bm}"></div>
+
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+
+
+			<!--nav-->
+			<div
+				th:replace="~{medical-bm/nav-bar-bm::sidebar-wrapper-menu-nav-bm}"></div>
+
+
+			<div class="container mt-3">
+				<form th:action="@{role-map-to-bm-dashboard}" method="post">
+
+					<input type="submit" value="Back" class="btn btn-info btn-md"
+						style="float: right; width: 100px;">
+				</form>
+				<div class="wisecountnactionbg">
+
+
+
+
+					<h4>Board Member</h4>
+
+					<div id="b-homedb">
+
+
+
+						<div class="row" id="sortable-cards">
+							<div class="col-lg-6 col-sm-12">
+								<div class="proc-box">
+
+									<h4>Pending AME Request</h4>
+
+									<hr>
+
+									<div class="row row-spacing">
+										<div class="col-md-6">Give Appointment (AME)</div>
+										<div class="col-md-6">
+											<a href="pending-for-appointment-controller-bm"
+												class="btn btn-info btn-sm">Click Here</a>
+										<!-- 		
+												<form action="bm-pending-for-appointment-controller-ma" method="get">
+													<input type="hidden" th:value="${gazettedOfficerBoardMembersDetails.forcePersonalId}" name="forcepersonalId" 
+													       id="loggedInForcePersonnelId"> 
+													<input type="hidden" th:value="${gazettedOfficerBoardMembersDetails.boardId}" name="boardId" 
+													       id="boardMemberBoardId"> 
+													<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+													<input type="submit" value="click here" class="btn btn-info btn-sm">
+
+												</form>  -->
+										</div>
+									</div>
+									<div class="row row-spacing">
+										<div class="col-md-6">Start AME</div>
+										<div class="col-md-6">
+										<form th:action="@{role-map-to-ame-bm-dashboard}" method="post">
+										<input type="hidden" th:value="${forcePersonalId}" name="forcePersonalId">
+										<input type="hidden" th:value="${boardId}" name="boardId">
+										<input type="hidden" th:value="${rCode}" name="rCode">
+										<input type="submit" value="Click Here" class="btn btn-info btn-sm">
+										</form>
+											
+										</div>
+									</div>
+									
+									
+
+
+
+
+
+
+
+								</div>
+							</div>
+
+							<div class="col-lg-6 col-sm-12">
+								<div class="proc-box">
+
+									<h4>Pending For E-sign And Approval</h4>
+									<hr>
+									<div class="row row-spacing">
+										<div class="col-md-6">Pending</div>
+										<div class="col-md-6">
+											<a href="show-ame-declaration-list"
+												class="btn btn-info btn-sm">Click Here</a>
+										</div>
+									</div>
+									<div class="row row-spacing">
+										<div class="col-md-6">Completed</div>
+										<div class="col-md-6">
+											<a href="pending-for-appointment-controller-ma"
+												class="btn btn-info btn-sm">Click Here</a>
+										</div>
+									</div>
+									
+								</div>
+							</div>
+								<div class="col-lg-6 col-sm-12">
+								<div class="proc-box">
+
+									<h4>AME Completed</h4>
+									<hr>
+									<div class="row row-spacing">
+										<div class="col-md-6">Total Completed AME</div>
+										<div class="col-md-6">
+											<a href="pending-for-appointment-controller-ma"
+												class="btn btn-info btn-sm">Click Here</a>
+										</div>
+									</div>
+									
+									
+								</div>
+							</div>
+
+					
+								<div class="col-lg-6 col-sm-12">
+								<div class="proc-box">
+
+									<h4>AME Rejected</h4>
+									<hr>
+									<div class="row row-spacing">
+										<div class="col-md-6">Total Rejected AME</div>
+										<div class="col-md-6">
+											<a href="pending-for-appointment-controller-ma"
+												class="btn btn-info btn-sm">Click Here</a>
+										</div>
+									</div>
+									
+									
+								</div>
+							</div>
+						</div>
+
+						<div class="col-lg-6 col-sm-12">
+							<!--		<div class="proc-box">
+										<i class="fas fa-university"
+											></i>
+										<div class="">
+											<p class="text-left font-weight-bold"
+												style="font-size: 14px;">List of Personal In the board and Declaration Status</p>
+											<h3 class="text-left font-weight-bold"
+												style="margin-top: -5px"></h3>
+
+											<div class="text-left" style="margin: 10px 0px 5px;">
+
+												<form th:action="@{/force-personal-board-detail}" method="post">
+													<input type="hidden" name="forcePersonalId" th:value="${forcePersonalId}">
+													<input type="hidden"	name="boardId" 	th:value="${boardId}">
+													<input type="submit" value="View Detail">
+													
+																							</form>
+											</div>
+										</div>
+									</div>-->
+						</div>
+
+
+
+					</div>
+
+				</div>
+				<div class="my-5" id="b-homedb"></div>
+
+			</div>
+
+
+
+
+
+
+		</div>
+		<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+
+
+
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function() {
+			$('#backtotop').click(function() {
+				$("html, body").animate({
+					scrollTop : 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function() {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function() {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function() {
+			$("#one-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+
+
+</body>
+
+</html>

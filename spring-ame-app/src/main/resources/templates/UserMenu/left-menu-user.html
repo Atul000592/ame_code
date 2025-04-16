@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+
+<style>
+
+
+notification {
+  background-color: #555;
+  color: white;
+  text-decoration: none;
+  padding: 15px 26px;
+  position: relative;
+  display: inline-block;
+  border-radius: 2px;
+}
+
+.notification:hover {
+  background: red;
+}
+
+.notification .badge {
+  position: relative;
+  top: 0px;
+  right: 50px;
+  padding: 5px 10px;
+  border-radius: 100%;
+  background: red;
+  color: white;
+}
+</style>
+
+</head>
+<body>
+
+
+<div class="dashboard-bgcolor border-right" id="sidebar-wrapper" th:fragment="sidebar-wrapper-menu-user">
+	<div class="sidebar-heading">
+	
+	<img src="images/collage_CAPF.jpg" title="collage_CAPF"	alt="collage_CAPFo" width="40px" class="rounded-circle me-2">
+	
+		<span>
+			Annual Medical Examinations(AME)</span>
+
+			
+
+	</div>
+	<div class="list-group list-group-flush b-leftmenu">
+
+		<ul id="sortable-menu">
+			<li><a href="dashboard-user" ><i class="bi bi-house"></i> Home
+					</a></li>
+			<li class='sub-menu'><a href='javascript:void(0)'><i class="bi bi-box-seam"></i> AME ( Individual )
+					<i class="bi bi-chevron-down"></i>
+			</a>
+				<ul>
+					<li><a class="b-newpage"
+						href="declaration-history-status-panel">Declaration </a></li>
+
+
+					<li><a class="b-newpage" href="status-user-ame">Status</a></li>
+					<li><a class="b-newpage" href="user-ame-result">Result</a></li>
+					<!--<li><a class="b-newpage" href='change-of-board'>Change of Board</a></li>-->
+
+				</ul></li>
+			<li class='sub-menu'><a href='javascript:void(0)' class="notification"><i class="bi bi-exclamation-triangle"></i> Alert<span class="badge rounded-pill text-bg-danger ms-2" th:text="${notificationCount}"></span>
+			
+					<i class="bi bi-chevron-down"></i>
+			</a>
+				<ul>
+					<li><a class="b-newpage" href="individual-alert-and-notification-status">Alert</a></li>
+				  <!--   <li><a class="b-newpage" href="test-sms">Test SMS</a></li>
+				    <li><a class="b-newpage" href="open-pdf-in-frame">Open PDF in Frame</a></li> -->
+					
+				</ul>
+				
+				</li>
+
+
+			<!--	<li class='sub-menu'><a href='javascript:void(0)'
+						class="dashboard-bgcolor border-bottom text-white b-newpage">RME
+					
+							<div class='fa fa-caret-down right'></div>
+					</a>
+						<ul>
+							<li><a href='' class="b-newpage">Status</a></li>
+							<li><a href='' class="b-newpage">Appeal</a></li>
+							<li><a href='' class="b-newpage">Change of Board</a></li>
+							
+						</ul></li>
+					<li class='sub-menu'><a href='javascript:void(0)'
+						class="dashboard-bgcolor border-bottom text-white b-newpage">MIB/DRB
+							<i class="bi bi-chevron-down"></i>
+					</a>
+						<ul>
+							<li><a href='' class="b-newpage">DRB Status
+									</a></li>
+							<li><a href='' class="b-newpage">Appeal 
+									</a></li>
+						
+						</ul>
+						</li>
+							<li class='sub-menu'><a href='javascript:void(0)'
+						class="dashboard-bgcolor border-bottom text-white b-newpage">Alerts
+							<i class="bi bi-chevron-down"></i>
+					</a>
+						<ul>
+							<li><a href='' class="b-newpage">Alerts</a></li>
+							
+						</ul></li>
+						
+							<li class='sub-menu' >
+								<a href='javascript:void(0)' class="dashboard-bgcolor border-bottom text-white b-newpage">Health Card Individual<div
+										class='fa fa-caret-down right'></div></a>
+								<ul>
+									<li><a href='health-card' class="b-newpage">Health Card Individual</a></li>
+								</ul>
+							</li>-->
+			<li class='sub-menu' th:if="${roleDtosList!=null}">
+			<a href='javascript:void(0)'> <i class="bi bi-gear-wide-connected"></i> Roles
+					<i class="bi bi-chevron-down"></i>
+			</a>
+				<ul>
+				
+					<li th:each="roleDtosList: ${roleDtosList}">
+					
+						<!-- <p>
+											 <span th:text="${roleDtosList.roleCode}"></span>
+										</p>-->
+										
+										
+					
+						<form th:action="@{${roleDtosList.uri}}" method="post">
+														<input type="hidden" name="forcePersonalId" th:value="${roleDtosList.forcePersonalId}"> 
+														<input type="hidden" name="unit" th:value="${roleDtosList.unit}">
+														 <input type="hidden" name="rCode" th:value="${roleDtosList.rCode}"> 
+														 <input type="hidden" name="forceNo" th:value="${roleDtosList.forceNo}"> 
+														 <input type="submit" th:value="${roleDtosList.roleCode}" >
+															</form>
+						
+						
+				
+					</li>
+				</ul></li>
+				<li><a href="user-manual" ><i class="bi bi-house"></i>User Manuals</a></li>
+				</ul>
+	</div>
+</div>
+</body>
+</html>

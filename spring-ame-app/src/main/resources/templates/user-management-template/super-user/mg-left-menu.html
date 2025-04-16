@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<div class="dashboard-bgcolor border-right" id="sidebar-wrapper" th:fragment="sidebar-wrapper-menu-mg">
+<div class="sidebar-heading">
+<img src="images/collage_CAPF.jpg" title="collage_CAPF" alt="collage_CAPFo" width="40px" class="rounded-circle me-2"> 
+<span>Annual Medical Examinations(AME)</span>
+</div>
+	<div class="list-group list-group-flush b-leftmenu">
+
+		<ul id="sortable-menu">
+			<li><a href='mg-user-dash-board' class="dashboard-bgcolor text-white border-bottom b-newpage">User
+					Management Panel</a></li>
+			<li class='sub-menu'><a href='javascript:void(0)'
+					class="dashboard-bgcolor border-bottom text-white b-newpage">Role <span class='fa fa-caret-down right'></span>
+				</a>
+				<ul>
+					<li><a class="b-newpage" href="assign-new-role-to-user">Assign </a></li>
+					<li><a class="b-newpage" href="show-all-assign-user-role">List </a></li>
+					<li><a class="b-newpage" href="manage-all-existing-user-role">Modification</a></li>
+				</ul>
+			</li>
+			<li class='sub-menu'><a href='javascript:void(0)'
+					class="dashboard-bgcolor border-bottom text-white b-newpage">Data Transfer Status <span class='fa fa-caret-down right'></span>
+				</a>
+				<ul>
+					<li><a class="b-newpage" href="#">Data Transfer Status </a></li>
+			</li>
+			
+		</ul>
+		<li class='sub-menu'><a href='javascript:void(0)'
+							class="dashboard-bgcolor border-bottom text-white b-newpage">Upload User Manuals<span class='fa fa-caret-down right'></span>
+						</a>
+						<ul>
+							<li><a class="b-newpage" th:href="@{/upload-form}">Upload User Manuals</a></li>
+					</li>
+		<!--<li><a href='dashboard-user' class="dashboard-bgcolor text-white border-bottom b-newpage">Home DashBoard</a>-->
+		</li>
+
+	</div>
+</div>
+

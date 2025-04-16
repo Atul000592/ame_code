@@ -1,0 +1,61 @@
+
+
+<nav class="navbar navbar-expand-mg dashboard-bgcolor px-1"
+	th:fragment="sidebar-wrapper-menu-nav-user">
+
+		<div th:replace="~{UserMenu/reset-password-and-view-profile::sidebar-wrapper-change-password-profile}"></div>
+
+	<button id="menu-toggle">
+	<i class="bi bi-list"></i>
+	</button>
+
+	<ul class="nav das-nav">
+		<li class="nav-item">IRLA / REGT No.:- <span
+			th:text="${loginUserDetails.forceId}" /> </
+		</li>
+		<li class="nav-item">NAME :- <span
+			th:text="${loginUserDetails.name}" /></li>
+		<li class="nav-item">DESIGNATION :- <span
+			th:text="${loginUserDetails.designation}" /></li>
+
+		<li class="nav-item nav-item-cust">
+		<span style="color: rgb(255, 255, 0); font-weight: 600;" th:if="${loginForceName!=null}"  th:text="' ('+${loginForceName}+')'"></span>
+		<span style="color: rgb(255, 255, 0); font-weight: 600;" th:unless="${loginForceName!=null}"  th:text="Individual"></span>
+						
+		<li class="nav-item dropdown">
+			<a class="nav-link " href="ame-stats-dashboard" role="button">DASHBOARD </a>
+				<li>
+
+
+		<li class="nav-item dropdown"><a
+			class="nav-link dropdown-toggle " href="#" role="button"
+			data-bs-toggle="dropdown" aria-expanded="false"> <img src="images/card-profile.png" alt="" width="32" height="32" class="rounded-circle me-2"> Profile </a>
+			<ul class="dropdown-menu text-small shadow">
+			
+				<li>
+					<a class="dropdown-item" href="javascript:void(0);" 
+					   data-bs-toggle="modal" data-bs-target="#profileModal"
+					   onclick="fetchAndShowProfile()">User Profile</a>
+				</li>	
+				<li><a class="dropdown-item" href="feedback-form">Feedback Form</a></li>
+					<li>
+					<!--<a class="dropdown-item" href="javascript:void(0);" 
+					   data-bs-toggle="modal" data-bs-target="#feedBackModal"
+					   >Feedback form</a>
+				</li>	-->
+                <li><a class="dropdown-item" href="feedback-list">View Users Feedback</a></li>
+		
+					<li><a class="dropdown-item" 
+					data-bs-toggle="modal" data-bs-target="#change-password-modal" >Change Password</a></li>
+				<li><a class="dropdown-item" href="javascript:void(0);"
+					data-bs-toggle="modal" data-bs-target="#signout-modal">Sign Out</a></li>
+
+
+
+
+			</ul></li>
+
+	</ul>
+
+
+</nav>

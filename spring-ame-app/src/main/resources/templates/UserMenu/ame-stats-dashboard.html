@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+<head>
+
+	<title>Annual Medical Examinations(AME)</title>
+	
+	<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css" />
+	
+	<!-- Custom styles for this template -->
+	<link rel="stylesheet" href="css/base.css" />
+	<link rel="stylesheet" href="css/base-responsive.css" />
+	<link rel="stylesheet" href="css/animate.min.css" />
+	<link rel="stylesheet" href="css/slicknav.min.css" />
+	<link rel="stylesheet" href="css/font-awesome.min.css" />
+
+	<script src="js/local/disable-back-button.js"></script>
+	<script src="js/local/resetChangeForget.js"></script>
+
+
+
+	<link rel="stylesheet" href="css/ame-stats-dashboard.css">
+	<link rel="stylesheet" href="vendor/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css">
+	
+	
+	
+
+	<!-- Include jQuery -->
+	<script src="ame-datatable-js/3.5.1/jquery.min.js"></script>
+
+	<!-- Include DataTables CSS -->
+	<link rel="stylesheet" href="ame-datatable-css/1.11.5/jquery.dataTables.min.css">
+
+	<!-- Include DataTables JavaScript -->
+	<script src="ame-datatable-js/1.11.5/jquery.dataTables.min.js"></script>
+
+	<!-- Include Select2 CSS -->
+	<link href="css/local/select2@4.1.0-rc.0/dist/select2.min.css" rel="stylesheet" />
+
+	<!-- Include Select2 JS -->
+	<script src="js/local/select2@4.1.0-rc.0/dist/select2.min.js"></script>
+	
+    <script src="vendor/jquery-ui/jquery-ui.js"></script>
+    <script src="js/jquery.slicknav.min.js"></script>
+    <script src="js/dashboard.js"></script>
+
+</head>
+
+<body>
+	<div class="sidebar close">
+		<div class="logo-details">
+			<img src="images/collage_CAPF.jpg" height="50px" class="rounded-circle mx-2">
+			<span class="logo_name">Annual Medical Examinations(AME)</span>
+		</div>
+		<ul class="nav-links">
+			<li><a href="dashboard-user"><i class="bi bi-house"></i><span class="link_name">Home</span>
+				</a>
+				<ul class="sub-menu blank">
+					<li><a class="link_name" href="dashboard-user">Home</a></li>
+				</ul>
+			</li>
+
+			<li>
+				<div class="icon-link">
+					<a href='javascript:void(0)'><i class="bi bi-box-seam"></i><span class="link_name">AME (Individual)</span></a>
+	
+					<i class="bi bi-chevron-down arrow"></i>
+
+				</div>
+
+				<ul class="sub-menu">
+					<li><a class="link_name" href='javascript:void(0)'>AME ( Individual )</a></li>
+					<li><a href="declaration-history-status-panel">Declaration</a></li>
+					<li><a href="status-user-ame">Status</a></li>
+					<li><a href="user-ame-result">Result</a></li>
+
+				</ul>
+
+			</li>
+
+			<li>
+
+				<div class="icon-link">
+					<a href='javascript:void(0)'><i class="bi bi-exclamation-triangle"></i><span class="link_name">Alert</span></a>
+						<i class="bi bi-chevron-down arrow"></i>
+
+				</div>
+
+				<ul class="sub-menu">
+					<li><a class="link_name" href='javascript:void(0)'>Alert</a></li>
+					<li><a href="individual-alert-and-notification-status">Alert</a></li> 
+				</ul>
+
+			</li>
+
+			<!--<li>
+
+				<div class="icon-link">
+					<a href='javascript:void(0)'>
+						<i class='bx bx-file-find'></i><span class="link_name">Roles</span></a>
+					<i class='bx bxs-chevron-down arrow'></i>
+
+				</div>
+
+				<ul class="sub-menu">
+					<li><a class="link_name" th:if="${roleDtosList!=null}" href='javascript:void(0)'>Roles</a></li>
+			
+				
+					<li th:each="roleDtosList: ${roleDtosList}">
+					
+						 <p>
+											 <span th:text="${roleDtosList.roleCode}"></span>
+										</p>
+										
+										
+					
+						<form th:action="@{${roleDtosList.uri}}" method="post">
+														<input type="hidden" name="forcePersonalId" th:value="${roleDtosList.forcePersonalId}"> 
+														<input type="hidden" name="unit" th:value="${roleDtosList.unit}">
+														 <input type="hidden" name="rCode" th:value="${roleDtosList.rCode}"> 
+														 <input type="hidden" name="forceNo" th:value="${roleDtosList.forceNo}"> 
+														 <input type="submit" th:value="${roleDtosList.roleCode}" >
+															</form>
+						
+						
+				
+					</li>
+				</ul>
+		
+
+			</li>-->
+
+
+		</ul>
+
+	</div>
+
+	<section class="home-section">
+
+
+		<nav class="navbar navbar-expand-lg nav-bg mb-3">
+			<div class="container-fluid px-0">
+				<button class='bx-menu'> <i class="bi bi-list"></i></button>
+			
+			  
+			  <!--<div class="collapse navbar-collapse" id="navbarNavDropdown">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item">IRLA / REGT No.:- 18940800</li>
+					<li class="nav-item">NAME :- Dr D SRINIVAS RAJESH</li>
+					<li class="nav-item">DESIGNATION :- DY INSPECTOR GENERAL (MEDICAL)</li>
+					<li class="nav-item">Individual</li>
+					<li class="nav-item p-0"><a class="nav-link" href="#">DASHBOARD</a></li>
+					<li class="nav-item dropdown border-end-0">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						  <i class="fas fa-user"></i> Profile
+						</a>
+						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+						  <li>
+							<a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#profileModal" onclick="fetchAndShowProfile()">User Profile</a>
+						  </li>
+						  <li><a class="dropdown-item" href="feedback-form">Feedback Form</a></li>
+						  <li><a class="dropdown-item" href="feedback-list">View Users Feedback</a></li>
+						  <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#change-password-modal">Change Password</a></li>
+						  <li><a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#signout-modal">Sign Out</a></li>
+						</ul>
+					  </li>
+				</ul>
+			  </div>-->
+			  
+			 <div th:replace="~{UserMenu/nav-bar-user::sidebar-wrapper-menu-nav-user}"></div>
+			</div>
+		  </nav>
+
+		  
+
+
+
+		<div class="container-fluid">
+			<div class="services-wrap">
+				<div class="row">
+					<div class="col-md-3">
+						<label for="forceName_id" class="form-label fw-semibold">Force:</label>
+						<select id="forceName_id" class="form-select">
+							<option value="0">Select</option>
+							<option th:each="forceList: ${forceList}" th:value="${forceList.forceNo}" th:text="${forceList.forceName}"></option>
+						</select>
+						<!-- Hidden input field to store selected forceNo -->
+						<input type="hidden" id="selectedForceNo" name="selectedForceNo" value="" />
+					</div>
+					
+					<!--<div class="col-md-3">
+						<label for="gaz_id" class="form-label">Gazetted/Non-Gazetted:</label>
+						<select id="gaz_id" class="form-select">
+							<option value="0">Select</option>
+							<option value="1">Gazetted</option>
+							<option value="2">Non-Gazetted</option>
+						</select>
+
+					</div>
+
+
+					<div class="col-md-3">
+						<label for="unitName_id" class="form-label">Unit:</label>
+						<select id="unitName_id" class="form-select">
+							<option value="0">Select</option>
+						</select>
+
+					</div>-->
+					
+					<!--<div class="col-md-3">
+						<label for="timePeriod" class="form-label">From Date:</label>
+						<input type="date" class="form-control" id="fromDate" name="fromDate" min="2024-01">
+					</div>
+
+					<div class="col-md-3">
+						<label for="timePeriod" class="form-label">To Date:</label>
+						<input type="date" class="form-control" id="toDate" name="toDate" min="2024-01">
+					</div>-->
+				</div>
+			</div>
+
+			<!-- <form th:action="@{dashboard-user}" method="Get" style="margin-top:2%;">
+
+				<input type="submit" value="Back" class="btn btn-primary btn-sm">
+
+			</form> -->
+
+			<div class="row mt-5 mb-2">
+				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-3 col-xxl-3 tiles">
+					<div class="card">
+						<div class="card-icon card-header-warning">
+							<i class="bi bi-receipt-cutoff"></i>
+						</div>
+						<h4> Total AME</h4>
+						<h2 id="totalAME" th:text="${totalAME}"></h2>
+						<div class="view-more view-more-warning"><a href="#" id="Total-AME-view">view more</a></div>
+
+
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-3 col-xxl-3 tiles">
+					<div class="card">
+						<div class="card-icon card-header-success"><i class="bi bi-receipt-cutoff"></i></div>
+						<h4> Today AME</h4>
+						<h2 id="todayAME" th:text="${todayAME}"></h2>
+						<div class="view-more view-more-success"><a href="#" id="Today-AME-view">view more</a></div>
+					</div>
+				</div>
+				
+				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-3 col-xxl-3 tiles">
+					<div class="card">
+						<div class="card-icon card-header-danger">
+							<i class="bi bi-receipt-cutoff"></i>
+						</div>
+						<h4> Total AME </h4>
+						<span>Force</span>
+						<h2 id="totalAMEbyForce" th:text="${totalAMEbyForce}"></h2>
+						<div class="view-more view-more-danger"><a href="#" id="Total-AME-Force-view">view more</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-3 col-xxl-3 tiles">
+					<div class="card">
+						<div class="card-icon card-header-info"><i class="bi bi-receipt-cutoff"></i></div>
+						<h4> Today AME</h4>
+						<span>Force</span>
+						<h2 id="todayAMEbyForce" th:text="${todayAMEbyForce}"></h2>
+						<div class="view-more view-more-info"><a href="#" id="Today-AME-Force-view">view more</a></div>
+					</div>
+				</div>
+			</div>
+			<div id="Total-AME">
+				<div class="row">
+					<div class="col">
+						<div class="card">
+							<div class="card-icon1 card-header-warning">
+								<i class="bi bi-receipt-cutoff"></i>
+							</div>
+							<h5 class="card-header-warning rounded-pill py-1 text-white fs-6"> Total Appointment
+							</h5>
+							<h3 th:text="${totalAMEAppointment}"></h3>
+						</div>
+
+					</div>
+
+					<div class="col">
+						<div class="card">
+							<div class="card-icon1 card-header-warning">
+								<i class="bi bi-receipt-cutoff"></i>
+							</div>
+							<h5 class="card-header-warning rounded-pill py-1 text-white fs-6">Total Declaration
+							</h5>
+							<h3 th:text="${totalDeclaration}"></h3>
+						</div>
+					</div>
+
+					<div class="col">
+						<div class="card">
+							<div class="card-icon1 card-header-warning">
+								<i class="bi bi-receipt-cutoff"></i>
+							</div>
+							<h5 class="card-header-warning rounded-pill py-1 text-white fs-6"> Total AME Pending
+							</h5>
+							<h3 th:text="${totalAMEPending}"></h3>
+						</div>
+					</div>
+
+					<div class="col">
+						<div class="card">
+							<div class="card-icon1 card-header-warning">
+								<i class="bi bi-receipt-cutoff"></i>
+							</div>
+							<h5 class="card-header-warning rounded-pill py-1 text-white fs-6"> Total AME</h5>
+							<h3 th:text="${totalAMECompleted}"></h3>
+						</div>
+					</div>
+
+					<div class="col">
+						<div class="card">
+							<div class="card-icon1 card-header-warning">
+								<i class="bi bi-receipt-cutoff"></i>
+							</div>
+							<h5 class="card-header-warning rounded-pill py-1 text-white fs-6"> Total Review AME
+							</h5>
+							<h3 th:text="${totalAMEReview}"></h3>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="Today-AME">
+				<div class="row">
+					<div class="col">
+						<div class="card">
+							<div class="card-icon1 card-header-success"><i class="bi bi-receipt-cutoff"></i></div>
+							<h5 class="card-header-success rounded-pill py-1 text-white fs-6"> Today Appointment
+							</h5>
+							<h3 th:text="${todayAMEAppointment}"></h3>
+						</div>
+					</div>
+
+					<div class="col">
+						<div class="card">
+							<div class="card-icon1 card-header-success"><i class="bi bi-receipt-cutoff"></i></div>
+							<h5 class="card-header-success rounded-pill py-1 text-white fs-6">Today Declaration
+							</h5>
+							<h3 th:text="${todayDeclaration}"></h3>
+						</div>
+					</div>
+
+					<div class="col">
+						<div class="card">
+							<div class="card-icon1 card-header-success"><i class="bi bi-receipt-cutoff"></i></div>
+							<h5 class="card-header-success rounded-pill py-1 text-white fs-6"> Today AME Pending
+							</h5>
+							<h3 th:text="${todayAMEPending}"></h3>
+						</div>
+					</div>
+
+					<div class="col">
+						<div class="card">
+							<div class="card-icon1 card-header-success"><i class="bi bi-receipt-cutoff"></i></div>
+							<h5 class="card-header-success rounded-pill py-1 text-white fs-6"> Today AME</h5>
+							<h3 th:text="${todayAMECompleted}"></h3>
+						</div>
+					</div>
+
+					<div class="col">
+						<div class="card">
+							<div class="card-icon1 card-header-success"><i class="bi bi-receipt-cutoff"></i></div>
+							<h5 class="card-header-success rounded-pill py-1 text-white fs-6"> Today Review AME
+							</h5>
+							<h3 th:text="${todayAMEReview}"></h3>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="Total-AME-Force">
+				<div class="row">
+					<div class="col">
+						<div class="card">
+							<div class="card-icon1 card-header-danger forcediv">
+								<i class="bi bi-receipt-cutoff"></i>
+							</div>
+							<h5 class="card-header-danger rounded-pill py-1 text-white fs-6"> Total Appointment
+							</h5>
+							<span>Force</span>
+							<h3 id="ForceTotalAMEAppointment" th:text="${ForceTotalAMEAppointment}"></h3>
+						</div>
+
+					</div>
+
+					<div class="col">
+						<div class="card">
+							<div class="card-icon1 card-header-danger forcediv">
+								<i class="bi bi-receipt-cutoff"></i>
+							</div>
+							<h5 class="card-header-danger rounded-pill py-1 text-white fs-6">Total Declaration</h5>
+							<span>Force</span>
+							<h3 id="ForceTotalDeclaration" th:text="${ForceTotalDeclaration}"></h3>
+						</div>
+					</div>
+
+					<div class="col">
+						<div class="card">
+							<div class="card-icon1 card-header-danger forcediv">
+								<i class="bi bi-receipt-cutoff"></i>
+							</div>
+							<h5 class="card-header-danger rounded-pill py-1 text-white fs-6"> Total AME Pending
+							</h5>
+							<span>Force</span>
+							<h3 id="ForceTotalPending" th:text="${ForceTotalPending}"></h3>
+						</div>
+					</div>
+
+					<div class="col">
+						<div class="card">
+							<div class="card-icon1 card-header-danger forcediv">
+								<i class="bi bi-receipt-cutoff"></i>
+							</div>
+							<h5 class="card-header-danger rounded-pill py-1 text-white fs-6"> Total AME</h5>
+							<span>Force</span>
+							<h3 id="ForceTotalCompleted" th:text="${ForceTotalCompleted}"></h3>
+						</div>
+					</div>
+
+					<div class="col">
+						<div class="card">
+							<div class="card-icon1 card-header-danger forcediv">
+								<i class="bi bi-receipt-cutoff"></i>
+							</div>
+							<h5 class="card-header-danger rounded-pill py-1 text-white fs-6"> Total Review AME</h5>
+							<span>Force</span>
+							<h3 id="ForceTotalReview" th:text="${ForceTotalReview}"></h3>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="Today-AME-Force">
+				<div class="row">
+					<div class="col">
+						<div class="card">
+							<div class="card-icon1 card-header-info forcediv"><i class="bi bi-receipt-cutoff"></i></div>
+							<h5 class="card-header-info rounded-pill py-1 text-white fs-6"> Today Appointment</h5>
+							<span>Force</span>
+							<h3 id="ForceTodayAMEAppointment" th:text="${ForceTodayAMEAppointment}"></h3>
+						</div>
+					</div>
+
+					<div class="col">
+						<div class="card">
+							<div class="card-icon1 card-header-info forcediv"><i class="bi bi-receipt-cutoff"></i></div>
+							<h5 class="card-header-info rounded-pill py-1 text-white fs-6">Today Declaration</h5>
+							<span>Force</span>
+							<h3 id="ForceTodayDeclaration" th:text="${ForceTodayDeclaration}"></h3>
+						</div>
+					</div>
+
+					<div class="col">
+						<div class="card">
+							<div class="card-icon1 card-header-info forcediv"><i class="bi bi-receipt-cutoff"></i></div>
+							<h5 class="card-header-info rounded-pill py-1 text-white fs-6"> Today AME Pending</h5>
+							<span>Force</span>
+							<h3 id="ForceTodayPending" th:text="${ForceTodayPending}"></h3>
+						</div>
+					</div>
+
+					<div class="col">
+						<div class="card">
+							<div class="card-icon1 card-header-info forcediv"><i class="bi bi-receipt-cutoff"></i></div>
+							<h5 class="card-header-info rounded-pill py-1 text-white fs-6"> Today AME</h5>
+							<span>Force</span>
+							<h3 id="ForceTodayCompleted" th:text="${ForceTodayCompleted}"></h3>
+						</div>
+					</div>
+
+					<div class="col">
+						<div class="card">
+							<div class="card-icon1 card-header-info forcediv"><i class="bi bi-receipt-cutoff"></i></div>
+							<h5 class="card-header-info rounded-pill py-1 text-white fs-6"> Today Review AME</h5>
+							<span>Force</span>
+							<h3 id="ForceTodayReview" th:text="${ForceTodayReview}"></h3>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</section>
+	
+
+<!-- Bootstrap core JavaScript -->
+<script src="dist/js/bootstrap.bundle.min.js"></script>
+<script src="JavaScripts/script.js"></script>
+
+
+
+<script>
+    $(document).ready(function() {
+	$('#forceName_id').on('change', function() {
+		var forceId = $(this).val();
+
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		$.ajax({
+			type: 'Post',
+			url: 'get-unit-by-forceNo',
+
+			data:
+			{
+				forceId: forceId,
+				
+			},
+			beforeSend: function(xhr) { xhr.setRequestHeader(header, token); },
+			success: function(data) {
+				createUnitTable(data);
+			},
+			error: function(e) {
+				console.log("ERROR : ", e);
+
+			}
+		});
+	});
+});
+
+function createUnitTable(data) {
+	const dropdown = document.getElementById("unitName_id");
+	dropdown.innerHTML = "";
+	const option = document.createElement("option");
+	option.text = 'Select';
+	option.value = 0;
+	dropdown.appendChild(option);
+	for (let i = 0; i < data.length; i++) {
+		const option = document.createElement("option");
+		option.text = data[i].unitName;
+		option.value = data[i].unitId;
+		// !-- option.setAttribute("data", data[i].forceId)-->
+		dropdown.appendChild(option);
+	}
+}
+
+
+function showModal() {
+
+      const modal = document.querySelector('#staticBackdrop');
+      var modalInstance = new bootstrap.Modal(modal);
+       modalInstance.show();
+
+}
+</script>
+
+
+
+
+
+    
+    <script>
+$(document).ready(function () {
+    // Event listener for forceName_id dropdown
+    $('#forceName_id').on('change', function() {
+        const selectedOption = $(this).find('option:selected');
+        const forceNo = $(this).val();  // Get the selected force number
+        const forceName = selectedOption.text();
+        const token = $("meta[name='_csrf']").attr("content");
+        const header = $("meta[name='_csrf_header']").attr("content");
+
+        // Store the selected forceNo in a hidden input
+        const forceNameTag = $('.card span');
+        if (forceNo !== '0') {
+            forceNameTag.text(forceName); // Set the selected force name
+        } else {
+            forceNameTag.text('Force'); // Default text when "Select" is chosen
+        }
+        
+        $('#selectedForceNo').val(forceNo); // Hidden input field to store forceNo
+
+        // Hide the stats boxes and detailed containers if force is selected
+        if (forceNo !== '0') {
+            // Hide the "primary", "secondary" stats boxes and detailed containers
+           
+
+            $.ajax({
+                type: 'POST',
+                url: 'get-force-stats',
+                data: { forceNo: forceNo },
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader(header, token); // Set CSRF token in header
+                },
+                success: function(data) {
+                    // Update the displayed stats with the data received
+                    $('#totalAMEbyForce').text(data.totalAMEByForce);
+                    $('#todayAMEbyForce').text(data.todayAMEByForce);
+                    $('#ForceTotalAMEAppointment').text(data.ForceTotalAMEAppointment);
+                    $('#ForceTotalDeclaration').text(data.ForceTotalDeclaration);
+                    $('#ForceTotalPending').text(data.ForceTotalPending);
+                    $('#ForceTotalCompleted').text(data.ForceTotalCompleted);
+                    $('#ForceTotalReview').text(data.ForceTotalReview);
+                    
+                    // Today Data by Force
+                    $('#ForceTodayAMEAppointment').text(data.ForceTodayAMEAppointment);
+                    $('#ForceTodayDeclaration').text(data.ForceTodayDeclaration);
+                    $('#ForceTodayPending').text(data.ForceTodayPending);
+                    $('#ForceTodayCompleted').text(data.ForceTodayCompleted);
+                    $('#ForceTodayReview').text(data.ForceTodayReview);
+                    
+                    // Show the second main box
+                },
+                error: function(e) {
+                    console.error("Error fetching force stats: ", e);
+                }
+            });
+        } else {
+            // Show the stats boxes and detailed containers again if no force is selected
+         
+        }
+    });
+    
+});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,450 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>AME DashBoard User</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+
+<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css" />
+
+<div th:replace="~{medical-sub-ordinate/master-doc::master-wrapper-doc}"></div>
+
+
+<!--file size Validation js-->
+<script src="js/local/file-size-validation.js"></script>
+
+
+<style>
+
+
+.btn-primary,.btn-success{
+	min-width: 100px;
+	font-size: 14px;
+	font-weight: 600;
+}
+.text-start{
+	font-size: 14px;
+	font-weight: 600;
+}
+
+</style> 
+</head>
+
+
+<body>
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+	<div
+		 th:replace="~{po-template/left-menu-po::sidebar-wrapper-menu-po}"></div>
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<div
+				th:replace="~{po-template/nav-bar-po::sidebar-wrapper-menu-nav-po}"></div>
+
+			<div class="container-fluid mt-3">
+
+				<!-- Content Row -->
+				<div class="wisecountnactionbg">
+<div>
+<span th:if="${message!=null}" th:text="${message}"></span>
+</div>
+
+					<div id="b-homedb">
+
+
+						<h4 class="w-100 mb-4">AME FORM PARTS <form action="application-under-process-ma" method="get" class="float-end" id="back-to-previous-page">
+                     <input type="submit" value="Back"  class="btn btn-primary">
+					</form></h4>
+					
+
+							<div class="proc-box px-4">
+
+								<div class="row">
+									<div class="col-md-3">
+										<div class="alert alert-primary">
+											<label class="fw-bold">IRLA /REGT No:</label> <span
+												th:text="${candidateDetails.forceId}"></span>
+										</div>
+									</div>
+
+									<div class="col-md-3">
+										<div class="alert alert-primary">
+											<label class="fw-bold">Name:</label> <span
+												th:text="${candidateDetails.name}"></span>
+										</div>
+									</div>
+
+									<div class="col-md-3">
+										<div class="alert alert-primary">
+											<label class="fw-bold">Gender:</label> <span
+												th:text="${candidateDetails.gender}"></span>
+										</div>
+									</div>
+
+									<div class="col-md-3">
+										<div class="alert alert-primary">
+											<label class="fw-bold">Force Name:</label> <span
+												th:if="${candidateDetails.forceName}"></span>
+										</div>
+									</div>
+
+									<div class="col-md-3">
+										<div class="alert alert-primary my-2">
+											<label class="fw-bold">Rank/Designation:</label> <span
+												th:text="${candidateDetails.designation}"></span>
+										</div>
+								</div>
+
+									<div class="col-md-3">
+										<div class="alert alert-primary">
+											<label class="fw-bold"> Grade: </label> <span
+												th:if="${candidateGazettedNonGazettedFlag=='Y'}"
+												th:text="GazettedOfficer"></span> <span
+												th:unless="${candidateGazettedNonGazettedFlag=='Y'}"
+												th:text="NonGazettedOfficer"></span>
+										</div>
+									</div>
+								</div>
+								</div>
+								
+		
+			
+			<div class="proc-box pt-3 pb-0" style="display: flex; justify-content: space-around;">
+				<!-- 
+						<form action="generate-pdf" method="get" class="m-0" target="_blank"  rel="noopener noreferrer">
+                              <input type="hidden" th:value="*{forcepersonalId}" name="forcepersonalId"> 
+                              <input type="hidden" th:value="*{ameId}" name="ameId">
+                               <input type="hidden" th:value="${_csrf.token}" name="_csrf">
+							  <input type="submit" value="View Ame report" class="btn btn-primary">
+							  </form> -->
+							  	<form  class="m-0" target="_blank"  rel="noopener noreferrer">
+                            
+                          
+                            
+						<a th:href="@{/download-notification-file(filePath=${ameFinalReportFileDirGo.filePath})}" 
+								class="btn btn-info btn-sm btn3d mt-3" target="_blank"  rel="noopener noreferrer">View Ame report Signed By BM</a>
+							  </form>
+			
+						 
+					
+							<div class="col-md-3">
+								<!-- <form action="view-report-of-investigation-form" method="post" target="_blank" rel="noopener noreferrer">
+								<input type="hidden" th:value="*{forcepersonalId}" name="forcepersonalId"> 
+								<input type="hidden" th:value="*{ameId}" name="ameId"> 
+								<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+								 <input type="submit" value="View Investigation Report" class="btn btn-primary" style="width: auto;">
+								</form> -->
+								
+								</div>
+					
+							<form th:action="@{download-declaration-file-uploaded}" method="get" target=”_blank” rel="noopener noreferrer"> 
+	                          <input type="hidden" th:value="*{forcepersonalId}" name="forcepersonalId"> 
+							<input type="hidden" th:value="*{ameId}" name="ameId"> 
+							<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+                            <input type="submit" value="View Declaration Report" class="btn btn-primary"   >
+
+</form>
+						
+										
+									
+									
+							
+							</div>
+							
+							
+					
+							
+									<h4>
+										<span th:if="${message!=null}" th:text="${message}"></span>
+									</h4>
+									
+									
+									<div class="row" id="sortable-cards">
+										<div class="col-lg-6 col-sm-12">
+											
+										
+								<div class="proc-box pt-3 pb-0" style="display: flex; justify-content: space-around;">
+													
+											<div class="row" style="width: 100%;">
+														<div class="col-md-12 text-start">
+															UPLOAD FINAL AME REPORT(<span style="color: darkred;">only sign report</span>)
+															</div>
+													
+																<form  id="upload-ame-final-report">
+																	<div class="row" style="width: 100%;">
+																		<div class="col-md-6 text-start">
+																			<label>AME ID :</label>
+																		</div>
+																		<div class="col-md-6 text-start">
+																			<input type="text" class="form-control" th:value="${ameId}" name="ameId" id="ameId" readonly>
+																		</div>
+																		</div>
+															
+																	<div class="row" style="width: 100%;">
+																	<div class="col-md-6 text-start">
+																		File :
+																	</div>
+																		
+																	<div class="col-md-6 text-start mt-2">
+																		 <input type="file" class="form-control" name="file" id="fileInput" onchange="validateFileSizeAmeReport()" accept=".pdf" required>
+																		 </div>
+																		 </div>
+																		 <div class="row mt-2" style="width: 100%;">
+																			 <div class="col-md-6 text-start"></div>
+																		 <div class="col-md-6 text-start">
+																		<input type="submit" value="upload" class="btn btn-primary">
+																	</div>
+																	</div>
+																	<div class="row mt-2" style="width: 100%;">
+																		<div class="col-md-5">
+										                                    <div id="file_error_msg" style="color: darkred;font-size:15px; " class="normalFileError"></div>
+									                                      </div>
+																	</div>
+																		<input type="hidden" th:value="${forcepersonalId}" name="forcePersonalId">
+																</form>
+													
+													
+													</div>
+											</div>
+										</div>
+									</div>
+						
+
+
+							</div>
+
+						</div>
+					
+
+					</div>
+
+				
+
+
+
+
+			</div>
+			<!-- /#page-content-wrapper -->
+
+		</div>
+		<!-- /#wrapper -->
+
+
+
+	
+
+		<!-- Menu Toggle Script -->
+		<script>
+			$("#menu-toggle").click(function(e) {
+				e.preventDefault();
+				$("#wrapper").toggleClass("toggled");
+			});
+		</script>
+
+
+		<script>
+			$(document).ready(function() {
+				$('#backtotop').click(function() {
+					$("html, body").animate({
+						scrollTop : 0
+					}, 600);
+					return false;
+				});
+			});
+		</script>
+
+
+		<script>
+			$('.sub-menu ul').hide();
+			$('.sub-sub-menu ul').hide();
+			$(".sub-menu a").click(
+					function() {
+						$(this).parent(".sub-menu").children("ul").slideToggle(
+								"100");
+						$(this).find(".right").toggleClass(
+								"fa-caret-up fa-caret-down");
+					});
+
+			$(".sub-sub-menu a").click(
+					function() {
+						$(this).parent(".sub-sub-menu").children("ul")
+								.slideToggle("100");
+						$(this).find(".right").toggleClass(
+								"fa-caret-up fa-caret-down");
+					});
+		</script>
+
+
+
+		<!-- Signup Modal -->
+		<div class="modal fade" id="signout-modal">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Sign Out?</h5>
+
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<!-- Modal body -->
+						<div class="modal-body">
+							<p class="text-center">Are you sure you want to Sign Out?</p>
+							<form action="sign-out">
+								<div class="row">
+									<div class="col-md-6">
+										<button type="submit" class="btn btn-primary">Sign
+											Out</button>
+									</div>
+									<div class="col-md-6">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Cancel</button>
+									</div>
+
+								</div>
+
+							</form>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<script src="vendor/jquery-ui/jquery-ui.js"></script>
+		<script>
+		$(function() {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+		<script>
+		$(function() {
+			$("#one-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+		
+//----------------------------------------upload report--------------------------------------------------------------------//		
+		
+	$(document).ready(function() {
+	$('#upload-ame-final-report').submit(function(event) {
+		event.preventDefault();
+		
+        var hashMap = new Map();
+		var ameId=$("#ameId").val();
+		var fileInfo=$("#fileInput")[0].files[0];
+		
+		 if(fileInfo==null){
+				alert("Please select file To upload.......!");
+				return false;
+					}
+		    var formData = new FormData();
+		    formData.append('file',fileInfo);
+			hashMap.set("ameId",ameId);
+			
+			
+			
+			
+			
+			var jsonArray = [];
+		    hashMap.forEach(function (value, key) {
+		        var obj = {};
+		        obj[key] = value;
+		        jsonArray.push(obj);
+		    });
+
+		    // Convert the array to a JSON string
+		    var jsonData = JSON.stringify(jsonArray);
+		    formData.append("jsonData", jsonData);
+		
+/* ===================header==================== */
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		$('.error').text('');
+
+
+
+		$('#loading-overlay').show();
+		$('body').addClass('loading');
+
+		$.ajax({
+			type: 'POST',
+			url: 'upload-ame-final-report',
+			data:formData,
+			 data: formData,
+		        contentType: false,
+		        processData: false,
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(header, token);
+			},
+			success: function(response) {
+				if (response.isValid) {
+					alert("Data Saved Succcessfully!");
+					 $('#back-to-previous-page').unbind('submit').submit();
+					    
+						 }
+
+				else { 
+					alert(response.fileError);
+				 
+					/*  $.each(response.errors, function(field, errorMessage) {
+						 $('#' + field + '_error').text(errorMessage);
+						 }); */
+					
+					} 
+				
+},
+complete: function() {
+    $('#loading-overlay').hide();
+    $('body').removeClass('loading');
+},
+			error: function(xhr, status, error) {
+
+				alert("Please fill the form again somthing went WRONG!");
+				console.error(error);
+			}
+		});
+	});
+});
+	
+		
+	</script>
+</body>
+</html>
+
+
+
+

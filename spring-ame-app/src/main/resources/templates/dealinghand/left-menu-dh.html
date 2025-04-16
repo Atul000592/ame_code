@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<div class="dashboard-bgcolor border-right" id="sidebar-wrapper" th:fragment="sidebar-wrapper-menu-dh">
+	<div class="sidebar-heading">
+<img src="images/collage_CAPF.jpg" title="collage_CAPF" alt="collage_CAPFo" width="40px" class="rounded-circle me-2"> 
+<span>Annual Medical Examinations(AME)</span>
+</div>
+
+
+	<div class="list-group list-group-flush b-leftmenu">
+
+		<ul id="sortable-menu">
+			<li><a href='dashboard-user'
+				class="dashboard-bgcolor text-white border-bottom b-newpage">Home
+					</a></li>
+			<li><a href='dealing-hand-dashboard'
+				class="dashboard-bgcolor text-white border-bottom b-newpage">Dealing
+					Hand-Dash Board</a></li>
+			<li class='sub-menu'><a href='javascript:void(0)'
+				class="dashboard-bgcolor border-bottom text-white b-newpage">Annual
+					Medical Examinations <span class='fa fa-caret-down right'></span>
+			</a>
+
+				<ul>
+					<li><a class="b-newpage" href="show-ame-declaration-list">AME Declaration Completed</a></li>
+					<li><a class="b-newpage" href='display-pending-requests-upload-checkup'>Upload Declaration(AME)</a></li>
+					<li><a class="b-newpage" href='display-pending-requests-upload-checkup'>Investigation List</a></li>
+					<li><a class="b-newpage" href='application-under-process-ma'>Application Under Process(AME)</a></li>
+				
+
+
+				</ul></li>
+				
+</ul>
+</div>
+</div>
+

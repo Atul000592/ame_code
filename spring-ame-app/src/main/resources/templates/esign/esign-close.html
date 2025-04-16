@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<head>
+    <meta charset="ISO-8859-1">
+<!--    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>-->
+    <title>Client Application</title>
+    <style>
+        .content-box {
+            margin: 25px auto;
+            width: 50%;
+            height: 400px;
+            background-color: white;
+            box-shadow: 1px 1px 5px 5px #ccc;
+        }
+
+        .content-box1 {
+            margin: auto;
+            width: 90%;
+            height: 400px;
+            padding: 49px 80px;
+        }
+
+        .labels {
+            height: 30px;
+            padding: 10px;
+        }
+
+        .labels input[type=text] {
+            box-shadow: 0px 1px 2px 2px grey;
+            border: 0;
+            height: 30px;
+            width: 50%;
+        }
+
+        .labels label {}
+
+        .for_label {
+            width: 30%;
+            float: left;
+        }
+
+        .for_input {
+            width: 70%;
+            float: left;
+        }
+
+        .header {
+            width: 33.33%;
+            float: left;
+            padding: 0px 20px;
+        }
+    </style>
+</head>
+<body>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    
+    <!-- header start -->
+    <div style="width: 100%; height: 25px; background-color: #f26128"></div>
+    <div style="width: 100%; height: 25px; background-color: #0ba132"></div>
+    <!-- header end -->
+
+    <div class="box">
+        <div class="content-box">
+            <div style="padding: 15px; background-color: lightblue;">
+                <h2 style="text-align: center">Client Application</h2>
+                <p style="text-align: center">
+                    <b>ESign Redirecting..........................!</b>
+                </p>
+            </div>
+            <div class="content-box1">
+                <form id="myForm" name="myForm" th:action="@{esign-response-close}" method="post" enctype="multipart/form-data">
+                    <div class="labels">
+                     
+                        <div class="for_input">
+                            <input type="hidden" name="respon" th:value="${respon}" required="true"/>
+                        </div>
+                    </div>
+                 
+                   
+                    <div class="labels">
+                        <input type="submit" value="Esigning" name="submit2"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+          var token = $("meta[name='_csrf']").attr("content");
+             header = $("meta[name='_csrf_header']").attr("content");
+             // Log the CSRF token and header to the console
+             console.log("CSRF Token:", token);
+             console.log("CSRF Header:", header);
+           
+            $("#myForm").attr("method", "post");
+            $("#myForm").submit();
+        });
+    </script>
+</body>
+</html>

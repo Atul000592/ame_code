@@ -1,0 +1,1 @@
+${irlaNo} allotted date ${fromDate} to ${toDate} for AME ${ameYear}. Submit declaration online. Report at ${boardPlace}${boardPlace1}. Regards BSF

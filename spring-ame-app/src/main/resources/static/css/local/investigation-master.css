@@ -1,0 +1,301 @@
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid rgb(255, 255, 255);
+  text-align: left;
+  padding:2px;
+  
+}
+
+tr:nth-child(even) {
+  background-color: rgb(255, 255, 255);
+}
+		
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			background-color: #f1f1f1;
+		}
+
+		#regForm {
+			background-color: #ffffff;
+			margin: 50px auto 0;
+			font-family: Arial, Helvetica, sans-serif;
+			padding: 30px;
+			width: 90%;
+		}
+
+		#page-content-wrapper {
+			background: #f1f1f1;
+		}
+
+		h1 {
+			text-align: center;
+		}
+
+		#labelId {
+
+			font-weight: bold;
+			font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+		}
+
+		input {
+			padding: 10px;
+			width: 100%;
+			font-size: 13px;
+			font-family: 'Times New Roman', Times, serif;
+			border: 1px solid #aaaaaa;
+		}
+
+		/* Mark input boxes that gets an error on validation: */
+		input.invalid {
+			background-color: #ffdddd;
+		}
+
+		/* Hide all steps by default: */
+		.tab {
+			display: none;
+		}
+
+		button {
+			background-color: #04AA6D;
+			color: #ffffff;
+			border: none;
+			padding: 10px 20px;
+			font-size: 17px;
+			font-family: Raleway;
+			cursor: pointer;
+		}
+
+		button:hover {
+			opacity: 0.8;
+		}
+
+		#prevBtn {
+			background-color: #bbbbbb;
+		}
+
+		/* Make circles that indicate the steps of the form: */
+		.step {
+			height: 15px;
+			width: 15px;
+			margin: 0 2px;
+			background-color: #bbbbbb;
+			border: none;
+			border-radius: 50%;
+			display: inline-block;
+			opacity: 0.5;
+		}
+
+		.step.active {
+			opacity: 1;
+		}
+
+		.tabstatus.active {
+			opacity: 1;
+		}
+
+		/* Mark the steps that are finished and valid: */
+		.step.finish {
+			background-color: #04AA6D;
+		}
+
+		#regForm {
+			display: flow-root
+		}
+
+		.form-horizontal {
+			float: left;
+			width: 100%;
+		}
+
+		.inputLabel {
+			float: left;
+			width: 38%;
+			margin-top: 10px;
+			font-size: 12px;
+		}
+
+		#menu2 .inputLabel {
+			width: 50%;
+		}
+
+		#menu2 .inputText {
+			width: 50%
+		}
+
+		#menu2 .inputText input {
+			width: 100%;
+		}
+
+		.inputText {
+			float: right;
+			width: 60%;
+			margin: 0px 0px 5px 0px;
+		}
+
+		.inputText input {
+			width: 100%;
+		}
+
+		.form-horizontal .col-md-6 {
+			margin-bottom: 0px;
+			min-height: 50px;
+		}
+
+		.tabTop {
+			float: left;
+			width: 100%;
+			margin-bottom: 20px;
+		}
+
+		.tabTop li {
+			background: #07507b;
+			border-right: 1px solid #fff;
+		}
+
+		.tabTop li:last-child {
+			border: none;
+		}
+
+		.tabTop li.active,
+		.tabTop li:focus,
+		.tabTop li:hover,
+		.tabTop li.active a:hover,
+		.nav-tabs>li>a:hover {
+			background: #a9c659;
+			border-right: 1px solid #fff;
+		}
+
+		.nav-tabs>li>a:hover {}
+
+		.tabTop li.active a {
+			background: transparent;
+			border: 0px;
+		}
+
+		.tabTop li a {
+			color: #fff;
+			padding: 0 30px;
+			padding: 8px 6px;
+			font-weight: bold;
+		}
+
+		.b-leftmenu ul {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		.b-leftmenu ul li {
+			/* Sub Menu */
+
+		}
+
+		.b-leftmenu ul li a {
+			display: block;
+			background: #ebebeb;
+			padding: 10px 15px;
+			color: #333;
+			text-decoration: none;
+			-webkit-transition: 0.2s linear;
+			-moz-transition: 0.2s linear;
+			-ms-transition: 0.2s linear;
+			-o-transition: 0.2s linear;
+			transition: 0.2s linear;
+		}
+
+		.b-leftmenu ul li a:hover {
+			background: #f8f8f8;
+			color: #515151;
+		}
+
+		.b-leftmenu ul li a .fa {
+			width: 16px;
+			text-align: center;
+			margin-right: 5px;
+			float: right;
+		}
+
+		.b-leftmenu ul ul {
+			background-color: #ebebeb;
+		}
+
+		.b-leftmenu .sub-menu ul li a {
+			background: #f8f8f8;
+			border-left: 4px solid transparent;
+			padding: 10px 25px;
+		}
+
+		.b-leftmenu .sub-sub-menu ul li a {
+			padding: 10px 20px 10px 40px;
+		}
+
+		.b-leftmenu a.b-newpage:hover {
+			background: #ebebeb;
+			border-left: 4px solid #3498db;
+		}
+
+		.card {
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+			max-width: 300px;
+			margin: auto;
+			text-align: center;
+			font-family: arial;
+		}
+
+		.title {
+			color: grey;
+			font-size: 14px;
+		}
+
+		button {
+			border: none;
+			outline: 0;
+			display: inline-block;
+			padding: 8px;
+			color: white;
+			background-color: #000;
+			text-align: center;
+			cursor: pointer;
+			width: 100%;
+			font-size: 14px;
+		}
+
+		a {
+			text-decoration: none;
+			font-size: 14px;
+			color: black;
+		}
+
+		button:hover,
+		a:hover {
+			opacity: 0.7;
+		}
+
+		.container-main-1 {
+			background-color: #ebebeb;
+			margin-left: 108px;
+			width: 84%;
+			float: inline-start;
+			margin-top: 11px;
+			font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+		}
+
+		.container-main-2,.container-main-3 {
+
+			margin-left: 116px;
+			margin-top:5%;
+			width: 80%;
+			height: fit-content;
+			background-color: rgb(229, 229, 229);
+			float: inline-start;
+		
+			font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+		}

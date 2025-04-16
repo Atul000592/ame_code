@@ -1,0 +1,53 @@
+<nav class="navbar navbar-expand-mg dashboard-bgcolor" th:fragment="sidebar-wrapper-menu-nav-ra">
+	<script src="js/local/resetChangeForget.js"></script>
+
+	<div th:replace="~{UserMenu/reset-password-and-view-profile::sidebar-wrapper-change-password-profile}"></div>
+
+
+	<button id="menu-toggle">
+		<span class="fas fa-bars"></span>
+	</button>
+
+
+	<ul class="nav das-nav">
+		<li class="nav-item">IRLA /REGT NO: <span th:text="${loginUserDetails.forceId}" /></li>
+		<li class="nav-item">NAME: <span th:text="${loginUserDetails.name}" /></li>
+		<li class="nav-item">RANK/DESIGNATION: <span th:text="${loginUserDetails.designation}" /></li>
+
+
+		<li class="nav-item dropdown"><a class="nav-link dropdown-toggle " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Profile </a>
+			<ul class="dropdown-menu text-small shadow">
+
+				<li>
+					<a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"
+						data-bs-target="#profileModal" onclick="fetchAndShowProfile()">User Profile</a>
+				</li>
+				<li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#change-password-modal">Change
+						Password</a></li>
+				<li><a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"
+						data-bs-target="#signout-modal">Sign Out</a></li>
+
+
+
+
+			</ul>
+		</li>
+
+
+		<!-- 	<li class="nav-item dropdown"><a
+							class="nav-link dropdown-toggle text-white" href="#"
+							id="navbarDropdown" role="button" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false"> Profile </a>
+							<div
+								class="dropdown-menu dropdown-menu-right text-center b-dropmenu-db"
+								aria-labelledby="navbarDropdown">
+								<a class="dropdown-item" href="register-user">Register User</a> <a
+									class="dropdown-item" href="email-send">Send Mail</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="javascript:void(0);"
+									data-toggle="modal" data-target="#signout-modal">Sign Out</a>
+
+							</div></li> -->
+	</ul>
+
+</nav>

@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org">
+   <head>
+      <meta charset="utf-8">
+      <title>AME</title>
+       <link href="fonts/style-sheet/google-font-sheet.css" rel="stylesheet">
+<style>
+.bd td, .bd th {
+	border: 1px solid #000;
+	
+}
+#printpagebutton {
+    background: #02356e;
+    color: #fff;
+    padding: 2px 7px;
+    border-radius: 3px;
+    border: 2px solid #02356e;
+    cursor: pointer;
+}
+
+table.a {
+  table-layout: auto;
+   width: 70%;  
+  
+}
+.table-heading{
+ 
+  text-align: left;
+}
+
+.table-data {
+ align-content:center;
+  text-align: left;
+  margin:auto;
+}
+</style>
+   </head>
+   <body style="-webkit-print-color-adjust: exact !important;">
+      <div style="max-width:700px;margin:0 auto;">
+         <table  style="width:100%" >
+            <tbody>
+               <tr>
+                  <td style="vertical-align: top;"><img src="/images/BSF.png" alt="logo" style="width:40px; height:40px" ></td>
+                  <td style="text-align: center;margin: 0;vertical-align: top;">
+                     <p style="font-family: 'Poppins', sans-serif; margin-top: 0;padding: 0px 0;margin: 0;font-weight: bold;text-transform: uppercase;font-size: 17px;">Annual Medical Examination</p>
+                     <p style="font-family: 'Poppins', sans-serif;margin-top: 0;padding-top: 2px;margin: 0;font-size: 12px;font-weight: 600;text-align: center;margin-top: 15px; "> <u>Investigation Report</u></p>
+                     <p style="font-family: 'Poppins', sans-serif;margin-top: 0;padding-top: 2px;margin: 0;font-weight: 400;font-size: 10px;"></p>
+              
+                  </td>
+                  <td style="vertical-align: top;">
+                     <!-- <p style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: normal;vertical-align: top;padding: 0px 0;margin:0"><span th:text="${createdOn}"></span></p>
+                  --><div style="display: flex;">
+						<div style="margin-right: 10px;">
+				 
+				 			 <button class="yelow-btn" id="printpagebutton" type="button" onclick="printAllotment()">Print</button>
+				 		
+				 	 </div>
+				 	 </div>
+				 	<!--  <div th:if="${printFlag == 'O'}">Original</div> -->
+					<!-- <div th:if="${printFlag == 'D'}">Duplicate</div></div> -->	
+                 
+                 
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+    <table  style="padding: 10px;width:100%;">
+            <tbody>
+            
+            <div th:each="outerMap :${investigationReportDtosList.entrySet()}">
+              
+<!--============================================= Blood Sugar ================================================-->
+                   
+            <div th:if="${outerMap.key}=='bs'">
+              
+              
+               
+              <tr><td><h4><u>Blood Sugar</u><h4></td></tr> 
+                <tr  th:each="innerMap :${outerMap.value.entrySet()}">
+                
+                 <td style="font-family: 'Poppins', sans-serif;font-size: 15px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${innerMap.key}"></span></td>
+                 <td style="font-family: 'Poppins', sans-serif;font-size: 15px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${innerMap.value}"></span></td>
+              
+              
+               </tr>
+                 
+               
+            </div>
+              
+             
+               
+               
+ <!--============================================= lft(Liver Function Test)================================================-->             
+            <div th:if="${outerMap.key}=='lft'">
+              
+              
+               
+              <tr><td><h4><u>Liver Function Test</u></h4></td></tr> 
+                <tr  th:each="innerMap :${outerMap.value.entrySet()}">
+                
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 15px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${innerMap.key}"></span></td>
+              
+              
+                  
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 15px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${innerMap.value}"></span></td>
+              
+              
+               </tr>
+                 
+               
+            </div>
+<!--=============================================Urine Test================================================-->
+ <div th:if="${outerMap.key}=='utmicrophy'">
+              
+              
+               
+              <tr><td><h4><u>Urine Test</u></h4></td></tr> 
+                <tr  th:each="innerMap :${outerMap.value.entrySet()}">
+                
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 15px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${innerMap.key}"></span></td>
+              
+              
+                  
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 15px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${innerMap.value}"></span></td>
+              
+              
+               </tr>
+                 
+               
+            </div>
+<!--=============================================kft  ================================================-->
+<div th:if="${outerMap.key}=='kft'">
+              
+              
+               
+              <tr><td><h4><u>Kidney Function Test</u></h4></td></tr> 
+                <tr  th:each="innerMap :${outerMap.value.entrySet()}">
+                
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 15px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${innerMap.key}"></span></td>
+              
+              
+                  
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 15px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${innerMap.value}"></span></td>
+              
+              
+               </tr>
+                 
+               
+            </div>
+<!--=============================================  ================================================-->
+           
+           
+            </div>
+
+            </tbody>
+         </table>
+
+       <script>
+         function printAllotment() {
+        //Get the print button and put it into a variable
+        var printButton = document.getElementById("printpagebutton");
+        //Set the print button visibility to 'hidden' 
+        printButton.style.visibility = 'hidden';
+        
+        //Print the page content
+        window.print()
+        printButton.style.visibility = 'visible';
+    }
+      </script>
+   </body>
+</html>

@@ -1,0 +1,1086 @@
+.investigationcbcClass {
+	display: none;
+	/* Hidden by default */
+	position: fixed;
+	/* Stay in place */
+	z-index: 1;
+	/* Sit on top */
+	padding-top: 100px;
+	padding-right: 15px;
+	padding-left: 166px;
+	/* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%;
+	/* Full width */
+	height: 100%;
+	/* Full height */
+	overflow: auto;
+	/* Enable scroll if needed */
+	background-color: rgb(0, 0, 0);
+	/* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4);
+	/* Black w/ opacity */
+}
+
+.investigationcbc-content{
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 65%;
+	margin-top: -69px;
+	border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	background-color: #fefefe;
+	animation: popOut 0.25s ease forwards;
+}
+
+
+
+/* The Close Button */
+.investigationcbc-close {
+    color: #ffff;
+    float: right;
+    font-weight: bold;
+    background: #005776;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    margin: -10px;
+    font-size: 24px;
+}
+
+.investigationcbc-close:hover,
+.investigationcbc-close:focus {
+	 color: #ffff;
+	text-decoration: none;
+	cursor: pointer;
+	    color: #ffff;
+}
+
+
+
+/*============lipid=============================*/
+
+
+.investigationlipidClass {
+	display: none;
+	/* Hidden by default */
+	position: fixed;
+	/* Stay in place */
+	z-index: 1;
+	/* Sit on top */
+	padding-top: 100px;
+	padding-right: 15px;
+	padding-left: 166px;
+	/* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%;
+	/* Full width */
+	height: 100%;
+	/* Full height */
+	overflow: auto;
+	/* Enable scroll if needed */
+	background-color: rgb(0, 0, 0);
+	/* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4);
+	/* Black w/ opacity */
+}
+
+.investigationlipid-content{
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 65%;
+	margin-top: -69px;
+	border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	background-color: #fefefe;
+	animation: popOut 0.25s ease forwards;
+}
+
+
+
+/* The Close Button */
+.investigationlipid-close {
+color: #ffff;
+    float: right;
+    font-weight: bold;
+    background: #005776;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    margin: -10px;
+    font-size: 24px;
+}
+
+.investigationlipid-close:hover,
+.investigationlipid-close:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+
+
+
+/*=====================================================*/
+
+.investigationutmicroClass{
+	display: none;
+	/* Hidden by default */
+	position: fixed;
+	/* Stay in place */
+	z-index: 1;
+	/* Sit on top */
+	padding-top: 100px;
+	padding-right: 15px;
+	padding-left: 166px;
+	/* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%;
+	/* Full width */
+	height: 100%;
+	/* Full height */
+	overflow: auto;
+	/* Enable scroll if needed */
+	background-color: rgb(0, 0, 0);
+	/* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4);
+	/* Black w/ opacity */
+}
+
+.investigationutmicro-content{
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 65%;
+	margin-top: -69px;
+	border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	background-color: #fefefe;
+	animation: popOut 0.25s ease forwards;
+}
+
+
+
+/* The Close Button */
+.investigationutmicro-close {
+color: #ffff;
+    float: right;
+    font-weight: bold;
+    background: #005776;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    margin: -10px;
+    font-size: 24px;
+
+}
+
+.investigationutmicro-close:hover,
+.investigationutmicro-close:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+
+.investigationbsClass{
+	display: none;
+	/* Hidden by default */
+	position: fixed;
+	/* Stay in place */
+	z-index: 1;
+	/* Sit on top */
+	padding-top: 100px;
+	padding-right: 15px;
+	padding-left: 166px;
+	/* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%;
+	/* Full width */
+	height: 100%;
+	/* Full height */
+	overflow: auto;
+	/* Enable scroll if needed */
+	background-color: rgb(0, 0, 0);
+	/* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4);
+	/* Black w/ opacity */
+}
+
+.investigationbs-content{
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 65%;
+	margin-top: -69px;
+	border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	background-color: #fefefe;
+	animation: popOut 0.25s ease forwards;
+}
+
+/* The Close Button */
+.investigationbs-close {
+color: #ffff;
+    float: right;
+    font-weight: bold;
+    background: #005776;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    margin: -10px;
+    font-size: 24px;
+}
+
+.investigationbs-close:hover,
+.investigationbs-close:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+}
+/* -----bspp----- */
+.investigationbsppClass {
+	display: none;
+	/* Hidden by default */
+	position: fixed;
+	/* Stay in place */
+	z-index: 1;
+	/* Sit on top */
+	padding-top: 100px;
+	padding-right: 15px;
+	padding-left: 166px;
+	/* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%;
+	/* Full width */
+	height: 100%;
+	/* Full height */
+	overflow: auto;
+	/* Enable scroll if needed */
+	background-color: rgb(0, 0, 0);
+	/* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4);
+	/* Black w/ opacity */
+}
+
+.investigationbspp-content{
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 65%;
+	margin-top: -69px;
+	border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	background-color: #fefefe;
+	animation: popOut 0.25s ease forwards;
+}
+
+
+
+/* The Close Button */
+.investigationbspp-close {
+    color: #ffff;
+    float: right;
+    font-weight: bold;
+    background: #005776;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    margin: -10px;
+    font-size: 24px;
+}
+
+.investigationbspp-close:hover,
+.investigationbspp-close:focus {
+	 color: #ffff;
+	text-decoration: none;
+	cursor: pointer;
+	    color: #ffff;
+}
+/* -----bsf----- */
+.investigationbsfClass {
+	display: none;
+	/* Hidden by default */
+	position: fixed;
+	/* Stay in place */
+	z-index: 1;
+	/* Sit on top */
+	padding-top: 100px;
+	padding-right: 15px;
+	padding-left: 166px;
+	/* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%;
+	/* Full width */
+	height: 100%;
+	/* Full height */
+	overflow: auto;
+	/* Enable scroll if needed */
+	background-color: rgb(0, 0, 0);
+	/* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4);
+	/* Black w/ opacity */
+}
+
+.investigationbsf-content{
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 65%;
+	margin-top: -69px;
+	border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	background-color: #fefefe;
+	animation: popOut 0.25s ease forwards;
+}
+
+
+
+/* The Close Button */
+.investigationbsf-close {
+    color: #ffff;
+    float: right;
+    font-weight: bold;
+    background: #005776;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    margin: -10px;
+    font-size: 24px;
+}
+
+.investigationbsf-close:hover,
+.investigationbsf-close:focus {
+	 color: #ffff;
+	text-decoration: none;
+	cursor: pointer;
+	    color: #ffff;
+}
+
+/*-----bs-random-----*/
+.investigationbsrandomClass {
+	display: none;
+	/* Hidden by default */
+	position: fixed;
+	/* Stay in place */
+	z-index: 1;
+	/* Sit on top */
+	padding-top: 100px;
+	padding-right: 15px;
+	padding-left: 166px;
+	/* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%;
+	/* Full width */
+	height: 100%;
+	/* Full height */
+	overflow: auto;
+	/* Enable scroll if needed */
+	background-color: rgb(0, 0, 0);
+	/* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4);
+	/* Black w/ opacity */
+}
+
+.investigationbsrandom-content{
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 65%;
+	margin-top: -69px;
+	border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	background-color: #fefefe;
+	animation: popOut 0.25s ease forwards;
+}
+
+
+
+/* The Close Button */
+.investigationbsrandom-close {
+    color: #ffff;
+    float: right;
+    font-weight: bold;
+    background: #005776;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    margin: -10px;
+    font-size: 24px;
+}
+
+.investigationbsrandom-close:hover,
+.investigationbsrandom-close:focus {
+	 color: #ffff;
+	text-decoration: none;
+	cursor: pointer;
+	    color: #ffff;
+}
+
+
+/*-----bs-HbA1c-----*/
+.investigationbsHbA1cClass {
+	display: none;
+	/* Hidden by default */
+	position: fixed;
+	/* Stay in place */
+	z-index: 1;
+	/* Sit on top */
+	padding-top: 100px;
+	padding-right: 15px;
+	padding-left: 166px;
+	/* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%;
+	/* Full width */
+	height: 100%;
+	/* Full height */
+	overflow: auto;
+	/* Enable scroll if needed */
+	background-color: rgb(0, 0, 0);
+	/* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4);
+	/* Black w/ opacity */
+}
+
+.investigationbsHbA1c-content{
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 65%;
+	margin-top: -69px;
+	border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	background-color: #fefefe;
+	animation: popOut 0.25s ease forwards;
+}
+
+
+
+/* The Close Button */
+.investigationbsHbA1c-close {
+    color: #ffff;
+    float: right;
+    font-weight: bold;
+    background: #005776;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    margin: -10px;
+    font-size: 24px;
+}
+
+.investigationbsHbA1c-close:hover,
+.investigationbsHbA1c-close:focus {
+	 color: #ffff;
+	text-decoration: none;
+	cursor: pointer;
+	    color: #ffff;
+}
+
+
+
+/*---------lft--------------*/
+.investigationlftClass{
+	display: none;
+	/* Hidden by default */
+	position: fixed;
+	/* Stay in place */
+	z-index: 1;
+	/* Sit on top */
+	padding-top: 100px;
+	padding-right: 15px;
+	padding-left: 166px;
+	/* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%;
+	/* Full width */
+	height: 100%;
+	/* Full height */
+	overflow: auto;
+	/* Enable scroll if needed */
+	background-color: rgb(0, 0, 0);
+	/* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4);
+	/* Black w/ opacity */
+}
+
+.investigationlft-content{
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 65%;
+	margin-top: -69px;
+	
+	border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	background-color: #fefefe;
+	animation: popOut 0.25s ease forwards;
+}
+@keyframes popOut {
+  from {
+    width: 0;
+    height: 0;
+  }
+  to {
+    width: 50%;
+    height:auto;
+  }
+}
+
+
+
+
+
+/* The Close Button */
+.investigationlft-close {
+color: #ffff;
+    float: right;
+    font-weight: bold;
+    background: #005776;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    margin: -10px;
+    font-size: 24px;
+}
+
+.investigationlft-close:hover,
+.investigationlft-close:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+}
+/*-----------------------------------------------------kft---------------------------------------------------*/
+.investigationkftClass{
+	display: none;
+	/* Hidden by default */
+	position: fixed;
+	/* Stay in place */
+	z-index: 1;
+	/* Sit on top */
+	padding-top: 100px;
+	padding-right: 15px;
+	padding-left: 166px;
+	/* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%;
+	/* Full width */
+	height: 100%;
+	/* Full height */
+	overflow: auto;
+	/* Enable scroll if needed */
+	background-color: rgb(0, 0, 0);
+	/* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4);
+	/* Black w/ opacity */
+}
+
+.investigationkft-content{
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 65%;
+	margin-top: -69px;
+	border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	background-color: #fefefe;
+	animation: popOut 0.25s ease forwards;
+}
+
+/* The Close Button */
+.investigationkft-close {
+color: #ffff;
+    float: right;
+    font-weight: bold;
+    background: #005776;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    margin: -10px;
+    font-size: 24px;
+}
+
+.investigationkft-close:hover,
+.investigationkft-close:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+
+
+/* ------Other Test----- */
+
+.investigationOtherTestClass {
+	display: none;
+	/* Hidden by default */
+	position: fixed;
+	/* Stay in place */
+	z-index: 1;
+	/* Sit on top */
+	padding-top: 100px;
+	padding-right: 15px;
+	padding-left: 166px;
+	/* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%;
+	/* Full width */
+	height: 100%;
+	/* Full height */
+	overflow: auto;
+	/* Enable scroll if needed */
+	background-color: rgb(0, 0, 0);
+	/* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4);
+	/* Black w/ opacity */
+}
+
+.investigationOtherTest-content{
+	
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 65%;
+	margin-top: -69px;
+	 animation: popOut 0.25s ease forwards;
+}
+
+@keyframes popOut {
+  from {
+    width: 0;
+    height: 0;
+  }
+  to {
+    width: 50%;
+    height:auto;
+  }
+}
+
+
+@keyframes popIn {
+  from {
+    width: 50%;
+    height:auto;
+  }
+  to {
+    width: 0;
+    height:0;
+  }
+}
+
+
+
+/* The Close Button */
+.investigationOtherTest-close {
+	 color: #ffff;
+    float: right;
+    font-weight: bold;
+    background: #005776;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    margin: -10px;
+    font-size: 24px;
+}
+
+.investigationOtherTest-close:hover,
+.investigationOtherTest-close:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+
+
+
+
+
+
+
+/*================================XRAY==========================================*/
+.investigationxrayClass {
+	display: none;
+	/* Hidden by default */
+	position: fixed;
+	/* Stay in place */
+	z-index: 1;
+	/* Sit on top */
+	padding-top: 100px;
+	padding-right: 15px;
+	padding-left: 166px;
+	/* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%;
+	/* Full width */
+	height: 100%;
+	/* Full height */
+	overflow: auto;
+	/* Enable scroll if needed */
+	background-color: rgb(0, 0, 0);
+	/* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4);
+	/* Black w/ opacity */
+}
+
+.investigationxray-content{
+		
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 65%;
+	margin-top: -69px;
+	 animation: popOut 0.25s ease forwards;
+}
+
+
+
+/* The Close Button */
+.investigationxray-close {
+	 color: #ffff;
+    float: right;
+    font-weight: bold;
+    background: #005776;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    margin: -10px;
+    font-size: 24px;
+}
+
+.investigationxray-close:hover,
+.investigationxray-close:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+}
+/* ================================ ECG  Profile =================================*/
+
+.investigationecgClass {
+	display: none;
+	/* Hidden by default */
+	position: fixed;
+	/* Stay in place */
+	z-index: 1;
+	/* Sit on top */
+	padding-top: 100px;
+	padding-right: 15px;
+	padding-left: 166px;
+	/* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%;
+	/* Full width */
+	height: 100%;
+	/* Full height */
+	overflow: auto;
+	/* Enable scroll if needed */
+	background-color: rgb(0, 0, 0);
+	/* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4);
+	/* Black w/ opacity */
+}
+
+.investigationecg-content{
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 65%;
+	margin-top: -69px;
+	border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	background-color: #fefefe;
+	animation: popOut 0.25s ease forwards;
+}
+
+
+
+/* The Close Button */
+.investigationecg-close {
+	 color: #ffff;
+    float: right;
+    font-weight: bold;
+    background: #005776;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    margin: -10px;
+    font-size: 24px;
+}
+
+.investigationecg-close:hover,
+.investigationecg-close:focus {
+	 color: #ffff;
+	text-decoration: none;
+	cursor: pointer;
+	    color: #ffff;
+}
+/*================================USG==========================================*/
+
+.investigationusgClass {
+	display: none;
+	/* Hidden by default */
+	position: fixed;
+	/* Stay in place */
+	z-index: 1;
+	/* Sit on top */
+	padding-top: 100px;
+	padding-right: 15px;
+	padding-left: 166px;
+	/* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%;
+	/* Full width */
+	height: 100%;
+	/* Full height */
+	overflow: auto;
+	/* Enable scroll if needed */
+	background-color: rgb(0, 0, 0);
+	/* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4);
+	/* Black w/ opacity */
+}
+
+.investigationusg-content{
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 65%;
+	margin-top: -69px;
+	border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	background-color: #fefefe;
+	animation: popOut 0.25s ease forwards;
+}
+
+
+
+/* The Close Button */
+.investigationusg-close {
+	 color: #ffff;
+    float: right;
+    font-weight: bold;
+    background: #005776;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    margin: -10px;
+    font-size: 24px;
+}
+
+.investigationusg-close:hover,
+.investigationusg-close:focus {
+	 color: #ffff;
+	text-decoration: none;
+	cursor: pointer;
+	    color: #ffff;
+}
+/* ================================ Thyroid  Profile =================================*/
+
+.investigationtpClass {
+	display: none;
+	/* Hidden by default */
+	position: fixed;
+	/* Stay in place */
+	z-index: 1;
+	/* Sit on top */
+	padding-top: 100px;
+	padding-right: 15px;
+	padding-left: 166px;
+	/* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%;
+	/* Full width */
+	height: 100%;
+	/* Full height */
+	overflow: auto;
+	/* Enable scroll if needed */
+	background-color: rgb(0, 0, 0);
+	/* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4);
+	/* Black w/ opacity */
+}
+
+.investigationtp-content{
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 65%;
+	margin-top: -69px;
+	border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	background-color: #fefefe;
+	animation: popOut 0.25s ease forwards;
+}
+
+
+
+/* The Close Button */
+.investigationtp-close {
+	 color: #ffff;
+    float: right;
+    font-weight: bold;
+    background: #005776;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    margin: -10px;
+    font-size: 24px;
+}
+
+.investigationtp-close:hover,
+.investigationtp-close:focus {
+	 color: #ffff;
+	text-decoration: none;
+	cursor: pointer;
+	    color: #ffff;
+}
+/* ================================  viral makers=================================*/
+
+.investigationvrlClass {
+display: none;
+	/* Hidden by default */
+	position: fixed;
+	/* Stay in place */
+	z-index: 1;
+	/* Sit on top */
+	padding-top: 100px;
+	padding-right: 15px;
+	padding-left: 166px;
+	/* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%;
+	/* Full width */
+	height: 100%;
+	/* Full height */
+	overflow: auto;
+	/* Enable scroll if needed */
+	background-color: rgb(0, 0, 0);
+	/* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4);
+	/* Black w/ opacity */}
+
+.investigationvrl-content{
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 65%;
+	margin-top: -69px;
+	border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	background-color: #fefefe;
+	animation: popOut 0.25s ease forwards;}
+
+
+
+/* The Close Button */
+.investigationvrl-close {
+	color: #ffff;
+    float: right;
+    font-weight: bold;
+    background: #005776;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    margin: -10px;
+    font-size: 24px;}
+
+.investigationvrl-close:hover,
+.investigationvrl-close:focus {
+	color: #ffff;
+	text-decoration: none;
+	cursor: pointer;
+	    color: #ffff;}
+
+
+
+
+
+
+
+/*
+tool tip css
+*/
+label {
+	font-weight: 500;
+	font-size: 18px;
+
+}
+
+
+
+
+.error{
+	
+	color:red;
+	
+}

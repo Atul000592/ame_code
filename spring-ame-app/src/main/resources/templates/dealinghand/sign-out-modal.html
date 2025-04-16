@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	<!-- Signup Modal -->
+
+	<div th:fragment="sign-out-modal">
+		<div class="modal fade" id="signout-modal">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Sign Out?</h5>
+
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<!-- Modal body -->
+						<div class="modal-body">
+							<p class="text-center">Are you sure you want to Sign Out?</p>
+							<form action="sign-out">
+								<div class="row">
+									<div class="col-md-6">
+										<button type="submit" class="btn btn-primary">Sign
+											Out</button>
+									</div>
+									<div class="col-md-6">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Cancel</button>
+									</div>
+
+								</div>
+
+							</form>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

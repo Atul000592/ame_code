@@ -1,0 +1,182 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>AME DashBoard Controller</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+	<div th:replace="~{medical-sub-ordinate/master-doc::master-wrapper-doc}"></div>
+	<script src="js/local/medical-checkup-list.js"></script>
+
+</head>
+
+
+<body>
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+		<div th:replace="~{po-template/left-menu-po::sidebar-wrapper-menu-po}"></div>
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<div th:replace="~{po-template/nav-bar-po::sidebar-wrapper-menu-nav-po}"></div>
+
+
+			<div class="container mt-3">
+
+				<!-- Content Row -->
+
+
+
+				<div class="my-5" id="b-homedb">
+					<div class="container">
+
+
+						<hr>
+
+						<table class="a table " id="testTable">
+
+							<thead>
+
+								<tr>
+									<td colspan="5" align="center" style="background-color: #004F98; color: white">
+										<h6>
+											<b>Medical Check Up List</b>
+										</h6>
+									</td>
+								</tr>
+								<tr style="background-color: #004F98; color: white">
+
+									<td><b>Test Name</b></td>
+									<td><b>Action</b></td>
+									<td></td>
+								</tr>
+
+							</thead>
+							<tbody id="testTableBody">
+								<tr th:each="checkUpListDtos, stat: ${checkUpListDtos}">
+									<td th:text="${checkUpListDtos.name}" class="testName" id="testName"></td>
+									<td>
+										<input type="checkbox" name="testValue" th:checked="${checkUpListDtos.Checked}">
+									</td>
+
+									<td><input type="hidden" th:name="testCode" th:value="${checkUpListDtos.code}"></td>
+									  <td><input type="hidden" th:value="${ameId}" class="ameId" id="ameId"></td> 
+									  <td>
+										  	<input type="hidden" th:value="${candidateForcePersonalId}"
+									class="candidateForcePersonalId" name="candidateForcePersonalId">
+
+									  </td>
+								</tr>
+							</tbody>
+						</table>
+
+
+					
+						<div class="col-2">
+					    <button onclick="finalSubmitCheckUpList()" class=" btn btn-success mb-5" style="float: right;">Final Submit</button>
+
+						</div>
+					</div>
+
+
+
+
+
+<form  id="myForm" name="myForm" ></form>
+
+				</div>
+
+
+
+
+			</div>
+			<!-- /#page-content-wrapper -->
+
+		</div>
+		<!-- /#wrapper -->
+
+</div>
+
+
+		<!-- Menu Toggle Script -->
+		<script>
+			$("#menu-toggle").click(function (e) {
+				e.preventDefault();
+				$("#wrapper").toggleClass("toggled");
+			});
+		</script>
+
+
+
+	
+		<!--=========================================================Add Other Test========================================================-->
+
+		<!--===================================================================================================================================-->
+
+
+		<!-- Signup Modal -->
+		<div class="modal fade" id="signout-modal">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+
+					<!-- Modal Header -->
+					<div class="modal-header text-center d-block p-5 border-bottom-0">
+						<h3 class="modal-title">Sign Out?</h3>
+						<button type="button" class="close position-absolute" style="right: 15px; top: 8px;"
+							data-dismiss="modal">&times;</button>
+					</div>
+
+					<!-- Modal body -->
+					<div class="modal-body">
+						<p class="text-center">Are you sure you want to Sign Out?</p>
+						<div class="text-center py-4">
+							<form action="sign-out">
+								<button type="submit" class="btn btn-primary b-btn mx-3">Sign
+									Out</button>
+								<button class="btn btn-secondary mx-3" data-dismiss="modal">Cancel</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<script src="vendor/jquery-ui/jquery-ui.js"></script>
+		<script>
+			$(function () {
+				$("#sortable-menu").sortable();
+				$("#sortable-menu").disableSelection();
+
+				$("#sortable-cards").sortable();
+				$("#sortable-cards").disableSelection();
+			});
+		</script>
+
+	
+
+	
+</script>
+		<script>
+			$('.sub-menu ul').hide();
+			$('.sub-sub-menu ul').hide();
+			$(".sub-menu a").click(function () {
+				$(this).parent(".sub-menu").children("ul").slideToggle("100");
+				$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+			});
+
+			$(".sub-sub-menu a").click(function () {
+				$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+				$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+			});
+		</script>
+</body>
+
+</html>

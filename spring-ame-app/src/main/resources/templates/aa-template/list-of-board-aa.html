@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<head>
+<meta charset="ISO-8859-1">
+
+
+<title>AME DashBoard Controller</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<div th:replace="~{aa-template/master-doc-aa::master-wrapper-doc-po}"></div>
+
+
+</head>
+
+
+<body>
+
+
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+		<div th:replace="~{aa-template/left-menu-aa::sidebar-wrapper-menu-po}"></div>
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<div
+				th:replace="~{aa-template/nav-bar-aa::sidebar-wrapper-menu-nav-po}"></div>
+
+			<div class="container mt-3">
+				<div class="wisecountnactionbg">
+
+					<!-- Content Row -->
+
+
+					<div id="b-homedb" class="proc-box p-3">
+
+
+						<h4>List Of Board to Personal</h4>
+						<p>**Note:-List of board Assign to you with your role Type</p>
+
+
+
+						<div>
+							<span th:if="${message!=null}" th:text="${message}"> </span>
+						</div>
+
+
+
+						<div class="table-responsive ui-sortable-handle">
+							<table
+								class="table table-striped table-bordered table-hover mb-0"
+								id="user">
+
+								<thead class="table-light">
+									<tr>
+										<th>Serial No</th>
+										<th>Name</th>
+										<th>Rank/Designation</th>
+										<th>Unit</th>
+										<th>ForceNo</th>
+										<th>View Pdf</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tr th:each="boardList,statcount :${boardList}">
+									<td th:text="${statcount.count}"></td>
+									<td th:text="${boardList.name}"></td>
+									<td th:text="${boardList.forceNo}"></td>
+									<td th:text="${boardList.unit}"></td>
+									<td th:text="${boardList.forceId}"></td>
+									<td>
+									<form th:action="@{download-ame-final-report-uploaded-go}"
+											method="get" target="_blank">
+											<input type="hidden" name="forcepersonalId"
+												th:value="${forcepersonalId}"> <input type="hidden"
+												name="ameId" th:value="${boardList.ameId}">
+											<button type="submit" class="btn btn-warning btn-sm">View
+												PDF</button>
+										</form>
+										
+										</td>
+									<td>
+										<form th:action="@{read-esigned-pdf-by-aa}" method="post"
+											onsubmit="return validateForm(this);">
+											<input type="hidden" th:value="${forcepersonalId}"
+												name="forcepersonalId"> <input type="hidden"
+												th:value="${boardList.ameId}" name="ameId">
+
+											<div class="mb-1">
+												<select name="approvalStatus"
+													class="form-select form-select-sm" required>
+													<option value="">-- Select Status --</option>
+													<option value="Approved">Approved</option>
+													<option value="Not Approved">Not Approved</option>
+												</select>
+											</div>
+
+											<div class="mb-1">
+												<textarea name="remarks"
+													class="form-control form-control-sm"
+													placeholder="Enter remarks" rows="2" required></textarea>
+											</div>
+
+											<input type="submit" value="E-Sign"
+												class="btn btn-info btn-sm mt-1">
+										</form>
+									</td>
+
+								</tr>
+
+							</table>
+
+						</div>
+					</div>
+
+					<form th:action="@{aa-dashboard}" method="get">
+
+						<input type="submit" value="Back"
+							class="btn btn-primary float-end">
+					</form>
+
+
+
+					<div class="my-5" id="b-homedb"></div>
+
+				</div>
+
+			</div>
+
+
+
+
+		</div>
+		<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function() {
+			$('#backtotop').click(function() {
+				$("html, body").animate({
+					scrollTop : 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function() {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function() {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+	<!-- Signup Modal -->
+	<div class="modal fade" id="signout-modal">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Sign Out?</h5>
+
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<!-- Modal body -->
+					<div class="modal-body">
+						<p class="text-center">Are you sure you want to Sign Out?</p>
+						<form action="sign-out">
+							<div class="row">
+								<div class="col-md-6">
+									<button type="submit" class="btn btn-primary">Sign Out</button>
+								</div>
+								<div class="col-md-6">
+									<button type="button" class="btn btn-secondary"
+										data-bs-dismiss="modal">Cancel</button>
+								</div>
+
+							</div>
+
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function() {
+			$("#one-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+
+	<script>
+		function validateForm(form) {
+			const status = form.approvalStatus.value;
+			const remarks = form.remarks.value.trim();
+
+			if (!status) {
+				alert("Please select approval status.");
+				return false;
+			}
+
+			if (!remarks) {
+				alert("Please enter remarks.");
+				return false;
+			}
+
+			return true;
+		}
+	</script>
+
+</body>
+</html>

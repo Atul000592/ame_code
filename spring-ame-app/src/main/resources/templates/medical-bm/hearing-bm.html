@@ -1,0 +1,933 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>AME DashBoard Controller</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+	<div th:replace="~{medical-sub-ordinate/master-doc::master-wrapper-doc}"></div>
+
+<style>
+	.hidden{
+        display:none;
+	}
+</style>
+	
+</head>
+
+
+<body>
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+		<div th:replace="~{medical-bm/left-menu-bm::sidebar-wrapper-menu-bm}"></div>
+
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+
+
+			<!--nav-->
+			<div
+				th:replace="~{medical-bm/nav-bar-bm::sidebar-wrapper-menu-nav-bm}"></div>
+
+
+			<div class="container mt-3">
+		<div class="wisecountnactionbg">
+		
+		
+				   <div th:replace="~{medical-sub-ordinate/inner-user-details::sidebar-wrapper-inner-user-details}"></div>
+				
+
+
+<div id="loading-overlay">
+   <div class="spinner"></div>
+  
+  
+</div>
+
+<button class="btn btn-info float-end" type="button" id="load-previous-ame-form-data">Load previous AME data</button>
+				<form id="regForm"  class="proc-box p-3 text-start">
+					
+					<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+					<h6>Fill Hearing(Ear) data</h6>
+					<!-- One "tab" for each step in the form: -->
+
+					<!-- <ul class="nav nav-tabs tabTop">
+  <li class="tabstatus" ><a  href="#menu1">General Examination</a></li>
+  <li><a data-toggle="tab" href="#menu2">Respiratory System</a></li>
+  <li class="tabstatus"><a  href="#menu3">Center Nervous System & Cranial nerves</a></li>
+  <li class="tabstatus"><a  href="#menu4">Reflexes & Sensory System</a></li>
+   <li class="tabstatus"><a href="#menu5">Reflexes & Sensory System</a></li>
+    
+</ul> -->
+
+					<hr>
+					<div class="row">
+						<div class="col-md-3 mb-2">
+							<label>Normal in both ears</label>
+						</div>
+						<div class="col-md-3 mb-2">
+							<select th:field="*{hearing.normal_in_both_ears}" class="form-control" id="normal_in_both_ears" >
+								<option th:value="${hearing.normal_in_both_ears}"
+									th:text="*{hearing.normal_in_both_ears}?:'Yes'"></option>
+								<option th:each="innerList : ${hearingDropDown.c1}" th:text="${innerList.value}"
+									th:value="${innerList.value}">
+								</option>
+							</select>
+							<span id="normalInBothEars_error" class="error"></span>
+						</div>
+						<div class="col-md-3 mb-2">
+							<label>Auroscopy</label>
+						</div>
+						<div class="col-md-3 mb-2">
+							<select th:field="*{hearing.auroscopy}" class="form-control" id="auroscopy" >
+								<option th:value="${hearing.auroscopy}" th:text="*{hearing.auroscopy}"></option>
+								<option th:each="innerList : ${hearingDropDown.c4}" th:text="${innerList.value}"
+									th:value="${innerList.value}">
+								</option>
+							</select>
+							<span id="auroscopy_error" class="error"></span>
+
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-3 mb-2">
+							<label>Moderate defect in one ear</label>
+						</div>
+						<div class="col-md-3 mb-2">
+							<select th:field="*{hearing.moderate_defect_in_one_ear}" class="form-control" id="moderate_defect_in_one_ear" >
+								<option th:value="${hearing.moderate_defect_in_one_ear}"
+									th:text="*{hearing.moderate_defect_in_one_ear}"></option>
+								<option th:each="innerList : ${hearingDropDown.c2}" th:text="${innerList.value}"
+									th:value="${innerList.value}">
+								</option>
+							</select>
+							<span id="moderateDefectInOneEar_error" class="error"></span>
+						</div>
+						<div class="col-md-3 mb-2">
+							<label>Rennie's Test</label>
+						</div>
+						<div class="col-md-3 mb-2">
+							<select th:field="*{hearing.rennie_test}" class="form-control"  id="rennie_test" >
+								<option th:value="${hearing.rennie_test}" th:text="*{hearing.rennie_test}"></option>
+								<option th:each="innerList : ${hearingDropDown.c5}" th:text="${innerList.value}"
+									th:value="${innerList.value}">
+								</option>
+							</select>
+							<span id="rennieTest_error" class="error"></span>
+						</div>
+					</div>
+
+
+					<div class="row">
+						<div class="col-md-3 mb-2">
+							<label>Partial defect in both ear</label>
+						</div>
+						<div class="col-md-3 mb-2">
+							<select th:field="*{hearing.partial_defect_in_both_ears}" class="form-control" id="partial_defect_in_both_ears" >
+								<option th:value="${hearing.partial_defect_in_both_ears}"
+									th:text="*{hearing.partial_defect_in_both_ears}"></option>
+								<option th:each="innerList : ${hearingDropDown.c3}" th:text="${innerList.value}"
+									th:value="${innerList.value}">
+								</option>
+							</select>
+							<span id="partialDefectInBothEars_error" class="error"></span>
+
+						</div>
+						<div class="col-md-3 mb-2">
+							<label>Weber's Test</label>
+						</div>
+						<div class="col-md-3 mb-2">
+							<select th:field="*{hearing.weber_test}" class="form-control" id="weber_test" >
+								<option th:value="${hearing.weber_test}" th:text="*{hearing.weber_test}"></option>
+								<option th:each="innerList : ${hearingDropDown.c6}" th:text="${innerList.value}"
+									th:value="${innerList.value}">
+								</option>
+							</select>
+<span id="weberTest_error" class="error"></span>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-3 mb-2">
+							<label>Any Other combinations</label>
+						</div>
+						<div class="col-md-3 mb-2">
+							<input type="text" class="form-control" placeholder="" 
+								th:field="*{hearing.any_other_combination}" id="any_other_combination">
+								<span id="anyOtherCombination_error" class="error"></span>
+						</div>
+
+						<div class="col-md-3 mb-2">
+							<label>Audiometry(if indicated)</label>
+						</div>
+						<div class="col-md-3 mb-2">
+							<select th:field="*{hearing.audiometry}" class="form-control" id="audiometry" >
+								<option th:value="${hearing.audiometry}" th:text="*{hearing.audiometry}"></option>
+								<option th:each="innerList : ${hearingDropDown.c7}" th:text="${innerList.value}"
+									th:value="${innerList.value}">
+								</option>
+							</select>
+							<span id="audiometry_error" class="error"></span>
+						</div>
+					</div>
+				
+					  <!-- Categorization starts-->
+					<div class="row">
+						<div class="col-md-12">
+								<hr>
+								<h6>Categorization</h6>
+								<hr>
+						</div>
+					</div>
+				
+					<div class="row">
+						<div class="col-md-3 mb-2">
+							<label><b>Category</b></label>
+						</div>
+						<div class="col-md-3 mb-2">
+							<select class="form-select" id="h_type_no" th:field="*{hearing.hNo}"
+								onchange="selectedValue()">
+								<option th:value="${hearing.hNo}" th:text="*{hearing.hNo}?:'Select'">select </option>
+								<option th:each="hearingfactorList : ${refHearingFactorlist}"
+									th:value="${hearingfactorList.value}"
+									th:text="${hearingfactorList.value}"></option>
+							</select>
+							<span id="hNo_error" class="error"></span>
+						</div>
+					</div>
+				<div class="row" id="category-type-duration-div">
+					<div class="col-md-3 mb-2">
+						<label><b>Type</b></label>
+					</div>
+					<div class="col-md-3 mb-2">
+						<select class="form-select" th:field="*{hearing.hType}" id="h_type" onchange="selectedDurationBasedOnType()">
+							<option th:value="${hearing.hType}" th:text="*{hearing.hType}?:'Select'"></option>
+							<option th:each="categoryStatusTypes : ${categoryStatusTypes}" th:value="${categoryStatusTypes.name}"
+								th:text="${categoryStatusTypes.name}">
+							</option>
+						</select>
+						<span id="hType_error" class="error"></span>
+					</div>
+				
+					<div class="clearfix"></div>
+					<div class="col-md-3 mb-2">
+						<label><b>Duration</b></label>
+					</div>
+					<div class="col-md-3 mb-2" id="duration-div-for-temporary">
+						<select class="form-select" th:field="*{hearing.hDuration}" id="h_duration">
+							<option th:value="${hearing.hDuration}" th:text="*{hearing.hDuration}?:'Select'"></option>
+							<option th:each="i: ${refHearingstatuslist}" th:text="${i.value}" th:value="${i.cValue}"></option>
+						</select>
+						<span id="hDuration_error" class="error"></span>
+					</div>
+				
+					<div class="col-md-3 mb-2 hidden" id="duration-div-for-permanent">
+						<select class="form-select" th:field="*{hearing.hDuration}">
+							<option th:value="P-2">P-2 Yrs</option>
+						</select>
+						<span id="hDuration_error" class="error"></span>
+					</div>
+				</div>
+<!-- Categorization end -->
+
+					<input type="hidden" name="forcepersonalId" th:value="${forcepersonalId}">
+					<input type="hidden" name="ameId" th:value="${ameId}" id="ameId">
+		<hr>
+					<div class="d-grid gap-2 d-md-block">
+<button type="button" class="btn btn-secondary" onclick="backToHome()" style="width:100px;">Back</button>
+<button type="submit" class="btn btn-success" style="width:100px;float:right;">Submit</button>
+
+ 
+</div>
+
+						<div class="row mb-2">
+							<div class="col-md-6">
+								<input type="hidden" th:value="${loggedInUserForcePersonnelId}"
+									   name="loggedInUserForcePersonnelId"
+									   id="loggedInUserForcePersonnelId">
+								<input type="hidden" th:value="${candidateForcePersonnelId}" name="candidateForcePersonnelId" id="candidateForcePersonnelId">
+							</div>
+						</div>
+
+				</form>
+				<form th:action="@{/declaration-requests-completed-ma}" method="post" id="back-to-home">
+					<input type="hidden" name="forcepersonalId" th:value="${forcepersonalId}">
+					<input class="btn btn-secondary" type="hidden" name="ameId" th:value="${ameId}">
+
+				</form>
+
+
+
+			</div>
+
+		
+<div th:replace="~{medical-sub-ordinate/alert-modal::message-alert-modal}"></div>
+		
+
+
+
+
+	</div>
+	<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+	<script>
+		function backToHome() {
+
+			$("#back-to-home").submit();
+		}
+	</script>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			setDefaultValues();
+		    selectedDurationBasedOnType();
+		    selectedValue();
+			
+		});
+		</script>
+
+	<!-- Bootstrap core JavaScript -->
+	<!-- <script src="vendor/jquery/jquery.min.js"></script>
+		<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="js/jquery.slicknav.min.js"></script>
+	<script src="js/dashboard.js"></script> -->
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function (e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+	<script>
+		
+			function selectedValue() {
+				var value = $('#h_type_no').val();
+
+				if (value == 'H-1') {
+
+					$('#category-type-duration-div').hide();
+				
+				} else {
+					$('#category-type-duration-div').show();
+					
+
+
+				}
+
+			}
+		
+		
+		
+//---------------------Type--------------------//		 
+ function selectedDurationBasedOnType(){
+	 var categoryType=$('#h_type').val();
+	 var categoryDuration= $("#h_duration").val();
+	 if(categoryType==='Permanent'){
+		 	 $('#duration-div-for-permanent').show();
+		 	 $('#duration-div-for-permanent').removeClass('hidden')
+		 	 $('#duration-div-for-temporary').hide();
+		 	
+	 }
+	 else if(categoryType==='Temporary'&&!categoryDuration){
+		 $("#h_duration").val('T-12');
+		 $('#duration-div-for-temporary').show();
+		 $('#duration-div-for-temporary').removeClass('hidden');
+	     $('#duration-div-for-permanent').hide();
+	     
+	 }
+	 
+	 else if(categoryType==='Temporary'){
+		 $('#duration-div-for-temporary').show();
+		 $('#duration-div-for-temporary').removeClass('hidden');
+	     $('#duration-div-for-permanent').hide();
+	    
+	 }
+	
+	  
+ }
+		
+	</script>
+
+	<script>
+		onload = function () {
+			var prevVal = document.getElementById('h_type_no').value;
+
+			selectValue(prevVal);
+			if (prevVal == 'H-1' || prevVal == 'H-5') {
+				$("#h_div").hide();
+			} else {
+				$("#h_div").show();
+			}
+		}
+
+		$(document).ready(function () {
+
+			var prevValue = document.getElementById('h_type_no').value;
+
+			selectValue(prevValue);
+			if (prevValue == 'H-1' || prevValue == 'H-5') {
+				$("#h_div").hide();
+			} else {
+				$("#h_div").show();
+			}
+			$('#backtotop').click(function () {
+				$("html, body").animate({
+					scrollTop: 0
+				}, 600);
+				return false;
+			});
+		});
+
+
+		$(document).submit(function () {
+
+			var h_type_no = document.getElementById('h_type_no').value;
+
+
+			if (h_type_no == 'H-1' || h_type_no == 'H-5') {
+				document.getElementById("h_type").value = '';
+				document.getElementById("h_duration").value = '';
+				return true;
+			}
+		})
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function () {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function () {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+	<!-- Signup Modal -->
+
+		<div class="modal fade" id="signout-modal" data-bs-backdrop="static"
+			data-bs-keyboard="false" tabindex="-1"
+			aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Sign Out?</h5>
+
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<!-- Modal body -->
+						<div class="modal-body">
+							<p class="text-center">Are you sure you want to Sign Out?</p>
+							<form action="sign-out">
+								<div class="row">
+									<div class="col-md-6">
+										<button type="submit" class="btn btn-primary">Sign
+											Out</button>
+									</div>
+									<div class="col-md-6">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Cancel</button>
+									</div>
+
+								</div>
+
+							</form>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function () {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function () {
+			$("#one-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+	<script>
+		var currentTab = 0; // Current tab is set to be the first tab (0)
+		showTab(currentTab); // Display the current tab
+
+		function showTab(n) {
+			// This function will display the specified tab of the form...
+			var x = document.getElementsByClassName("tab");
+			x[n].style.display = "block";
+			//... and fix the Previous/Next buttons:
+
+			if (n == 0) {
+				document.getElementById("prevBtn").style.display = "none";
+			} else {
+				document.getElementById("prevBtn").style.display = "inline";
+			}
+			if (n == (x.length - 1)) {
+				document.getElementById("nextBtn").innerHTML = "Submit";
+			} else {
+				document.getElementById("nextBtn").innerHTML = "Next";
+			}
+			//... and run a function that will display the correct step indicator:
+			fixStepIndicator(n);
+			fixTabIndicator(n)
+		}
+
+		function nextPrev(n) {
+			// This function will figure out which tab to display
+			var x = document.getElementsByClassName("tab");
+			// Exit the function if any field in the current tab is invalid:
+			if (n == 1 && !validateForm()) return false;
+			// Hide the current tab:
+			x[currentTab].style.display = "none";
+			// Increase or decrease the current tab by 1:
+			currentTab = currentTab + n;
+			// if you have reached the end of the form...
+			if (currentTab >= x.length) {
+				// ... the form gets submitted:
+				document.getElementById("regForm").submit();
+				return false;
+			}
+			// Otherwise, display the correct tab:
+			showTab(currentTab);
+		}
+
+		function validateForm() {
+			// This function deals with validation of the form fields
+			var x, y, i, valid = true;
+			x = document.getElementsByClassName("tab");
+			y = x[currentTab].getElementsByTagName("input");
+			// A loop that checks every input field in the current tab:
+			for (i = 0; i < y.length; i++) {
+				// If a field is empty...
+				if (y[i].value == "") {
+					// add an "invalid" class to the field:
+					y[i].className += " invalid";
+					// and set the current valid status to false
+					valid = false;
+				}
+			}
+			// If the valid status is true, mark the step as finished and valid:
+			if (valid) {
+				document.getElementsByClassName("step")[currentTab].className += " finish";
+			}
+			return valid; // return the valid status
+		}
+
+		function fixStepIndicator(n) {
+			// This function removes the "active" class of all steps...
+			var i, x = document.getElementsByClassName("step");
+			for (i = 0; i < x.length; i++) {
+				x[i].className = x[i].className.replace(" active", "");
+			}
+			//... and adds the "active" class on the current step:
+			x[n].className += " active";
+		}
+		function fixTabIndicator(n) {
+			// This function removes the "active" class of all steps...
+			var i, x = document.getElementsByClassName("tabstatus");
+			for (i = 0; i < x.length; i++) {
+				x[i].className = x[i].className.replace(" active", "");
+			}
+			//... and adds the "active" class on the current step:
+			x[n].className += " active";
+		}
+	</script>
+
+	<script>
+		function selectValue(e) {
+			var i = e.value;
+			if (i == 'H-1' || i == 'H-5') {
+				$("#h_div").hide();
+			} else {
+				$("#h_div").show();
+			}
+		}
+
+
+
+	</script>
+	
+<script>
+$(document).ready(function() {
+	$('#regForm').submit(function(event) {
+		event.preventDefault();
+		
+		$('#loading-overlay').show();
+		$('body').addClass('loading');
+        
+		var ameId = $("#ameId").val();
+        var normal_in_both_ears=$("#normal_in_both_ears").val();
+	    var auroscopy=$("#auroscopy").val();
+	    var moderate_defect_in_one_ear=$("#moderate_defect_in_one_ear").val();
+	    var rennie_test=$("#rennie_test").val();
+	    var partial_defect_in_both_ears=$("#partial_defect_in_both_ears").val();
+	    var weber_test=$("#weber_test").val();
+	    var any_other_combination=$("#any_other_combination").val();
+	    var audiometry=$("#audiometry").val();
+	    var h_type_no=$("#h_type_no").val();
+	    var h_type=$("#h_type").val();
+	    if(h_type==='Permanent'){
+			var h_duration="P-2";
+		}
+		else{
+			  var h_duration=$("#h_duration").val();
+		}
+	  
+	    var loggedInUserForcePersonnelId=$("#loggedInUserForcePersonnelId").val();
+		
+	    
+		var data={
+				ameId:ameId,
+				normal_in_both_ears:normal_in_both_ears,
+				auroscopy:auroscopy,
+				moderate_defect_in_one_ear:moderate_defect_in_one_ear,
+				rennie_test:rennie_test,
+				partial_defect_in_both_ears:partial_defect_in_both_ears,
+				weber_test:weber_test,
+				any_other_combination:any_other_combination,
+				audiometry:audiometry,
+				hNo:h_type_no,
+				hType:h_type,
+				hDuration:h_duration
+        }
+		
+		
+		dataToSend={
+				data:data,
+				loggedInUserForcePersonnelId:loggedInUserForcePersonnelId
+				
+				
+		}
+
+		/* ===================header==================== */
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		$('.error').text('');
+
+
+
+
+		$.ajax({
+			type: 'POST',
+			url: 'validate-and-save-hearing',
+			data:JSON.stringify(dataToSend),
+			contentType: 'application/json',
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(header, token);
+			},
+			success: function(response) {
+				if (response.isValid) {
+					
+					   $('#alert-modal .modal-title').text('Success');
+			            $('#alert-modal .modal-body h3').text(response.message);
+			            $('#alert-modal .modal-body i').removeClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+			                                           .addClass('fas fa-check-circle faa-tada animated')
+			                                           .removeAttr('style');
+			            
+			            $("#cross-close-button").attr('onclick', 'backToHome()');
+			            $("#okay-close-button").attr('onclick', 'backToHome()');
+			            $('#alert-modal').modal({
+			                backdrop: 'static',
+			                keyboard: false
+			              });
+						$('#alert-modal').modal('show');
+					
+				//	 alert(response.message);
+				//	 $('#back-to-home').unbind('submit').submit();
+					 
+				}
+
+				else {  
+					
+					$.each(response.errors, function(field, errorMessage) {
+						 $('#' + field + '_error').text(errorMessage);
+						 });
+					}
+				
+},
+complete: function() {
+    $('#loading-overlay').hide();
+    $('body').removeClass('loading');
+},
+			error: function(xhr, status, error) {
+				if(xhr.responseText){
+
+					$('#alert-modal .modal-title').text('ERROR');
+		            $('#alert-modal .modal-body h3').text(xhr.responseText);
+		            
+		           $('#alert-modal .modal-body i')  .addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+	               .css('color', 'red');
+		           $('#alert-modal').modal({
+		                backdrop: 'static',
+		                keyboard: false
+		              });
+		            $('#alert-modal').modal('show');
+				}
+					
+					else{
+						$('#alert-modal .modal-title').text('ERROR');
+			            $('#alert-modal .modal-body h3').text('Server not responding please sign-in again');
+			            
+			            $('#alert-modal .modal-body i').addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+		                                               .css('color', 'red');
+			            $('#alert-modal').modal({
+			                backdrop: 'static',
+			                keyboard: false
+			              });
+			            $('#alert-modal').modal('show');
+						
+					}
+			}
+		});
+	});
+});
+
+
+
+
+</script>	
+
+
+	<script>	
+	
+//-------------Default values----------//
+			function setDefaultValues() {
+	
+				    var normal_in_both_ears=$("#normal_in_both_ears").val();
+				    var auroscopy=$("#auroscopy").val();
+				    var moderate_defect_in_one_ear=$("#moderate_defect_in_one_ear").val();
+				    var rennie_test=$("#rennie_test").val();
+				    var partial_defect_in_both_ears=$("#partial_defect_in_both_ears").val();
+				    var weber_test=$("#weber_test").val();
+				    var any_other_combination=$("#any_other_combination").val();
+				    var audiometry=$("#audiometry").val();
+				    var h_type_no=$("#h_type_no").val();
+				  
+				    if (! normal_in_both_ears) {
+						$("#normal_in_both_ears").val('Yes');
+
+					}
+				    
+				    if (! auroscopy) {
+						$("#auroscopy").val('Not Done');
+
+					}
+
+				    if (! moderate_defect_in_one_ear) {
+						$("#moderate_defect_in_one_ear").val('No');
+
+					}
+
+				    if (! rennie_test) {
+						$("#rennie_test").val('AC>BC');
+
+					}
+				    
+				    if (! partial_defect_in_both_ears) {
+						$("#partial_defect_in_both_ears").val('No');
+
+					}
+				    
+				    if (! weber_test) {
+						$("#weber_test").val('CENTRALISED');
+
+					}
+				    
+				    if (! audiometry) {
+						$("#audiometry").val('Not Done');
+
+					}
+
+				    
+				
+				    
+				  if (! any_other_combination) {
+					$("#any_other_combination").val('NIL');
+
+				     }
+				   
+				  if (! h_type_no) {
+					$("#h_type_no").val('H-1');
+
+				}
+
+				
+
+			}
+		</script>
+		
+			<script>
+		//---------------------load previous data---------------------//
+
+$(document).ready(function(){
+	  $("#load-previous-ame-form-data").click(function(){
+		  event.preventDefault();
+		$('#loading-overlay').show();
+		$('body').addClass('loading');
+		
+    const token = $("meta[name='_csrf']").attr("content");
+	const header = $("meta[name='_csrf_header']").attr("content");
+	const formId='H';
+	const candidateForcePersonnelId=$("#candidateForcePersonnelId").val();
+	
+	dataToSend={
+			formId:formId,
+			candidateForcePersonnelId:candidateForcePersonnelId
+	},
+		 $.ajax({
+			 type:"POST",
+			 url:'get-force-personnel-previous-ame-forms-details',
+			 data:JSON.stringify(dataToSend),
+			 contentType:"application/JSON",
+			 beforeSend: function(xhr) {
+					xhr.setRequestHeader(header, token);
+				},
+		     success:function(response){
+		    	 if(response.isValid){
+		    		 
+		    		  $("#normal_in_both_ears").val(response.hearingByAmeIdData.normal_in_both_ears);
+		    		  $("#auroscopy").val(response.hearingByAmeIdData.auroscopy);
+		    		  $("#moderate_defect_in_one_ear").val(response.hearingByAmeIdData.moderate_defect_in_one_ear);
+		    		  $("#rennie_test").val(response.hearingByAmeIdData.rennie_test);
+		    		  $("#partial_defect_in_both_ears").val(response.hearingByAmeIdData.partial_defect_in_both_ears);
+		    		  $("#weber_test").val(response.hearingByAmeIdData.weber_test);
+		    		  $("#any_other_combination").val(response.hearingByAmeIdData.any_other_combination);
+		    		  $("#audiometry").val(response.hearingByAmeIdData.audiometry);
+		    		  $("#h_type_no").val(response.hearingByAmeIdData.hNo);
+		    		  $("#h_type").val(response.hearingByAmeIdData.hType);
+		    		  $("#h_duration").val(response.hearingByAmeIdData.hDuration);
+		    		 
+		    		  selectedValue();
+		    		  selectedDurationBasedOnType();
+		    			
+		   			    $('#alert-modal .modal-title').text('Success');
+			            $('#alert-modal .modal-body h3').text(response.message);
+			            $('#alert-modal .modal-body i').removeClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+			                                             .addClass('fas fa-check-circle faa-tada animated')
+			                                             .removeAttr('style');
+			            
+			           /*  $("#cross-close-button").attr('onclick', 'backToHome()');
+			            $("#okay-close-button").attr('onclick', 'backToHome()'); */
+			            $('#alert-modal').modal({
+			                backdrop: 'static',
+			                keyboard: false
+			              });
+						  	            $('#alert-modal').modal('show');
+	    		
+		    		
+		    	 }
+		    	 else{
+		    		 $('#alert-modal .modal-title').text('ERROR');
+			         $('#alert-modal .modal-body h3').text(response.errors.noRecordAvailable);
+			         $('#alert-modal .modal-body i').addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+		                                               .css('color', 'red');
+			         $('#alert-modal').modal({
+			                backdrop: 'static',
+			                keyboard: false
+			              });
+			         $('#alert-modal').modal('show');
+		    	 }
+		    	 
+		    	
+		    	 
+		     },
+		 complete:function(){
+			   $('#loading-overlay').hide();
+			   $('body').removeClass('loading');
+		 },
+			error: function(xhr, status, error) {
+				if(xhr.responseText){
+
+					$('#alert-modal .modal-title').text('ERROR');
+		            $('#alert-modal .modal-body h3').text(xhr.responseText);
+		            
+		           $('#alert-modal .modal-body i')  .addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+	               .css('color', 'red');
+		           $('#alert-modal').modal({
+		                backdrop: 'static',
+		                keyboard: false
+		              });
+		            $('#alert-modal').modal('show');
+				}
+					
+					else{
+						$('#alert-modal .modal-title').text('ERROR');
+			            $('#alert-modal .modal-body h3').text('Server not responding please sign-in again');
+			            
+			            $('#alert-modal .modal-body i').addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+		                                               .css('color', 'red');
+			            $('#alert-modal').modal({
+			                backdrop: 'static',
+			                keyboard: false
+			              });
+			            $('#alert-modal').modal('show');
+						
+					}
+			}
+		 })
+		  
+	  })
+	  
+})
+
+
+
+
+	 
+	 
+	</script>
+	
+</body>
+
+</html>

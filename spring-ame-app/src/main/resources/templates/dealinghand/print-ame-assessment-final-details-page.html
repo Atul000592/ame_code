@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org">
+   <head>
+      <meta charset="utf-8">
+      <title>AME</title>
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,600;0,800;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+.bd td, .bd th {
+	border: 1px solid #000;
+	
+}
+#printpagebutton {
+    background: #02356e;
+    color: #fff;
+    padding: 2px 7px;
+    border-radius: 3px;
+    border: 2px solid #02356e;
+    cursor: pointer;
+}
+
+table.a {
+  table-layout: auto;
+   width: 70%;  
+  
+}
+.table-heading{
+ 
+  text-align: left;
+}
+
+.table-data {
+ align-content:center;
+  text-align: left;
+  margin:auto;
+}
+</style>
+   </head>
+   <body style="-webkit-print-color-adjust: exact !important;">
+      <div style="max-width:700px;margin:0 auto;">
+         <table  style="width:100%" >
+            <tbody>
+               <tr>
+                  <td style="vertical-align: top;"><img src="/images/BSF.png" alt="logo" style="width:40px; height:40px" ></td>
+                  <td style="text-align: center;margin: 0;vertical-align: top;">
+                     <p style="font-family: 'Poppins', sans-serif; margin-top: 0;padding: 0px 0;margin: 0;font-weight: bold;text-transform: uppercase;font-size: 17px;">Annual Medical Examination</p>
+                     <p style="font-family: 'Poppins', sans-serif;margin-top: 0;padding-top: 2px;margin: 0;font-size: 12px;font-weight: 600;text-align: center;margin-top: 15px; "> <u>Final details</u></p>
+                     <p style="font-family: 'Poppins', sans-serif;margin-top: 0;padding-top: 2px;margin: 0;font-weight: 400;font-size: 10px;"></p>
+              
+                  </td>
+                  <td style="vertical-align: top;">
+                     <!-- <p style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: normal;vertical-align: top;padding: 0px 0;margin:0"><span th:text="${createdOn}"></span></p>
+                  --><div style="display: flex;">
+						<div style="margin-right: 10px;">
+				 
+				 			 <button class="yelow-btn" id="printpagebutton" type="button" onclick="printAllotment()">Print</button>
+				 		
+				 	 </div>
+				 	 </div>
+				 	<!--  <div th:if="${printFlag == 'O'}">Original</div> -->
+					<!-- <div th:if="${printFlag == 'D'}">Duplicate</div></div> -->	
+                 
+                 
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+    
+    
+         <table  style="padding: 10px;width:100%;">
+            <tbody>
+               <tr>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: 600;vertical-align: top;padding: 3px 0">FORCE   :</td>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${forcePersonalDetails.forceName}"></span></td>
+              </tr>
+               <tr>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: 600;vertical-align: top;padding: 3px 0">REGT NO :</td>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${forcePersonalDetails.irlaNumber}"></span></td>
+              </tr>
+               <tr>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: 600;vertical-align: top;padding: 3px 0">RANK    :</td>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${forcePersonalDetails.rank}"></span></td>
+              </tr>
+               <tr>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: 600;vertical-align: top;padding: 3px 0">NAME    :</td>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${forcePersonalDetails.Name}"></span></td>
+              </tr>
+               <tr>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: 600;vertical-align: top;padding: 3px 0">AGE     :</td>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${#dates.format(forcePersonalDetails.dob,'dd-MM-yyyy')}"></span></td>
+              </tr>
+               <tr>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: 600;vertical-align: top;padding: 3px 0">GENDER  :</td>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${forcePersonalDetails.gender}"></span></td>
+              </tr>
+               <tr>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: 600;vertical-align: top;padding: 3px 0">UNIT/BATTALION/HQ :</td>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${forcePersonalDetails.unitName}"></span></td>
+              </tr>
+            </tbody>
+         </table>
+         
+         
+         <p style="font-family: 'Poppins', sans-serif;margin-top: 0;padding-top: 2px;margin: 0;font-size: 12px;font-weight: 600;text-align: center;margin-top: 15px; "> <u>Categorization</u></p>
+         <table  style="padding: 10px;width:100%;">
+            <tbody>
+               <tr>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: 600;vertical-align: top;padding: 3px 0">(i)	‘S’ FACTOR	   :</td>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${ameMasterStatus.psycological_shape}"></span></td>
+              </tr>
+               <tr>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: 600;vertical-align: top;padding: 3px 0">(ii)	‘H’ FACTOR			:</td>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${ameMasterStatus.hearingShape}"></span></td>
+              </tr>
+               <tr>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: 600;vertical-align: top;padding: 3px 0">(iii)	‘A’ FACTOR			:</td>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: normal;vertical-align: top;padding: 3px 0">
+                  <table class="a">
+								<tr>
+									<th class="table-heading" style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: 600;vertical-align: top;padding: 3px 0">Upper Limb Shape</th>
+									<th class="table-heading" style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: 600;vertical-align: top;padding: 3px 0"	>Lower Limb Shape</th>
+									
+								</tr>
+								<tr>
+								
+								    <td class="table-data" th:text="${ameMasterStatus.upperLimbShape}"/>
+									<td class="table-data" th:text="${ameMasterStatus.lowerLimbShape}"/>
+									
+								</tr>
+							</table></td>
+              </tr>
+               <tr>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: 600;vertical-align: top;padding: 3px 0">(iv)	‘P’ FACTOR			:</td>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${ameMasterStatus.physicalShape}"></span></td>
+              </tr>
+               <tr>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: 600;vertical-align: top;padding: 3px 0">(v)	‘E’ FACTOR	:</td>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: normal;vertical-align: top;padding: 3px 0">
+                  <table class="a">
+								<tr>
+									<th class="table-heading" style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: 600;vertical-align: top;padding: 3px 0">Left Eye Shape</th>
+									<th class="table-heading" style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: 600;vertical-align: top;padding: 3px 0">Right Eye Shape</th>
+									
+								</tr>
+								<tr>
+									<td class="table-data" th:text="${ameMasterStatus.leftEyeShape}"></td>
+									<td class="table-data" th:text="${ameMasterStatus.rightEyeShape}"></td>
+									
+								</tr>
+							</table>
+						</td>
+              </tr>
+               <!-- <tr th:if="${forcePersonalDetails.gender}=='Female'">
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: 600;vertical-align: top;padding: 3px 0">(vi)	‘G’ FACTOR (IF APPLICABLE):</td>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${ameMasterStatus.gynaecologyShape}"></span></td>
+              </tr> -->
+              <tr th:text="${ameMasterStatus.gynaecologyShape}" >
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: 600;vertical-align: top;padding: 3px 0">(vi)	‘G’ FACTOR (IF APPLICABLE):</td>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${ameMasterStatus.gynaecologyShape}?:'Not Applicable'"></span></td>
+              </tr>
+              
+            </tbody>
+         </table>
+         
+         <!--==================================================================Final categorization=========================================================================  -->
+          
+         <p style="font-family: 'Poppins', sans-serif;margin-top: 0;padding-top: 2px;margin: 0;font-size: 12px;font-weight: 600;text-align: center;margin-top: 15px; "> <u>Final Categorization</u></p>
+         <table  style="padding: 10px;width:100%;">
+            <tbody>
+               <tr>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: 600;vertical-align: top;padding: 3px 0">FINAL CATERGORISATION 	:</td>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: normal;vertical-align: top;padding: 3px 0"><span ></span></td>
+              </tr>
+               <tr>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: 600;vertical-align: top;padding: 3px 0">ADVICE/EMPLOYABILITY RESTRICTION(S) IF ANY	:</td>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: normal;vertical-align: top;padding: 3px 0"><span ></span></td>
+              </tr>
+         
+            </tbody>
+         </table>
+         
+         
+         
+           <table  style="padding: 10px;width:100%; margin-top:2%;">
+            <tbody>
+               <tr>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: 600;vertical-align: top;padding: 3px 0">PLACE 	:</td>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: normal;vertical-align: top;padding: 3px 0"><span></span></td>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: 600;vertical-align: top;padding: 3px 0;text-align: center">SIG OF BOARD MEMBER  	:</td>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: normal;vertical-align: top;padding: 3px 0"><span></span></td>
+              </tr>
+               <tr>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: 600;vertical-align: top;padding: 3px 0">DATE	:</td>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: normal;vertical-align: top;padding: 3px 0"><span ></span></td>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: 600;vertical-align: top;padding: 3px 0;text-align: center">NAME OF BOARD MEMBER 	:</td>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: normal;vertical-align: top;padding: 3px 0"><span></span></td>
+             
+              
+              </tr>
+         
+            </tbody>
+         </table>
+        <!--  <div class="button-div" id="backButton">
+						<input type="button" class="btn btn-secondary button2"
+							onclick="backToHome()" value="Back">
+					</div>
+         <form th:action="@{/back-to-index-page-ama}" method="post"
+					id="back-to-home">
+					<input type="hidden" name="forcepersonalId"
+						th:value="${forcepersonalId}"> <input type="hidden"
+						name="ameId" th:value="${ameId}">
+
+
+				</form>
+      </div>
+       -->
+      
+       <script>
+         function printAllotment() {
+        //Get the print button and put it into a variable
+        var printButton = document.getElementById("printpagebutton");
+        //Set the print button visibility to 'hidden' 
+        printButton.style.visibility = 'hidden';
+        
+        //Print the page content
+        window.print()
+        printButton.style.visibility = 'visible';
+    }
+      </script>
+   </body>
+</html>

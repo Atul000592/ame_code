@@ -1,0 +1,2186 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+<head>
+	<title>AME DashBoard Controller</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+
+
+	<script src="js/3.6.0/jquery.min.js"></script>
+
+
+	<!--Local investigation Code-->
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script src="js/local/investigation-master.js"></script>
+	<script src="js/local/investigation-master-functional.js"></script>
+
+
+<style type="text/css">
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+  .hidden{
+display:none;
+}
+
+</style>
+
+
+	<link rel="stylesheet" href="css/local/investigation-model.css" />
+
+</head>
+
+<div th:replace="~{medical-sub-ordinate/master-doc::master-wrapper-doc}"></div>
+
+<body>
+
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+		<div th:replace="~{medical-bm/left-menu-bm::sidebar-wrapper-menu-bm}"></div>
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<div th:replace="~{medical-bm/nav-bar-bm::sidebar-wrapper-menu-nav-bm}"></div>
+
+
+			<div class="container mt-3">
+				<div class="wisecountnactionbg">
+
+					<div th:replace="~{medical-sub-ordinate/inner-user-details::sidebar-wrapper-inner-user-details}" ></div>
+
+				</div>
+				<!-- candidate details end-->
+
+				<!-- ====================Other Test RK============================= -->
+				<div id="loading-overlay">
+					<div class="spinner"></div>
+
+
+				</div>
+
+				<button value="upload"  class="btn btn-success mt-2" th:value="OtherTest" 
+					onclick="uploadReport(this)" style="width:150px;">Add Other Test</button>
+
+            <!--    <button value="upload"  class="btn btn-success mt-2" th:value="${ameId}"
+					onclick="addNewTest(this)" style="width:150px;">Add Test</button>
+ -->
+				<div id="investigationOtherTest" class="investigationOtherTestClass">
+
+
+					<!-- Modal content -->
+					<div class="investigationOtherTest-content">
+						<span class="investigationOtherTest-close"
+							onclick="investigationOtherTestCloseModel()">&times;</span>
+
+						<h5 style="text-align: center;">
+							<label><b>Add Other Test</b></label>
+						</h5>
+
+						<hr>
+
+
+						<form id="other-test-form">
+
+
+							<div class="row form-group mb-3">
+								<label class="col-form-label col-md-4">Test Name</label>
+
+								<div class="col-md-8">
+									<input type="text" class="form-control" required id="other-test-name"
+										name="other-test-name" placeholder="Please enter the test name.....">
+
+									<span id="otherTest_error" class="error"></span>
+								</div>
+
+							</div>
+
+
+						
+							
+							<div class="row form-group mb-3">
+								<label class="col-form-label col-md-4">Value</label>
+
+								<div class="col-md-8">
+									<input type="text" class="form-control" placeholder="Value....." required
+										id="otherTestValueId">
+
+								</div>
+
+							</div>
+
+
+
+							<div class="row form-group mb-3">
+								<label class="col-form-label col-md-4">Upload Report File</label>
+
+								<div class="col-md-8">
+									<input class="form-control" required type="file" name="file"
+										id="fileInput-other-test">
+
+								</div>
+
+							</div>
+
+
+							<div class="row form-group mb-3">
+								<div class="col-md-10">
+
+									<input type="hidden" th:value=${ameId} name="ameId" id="ameId-other-test">
+
+									<input type="hidden" th:value=${ameId} name="ameId" id="ameId-cbc">
+								</div>
+								<div class="col-md-2">
+									<input type="button" value="submit" id="save-other-test"
+										class="btn btn-primary float-end mb-3" style="width: 150px;margin-right: 70%;">
+								</div>
+							</div>
+
+
+						</form>
+
+
+
+					</div>
+
+
+
+				</div>
+				<!-- ============================================================== -->
+
+				<div id="loading-overlay">
+					<div class="spinner"></div>
+				</div>
+				<div class="table-responsive">
+					<h5 style="text-align: center;"><b>Investigation List</b></h5>
+					<table class="table table-striped table-bordered table-hover dataTable no-footer"
+						id="investigationList">
+
+						<thead class="table-light">
+							<tr>
+								<td>Test Name</td>
+								<td>Test Description</td>
+								<td width="130">Action</td>
+							</tr>
+
+						</thead>
+						<tbody>
+
+							<tr th:each="checkUpList,statcount :${checkUpLists}" th:id="${checkUpList.testCode}">
+								<td th:text="${checkUpList.testName}"></td>
+								<td th:text="${checkUpList.testName}"></td>
+								<td>
+									<button value="upload" class="btn btn-success btn-sm"
+										th:value="${checkUpList.testCode}" onclick="uploadReport(this)">Upload
+										Result</button>
+								</td>
+
+							</tr>
+							<tr th:if="${checkUpLists}==null">
+								<td colSpan="3">No data available.....</td>
+							</tr>
+
+						</tbody>
+					</table>
+
+				</div>
+
+
+
+				<div class="table-responsive">
+					<h5 style="text-align:center;"><b>Investigation List (Report Upload Completed)</b></h5>
+					<table class="table table-striped table-bordered table-hover dataTable no-footer"
+						id="completedInvestigationTable">
+						<thead class="table-light">
+
+
+							<tr>
+								<td>Test Name</td>
+								<td>Test Description</td>
+								<td width="130">Status</td>
+								<td width="130" colSpan="2">Action</td>
+								
+							</tr>
+
+						</thead>
+
+
+						<tbody>
+
+							<tr th:each="checkUpLists,statcount :${checkUpListsCompleted}">
+								<td th:text="${checkUpLists.testName}"></td>
+								<td th:text="${checkUpLists.testName}"></td>
+									<td><span > Completed </span></td>
+									<td><button type="button" class="btn btn-primary col-auto" th:id="${checkUpLists.testCode}" th:value="${checkUpLists.testCode}" th:name="edit" onclick="uploadReport(this)" >EDIT</button></td>
+									<td><button type="button" class="btn btn-primary col-auto" th:id="${checkUpLists.testCode}" th:value="${checkUpLists.testCode}" th:name="view" onclick="uploadReport(this)">VIEW</button></td>
+							
+
+							</tr>
+
+						</tbody>
+					</table>
+				</div>
+
+
+
+			<!-- 	<div th:each="checkUpLists1,statcount :${checkUpLists}"> -->
+
+
+
+					<!-- <div th:if="${checkUpLists1.testCode=='cbc'}"> -->
+
+
+						<div id="investigationcbc" class="investigationcbcClass">
+
+
+							<!-- Modal content -->
+							<div class="investigationcbc-content">
+								<span class="investigationcbc-close"
+									onclick="investigationcbcCloseModel()">&times;</span>
+								<h5 style="text-align: center;">
+									<label><b>CBC</b></label>
+								</h5>
+
+								<hr>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">Test Name</label>
+									<label class="col-form-label col-md-4">Value</label>
+
+
+									<label class="col-form-label col-md-2">Range</label>
+									<label class="col-form-label col-md-2">Units</label>
+
+
+								</div>
+
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4"> Haemoglobin </label>
+									<div class="col-md-4">
+										<input type="text" name="haemoglobin" id="haemoglobin" class="form-control"
+											onkeypress='validate(event)' th:value="${investigationDto.completeBloodCountCBC.haemoglobin}" required>
+									</div>
+
+									<label class="col-form-label col-md-2">M(12.5-18)/F(11.5-14)</label>
+									<label class="col-form-label col-md-2">gm%</label>
+								</div>
+
+
+
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">Total Leukocyte
+										Count(TLC) </label>
+
+									<div class="col-md-4">
+										<input type="text" name="totalLeukocyteCount" id="totalLeukocyteCount"
+											class="form-control" th:value="${investigationDto.completeBloodCountCBC.totalLeukocyteCount}"  required>
+									</div>
+									<label class="col-form-label col-md-2">4000-11000</label>
+									<label class="col-form-label col-md-2">per cum</label>
+								</div>
+
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-12">
+										<b>
+											Differential Leukocyte Count (DLC) </b></label>
+
+									<!-- <div class="col-md-8">
+											<input type="hidden" name="differentialLeukocyteCount"
+												id="differentialLeukocyteCount" class="form-control"  required>
+										</div> -->
+								</div>
+
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">Neutrophils or
+										Polymorphs</label>
+
+									<div class="col-md-4">
+										<input type="text" name="neutrophilsOrPolymorphs" id="neutrophilsOrPolymorphs"
+											class="form-control" th:value="${investigationDto.completeBloodCountCBC.neutrophilsOrPolymorphs}" required>
+									</div>
+									<label class="col-form-label col-md-2">40-70</label>
+									<label class="col-form-label col-md-2">%</label>
+								</div>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">Monocytes </label>
+
+									<div class="col-md-4">
+										<input type="text" name="monocytes" id="monocytes" class="form-control"
+											th:value="${investigationDto.completeBloodCountCBC.monocytes}" required>
+									</div>
+									<label class="col-form-label col-md-2">02-10</label>
+									<label class="col-form-label col-md-2">%</label>
+
+								</div>
+
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">lymphocyte </label>
+
+									<div class="col-md-4">
+										<input type="text" name="lymphocyte" id="lymphocyte" class="form-control"
+											th:value="${investigationDto.completeBloodCountCBC.lymphocytes}" required>
+									</div>
+									<label class="col-form-label col-md-2">20-45</label>
+									<label class="col-form-label col-md-2">%</label>
+
+								</div>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">Basophils</label>
+
+									<div class="col-md-4">
+										<input type="text" name="basophils" id="basophils" class="form-control"
+											th:value="${investigationDto.completeBloodCountCBC.basophils}" required>
+									</div>
+									<label class="col-form-label col-md-2">00-10</label>
+									<label class="col-form-label col-md-2">%</label>
+								</div>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">Eosinophils</label>
+
+									<div class="col-md-4">
+										<input type="text" name="eosinophils" id="eosinophils" class="form-control"
+											th:value="${investigationDto.completeBloodCountCBC.eosinophils}" required>
+									</div>
+									<label class="col-form-label col-md-2">01-06</label>
+									<label class="col-form-label col-md-2">%</label>
+								</div>
+
+
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">Erythrocyte
+										sedimentation rate(ESR)</label>
+
+									<div class="col-md-4">
+										<input type="text" name="erythrocyteSedimentationRate"
+											id="erythrocyteSedimentationRate" class="form-control" 
+											th:value="${investigationDto.completeBloodCountCBC.erythrocyteSedimentationRate}" required>
+									</div>
+									<label class="col-form-label col-md-2">4.27-6.07</label>
+									<label class="col-form-label col-md-2">%</label>
+								</div>
+
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">Platelet Count</label>
+
+									<div class="col-md-4">
+										<input type="text" name="plateletCount" id="plateletCount" class="form-control"
+											th:value="${investigationDto.completeBloodCountCBC.plateletCount}" required>
+									</div>
+									<label class="col-form-label col-md-2">150-450</label>
+									<label class="col-form-label col-md-2">10^3/uL</label>
+								</div>
+								<div class="row form-group mb-3" id="file-div">
+									<label class="col-form-label col-md-4">Upload Report
+										File</label>
+
+									<div class="col-md-8">
+										<input type="file" name="file" id="fileInput-cbc" class="form-control" 
+										th:value="${investigationDto.completeBloodCountCBC.fileName}"
+										th:text="${investigationDto.completeBloodCountCBC.fileName}"
+										
+										
+										 required>
+										
+										<a th:href="@{/download-notification-file(filePath=${investigationDto.lipid.path})}" 
+										class="hidden"  target="_blank"
+										>Download</a>
+									</div>
+								</div>
+
+								<div class="row form-group mb-3">
+									<div class="col-md-12">
+										<input type="hidden" name="testCode-cbc" id="testCode-cbc" value="cbc"
+											class="form-control" required />
+									</div>
+
+
+
+									<div class="col-md-12">
+										<input type="button" value="Submit" id="save-cbc"
+											class="btn btn-primary float-end"> <input type="hidden" th:value=${ameId}
+											name="ameId" id="ameId-cbc">
+									</div>
+								</div>
+
+
+
+							</div>
+
+						</div>
+
+					<!-- </div> -->
+
+
+
+					<!--utmicro-->
+
+					<!-- <div th:if="${checkUpLists1.testCode=='utmicro'}"> -->
+
+
+						<div id="investigationutmicro" class="investigationutmicroClass">
+
+
+							<!-- Modal content -->
+							<div class="investigationutmicro-content">
+								<span class="investigationutmicro-close"
+									onclick="investigationutmicrophyCloseModel()">&times;</span>
+
+
+								<h5 style="text-align: center;">
+									<label><b>Urine Physical/Urine Microscope</b></label>
+								</h5>
+
+
+								<hr>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">Test Name</label>
+									<label class="col-form-label col-md-4">Value</label>
+
+
+									<label class="col-form-label col-md-2">Range</label>
+									<label class="col-form-label col-md-2">Units</label>
+
+
+								</div>
+
+								<h6><b>Microscope Exam</b></h6>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4"> Epithelial
+										Cells </label>
+									<div class="col-md-4">
+										<input type="text" name="epithelialCells" id="epithelialCells"
+											class="form-control" 
+											th:field="${investigationDto.urineTestPhysicalMicroscopic.epithelialCells}"
+											th:value="${investigationDto.urineTestPhysicalMicroscopic.epithelialCells}"
+											required>
+									</div>
+									<label class="col-form-label col-md-2">--</label>
+									<label class="col-form-label col-md-2">--</label>
+								</div>
+
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4"> RBC </label>
+									<div class="col-md-4">
+										<input type="text" name="rbc" id="rbc" class="form-control"
+										th:field="${investigationDto.urineTestPhysicalMicroscopic.rbc}"
+										th:value="${investigationDto.urineTestPhysicalMicroscopic.rbc}"
+										 required>
+									</div>
+									<label class="col-form-label col-md-2">--</label>
+									<label class="col-form-label col-md-2">--</label>
+								</div>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4"> Crystal </label>
+									<div class="col-md-4">
+										<input type="text" name="crystal" id="crystal" class="form-control"
+										th:field="${investigationDto.urineTestPhysicalMicroscopic.crystal}"
+											th:value="${investigationDto.urineTestPhysicalMicroscopic.crystal}"
+										 required>
+									</div>
+									<label class="col-form-label col-md-2">--</label>
+									<label class="col-form-label col-md-2">--</label>
+								</div>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4"> Pus Cells </label>
+									<div class="col-md-4">
+										<input type="text" name="pusCells" id="pusCells" class="form-control"
+										th:field="${investigationDto.urineTestPhysicalMicroscopic.pusCells}" 
+										th:value="${investigationDto.urineTestPhysicalMicroscopic.pusCells}"
+										 required>
+									</div>
+									<label class="col-form-label col-md-2">--</label>
+									<label class="col-form-label col-md-2">--</label>
+								</div>
+
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">Cast cells</label>
+									<div class="col-md-4">
+										<input type="text" class="form-control" required name="castCells"
+											id="castCells"  
+											th:field="${investigationDto.urineTestPhysicalMicroscopic.pusCells}"
+											th:value="${investigationDto.urineTestPhysicalMicroscopic.pusCells}">
+
+									</div>
+									<label class="col-form-label col-md-2">--</label>
+									<label class="col-form-label col-md-2">--</label>
+								</div>
+
+								<h6><b>Physical Exam</b></h6>
+
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4"> Colour </label>
+									<div class="col-md-4">
+										<input type="text" name="colour" id="colour" class="form-control"
+										th:field="${investigationDto.urineTestPhysicalMicroscopic.colour}"
+										th:value="${investigationDto.urineTestPhysicalMicroscopic.colour}"
+										 required>
+									</div>
+									<label class="col-form-label col-md-2">--</label>
+									<label class="col-form-label col-md-2">--</label>
+								</div>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4"> Transparency </label>
+									<div class="col-md-4">
+										<input type="text" name="transparency" id="transparency" class="form-control"
+										 th:field="${investigationDto.urineTestPhysicalMicroscopic.transparency}"
+											 th:value="${investigationDto.urineTestPhysicalMicroscopic.transparency}"
+											 required>
+									</div>
+									<label class="col-form-label col-md-2">--</label>
+									<label class="col-form-label col-md-2">--</label>
+								</div>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4"> Reaction </label>
+									<div class="col-md-4">
+										<input type="text" name="reaction" id="reaction" class="form-control"
+										 th:field="${investigationDto.urineTestPhysicalMicroscopic.reaction}"
+										 th:value="${investigationDto.urineTestPhysicalMicroscopic.reaction}"
+										 required>
+									</div>
+									<label class="col-form-label col-md-2">--</label>
+									<label class="col-form-label col-md-2">--</label>
+								</div>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4"> Albumin
+									</label>
+									<div class="col-md-4">
+										<input type="text" name="albuminCells" id="albuminCells" class="form-control"
+										th:field="${investigationDto.urineTestPhysicalMicroscopic.albuminCells}"
+											 th:value="${investigationDto.urineTestPhysicalMicroscopic.albuminCells}"
+											required>
+									</div>
+									<label class="col-form-label col-md-2">--</label>
+									<label class="col-form-label col-md-2">--</label>
+								</div>
+
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4"> Sugar </label>
+									<div class="col-md-4">
+										<input type="text" name="sugar" id="sugar" class="form-control" 
+										th:field="${investigationDto.urineTestPhysicalMicroscopic.sugar}"
+										 th:value="${investigationDto.urineTestPhysicalMicroscopic.sugar}"
+										required>
+									</div>
+									<label class="col-form-label col-md-2">--</label>
+									<label class="col-form-label col-md-2">--</label>
+								</div>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4"> Bile Salt </label>
+									<div class="col-md-4">
+										<input type="text" name="bileSalt" id="bileSalt" class="form-control"
+										th:field="${investigationDto.urineTestPhysicalMicroscopic.bileSalt}" 
+										 th:value="${investigationDto.urineTestPhysicalMicroscopic.bileSalt}"
+										required>
+									</div>
+									<label class="col-form-label col-md-2">--</label>
+									<label class="col-form-label col-md-2">--</label>
+								</div>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4"> ketones </label>
+									<div class="col-md-4">
+										<input type="text" name="ketones" id="ketones" class="form-control" 
+										 th:field="${investigationDto.urineTestPhysicalMicroscopic.ketones}"
+										 th:value="${investigationDto.urineTestPhysicalMicroscopic.ketones}"
+										required>
+									</div>
+									<label class="col-form-label col-md-2">--</label>
+									<label class="col-form-label col-md-2">--</label>
+								</div>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4"> Specific
+										gravity </label>
+									<div class="col-md-4">
+										<input type="text" name="specificGravity" id="specificGravity"
+											class="form-control" 
+											th:field="${investigationDto.urineTestPhysicalMicroscopic.specificGravity}"
+											th:value="${investigationDto.urineTestPhysicalMicroscopic.specificGravity}" required>
+									</div>
+									<label class="col-form-label col-md-2">--</label>
+									<label class="col-form-label col-md-2">--</label>
+								</div>
+
+
+
+								<!-- New fields -->
+
+								<div th:if="${candidateDetails.gender=='Female'}">
+
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4"> UPT</label>
+										<div class="col-md-4">
+											<input type="text" class="form-control"  name="upt" id="upt"
+											th:field="${investigationDto.urineTestPhysicalMicroscopic.upt}"
+											th:value="${investigationDto.urineTestPhysicalMicroscopic.upt}"
+											required>
+											<input type="hidden" id="gender" th:value="${candidateDetails.gender}">
+										</div>
+										<label class="col-form-label col-md-2">--</label>
+										<label class="col-form-label col-md-2">--</label>
+									</div>
+								</div>
+
+
+
+
+								<div class="row form-group mb-3" id="file-div">
+									<label class="col-form-label col-md-4"> Upload Report
+										File </label>
+									<div class="col-md-8">
+										<input type="file" name="file" class="form-control" id="fileInput-utmicro"
+										       th:value="${investigationDto.urineTestPhysicalMicroscopic.fileName}"
+										        th:text="${investigationDto.urineTestPhysicalMicroscopic.fileName}"
+											   required>
+											
+											<a th:href="@{/download-notification-file(filePath=${investigationDto.urineTestPhysicalMicroscopic.path})}" 
+											class="hidden"  target="_blank"
+											>Download</a>
+									</div>
+								</div>
+
+
+
+
+
+
+								<div class="row mb-3">
+									<div class="col-md-12">
+										<input type="hidden" name="testCode" id="testCode-utmicro" value="utmicro">
+										<input type="button" value="Submit" id="save-utmicro"
+											class="btn btn-primary float-end">
+									</div>
+
+									<div class="col-md-12">
+										<input type="hidden" name="ameId" id="ameId-utmicro" th:value="${ameId}">
+									</div>
+								</div>
+
+
+							</div>
+
+
+
+						</div>
+
+
+
+					<!-- </div> -->
+
+
+
+
+					<!--Lipid Profile Test-->
+
+					<!-- <div th:if="${checkUpLists1.testCode=='lipid'}"> -->
+
+
+						<div id="investigationlipid" class="investigationlipidClass">
+
+
+							<!-- Modal content -->
+							<div class="investigationlipid-content">
+
+								<span class="investigationlipid-close"
+									onclick="investigationlipidCloseModel()">&times;</span>
+
+
+
+
+								<h5 style="text-align: center;">
+									<label><b>Lipid </b></label>
+								</h5>
+
+
+								<hr>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">Test Name</label>
+									<label class="col-form-label col-md-4">Value</label>
+
+
+									<label class="col-form-label col-md-2">Range</label>
+									<label class="col-form-label col-md-2">Units</label>
+
+
+								</div>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4"> Serum
+										cholesterol</label>
+									<div class="col-md-4">
+										<input type="text" name="serumCholesterol" id="serumCcholesterol"
+											class="form-control" 
+											th:field="${investigationDto.Lipid.serumCcholesterol}" 
+											th:value="${investigationDto.Lipid.serumCcholesterol}"
+											required>
+									</div>
+									<label class="col-form-label col-md-2">130-200</label>
+									<label class="col-form-label col-md-2">mg/dl</label>
+								</div>
+
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4"> LDL
+										cholesterol </label>
+									<div class="col-md-4">
+										<input type="number" class="form-control" required name="lDLCholesterol"
+											id="lDLCholesterol" onkeypress='validate(event)'
+											
+												th:field="${investigationDto.Lipid.lDLCholesterol}" 
+											th:value="${investigationDto.Lipid.lDLCholesterol}"
+											>
+									</div>
+									<label class="col-form-label col-md-2">65-180</label>
+									<label class="col-form-label col-md-2">mg/dl</label>
+								</div>
+
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4"> HDL
+										Cholesterol </label>
+									<div class="col-md-4">
+										<input type="number" class="form-control" required name="hDLCholesterol"
+											id="hDLCholesterol" onkeypress='validate(event)'
+											onchange="calculateRatio()"
+											th:field="${investigationDto.Lipid.hDLCholesterol}" 
+											th:value="${investigationDto.Lipid.hDLCholesterol}"
+											>
+									</div>
+									<label class="col-form-label col-md-2">30-70</label>
+									<label class="col-form-label col-md-2">mg/dl</label>
+								</div>
+
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4"> VLDL
+										cholesterol </label>
+									<div class="col-md-4">
+										<input type="text" class="form-control" required name="vLDLcholesterol"
+											id="vLDLcholesterol"
+											th:field="${investigationDto.Lipid.vLDLcholesterol}" 
+											th:value="${investigationDto.Lipid.vLDLcholesterol}"
+											>
+									</div>
+									<label class="col-form-label col-md-2">02-38</label>
+									<label class="col-form-label col-md-2">mg/dl</label>
+								</div>
+
+
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4"> Triglycerides
+									</label>
+									<div class="col-md-4">
+										<input type="text" class="form-control" required name="triglycerides"
+											id="triglycerides"
+											
+											th:field="${investigationDto.Lipid.triglycerides}" 
+											th:value="${investigationDto.Lipid.triglycerides}">
+									</div>
+									<label class="col-form-label col-md-2">30-170</label>
+									<label class="col-form-label col-md-2">mg/dl</label>
+								</div>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4"> LDL/HDL Ratio
+									</label>
+									<div class="col-md-4">
+										<input type="text" class="form-control" required name="lDLhDLRatio"
+											id="lDLhDLRatio"
+											
+										th:field="${investigationDto.Lipid.lDLhDLRatio}" 
+											th:value="${investigationDto.Lipid.lDLhDLRatio}"
+											 readonly>
+									</div>
+									<label class="col-form-label col-md-2">3.3-7.0</label>
+									<label class="col-form-label col-md-2">--</label>
+								</div>
+
+								<div class="row form-group mb-3" id="file-div">
+									<label class="col-form-label col-md-4"> Upload Report
+										File</label>
+									<div class="col-md-8">
+										<input type="file" class="form-control" name="file" id="fileInput-lipid"
+								      	th:value="${investigationDto.lipid.fileName}"
+								      	th:text="${investigationDto.lipid.fileName}"
+									
+											required>
+											
+											
+											<a th:href="@{/download-notification-file(filePath=${investigationDto.lipid.path})}"
+											class="hidden"  target="_blank"
+											 >Download</a>
+									</div>
+								</div>
+								<div class="row mb-3">
+
+									<div class="col-md-12">
+										<input type="hidden" value="lipid" name="testCode-lipid" id="testCode-lipid">
+										<input type="button" value="Submit" id="save-lipid"
+											class="btn btn-primary float-end">
+										<input type="hidden" name="ameId" id="ameId-lipid" th:value=${ameId}>
+									</div>
+								</div>
+
+
+
+							</div>
+
+						</div>
+
+					<!-- </div> -->
+
+
+
+
+
+
+
+					<!-- Blood Sugar PP -->
+
+
+					<!-- <div th:if="${checkUpLists1.testCode=='bspp'}"> -->
+
+
+						<div id="investigationbspp" class="investigationbsppClass">
+
+
+							<!-- Modal content -->
+							<div class="investigationbspp-content">
+								<span class="investigationbspp-close"
+									onclick="investigationbsppCloseModel()">&times;</span>
+
+
+								<h5 style="text-align: center;">
+									<label><b>Blood Sugar-PP</b></label>
+								</h5>
+
+
+								<hr>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4"><b>Test Name</b></label> <label
+										class="col-form-label col-md-4"><b>Value</b></label> <label
+										class="col-form-label col-md-2"><b>Range</b></label> <label
+										class="col-form-label col-md-2"><b>Units</b></label>
+
+
+								</div>
+
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">Blood Sugar-PP</label>
+
+									<div class="col-md-4">
+										<input type="text" name="bspp" id="bspp-val" class="form-control" th:field="${investigationDto.BloodSugarPPValue.bloodSugarPP}" 
+											th:value="${investigationDto.BloodSugarPPValue.bloodSugarPP}" required>
+									</div>
+									<label class="col-form-label col-md-2">60-140</label> <label
+										class="col-form-label col-md-2">mg/dl</label>
+								</div>
+
+								<div class="row form-group mb-3">
+									<div class="col-md-8">
+										<input type="hidden" value="bspp" name="bspp" id="testCode-bspp"
+											class="form-control" 
+											
+											required>
+									</div>
+								</div>
+
+
+								<div class="row form-group mb-3" id="file-div">
+									<label class="col-form-label col-md-4">Upload Report
+										File</label>
+									<div class="col-md-8">
+										<input class="form-control" type="file" name="file" id="fileInput-bspp"
+										th:value="${investigationDto.BloodSugarPPValue.fileName}"
+										th:text="${investigationDto.BloodSugarPPValue.fileName}"
+										>
+										
+										<a th:href="@{/download-notification-file(filePath=${investigationDto.BloodSugarPPValue.path})}" 
+										class="hidden" target="_blank"
+										>Download</a>
+									</div>
+								</div>
+								<div class="row mb-3">
+
+									<div class="col-md-12">
+
+										<input type="button" value="Submit" id="save-bspp"
+											class="btn btn-primary float-end"> <input type="hidden" name="testCode"
+											id="testCodeId"> <input type="hidden" th:value=${ameId} name="ameId"
+											id="ameId-bspp">
+
+									</div>
+
+								</div>
+
+
+
+							</div>
+
+
+
+						</div>
+
+
+
+
+					<!-- </div> -->
+
+					<!-- bsf -->
+				<!-- 	<div th:if="${checkUpLists1.testCode=='bsf'}"> -->
+
+
+						<div id="investigationbsf" class="investigationbsfClass">
+
+
+							<!-- Modal content -->
+							<div class="investigationbsf-content">
+								<span class="investigationbsf-close"
+									onclick="investigationbsfCloseModel()">&times;</span>
+
+
+								<h5 style="text-align: center;">
+									<label><b>Blood Sugar-F</b></label>
+								</h5>
+
+
+								<hr>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4"><b>Test Name</b></label> <label
+										class="col-form-label col-md-4"><b>Value</b></label> <label
+										class="col-form-label col-md-2"><b>Range</b></label> <label
+										class="col-form-label col-md-2"><b>Units</b></label>
+
+
+								</div>
+
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">Blood Sugar-F</label>
+
+									<div class="col-md-4">
+										<input type="text" name="bsf" id="bsf-val" class="form-control" th:field="${investigationDto.BloodSugarFValue.bloodSugarF}" th:value="${investigationDto.BloodSugarFValue.bloodSugarF}" required>
+									</div>
+									<label class="col-form-label col-md-2">60-140</label> <label
+										class="col-form-label col-md-2">mg/dl</label>
+								</div>
+
+								<div class="row form-group mb-3">
+									<div class="col-md-8">
+										<input type="hidden" value="bsf" name="bsf" id="testCode-bsf"
+											class="form-control" required>
+									</div>
+								</div>
+
+
+								<div class="row form-group mb-3" id="file-div">
+									<label class="col-form-label col-md-4">Upload Report
+										File</label>
+									<div class="col-md-8">
+										<input class="form-control" type="file" name="file" id="fileInput-bsf" 
+										       th:text="${investigationDto.BloodSugarFValue.fileName}" 
+										       th:value="@{investigationDto.BloodSugarFValue.path}">
+										       
+										       <a th:href="@{/download-notification-file(filePath=${investigationDto.BloodSugarFValue.path})}" class="hidden"
+										       target="_blank">Download</a>
+									</div>
+								</div>
+								<div class="row mb-3">
+									<hr>
+									<div class="col-md-12">
+
+										<input type="button" value="Submit" id="save-bsf"
+											class="btn btn-primary float-end"> <input type="hidden" name="testCode"
+											id="testCodeId"> <input type="hidden" th:value=${ameId} name="ameId"
+											id="ameId-bsf">
+
+									</div>
+
+								</div>
+
+
+
+							</div>
+
+
+
+						<!-- </div> -->
+
+
+
+
+					</div>
+
+
+
+
+
+				<!-- 	<div th:if="${checkUpLists1.testCode=='bsrandom'}"> -->
+
+
+						<div id="investigationbsrandom" class="investigationbsrandomClass">
+
+
+							<!-- Modal content -->
+							<div class="investigationbsrandom-content">
+								<span class="investigationbsrandom-close"
+									onclick="investigationbsrandomCloseModel()">&times;</span>
+
+
+								<h5 style="text-align: center;">
+									<label><b>Blood Sugar-Random</b></label>
+								</h5>
+
+
+								<hr>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4"><b>Test Name</b></label> <label
+										class="col-form-label col-md-4"><b>Value</b></label> <label
+										class="col-form-label col-md-2"><b>Range</b></label> <label
+										class="col-form-label col-md-2"><b>Units</b></label>
+
+
+								</div>
+
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">Blood Sugar-Random</label>
+
+									<div class="col-md-4">
+										<input type="text" name="bsrandom" id="bsrandom-val" class="form-control"
+										       th:field="${investigationDto.bloodSugarRandomValue.bloodSugarRandom}" 
+										       th:value="${investigationDto.bloodSugarRandomValue.bloodSugarRandom}"
+											required>
+									</div>
+									<label class="col-form-label col-md-2">60-140</label> <label
+										class="col-form-label col-md-2">mg/dl</label>
+								</div>
+
+								<div class="row form-group mb-3">
+									<div class="col-md-8">
+										<input type="hidden" value="bsrandom" name="bsrandom" id="testCode-bsrandom"
+											class="form-control" required>
+									</div>
+								</div>
+
+
+								<div class="row form-group mb-3" id="file-div">
+									<label class="col-form-label col-md-4">Upload Report
+										File</label>
+									<div class="col-md-8">
+										<input class="form-control" required type="file" name="file"
+											id="fileInput-bsrandom" th:text="${investigationDto.bloodSugarRandomValue.fileName}"
+											th:value="${investigationDto.bloodSugarRandomValue.fileName}">
+											
+											 <a th:href="@{/download-notification-file(filePath=${investigationDto.bloodSugarRandomValue.path})}"
+											 class="hidden"  target="_blank"
+											 >Download</a>
+									</div>
+								</div>
+								<div class="row mb-3">
+
+									<div class="col-md-12">
+
+										<input type="button" value="Submit" id="save-bsrandom"
+											class="btn btn-primary float-end"> <input type="hidden" name="testCode"
+											id="testCodeId"> <input type="hidden" th:value=${ameId} name="ameId"
+											id="ameId-bsrandom">
+
+									</div>
+
+								</div>
+
+
+
+							</div>
+
+
+
+						</div>
+
+
+
+
+					<!-- </div> -->
+
+					<!-- bs-HbA1c -->
+
+					<!-- <div th:if="${checkUpLists1.testCode=='bsHbA1c'}"> -->
+
+
+						<div id="investigationbsHbA1c" class="investigationbsHbA1cClass">
+
+
+							<!-- Modal content -->
+							<div class="investigationbsHbA1c-content">
+								<span class="investigationbsHbA1c-close"
+									onclick="investigationbsHbA1cCloseModel()">&times;</span>
+
+
+								<h5 style="text-align: center;">
+									<label><b>Blood Sugar-HbA1c</b></label>
+								</h5>
+
+
+								<hr>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4"><b>Test Name</b></label> <label
+										class="col-form-label col-md-4"><b>Value</b></label> <label
+										class="col-form-label col-md-2"><b>Range</b></label> <label
+										class="col-form-label col-md-2"><b>Units</b></label>
+
+
+								</div>
+
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">Blood Sugar-HbA1c</label>
+
+									<div class="col-md-4">
+										<input type="text" name="bsHbA1c" id="bsHbA1c-val" class="form-control"
+											th:field="${investigationDto.bloodSugarHbA1cValue.HbA1c}" 
+										    th:value="${investigationDto.bloodSugarHbA1cValue.HbA1c}"
+										       required>
+									</div>
+									<label class="col-form-label col-md-2">4.2-6.07</label> <label
+										class="col-form-label col-md-2">%</label>
+								</div>
+
+								<div class="row form-group mb-3">
+									<div class="col-md-8">
+										<input type="hidden" value="bsHbA1c" name="bsHbA1c" id="testCode-bsHbA1c"
+											class="form-control" required>
+									</div>
+								</div>
+
+
+								<div class="row form-group mb-3" id="file-div">
+									<label class="col-form-label col-md-4">Upload Report
+										File</label>
+									<div class="col-md-8">
+									   <input class="form-control"  type="file" name="file"
+											id="fileInput-bsHbA1c" 
+											th:field="${investigationDto.bloodSugarHbA1cValue.fileName}" 
+										    th:value="${investigationDto.bloodSugarHbA1cValue.fileName}" 
+										     th:text="${investigationDto.bloodSugarHbA1cValue.fileName}" 
+										    required>
+										<a th:href="@{/download-notification-file(filePath=${investigationDto.bloodSugarHbA1cValue.path})}"
+										class="hidden"  target="_blank"
+										>Download</a>
+									</div>
+								</div>
+								<div class="row mb-3">
+
+									<div class="col-md-12">
+
+										<input type="button" value="Submit" id="save-HbA1c"
+											class="btn btn-primary float-end"> <input type="hidden" name="testCode"
+											id="testCodeId"> <input type="hidden" th:value=${ameId} name="ameId"
+											id="ameId-HbA1c">
+
+									</div>
+
+								</div>
+
+
+
+							</div>
+
+
+
+						</div>
+
+
+
+
+				<!-- 	</div> -->
+
+
+					<!-- =============================Liver Function Test============================================ -->
+
+					<!-- <div th:if="${checkUpLists1.testCode=='lft'}"> -->
+
+
+						<div id="investigationlft" class="investigationlftClass">
+
+
+							<!-- Modal content -->
+							<div class="investigationlft-content">
+								<span class="investigationlft-close"
+									onclick="investigationlftCloseModel()">&times;</span>
+
+
+								<h5 style="text-align: center;">
+									<label><b>Liver Functional Test</b></label>
+								</h5>
+
+								<hr>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">Test Name</label>
+									<label class="col-form-label col-md-4">Value</label>
+
+
+									<label class="col-form-label col-md-2">Range</label>
+									<label class="col-form-label col-md-2">Units</label>
+
+
+								</div>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">Bilirubin(Total)</label>
+
+									<div class="col-md-4">
+										<input type="text" class="form-control" required name="bilirubin"
+										     th:field="${investigationDto.liverFunctionTest.bilirubin}" 
+										    th:value="${investigationDto.liverFunctionTest.bilirubin}"
+											id="bilirubin">
+										<span id="bilirubin_error" class="error"></span>
+									</div>
+									<label class="col-form-label col-md-2">0.2-1.1</label>
+									<label class="col-form-label col-md-2">mg/dl</label>
+								</div>
+
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">Direct Bilirubin</label>
+
+									<div class="col-md-4">
+										<input type="text" class="form-control" required name="directBilirubin"
+											th:field="${investigationDto.liverFunctionTest.directBilirubin}" 
+										    th:value="${investigationDto.liverFunctionTest.directBilirubin}" 
+										    id="directBilirubin">
+										<span id="directBilirubin_error" class="error"></span>
+									</div>
+									<label class="col-form-label col-md-2">0.0-0.30</label>
+									<label class="col-form-label col-md-2">mg/dl</label>
+								</div>
+
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">Indirect Bilirubin</label>
+
+									<div class="col-md-4">
+										<input type="text" class="form-control" name="indirectBilirubin"
+										th:field="${investigationDto.liverFunctionTest.indirectBilirubin}" 
+										    th:value="${investigationDto.liverFunctionTest.indirectBilirubin}" 
+											id="indirectBilirubin"  required>
+										<span id="indirectBilirubin_error" class="error"></span>
+									</div>
+									<label class="col-form-label col-md-2">0.2-0.8</label>
+									<label class="col-form-label col-md-2">mg/dl</label>
+								</div>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">SGOT</label>
+
+									<div class="col-md-4">
+										<input type="text" class="form-control"  name="sGOT" id="sGOT"
+										       th:field="${investigationDto.liverFunctionTest.sGOT}" 
+										       th:value="${investigationDto.liverFunctionTest.sGOT}" required>
+										<span id="sGOT_error" class="error"></span>
+									</div>
+									<label class="col-form-label col-md-2">08-40</label>
+									<label class="col-form-label col-md-2">Units/l</label>
+								</div>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">SGPT</label>
+
+									<div class="col-md-4">
+										<input type="text" class="form-control" 
+										 th:field="${investigationDto.liverFunctionTest.sGOT}" 
+										       th:value="${investigationDto.liverFunctionTest.sGOT}"
+										 name="sGPT" id="sGPT" required>
+										<span id="sGPT_error" class="error"></span>
+									</div>
+									<label class="col-form-label col-md-2">05-35</label>
+									<label class="col-form-label col-md-2">Units/l</label>
+								</div>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">ALP</label>
+
+									<div class="col-md-4">
+										<input type="text" class="form-control"  th:field="${investigationDto.liverFunctionTest.aLP}" 
+										       th:value="${investigationDto.liverFunctionTest.aLP}" name="aLP" id="aLP"
+										       required>
+										<span id="aLP_error" class="error"></span>
+									</div>
+									<label class="col-form-label col-md-2">60-270</label>
+									<label class="col-form-label col-md-2">Units/l</label>
+								</div>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">Total Protein</label>
+
+									<div class="col-md-4">
+										<input type="text" class="form-control" 
+										       th:field="${investigationDto.liverFunctionTest.totalProtein}" 
+										       th:value="${investigationDto.liverFunctionTest.totalProtein}"  name="totalProtein"
+											id="totalProtein" required>
+										<span id="aLP_error" class="error"></span>
+									</div>
+									<label class="col-form-label col-md-2">6.0-8.0</label>
+									<label class="col-form-label col-md-2">gm/dL</label>
+								</div>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">GGPT </label>
+
+									<div class="col-md-4">
+										<input type="text" class="form-control" required name="ggpt" id="ggpt"
+										
+										 th:field="${investigationDto.liverFunctionTest.GGTP}" 
+										       th:value="${investigationDto.liverFunctionTest.GGTP}">
+										<span id="aLP_error" class="error"></span>
+									</div>
+									<label class="col-form-label col-md-2">--</label>
+									<label class="col-form-label col-md-2">--</label>
+
+								</div>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">Albumin </label>
+
+									<div class="col-md-4">
+										<input type="text" class="form-control"  name="albumin" id="albumin"
+											onkeypress='validate(event)'
+											th:field="${investigationDto.liverFunctionTest.albumin}" 
+										       th:value="${investigationDto.liverFunctionTest.albumin}" required>
+										<span id="aLP_error" class="error"></span>
+									</div>
+									<label class="col-form-label col-md-2">3.7-5.0</label>
+									<label class="col-form-label col-md-2">mg/dl</label>
+								</div>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">Globulins </label>
+
+									<div class="col-md-4">
+										<input type="text" class="form-control"  name="globulin" id="globulin"
+											onchange="calculateAGRatio()" onkeypress='validate(event)' 
+											th:field="${investigationDto.liverFunctionTest.globulin}" 
+										       th:value="${investigationDto.liverFunctionTest.globulin}" required>
+										<span id="aLP_error" class="error"></span>
+									</div>
+									<label class="col-form-label col-md-2">2.3-3.6</label>
+									<label class="col-form-label col-md-2">mg/dl</label>
+								</div>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">A:G Ratio </label>
+
+									<div class="col-md-4">
+										<input type="text" class="form-control"  name="AGRatio" id="AGRatio"
+											th:field="${investigationDto.liverFunctionTest.AGRatio}" 
+										       th:value="${investigationDto.liverFunctionTest.AGRatio}" readonly required>
+										<span id="aLP_error" class="error"></span>
+									</div>
+									<label class="col-form-label col-md-2">1.2-2.0</label>
+									<label class="col-form-label col-md-2">--</label>
+								</div>
+								<div class="row form-group mb-3" id="file-div">
+									<label class="col-form-label col-md-4">Upload Report File</label>
+
+									<div class="col-md-8">
+										<input type="file" class="form-control" name="fileInputlft" id="fileInput-lft"
+										       th:value="${investigationDto.liverFunctionTest.fileName}"
+										       th:text="${investigationDto.liverFunctionTest.fileName}" required>
+												<a th:href="@{/download-notification-file(filePath=${investigationDto.liverFunctionTest.path})}"
+												class="hidden"  target="_blank"
+												>Download</a>
+										
+										<span id="directBilirubin_error" class="error"></span>
+									</div>
+								</div>
+
+								<div class="row mb-3">
+
+									<div class="col-md-12">
+
+										<input type="hidden" value="lft" name="testCode" id="lft-testCode">
+										<input type="hidden" th:value="${ameId}" name="ameId" id="lft-ameId">
+										<input type="button" value="Submit" id="save-lft"
+											class="btn btn-primary float-end">
+
+									</div>
+
+								</div>
+
+
+
+
+
+
+
+
+							</div>
+
+						</div>
+				<!-- 	</div> -->
+					<!--==========================================Kidney Function Test=========================================-->
+
+					<!----======================================== Viral Makers=====================================================-->
+					<!-- <div th:if="${checkUpLists1.testCode=='vrl'}"> -->
+
+
+						<div id="investigationvrl" class="investigationvrlClass">
+
+
+							<!-- Modal content -->
+							<div class="investigationvrl-content">
+								<span class="investigationvrl-close"
+									onclick="investigationvrlCloseModel()">&times;</span>
+								<h5>Viral Makers Test</h5>
+								<br>
+								<hr>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">Test Name</label>
+									<label class="col-form-label col-md-4">Value</label>
+
+
+									<label class="col-form-label col-md-4">Range</label>
+
+
+
+								</div>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">HIV-1 </label>
+									<div class="col-md-4">
+										<input type="text" class="form-control" required name="hiv1" id="hiv1" 	
+										      th:field="${investigationDto.viralMakers.hiv1}" 
+										       th:value="${investigationDto.viralMakers.hiv1}">
+										<span id="hiv1_error" class="error"></span>
+									</div>
+									<label class="col-form-label col-md-4">Reactive/Non Reactive</label>
+
+
+								</div>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">HIV-2 </label>
+									<div class="col-md-4">
+										<input type="text" class="form-control" required name="hiv2" id="hiv2"
+										  th:field="${investigationDto.viralMakers.hiv2}" 
+										       th:value="${investigationDto.viralMakers.hiv2}">
+										<span id="hiv2_error" class="error"></span>
+									</div>
+									<label class="col-form-label col-md-4">Reactive/Non Reactive</label>
+								</div>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">HBsAg</label>
+									<div class="col-md-4">
+										<input type="text" class="form-control" required name="hbsAg" id="hbsAg"
+										  th:field="${investigationDto.viralMakers.hbsAg}" 
+										       th:value="${investigationDto.viralMakers.hbsAg}">
+										<span id="hbsAg_error" class="error"></span>
+									</div>
+									<label class="col-form-label col-md-4">Reactive/Non Reactive</label>
+								</div>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">VDRL</label>
+									<div class="col-md-4">
+										<input type="text" class="form-control" required name="vdrl" id="vdrl"
+										  th:field="${investigationDto.viralMakers.vdrl}" 
+										       th:value="${investigationDto.viralMakers.vdrl}">
+										<span id="vdrl_error" class="error"></span>
+									</div>
+									<label class="col-form-label col-md-4">Reactive/Non Reactive</label>
+								</div>
+
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">HCV</label>
+									<div class="col-md-4">
+										<input type="text" class="form-control" required name="hcv" id="hcv"
+										  th:field="${investigationDto.viralMakers.hcv}" 
+										       th:value="${investigationDto.viralMakers.hcv}">
+										<span id="hcv_error" class="error"></span>
+									</div>
+									<label class="col-form-label col-md-4">Reactive/Non Reactive</label>
+								</div>
+
+								<div class="row form-group mb-3" id="file-div">
+									<label class="col-form-label col-md-4">Upload Report File</label>
+
+									<div class="col-md-8">
+										<input type="file" class="form-control" name="fileInputvrl" id="fileInput-vrl"
+											th:text="${investigationDto.viralMakers.fileName}"
+											th:value="${investigationDto.viralMakers.fileName}"  required>
+											
+												<a th:href="@{/download-notification-file(filePath=${investigationDto.viralMakers.path})}" 
+												class="hidden"  target="_blank"
+												>Download</a>
+										<span id="directBilirubin_error" class="error"></span>
+									</div>
+								</div>
+
+								<div class="row mb-3">
+
+									<div class="col-md-12">
+
+										<input type="hidden" value="vrl" name="testCode" id="vrl-testCode">
+										<input type="hidden" th:value="${ameId}" name="ameId" id="vrl-ameId">
+										<input type="button" value="Submit" id="save-vrl"
+											class="btn btn-primary float-end">
+
+									</div>
+
+								</div>
+							</div>
+
+						</div>
+					<!-- </div> -->
+
+					<!--=================================USG==================================================-->
+					<!-- <div th:if="${checkUpLists1.testCode=='usg'}"> -->
+
+
+						<div id="investigationusg" class="investigationusgClass">
+							<!-- Modal content -->
+							<div class="investigationusg-content">
+								<span class="investigationusg-close"
+									onclick="investigationusgCloseModel()">&times;</span>
+								<h5>Upload Test Report(USG Test)</h5>
+
+								<hr>
+
+
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">Report</label>
+									<div class="col-md-8">
+										<input type="text" class="form-control"  name="testName"
+											id="usg-testName"
+										
+												th:value="${usgField}"
+													   
+											required/>
+										<span id="testName_error" class="error"></span>
+									</div>
+								</div>
+
+								<div class="row form-group mb-3" id="file-div">
+									<label class="col-form-label col-md-4">Upload Report File</label>
+
+									<div class="col-md-8">
+										<input type="file" class="form-control" name="fileInputusg" id="fileInput-usg"
+										 th:text="${usgFileName}"
+										        th:value="${usgFilePath}"
+											required>
+											<a th:href="@{/download-notification-file(filePath=${usgFilePath})}" class="hidden"  target="_blank">Download</a>
+										<span id="usg_file_error" class="error"></span>
+									</div>
+								</div>
+								<div class="row mb-3">
+
+									<div class="col-md-12">
+
+									<!-- 	<input type="hidden" value="usg" name="testCode"
+											th:id="${checkUpLists1.testCode}+'TestCode'"> -->
+										<input type="hidden" th:value="${ameId}" name="ameId" id="usg-ameId">
+										<input type="button" value="Submit" name="usg" onclick="saveOther(this)"
+											class="btn btn-primary float-end" id="save-usg">
+
+									</div>
+
+								</div>
+
+
+							</div>
+
+						</div>
+					<!-- </div> -->
+
+					<!--=================================X-RAY==================================================-->
+				<!-- 	<div th:if="${checkUpLists1.testCode=='xray'}"> -->
+
+
+<!-- 						<div id="investigationxray" class="investigationxrayClass">
+							Modal content
+							<div class="investigationxray-content">
+								<span class="investigationxray-close"
+									onclick="investigationxrayCloseModel()">&times;</span>
+								<h5>Upload Test Report(X-RAY)</h5>
+
+
+
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">Report</label>
+									<div class="col-md-8">
+										<input type="text" class="form-control"  name="testName"
+											id="xray-testName"  required>
+										<span id="testName_error" class="error"></span>
+									</div>
+								</div>
+
+
+
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">Upload Report File</label>
+
+									<div class="col-md-8">
+										<input type="file" class="form-control" name="fileInputxray" id="fileInputxray"
+											required>
+										<span id="xray_file_error" class="error"></span>
+									</div>
+								</div>
+
+
+								<div class="row mb-3">
+
+									<div class="col-md-12">
+
+										<input type="hidden" value="xray" name="testCode"
+											th:id="${checkUpLists1.testCode}+'-TestCode'">
+										<input type="hidden" th:value="${ameId}" name="ameId" id="xray-ameId">
+										<input type="button" value="Submit" name="xray" onclick="saveOther(this)"
+											class="btn btn-primary float-end">
+
+									</div>
+
+								</div>
+
+
+
+							</div>
+
+						</div> -->
+					<!-- </div> -->
+					<!--=================================ECG==================================================-->
+
+					<!-- <div th:if="${checkUpLists1.testCode=='ecg'}"> -->
+<!-- <div th:each="otherTest:${investigationDto.others}"> -->
+
+						<div id="investigationecg" class="investigationecgClass">
+							<!-- Modal content -->
+							<div class="investigationecg-content">
+								<span class="investigationecg-close"
+									onclick="investigationecgCloseModel()">&times;</span>
+								<h5>Upload Test Report(ECG)</h5>
+								<hr>
+
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">Report</label>
+									<div class="col-md-8">
+										<input type="text" class="form-control"  name="testName"
+											id="ecg-testName"   th:value="${ecgField}" required>
+										<span id="testName_error" class="error"></span>
+									</div>
+								</div>
+
+
+
+								<div class="row form-group mb-3" id="file-div">
+									<label class="col-form-label col-md-4">Upload Report File</label>
+
+									<div class="col-md-8">
+										<input type="file" class="form-control" name="fileInputecg" id="fileInput-ecg"
+											   th:text="${ecgFileName}"
+										        th:value="${ecgFilePath}"
+											required> <a th:href="@{/download-notification-file(filePath=${ecgFilePath})}"  class="hidden" target="_blank">Download</a>
+										<span id="ecg_file_error" class="error"></span>
+									</div>
+								</div>
+
+								<div class="row mb-3">
+
+									<div class="col-md-12">
+
+									<!-- 	<input type="hidden" value="usg" name="testCode"
+											th:id="${checkUpLists1.testCode}+'TestCode'"> -->
+										<input type="hidden" th:value="${ameId}" name="ameId" id="ecg-ameId">
+										<input type="button" value="Submit" name="ecg" onclick="saveOther(this)"
+											class="btn btn-primary float-end" id="save-ecg">
+
+									</div>
+
+								</div>
+
+							</div>
+
+						</div>
+						
+						
+						<div id="investigationxray" class="investigationxrayClass">
+							<!-- Modal content -->
+							<div class="investigationxray-content">
+								<span class="investigationxray-close"
+									onclick="investigationxrayCloseModel()">&times;</span>
+								<h5>Upload Test Report(X-RAY)</h5>
+
+
+
+								<div class="row form-group mb-3" id="file-div">
+									<label class="col-form-label col-md-4">Report</label>
+									<div class="col-md-8">
+										<input type="text" class="form-control"  name="testName"
+											id="xray-testName"
+											th:value="${xrayField}" required>
+											
+											
+											
+										<span id="testName_error" class="error"></span>
+									</div>
+								</div>
+
+
+
+								<div class="row form-group mb-3" id="file-div">
+									<label class="col-form-label col-md-4">Upload Report File</label>
+
+									<div class="col-md-8">
+										<input type="file" class="form-control" name="fileInputxray" id="fileInput-xray"
+										 th:text="${xrayFileName}"
+										        th:value="${xrayFilePath}"
+									
+											required>
+											
+											<a th:href="@{/download-notification-file(filePath=${xrayFilePath})}" class="hidden"  target="_blank">Download</a>
+										<span id="xray_file_error" class="error"></span>
+									</div>
+								</div>
+
+
+								<div class="row mb-3">
+
+									<div class="col-md-12">
+<!-- 
+										<input type="hidden" value="xray" name="testCode"
+											th:id="${checkUpLists1.testCode}+'-TestCode'"> -->
+										<input type="hidden" th:value="${ameId}" name="ameId" id="xray-ameId">
+										<input type="button" value="Submit" name="xray" onclick="saveOther(this)"
+											class="btn btn-primary float-end" id="save-xray">
+
+									</div>
+
+								</div>
+
+
+
+							</div>
+
+						</div>
+			<!-- 	</div> -->		
+						
+						
+					<!-- </div> -->
+
+
+					<!--=================================Thypoid profile==================================================-->
+
+					<!-- <div th:if="${checkUpLists1.testCode=='tp'}"> -->
+						<div id="investigationtp" class="investigationtpClass">
+
+							<!-- Modal content -->
+							<div class="investigationtp-content">
+								<span class="investigationtp-close" onclick="investigationtpCloseModel()">&times;</span>
+								<h5>Thyroid Profile Test</h5>
+								<hr>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">Test Name</label>
+									<label class="col-form-label col-md-4">Value</label>
+
+
+									<label class="col-form-label col-md-2">Range</label>
+									<label class="col-form-label col-md-2">Units</label>
+
+
+								</div>
+
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">T3</label>
+									<div class="col-md-4">
+										<input type="text" class="form-control" required name="t3" id="t3"
+										      th:field="${investigationDto.thyroidProfile.t3}" 
+										       th:value="${investigationDto.thyroidProfile.t3}">
+										<span id="t3_error" class="error"></span>
+									</div>
+									<label class="col-form-label col-md-2">100-200</label>
+									<label class="col-form-label col-md-2">ng/dL</label>
+								</div>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">T4</label>
+									<div class="col-md-4">
+										<input type="text" class="form-control" required name="t4" id="t4"
+										th:field="${investigationDto.thyroidProfile.t4}" 
+										       th:value="${investigationDto.thyroidProfile.t4}">
+										<span id="t4_error" class="error"></span>
+									</div>
+									<label class="col-form-label col-md-2">4.5-11.2</label>
+									<label class="col-form-label col-md-2">mcg/dL</label>
+								</div>
+								<div class="row form-group mb-3">
+									<label class="col-form-label col-md-4">TSH</label>
+									<div class="col-md-4">
+										<input type="text" class="form-control"  name="tsh" id="tsh"
+										th:field="${investigationDto.thyroidProfile.tsh}" 
+										       th:value="${investigationDto.thyroidProfile.tsh}"
+										required>
+										<span id="tsh_error" class="error"></span>
+									</div>
+									<label class="col-form-label col-md-2">0.4-5.0</label>
+									<label class="col-form-label col-md-2">mlU/dL</label>
+								</div>
+
+								<div class="row form-group mb-3" id="file-div">
+									<label class="col-form-label col-md-4">Upload Report File</label>
+
+									<div class="col-md-8">
+										<input type="file" class="form-control" name="fileInputtp" id="fileInput-tp"
+										       th:text="${investigationDto.thyroidProfile.fileName}"
+											   th:value="${investigationDto.thyroidProfile.fileName}" 
+											    th:field="${investigationDto.thyroidProfile.fileName}" 
+											   required>
+											
+											<a th:href="@{/download-notification-file(filePath=${investigationDto.thyroidProfile.path})}" class="hidden"  target="_blank">Download</a>
+										<span id="tp_file_error" class="error"></span>
+									</div>
+								</div>
+
+
+								<div class="row mb-3">
+
+									<div class="col-md-12">
+
+										<input type="hidden" value="tp" name="testCode" id="tp-testCode">
+										<input type="hidden" th:value="${ameId}" name="ameId" id="tp-ameId">
+										<input type="button" value="Submit" id="save-tp"
+											class="btn btn-primary float-end">
+
+									</div>
+
+								</div>
+
+							</div>
+
+						</div>
+				<!-- 	</div> -->
+					<!--==========================================Kidney Function Test=========================================-->
+
+				<!-- 	<div th:if="${checkUpLists1.testCode=='kft'}"> -->
+
+
+						<div id="investigationkft" class="investigationkftClass">
+
+
+							<!-- Modal content -->
+							<div class="investigationkft-content">
+								<span class="investigationkft-close"
+									onclick="investigationkftCloseModel()">&times;</span>
+								<!-- <h5>Upload Test Report(Liver Functional Test)</h5> -->
+
+
+
+
+								<form id="kft-form">
+									<h5 style="text-align: center;"><label><b>Kidney Function Test</b></label></h5>
+									<hr>
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4">Test Name</label>
+										<label class="col-form-label col-md-4">Value</label>
+
+
+										<label class="col-form-label col-md-2">Range</label>
+										<label class="col-form-label col-md-2">Units</label>
+
+
+									</div>
+
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4">Blood Urea</label>
+
+										<div class="col-md-4">
+											<input type="text" class="form-control" required name="bloodUrea"
+												id="bloodUrea" 
+												th:field="${investigationDto.kft.bloodUrea}" 
+										       th:value="${investigationDto.kft.bloodUrea}">
+										</div>
+										<label class="col-form-label col-md-2">13-45</label>
+										<label class="col-form-label col-md-2">mg/dl</label>
+									</div>
+
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4">Serum Creatinine</label>
+
+										<div class="col-md-4">
+											<input type="text" class="form-control" required name="scrumCreatinine"
+												id="scrumCreatinine" 
+												th:field="${investigationDto.kft.scrumCreatinine}" 
+										       th:value="${investigationDto.kft.scrumCreatinine}">
+
+										</div>
+										<label class="col-form-label col-md-2">0.8-1.4</label>
+										<label class="col-form-label col-md-2">mg/dl</label>
+									</div>
+
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4">Uric Acid</label>
+
+										<div class="col-md-4">
+											<input type="text" class="form-control" required name="uricAcid"
+												id="uricAcid" 
+												th:field="${investigationDto.kft.uricAcid}" 
+										        th:value="${investigationDto.kft.uricAcid}">
+
+										</div>
+										<label class="col-form-label col-md-2">M(2.4-7.0)/F(1.5-6.0)</label>
+										<label class="col-form-label col-md-2">mg/dl</label>
+									</div>
+
+									<div class="row form-group mb-3" id="file-div">
+										<label class="col-form-label col-md-4">Upload Report File</label>
+
+										<div class="col-md-8">
+											<input type="file" class="form-control" name="file" id="fileInput-kft"
+												  th:text="${investigationDto.kft.fileName}"
+											      th:value="${investigationDto.kft.fileName}" 
+											       th:field="${investigationDto.kft.fileName}" 
+												
+												required>
+<a th:href="@{/download-notification-file(filePath=${investigationDto.kft.path})}" class="hidden"  target="_blank">Download</a>
+										</div>
+									</div>
+
+									<div class="row mb-3">
+
+										<div class="col-md-12">
+
+											<input type="hidden" name="testCode" id="testCode-kft" value="kft">
+											<input type="hidden" th:value=${ameId} name="ameId" id="ameId-kft">
+											<input type="button" value="Submit" id="save-kft"
+												class="btn btn-primary float-end">
+
+										</div>
+
+									</div>
+
+
+
+
+
+
+								</form>
+
+
+
+							</div>
+
+
+
+
+
+						</div>
+
+					
+
+				<!-- </div> -->
+
+				<form th:action="@{/print-investigation-report}" method="post" id="print-report">
+					<input type="hidden" name="ameId" th:value="${ameId}" id="ameId">
+
+				</form>
+				<button type="button" class="btn btn-secondary mt-4" onclick="backToHome()"
+					style="width: 100px;">Back</button>
+				<div class="d-grid gap-2 d-md-block">
+
+					<!-- <button type="submit" class="btn btn-success" style="width:100px;float:right;">Submit</button>
+ -->
+
+				</div>
+
+
+				<form th:action="@{/back-to-index-page-ama}" method="post" id="back-to-home">
+					<input type="hidden" name="forcepersonalId" th:value="${forcepersonalId}"> <input type="hidden"
+						name="ameId" th:value="${ameId}" id="ameId">
+
+				</form>
+
+
+			</div>
+			<!-- /#page-content-wrapper -->
+
+		</div>
+		<!-- /#wrapper -->
+
+	</div>
+
+
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function (e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function () {
+			$('#backtotop').click(function () {
+				$("html, body").animate({
+					scrollTop: 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(
+			function () {
+				$(this).parent(".sub-menu").children("ul").slideToggle(
+					"100");
+				$(this).find(".right").toggleClass(
+					"fa-caret-up fa-caret-down");
+			});
+
+		$(".sub-sub-menu a").click(
+			function () {
+				$(this).parent(".sub-sub-menu").children("ul")
+					.slideToggle("100");
+				$(this).find(".right").toggleClass(
+					"fa-caret-up fa-caret-down");
+			});
+	</script>
+
+
+
+	<!-- Signup Modal -->
+
+	<div class="modal fade" id="signout-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Sign Out?</h5>
+
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<!-- Modal body -->
+					<div class="modal-body">
+						<p class="text-center">Are you sure you want to Sign Out?</p>
+						<form action="sign-out">
+							<div class="row">
+								<div class="col-md-6">
+									<button type="submit" class="btn btn-primary">Sign
+										Out</button>
+								</div>
+								<div class="col-md-6">
+									<button type="button" class="btn btn-secondary"
+										data-bs-dismiss="modal">Cancel</button>
+								</div>
+
+							</div>
+
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		function validate(evt) {
+			var theEvent = evt || window.event;
+
+			// Handle paste
+			if (theEvent.type === 'paste') {
+				key = event.clipboardData.getData('text/plain');
+			} else {
+				// Handle key press
+				var key = theEvent.keyCode || theEvent.which;
+				key = String.fromCharCode(key);
+			}
+			var regex = /[0-9]|\./;
+			if (!regex.test(key)) {
+				theEvent.returnValue = false;
+				if (theEvent.preventDefault)
+					theEvent.preventDefault();
+			}
+		}
+	</script>
+
+
+	<script>
+		function printReportHandler() {
+
+			$("#print-report").submit();
+
+		}
+		
+		function addNewTest(e)
+		{
+			var ameId=e.value;
+			
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			$.ajax({
+			    type: 'POST',
+			    url: 'get-list-of-un-added-investigation-list',
+			    data: {
+			        ameId: ameId,
+			    },
+			    beforeSend: function(xhr) {
+			        xhr.setRequestHeader(header, token);  // Set any necessary headers (like CSRF tokens)
+			    },
+			    success: function(data) {
+			        // Handle the response on success (e.g., populate data in the modal)
+			        console.log('Success:', data);
+			        
+			        // Get the modal element and initialize it
+			        var modal = new bootstrap.Modal(document.getElementById('Modal_investigation'));
+			        
+			        // Populate the modal with the data (if necessary)
+			        // Example: $("#modal-content").text(data.message);  // Example of using response data in modal
+			      
+                  const selectElement = document.getElementById('testSelect');
+                  selectElement.innerHTML = '';
+            // Loop through the test data and create an option for each test
+              data.forEach(test => {
+                const option = document.createElement('option');
+                option.value = test.id; // Set the option's value to the test's ID
+                option.textContent = test.testName; // Set the option's text to the test's name
+                selectElement.appendChild(option); // Append the option to the select dropdown
+            });
+      
+		        
+
+		        // Call the function to populate the table when the page loads
+		       
+
+			        // To open the modal programmatically
+			        modal.show();
+			    },
+			    error: function(xhr, status, error) {
+			        // Handle error (e.g., 400 - Bad Request or other errors)
+			        console.log("ERROR:", xhr, status, error);
+			        
+			        // Check if the error is a 400 Bad Request
+			        if (xhr.status === 400) {
+			            alert('Bad Request: ' + xhr.responseText);  // Show alert or process error response accordingly
+			        } else {
+			            alert('An error occurred: ' + xhr.status + ' - ' + error);  // Show generic error
+			        }
+			        
+			        // You can show a modal for error, if required (example)
+			        var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+			        errorModal.show();
+			    }
+			});
+		}
+		
+		
+		function getTestValue(e) {
+			
+			var testCode= e;
+			alert(testCode);
+		}
+	 
+	</script>
+
+
+
+</body>
+
+</html>

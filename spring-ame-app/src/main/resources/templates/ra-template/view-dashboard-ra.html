@@ -1,0 +1,252 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>AMA DashBoard</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<div th:replace="~{ra-template/master-doc-ra::master-wrapper-doc-ra}"></div>
+
+</head>
+
+
+<body>
+
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+
+		<div
+			th:replace="~{ra-template/left-menu-board-ra::sidebar-wrapper-menu-ra}"></div>
+
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+
+
+			<!--nav-->
+			<div
+				th:replace="~{ra-template/nav-bar-ra::sidebar-wrapper-menu-nav-ra}"></div>
+
+			
+			<div class="container mt-3">
+			<form th:action="@{role-map-to-bm-dashboard}" method="post">
+				<input type="submit" value="Back" class="btn btn-info btn-md" style="float: right;width: 100px;">
+				</form>
+				<div class="wisecountnactionbg">
+
+
+					<!-- Content Row -->
+					<div class="proc-box py-2 px-3">
+						<div class="row">
+							<div class="col-md-3">
+							<div class="alert alert-primary my-2">
+								<label class="fw-bold">Board ID :</label> <span
+									th:text="${boardDetails.boardId}"></span>
+									</div>
+							</div>
+							<div class="col-md-3">
+								<div class="alert alert-primary my-2">
+								<label class="fw-bold">Board Type :</label> <span
+									th:text="${boardDetails.useFor}"></span>
+</div>
+
+							</div>
+							<div class="col-md-3">
+								<div class="alert alert-primary my-2">
+								<label class="fw-bold">Created On :</label> <span
+									th:text="${#dates.format(boardDetails.createdOn,'dd-MM-yyyy')}"></span>
+									</div>
+									
+							</div>
+							<div class="col-md-3">
+								<div class="alert alert-primary my-2">
+								<label class="fw-bold">Location :</label> <span th:text="${boardDetails.place}"></span>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="alert alert-primary my-2">
+								<label class="fw-bold">Force Name : </label> <span th:text="BSF"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					</div>
+     <div class="row">
+     <div class="col-lg-4 col-sm-6 d-flex justify-content-center align-items-center" style="height: 100%; min-height: 300px;">
+        <div class="proc-box text-center" style="width: 100%;">
+            <h4>
+               Pending
+            </h4>
+            <hr>
+            <!-- Count Section -->
+            <div class="row">
+                <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                    <span style="color: #cc0066; font-size: 16px;">
+                        <strong>Total Count: 12</strong>
+                    </span>
+                </div>
+           
+            </div>
+            <!-- Button Section -->
+            <div class="row mt-3">
+                <div class="col-12 d-flex justify-content-center">
+                    <a href="pending-for-appointment-controller-go" class="btn btn-info btn-sm">View</a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+     <div class="col-lg-4 col-sm-6 d-flex justify-content-center align-items-center" style="height: 100%; min-height: 300px;">
+        <div class="proc-box text-center" style="width: 100%;">
+            <h4>
+               Completed
+            </h4>
+            <hr>
+            <!-- Count Section -->
+            <div class="row">
+                <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                    <span style="color: #cc0066; font-size: 16px;">
+                        <strong>Total Count: 12</strong>
+                    </span>
+                </div>
+           
+            </div>
+            <!-- Button Section -->
+            <div class="row mt-3">
+                <div class="col-12 d-flex justify-content-center">
+                    <a href="pending-for-appointment-controller-go" class="btn btn-info btn-sm">View</a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+
+   
+    <!-- Rejected and Reverted Card -->
+    <div class="col-lg-4 col-sm-6 d-flex justify-content-center align-items-center" style="height: 100%; min-height: 300px;">
+        <div class="proc-box text-center" style="width: 100%;">
+            <h4>Rejected And Reverted</h4>
+            <hr>
+            <div class="row">
+                <!-- Approved and Rejected side by side -->
+                <div class="col-6 d-flex flex-column justify-content-center align-items-center">
+                    <span style="color: #cc0066; font-size: 16px;">
+                        <strong>Approved: 12</strong>
+                    </span>
+                </div>
+                <div class="col-6 d-flex flex-column justify-content-center align-items-center">
+                    <span style="color: #cc0066; font-size: 16px;">
+                        <strong>Rejected: 8</strong>
+                    </span>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <!-- Action Buttons side by side -->
+                <div class="col-6 d-flex justify-content-center">
+                    <a href="pending-for-appointment-controller-ngo" class="btn btn-info btn-sm">View</a>
+                </div>
+                <div class="col-6 d-flex justify-content-center">
+                    <a href="pending-for-appointment-controller-ngo" class="btn btn-info btn-sm">View</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+      
+
+	</div>
+	<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+
+
+
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function (e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function () {
+			$('#backtotop').click(function () {
+				$("html, body").animate({
+					scrollTop: 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function () {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function () {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+	
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function () {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function () {
+			$("#one-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+
+
+</body>
+ 
+</html>

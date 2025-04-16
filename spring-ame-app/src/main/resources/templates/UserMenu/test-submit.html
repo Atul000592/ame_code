@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<head>
+    <title>Encrypt Password</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function fetchKeyWithAjax() {
+			var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    type: 'GET',
+                    url: '/getKey',
+                     beforeSend: function (xhr) {
+                   xhr.setRequestHeader(header, token); },
+                    success: function (data) {
+                        resolve(data);
+                    },
+                    error: function (e) {
+                        reject(e);
+                    }
+                });
+            });
+        }
+
+        async function encryptPassword(password, key) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const keyData = Uint8Array.from(atob(key), c => c.charCodeAt(0));
+            const keyMaterial = await crypto.subtle.importKey(
+                "raw",
+                keyData,
+                { name: "AES-GCM", length: 256 },
+                true,
+                ["encrypt"]
+            );
+            const iv = crypto.getRandomValues(new Uint8Array(12)); // Initialization vector
+            const encrypted = await crypto.subtle.encrypt(
+                { name: "AES-GCM", iv: iv },
+                keyMaterial,
+                data
+            );
+
+            return {
+                iv: Array.from(iv),
+                encrypted: Array.from(new Uint8Array(encrypted))
+            };
+        }
+
+        async function submitForm() {
+            try {
+                const passwordField = document.getElementById('password');
+                const key = await fetchKeyWithAjax();
+                const encryptedData = await encryptPassword(passwordField.value, key);
+                document.getElementById('encryptedPassword').value = JSON.stringify(encryptedData);
+                 document.getElementById('keyId').value=JSON.stringify(key);
+                // Now you can submit the form
+                document.getElementById('yourForm').submit();
+            } catch (error) {
+                console.error('Error in submitForm:', error);
+            }
+        }
+    </script>
+</head>
+<body>
+    <form id="yourForm" th:action="@{/submit}" method="post">
+        <input type="password" id="password" />
+        <input type="hidden" id="encryptedPassword" name="encryptedPassword" />
+        <input type="hidden" id="keyId" name="keyId">
+        <button type="button" onclick="submitForm()">Submit</button>
+    </form>
+</body>
+</html>

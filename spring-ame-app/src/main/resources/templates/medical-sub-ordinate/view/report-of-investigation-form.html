@@ -1,0 +1,2395 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+<head>
+<title>AME DashBoard Controller</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css" />
+<!-- Custom styles for this template -->
+<link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/base-responsive.css" />
+<link rel="stylesheet" href="css/animate.min.css" />
+<link rel="stylesheet" href="css/slicknav.min.css" />
+<link rel="stylesheet" href="css/font-awesome.min.css" />
+<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
+	type="text/css">
+
+<script src="vendor/charts/Chart.js"></script>
+<script src="vendor/charts/moment.min.js"></script>
+<script src="vendor/charts/Chart.min.js"></script>
+<script src="vendor/charts/utils.js"></script>
+
+		<!-- Bootstrap core JavaScript -->
+		<script src="vendor/jquery/jquery.min.js"></script>
+		<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+		<script src="js/jquery.slicknav.min.js"></script>
+		<script src="js/dashboard.js"></script>
+
+
+<!--Local investigation Code-->
+
+
+<script src="vendor/jquery-ui/jquery-ui.js"></script>
+<script src="js/local/investigation-master.js"></script>
+<script src="js/local/investigation-view-report.js"></script>
+
+<link rel="stylesheet" href="css/local/investigation-model.css" />
+
+</head>
+
+
+<body>
+
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+		<div
+			th:replace="~{medical-sub-ordinate/left-menu-ama::sidebar-wrapper-menu-ama}"></div>
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<div
+				th:replace="~{medical-sub-ordinate/nav-bar::sidebar-wrapper-menu-nav-ama}"></div>
+
+
+			<div class="container mt-3">
+				<div class="wisecountnactionbg">
+
+					<div class="proc-box p-3">
+						<div class="row">
+							<div class="col-md-4">
+								<div class="alert alert-primary my-2">
+									<label class="fw-bold">IRLA No/F No:</label> <span
+										th:text="${candidateDetails.forceId}"></span>
+								</div>
+							</div>
+
+							<div class="col-md-4">
+								<div class="alert alert-primary my-2">
+									<label class="fw-bold">Name:</label> <span
+										th:text="${candidateDetails.name}"></span>
+								</div>
+							</div>
+
+							<div class="col-md-4">
+								<div class="alert alert-primary my-2">
+									<label class="fw-bold">Gender:</label> <span
+										th:text="${candidateDetails.gender}"></span>
+								</div>
+							</div>
+
+							<div class="col-md-4">
+								<div class="alert alert-primary my-2">
+									<label class="fw-bold">Force Name:</label> <span
+										th:if="${candidateDetails.force_no==1}"> Assam Rifle </span> <span
+										th:if="${candidateDetails.force_no==2}"> Border
+										Security Force (BSF) </span>
+
+								</div>
+							</div>
+
+							<div class="col-md-4">
+								<div class="alert alert-primary my-2">
+									<label class="fw-bold">Rank/Designation:</label> <span
+										th:text="${candidateDetails.designation}"></span>
+								</div>
+							</div>
+
+							<div class="col-md-4">
+								<div class="alert alert-primary my-2">
+									<label class="fw-bold"> Grade </label> <span
+										th:if="${candidateGazettedNonGazettedFlag=='Y'}"
+										th:text="GazettedOfficer"></span> <span
+										th:unless="${candidateGazettedNonGazettedFlag=='Y'}"
+										th:text="NonGazettedOfficer"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					<!-- candidate details end-->
+					
+					<!-- ====================Other Test RK============================= -->
+				<div id="loading-overlay">
+   <div class="spinner"></div>
+  
+  
+</div>
+				
+				
+			
+				
+				
+
+					
+					
+					
+					
+					
+					
+					
+				<div id="loading-overlay">
+					<div class="spinner"></div>
+                </div>
+                
+                
+
+					<div class="table-responsive">
+						<h5 style="text-align: center;"><b>Investigation List</b></h5>
+						<table
+							class="table table-striped table-bordered table-hover dataTable no-footer"
+							id="investigationList">
+
+							<thead class="table-light">
+								<tr>
+									<td>Test Name</td>
+									<td>Test Description</td>
+									<td width="130">Action</td>
+								</tr>
+
+							</thead>
+							<tbody>
+
+								<tr th:each="checkUpList,statcount :${checkUpLists}"
+									th:id="${checkUpList.testCode}">
+									<td th:text="${checkUpList.testName}"></td>
+									<td th:text="${checkUpList.testName}"></td>
+									<td>
+										<button value="upload" class="btn btn-success btn-sm"
+											th:value="${checkUpList.testCode}"
+											onclick="uploadReport(this)">View Report</button>
+									</td>
+
+								</tr>
+								<tr th:if="${checkUpLists}==null">
+									<td colSpan="3">No data available.....</td>
+								</tr>
+
+							</tbody>
+						</table>
+
+					</div>
+
+
+<form th:action="@{application-under-process-ma}" method="get">
+ <input type="submit" value="Back" style="width:100px;color: rgb(0, 128, 192);">
+ </form>
+
+
+
+					<div th:each="checkUpLists1,statcount :${checkUpLists}">
+
+
+
+						<div th:if="${checkUpLists1.testCode=='cbc'}">
+
+
+							<div id="investigationcbc" class="investigationcbcClass">
+
+
+								<!-- Modal content -->
+								<div class="investigationcbc-content">
+									<span class="investigationcbc-close"
+										onclick="investigationcbcCloseModel()">&times;</span>
+									<h5 style="text-align: center;">
+										<label><b>CBC</b></label>
+									</h5>
+
+									<hr>
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4"> Haemoglobin </label>
+										<div class="col-md-8">
+											<input type="text" name="haemoglobin" id="haemoglobin"
+												class="form-control" readonly>
+										</div>
+
+									</div>
+
+
+
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4">Total Leukocyte
+											Count(TLC) </label>
+
+										<div class="col-md-8">
+											<input type="text" name="totalLeukocyteCount"
+												id="totalLeukocyteCount" class="form-control" readonly>
+										</div>
+									</div>
+
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-12" >
+										<b >
+												Differential Leukocyte Count (DLC) </b></label>
+
+										<!-- <div class="col-md-8">
+											<input type="hidden" name="differentialLeukocyteCount"
+												id="differentialLeukocyteCount" class="form-control">
+										</div> -->
+									</div>
+
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4">Neutrophils or
+											Polymorphs</label>
+
+										<div class="col-md-8">
+											<input type="text" name="neutrophilsOrPolymorphs"
+												id="neutrophilsOrPolymorphs" class="form-control" readonly>
+										</div>
+									</div>
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4">Monocytes </label>
+
+										<div class="col-md-8">
+											<input type="text" name="monocytes" id="monocytes"
+												class="form-control" readonly>
+										</div>
+
+									</div>
+
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4">lymphocyte (B
+											and T cells) </label>
+
+										<div class="col-md-8">
+											<input type="text" name="lymphocyte" id="lymphocyte"
+												class="form-control">
+										</div>
+
+									</div>
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4">Basophils</label>
+
+										<div class="col-md-8">
+											<input type="text" name="basophils" id="basophils"
+												class="form-control" readonly>
+										</div>
+									</div>
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4">Eosinophils</label>
+
+										<div class="col-md-8">
+											<input type="text" name="eosinophils" id="eosinophils"
+												class="form-control"readonly>
+										</div>
+									</div>
+
+
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4">Erythrocyte
+											sedimentation rate(ESR)</label>
+
+										<div class="col-md-8">
+											<input type="text" name="erythrocyteSedimentationRate"
+												id="erythrocyteSedimentationRate" class="form-control" readonly>
+										</div>
+									</div>
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4">Upload Report File</label>
+										<div class="col-md-8">
+											<input type="text"  id="fileNamecbc" class="form-control" placeholder="readonly" readonly>
+											<form method="post" th:action="@{download-investigation-report-file}">
+												<input type="hidden" name="filePath" id="cbcpath"  >
+												<input type="submit" class="btn btn-info btn-sm" value="View">
+											</form>
+											
+										</div>
+									</div>
+
+									<div class="row form-group mb-3">
+										<div class="col-md-12">
+											<input type="hidden" name="testCode-cbc" id="testCode-cbc"
+												value="cbc" class="form-control" />
+										</div>
+
+
+
+										<div class="col-md-12">
+											<input type="button" value="submit" id="save-cbc"
+												class="btn btn-primary float-end"> <input
+												type="hidden" th:value=${ameId} name="ameId" id="ameId-cbc">
+										</div>
+									</div>
+
+
+
+								</div>
+
+							</div>
+
+						</div>
+
+
+
+						<!--utmicro-->
+
+						<div th:if="${checkUpLists1.testCode=='utmicro'}">
+
+
+							<div id="investigationutmicro" class="investigationutmicroClass">
+
+
+								<!-- Modal content -->
+								<div class="investigationutmicro-content">
+<span
+											class="investigationutmicro-close"
+											onclick="investigationutmicrophyCloseModel()">&times;</span>
+									
+									
+									<h5 style="text-align: center;">
+										<label><b>Urine Physical/Urine Microscope</b></label>
+									</h5>
+
+
+									<hr>
+
+
+									<h6><b>Microscope Exam</b></h6>
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4"> Epithelial
+											Cells </label>
+										<div class="col-md-8">
+											<input type="text" name="epithelialCells"
+												id="epithelialCells" class="form-control" readonly>
+										</div>
+									</div>
+								
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4"> RBC </label>
+										<div class="col-md-8">
+											<input type="text" name="rbc" id="rbc" class="form-control" readonly>
+										</div>
+									</div>
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4"> Crystal </label>
+										<div class="col-md-8">
+											<input type="text" name="crystal" id="crystal"
+												class="form-control" readonly>
+										</div>
+									</div>
+
+									<h6><b>Physical Exam</b></h6>
+
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4"> Colour </label>
+										<div class="col-md-8">
+											<input type="text" name="colour" id="colour"
+												class="form-control" readonly>
+										</div>
+									</div>
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4"> Transparency </label>
+										<div class="col-md-8">
+											<input type="text" name="transparency" id="transparency"
+												class="form-control" readonly>
+										</div>
+									</div>
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4"> Reaction </label>
+										<div class="col-md-8">
+											<input type="text" name="reaction" id="reaction"
+												class="form-control" readonly>
+										</div>
+									</div>
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4"> Albumin Cells
+										</label>
+										<div class="col-md-8">
+											<input type="text" name="albuminCells" id="albuminCells"
+												class="form-control" readonly>
+										</div>
+									</div>
+
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4"> Sugar </label>
+										<div class="col-md-8">
+											<input type="text" name="sugar" id="sugar"
+												class="form-control" readonly>
+										</div>
+									</div>
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4"> Bile Salt </label>
+										<div class="col-md-8">
+											<input type="text" name="bileSalt" id="bileSalt"
+												class="form-control" readonly>
+										</div>
+									</div>
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4"> ketones </label>
+										<div class="col-md-8">
+											<input type="text" name="ketones" id="ketones"
+												class="form-control" readonly>
+										</div>
+									</div>
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4"> Specific
+											gravity </label>
+										<div class="col-md-8">
+											<input type="text" name="specificGravity"
+												id="specificGravity" class="form-control" readonly>
+										</div>
+									</div>
+
+									
+									
+									<!-- New fields -->
+									
+									
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4"> Bile Pigment</label>
+										<div class="col-md-8">
+											<input type="text" class="form-control" name="bilePigment" id="bilePigment" readonly>
+										
+										</div>
+									</div>
+									
+										
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4"> appearance</label>
+										<div class="col-md-8">
+											<input type="text" class="form-control" name="appearance" id="appearance" readonly>
+										
+										</div>
+									</div>
+										
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4"> Urine Pregnancy Test </label>
+										<div class="col-md-8">
+												<input type="text" class="form-control" name="urinePregnancyTest" id="urinePregnancyTest" readonly>
+										
+										</div>
+									</div>
+									
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4">ph</label>
+										<div class="col-md-8">
+											<input type="text" class="form-control" name="ph" id="ph" readonly>
+										</div>
+									</div>		
+									
+										
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4">Cast cells</label>
+										<div class="col-md-8">
+											<input type="text" class="form-control" name="castCells" id="castCells" readonly>
+											
+										</div>
+									</div>
+									
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4">phosphate</label>
+										<div class="col-md-8">
+											<input type="text" class="form-control" name="phosphate" id="phosphate" readonly>
+										
+										</div>
+									</div>	
+									
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4">urobilinogen</label>
+										<div class="col-md-8">
+											<input type="text" class="form-control" name="urobilinogen" id="urobilinogen" readonly>
+										
+										</div>
+									</div>	
+									
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4"> bilirubin</label>
+										<div class="col-md-8">
+											<input type="text" class="form-control" name="bilirubin" id="bilirubin" readonly>
+										
+										</div>
+									</div>
+									
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4">bacteria</label>
+										<div class="col-md-8">
+											<input type="text" class="form-control" name="bacteria" id="bacteria"readonly>
+									
+										</div>
+									</div>	
+									
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4">Eosinophils</label>
+										<div class="col-md-8">
+										<input type="text" class="form-control" name="eosinophils" id="eosinophils" readonly>
+									
+										</div>
+									</div>	
+										
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4">Upload Report File</label>
+										<div class="col-md-8">
+											<input type="text"  id="fileNameurine" class="form-control" placeholder="readonly" readonly>
+											<form method="post" th:action="@{download-investigation-report-file}">
+												<input type="hidden" name="filePath" id="urinepath"  >
+												<input type="submit" class="btn btn-info btn-sm" value="View">
+											</form>
+											
+										</div>
+									</div>
+								
+											
+										
+										
+										
+								
+									<div class="row mb-3">
+										<div class="col-md-12">
+											<input type="hidden" name="testCode" id="testCode-urine" value="utmicro">
+											<input type="hidden" th:value="${ameId}" name="ameId" id="ameId-utmicro">
+											<button type="button" class="btn btn-secondary mt-4"
+												onclick="backToHome()" style="width: 100px;">Back</button>
+										</div>
+									</div>
+
+
+
+								</div>
+
+
+
+							</div>
+
+
+
+						</div>
+
+
+
+
+						<!--Lipid Profile Test-->
+
+						<div th:if="${checkUpLists1.testCode=='lipid'}">
+
+
+							<div id="investigationlipid" class="investigationlipidClass">
+
+
+								<!-- Modal content -->
+								<div class="investigationlipid-content">
+								
+								<span class="investigationlipid-close"
+										onclick="investigationlipidCloseModel()">&times;</span>
+								
+								
+
+
+									<h5 style="text-align: center;">
+										<label><b>Lipid </b></label>
+									</h5>
+
+
+<hr>
+<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4"> Serum
+											cholesterol</label>
+										<div class="col-md-8">
+											<input type="text" name="serumCholesterol"
+												id="serumCholesterol" class="form-control">
+										</div>
+									</div>
+
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4"> LDL
+											cholesterol </label>
+										<div class="col-md-8">
+											<input type="number" class="form-control"
+												name="lDLCholesterol" id="lDLCholesterol"
+												onkeypress='validate(event)'>
+										</div>
+									</div>
+
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4"> HDL
+											Cholesterol </label>
+										<div class="col-md-8">
+											<input type="number" class="form-control"
+												name="hDLCholesterol" id="hDLCholesterol"
+												onkeypress='validate(event)' onchange="calculateRatio()">
+										</div>
+									</div>
+
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4"> VLDL
+											cholesterol </label>
+										<div class="col-md-8">
+											<input type="text" class="form-control"
+												name="vLDLcholesterol" id="vLDLcholesterol">
+										</div>
+									</div>
+
+
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4"> Triglycerides
+										</label>
+										<div class="col-md-8">
+											<input type="text" class="form-control" name="triglycerides"
+												id="triglycerides">
+										</div>
+</div>
+										<div class="row form-group mb-3">
+											<label class="col-form-label col-md-4"> LDL/HDL Ratio
+											</label>
+											<div class="col-md-8">
+												<input type="text" class="form-control" name="lDLhDLRatio"
+													id="lDLhDLRatio" readonly>
+											</div>
+										</div>
+
+										<div class="row form-group mb-3">
+											<div class="col-md-5">
+												<label class="col-form-label col-md-4">Upload Report File</label>
+												</div>
+											<div class="col-md-5">
+												<input type="text"  id="fileNamelipid" class="form-control" placeholder="readonly" readonly>
+												</div>
+												<div class="col-md-2">
+												<form method="post" th:action="@{download-investigation-report-file}">
+													<input type="hidden" name="filePath" id="lipidpath"  >
+													<input type="submit" class="btn btn-info btn-md" value="View">
+												</form>
+												</div>
+											</div>
+									
+										
+
+										<div class="row mb-3">
+											<div class="col-md-12">
+												<input type="hidden" name="testCode" id="testCode-lipid" value="lipid">
+												<input type="hidden" th:value="${ameId}" name="ameId" id="ameId-lipid">
+												<button type="button" class="btn btn-secondary mt-4"
+													onclick="investigationlipidCloseModel()" style="width: 100px;">Back</button>
+											</div>
+										</div>
+
+
+									</div>
+
+								</div>
+
+							</div>
+					
+							
+<!-- =============================Blood Sugar Test============================================ -->
+
+							<div th:if="${checkUpLists1.testCode=='bs'}">
+								<div id="investigationbs" class="investigationbsClass">
+									<div class="investigationbs-content">
+										<span class="investigationbs-close" onclick="investigationbsCloseModel()">&times;</span>
+										<h5 style="text-align: center;"><label><b>Blood Sugar</b></label></h5>
+										<hr>
+										<div class="row form-group mb-3">
+											<label class="col-form-label col-md-4">Blood Sugar-PP</label>
+											<div class="col-md-8">
+												<input type="text" name="bspp" id="bspp" class="form-control" placeholder="readonly" readonly>
+												<span id="bloodSugarPP_error" class="error"></span>
+											</div>
+										</div>
+										<div class="row form-group mb-3">
+											<label class="col-form-label col-md-4">Blood Sugar-F</label>
+											<div class="col-md-8">
+												<input type="text" name="bsfa" id="bsf" class="form-control" readonly>
+											</div>
+										</div>
+										<div class="row form-group mb-3">
+											<label class="col-form-label col-md-4">Blood Sugar Random</label>
+											<div class="col-md-8">
+												<input type="text" name="bloodSugarRandom" id="bloodSugarRandom" class="form-control" readonly>
+											</div>
+										</div>
+										<div class="row form-group mb-3">
+											<label class="col-form-label col-md-4">HbA1c</label>
+											<div class="col-md-8">
+												<input type="text" name="HbA1c" id="HbA1c" class="form-control" readonly>
+											</div>
+										</div>
+										<div class="row form-group mb-3">
+											<div class="col-md-8">
+												<input type="hidden" value="bs" name="bs" id="testCode-bs" class="form-control">
+											</div>
+											<span id="bloodSugarF_error" class="error"></span>
+										</div>
+										<div class="row form-group mb-3">
+											<label class="col-form-label col-md-4">Upload Report File</label>
+											<div class="col-md-8">
+												<input type="text" name="fileName" id="fileName" class="form-control" placeholder="readonly" readonly>
+												<form method="post" th:action="@{download-investigation-report-file}">
+									
+													<input type="hidden" name="filePath" id="pathValue"  >
+													<input type="submit" class="btn btn-info btn-sm" value="View">
+												</form>
+												
+											</div>
+										</div>
+										<div class="row mb-3">
+											<div class="col-md-12">
+												<input type="button" value="Back"  class="btn btn-primary float-end" id="backButton">
+												<input type="hidden" name="testCode" id="testCodeId">
+												<input type="hidden" th:value="${ameId}" name="ameId" id="ameId-bs">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+<!-- =============================Liver Function Test============================================ -->
+
+							<div th:if="${checkUpLists1.testCode=='lft'}">
+
+
+								<div id="investigationlft" class="investigationlftClass">
+
+
+									<!-- Modal content -->
+									<div class="investigationlft-content">
+										<span class="investigationlft-close"
+											onclick="investigationlftCloseModel()">&times;</span>
+										
+
+									<h5 style="text-align: center;">
+										<label><b>Liver Functional Test</b></label>
+									</h5>
+									
+									<hr>
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4">Bilirubin(Total)</label>
+
+										<div class="col-md-8">
+											<input type="text" class="form-control" name="bilirubin" id="bilirubin">
+											<span id="bilirubin_error" class="error"></span>
+										</div>
+									</div>
+									
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4">Direct Bilirubin</label>
+
+										<div class="col-md-8">
+											<input type="text" class="form-control" name="directBilirubin"
+													id="directBilirubin">
+											<span id="directBilirubin_error" class="error"></span>
+										</div>
+									</div>
+									
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4">Indirect Bilirubin</label>
+
+										<div class="col-md-8">
+											<input type="text" class="form-control" name="indirectBilirubin"
+													id="indirectBilirubin">
+											<span id="indirectBilirubin_error" class="error"></span>
+										</div>
+									</div>
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4">SGOT</label>
+
+										<div class="col-md-8">
+											<input type="text" class="form-control" name="sGOT" id="sGOT">
+											<span id="sGOT_error" class="error"></span>
+										</div>
+									</div>
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4">SGPT</label>
+
+										<div class="col-md-8">
+											<input type="text" class="form-control" name="sGPT" id="sGPT">
+											<span id="sGPT_error" class="error"></span>
+										</div>
+									</div>
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4">ALP</label>
+
+										<div class="col-md-8">
+											<input type="text" class="form-control" name="aLP" id="aLP">
+											<span id="aLP_error" class="error"></span>
+										</div>
+									</div>
+									<div class="row form-group mb-3">
+										<label class="col-form-label col-md-4">Upload Report File</label>
+
+										<div class="col-md-8">
+											<input type="file" class="form-control" name="fileInputlft"
+													id="fileInputlft" required>
+											<span id="directBilirubin_error" class="error"></span>
+										</div>
+									</div>
+									
+									<div class="row mb-3">
+
+										<div class="col-md-12">
+
+											  <input type="hidden" value="lft" name="testCode"  id="lft-testCode">
+											  <input type="hidden" th:value="${ameId}" name="ameId" id="lft-ameId">
+											  <input type="button" value="submit" id="save-lft" class="btn btn-primary float-end">
+
+										</div>
+
+									</div>
+									
+									
+                               
+										
+													
+
+										
+												
+									</div>
+
+								</div>
+							</div>
+<!--==========================================Kidney Function Test=========================================-->
+
+<!----======================================== Viral Makers=====================================================--> 
+<div th:if="${checkUpLists1.testCode=='vrl'}">
+
+
+	<div id="investigationvrl" class="investigationvrlClass">
+
+
+		<!-- Modal content -->
+		<div class="investigationvrl-content">
+			<span class="investigationvrl-close"
+				onclick="investigationvrlCloseModel()">&times;</span>
+				<h5 style="text-align: center;">
+					<label><b>Upload Test Report(Viral Makers)</b></label>
+				</h5>
+			<div class="row form-group mb-3">
+				<label class="col-form-label col-md-4">HIV1</label>
+				<div class="col-md-8">
+					<input type="text" class="form-control" name="hiv1" id="hiv1">
+					<span id="sGOT_error" class="error"></span>
+				</div>
+			</div>
+			<div class="row form-group mb-3">
+				<label class="col-form-label col-md-4">HIV2</label>
+				<div class="col-md-8">
+					<input type="text" class="form-control" name="hiv2" id="hiv2">
+					<span id="sGOT_error" class="error"></span>
+				</div>
+			</div>
+			
+				
+			<div class="row form-group mb-3">
+				<label class="col-form-label col-md-4">HBSAG</label>
+				<div class="col-md-8">
+					<input type="text" class="form-control" name="hbsAg" id="hbsAg">
+					<span id="sGOT_error" class="error"></span>
+				</div>
+			</div>
+			<div class="row form-group mb-3">
+				<label class="col-form-label col-md-4">VDRL</label>
+				<div class="col-md-8">
+					<input type="text" class="form-control" name="vdrl" id="vdrl">
+					<span id="sGOT_error" class="error"></span>
+				</div>
+			</div>
+
+			<div class="row form-group mb-3">
+				<label class="col-form-label col-md-4">HCV</label>
+				<div class="col-md-8">
+					<input type="text" class="form-control" name="hcv" id="hcv">
+					<span id="sGOT_error" class="error"></span>
+				</div>
+			</div>
+				
+					<div class="row form-group mb-3">
+						<label class="col-form-label col-md-4">Upload Report File</label>
+						<div class="col-md-8">
+							<input type="text"  id="fileNamevrl" class="form-control" placeholder="readonly" readonly>
+							<form method="post" th:action="@{download-investigation-report-file}">
+								<input type="hidden" name="filePath" id="vrlpath"  >
+								<input type="submit" class="btn btn-info btn-sm" value="View">
+							</form>
+							
+						</div>
+					</div>
+
+					<div class="row form-group mb-3">
+						<div class="col-md-12">
+							<input type="hidden" name="testCode-vrl" id="testCode-vrl"
+								value="vrl" class="form-control" />
+						</div>
+
+
+
+						<div class="col-md-12">
+							<input type="button" value="submit" id="save-vrl"
+								class="btn btn-primary float-end"> <input
+								type="hidden" th:value=${ameId} name="ameId" id="ameId-vrl">
+						</div>
+					</div>
+			
+			</table>
+		</div>
+		
+	</div>
+</div>
+
+<!--=================================USG==================================================-->
+<div th:if="${checkUpLists1.testCode=='usg'}">
+
+
+	<div id="investigationusg" class="investigationusgClass">
+		<!-- Modal content -->
+		<div class="investigationusg-content">
+			<span class="investigationusg-close"
+				onclick="investigationotherCloseModel()">&times;</span>
+			<h5>Upload Test Report(USG)</h5>
+			<div class="row form-group mb-3">
+				<label class="col-form-label col-md-4">Test Name</label>
+				<div class="col-md-8">
+					<input type="text" class="form-control" name="testName" id="usg-testName" readonly>
+					<span id="sGOT_error" class="error"></span>
+				</div>
+			</div>
+				
+					<div class="row form-group mb-3">
+						<label class="col-form-label col-md-4">Upload Report File</label>
+						<div class="col-md-8">
+							<input type="text"  id="fileNameusg" class="form-control" placeholder="readonly" readonly>
+							<form method="post" th:action="@{download-investigation-report-file}">
+								<input type="hidden" name="filePath" id="usgpath"  >
+								<input type="submit" class="btn btn-info btn-sm" value="View">
+							</form>
+							
+						</div>
+					</div>
+
+				
+
+				<tr>
+					<td>
+						<td><input type="hidden" name="testCode" value="usg" th:id="${checkUpLists1.testCode}+'TestCode'">
+					</td>
+					<td>
+						<input type="hidden" th:value="${ameId}" name="ameId" id="usg-ameId">
+					</td>
+					
+					
+
+				</tr>
+				
+				<tr>
+					
+					<td><button class="btn btn-success" type="button" value="submit" name="usg" id="save-other"
+							style="width:20%;align-items:right ">Submit</button></td>
+				</tr>
+			</table>
+		</div>
+		
+	</div>
+</div>
+
+
+<!--=================================X-RAY==================================================-->
+<div th:if="${checkUpLists1.testCode=='xray'}">
+
+
+	<div id="investigationxray" class="investigationxrayClass">
+		<!-- Modal content -->
+		<div class="investigationxray-content">
+			<span class="investigationxray-close"
+				onclick="investigationotherCloseModel()">&times;</span>
+			<h5>Upload Test Report(X-Ray)</h5>
+			<div class="row form-group mb-3">
+				<label class="col-form-label col-md-4">Test Name</label>
+				<div class="col-md-8">
+					<input type="text" class="form-control" name="testName" id="xray-testName" readonly>
+					<span id="sGOT_error" class="error"></span>
+				</div>
+			</div>
+				
+					<div class="row form-group mb-3">
+						<label class="col-form-label col-md-4">Upload Report File</label>
+						<div class="col-md-8">
+							<input type="text"  id="fileNamexray" class="form-control" placeholder="readonly" readonly>
+							<form method="post" th:action="@{download-investigation-report-file}">
+								<input type="hidden" name="filePath" id="xraypath"  >
+								<input type="submit" class="btn btn-info btn-sm" value="View">
+							</form>
+							
+						</div>
+					</div>
+
+				
+
+				<tr>
+					<td>
+						<td><input type="hidden" name="testCode" value="xray" th:id="${checkUpLists1.testCode}+'TestCode'">
+					</td>
+					<td>
+						<input type="hidden" th:value="${ameId}" name="ameId" id="xray-ameId">
+					</td>
+					
+					
+
+				</tr>
+				
+				<tr>
+					
+					<td><button class="btn btn-success" type="button" value="submit" name="xray" id="save-other"
+							style="width:20%;align-items:right ">Submit</button></td>
+				</tr>
+			</table>
+		</div>
+		
+	</div>
+</div>
+
+<!--=================================ECG==================================================-->
+
+<div th:if="${checkUpLists1.testCode=='ecg'}">
+
+
+	<div id="investigationecg" class="investigationecgClass">
+		<!-- Modal content -->
+		<div class="investigationecg-content">
+			<span class="investigationecg-close"
+				onclick="investigationotherCloseModel()">&times;</span>
+			<h5>Upload Test Report(ECG)</h5>
+			<div class="row form-group mb-3">
+				<label class="col-form-label col-md-4">Test Name</label>
+				<div class="col-md-8">
+					<input type="text" class="form-control" name="testName" id="ecg-testName">
+					<span id="sGOT_error" class="error"></span>
+				</div>
+			</div>
+				
+					<div class="row form-group mb-3">
+						<label class="col-form-label col-md-4">Upload Report File</label>
+						<div class="col-md-8">
+							<input type="text"  id="fileNameecg" class="form-control" placeholder="readonly" readonly>
+							<form method="post" th:action="@{download-investigation-report-file}">
+								<input type="hidden" name="filePath" id="ecgpath"  >
+								<input type="submit" class="btn btn-info btn-sm" value="View">
+							</form>
+							
+						</div>
+					</div>
+
+				
+
+				<tr>
+					<td>
+						<td><input type="hidden" name="testCode" value="ecg" th:id="${checkUpLists1.testCode}+'TestCode'">
+					</td>
+					<td>
+						<input type="hidden" th:value="${ameId}" name="ameId" id="ecg-ameId">
+					</td>
+					
+					
+
+				</tr>
+				
+				<tr>
+					
+					<td><button class="btn btn-success" type="button" value="submit" name="ecg" id="save-other"
+							style="width:20%;align-items:right ">Submit</button></td>
+				</tr>
+			</table>
+		</div>
+		
+	</div>
+</div>
+
+
+<!--=================================Thypoid profile==================================================-->
+
+<div th:if="${checkUpLists1.testCode=='tp'}">
+	<div id="investigationtp" class="investigationtpClass">
+
+		<!-- Modal content -->
+		<div class="investigationtp-content">
+			<span class="investigationtp-close"
+				onclick="investigationtpCloseModel()">&times;</span>
+			<h5>Upload Test Report(Thypoid Profile)</h5>
+
+
+
+			<table id="myTable">
+				<tr>
+					<td><label>Thypoid Profile Test</label></td>
+				</tr>
+				<tr class="memberDatatp">
+					<td>t3</td>
+					<td><input type="text" name="t3" id="t3"></td>
+				</tr>
+				<tr>
+						<td></td>
+						<td id="t3_error" class="error"></td>
+					</tr>
+				
+				<tr class="memberDatatp">
+					<td>t4</td>
+					<td><input type="text" name="t4" id="t4"></td>
+				</tr>
+				
+				<tr>
+						<td></td>
+						<td id="t4_error" class="error"></td>
+					</tr>
+				
+				<tr class="memberDatatp">
+					<td>tsh</td>
+					<td><input type="text" name="tsh" id="tsh"></td>
+				</tr>
+				
+				<tr>
+						<td></td>
+						<td id="tsh_error" class="error"></td>
+					</tr>
+
+				<tr>
+					<td>Upload Report File</td>
+					<td><input type="file" name="fileInputtp" id="fileInputtp" required></td>
+				</tr>
+				
+				<tr>
+					<td>
+						<td><input type="hidden" name="testCode" value="tp" id="tp-testCode">
+					</td>
+					<td>
+						<input type="hidden" th:value="${ameId}" name="ameId" id="tp-ameId">
+					</td>
+					
+
+				</tr>
+				
+				<tr>
+					
+
+					<td><button class="btn btn-success" type="button" value="submit"  id="save-tp"
+							style="width:20%;align-items:right ">Submit</button></td>
+				</tr>
+			</table>
+		</div>
+		
+	</div>
+</div>
+
+
+
+
+<!--==========================================Kidney Function Test=========================================-->
+
+<div th:if="${checkUpLists1.testCode=='kft'}">
+    <div id="investigationkft" class="investigationkftClass">
+        <!-- Modal content -->
+        <div class="investigationkft-content">
+            <span class="investigationkft-close" onclick="investigationkftCloseModel()">&times;</span>
+            <div id="kft-form" th:if="${checkUpLists1.testCode=='kft'}">
+                <h5 style="text-align: center;"><label><b>Kidney Function Test</b></label></h5>
+                <hr>
+                <div class="row form-group mb-3">
+                    <label class="col-form-label col-md-4">Blood Urea</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" name="bloodUrea" id="bloodUrea"readonly>
+                    </div>
+                </div>
+                <div class="row form-group mb-3">
+                    <label class="col-form-label col-md-4">Scrum Creatinine</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" name="scrumCreatinine" id="scrumCreatinine" readonly>
+                    </div>
+                </div>
+                <div class="row form-group mb-3">
+                    <label class="col-form-label col-md-4">Uric Acid</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" name="uricAcid" id="uricAcid" readonly>
+                    </div>
+                </div>
+				<div class="row form-group mb-3">
+					<label class="col-form-label col-md-4">Upload Report File</label>
+					<div class="col-md-8">
+						<input type="text"  id="fileNamekft" class="form-control" placeholder="readonly" readonly>
+						<form method="post" th:action="@{download-investigation-report-file}">
+			
+							<input type="hidden" name="filePath" id="kftpath"  >
+							<input type="submit" class="btn btn-info btn-sm" value="View">
+						</form>
+						
+					</div>
+				</div>
+              
+            
+        </div>
+    </div>
+</div>
+
+
+
+						<form th:action="@{/print-investigation-report}" method="post"
+							id="print-report">
+							<input type="hidden" name="ameId" th:value="${ameId}" id="ameId">
+
+						</form>
+						
+						<div class="d-grid gap-2 d-md-block">
+
+							<!-- <button type="submit" class="btn btn-success" style="width:100px;float:right;">Submit</button>-->
+
+						</div>
+
+					
+					<form th:action="@{/back-to-index-page-ama}" method="post"
+						id="back-to-home">
+						<input type="hidden" name="forcepersonalId"
+							th:value="${forcepersonalId}"> <input type="hidden"
+							name="ameId" th:value="${ameId}" id="ameId">
+
+					</form>
+
+
+				</div>
+				<!-- /#page-content-wrapper -->
+
+			</div>
+			<!-- /#wrapper -->
+
+		</div>
+
+
+
+		<!-- Menu Toggle Script -->
+		<script>
+			$("#menu-toggle").click(function(e) {
+				e.preventDefault();
+				$("#wrapper").toggleClass("toggled");
+			});
+		</script>
+
+
+		<script>
+			$(document).ready(function() {
+				$('#backtotop').click(function() {
+					$("html, body").animate({
+						scrollTop : 0
+					}, 600);
+					return false;
+				});
+			});
+		</script>
+
+
+		<script>
+			$('.sub-menu ul').hide();
+			$('.sub-sub-menu ul').hide();
+			$(".sub-menu a").click(
+					function() {
+						$(this).parent(".sub-menu").children("ul").slideToggle(
+								"100");
+						$(this).find(".right").toggleClass(
+								"fa-caret-up fa-caret-down");
+					});
+
+			$(".sub-sub-menu a").click(
+					function() {
+						$(this).parent(".sub-sub-menu").children("ul")
+								.slideToggle("100");
+						$(this).find(".right").toggleClass(
+								"fa-caret-up fa-caret-down");
+					});
+		</script>
+
+
+
+		<!-- Signup Modal -->
+
+		<div class="modal fade" id="signout-modal" data-bs-backdrop="static"
+			data-bs-keyboard="false" tabindex="-1"
+			aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Sign Out?</h5>
+
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<!-- Modal body -->
+						<div class="modal-body">
+							<p class="text-center">Are you sure you want to Sign Out?</p>
+							<form action="sign-out">
+								<div class="row">
+									<div class="col-md-6">
+										<button type="submit" class="btn btn-primary">Sign
+											Out</button>
+									</div>
+									<div class="col-md-6">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Cancel</button>
+									</div>
+
+								</div>
+
+							</form>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			function validate(evt) {
+				var theEvent = evt || window.event;
+
+				// Handle paste
+				if (theEvent.type === 'paste') {
+					key = event.clipboardData.getData('text/plain');
+				} else {
+					// Handle key press
+					var key = theEvent.keyCode || theEvent.which;
+					key = String.fromCharCode(key);
+				}
+				var regex = /[0-9]|\./;
+				if (!regex.test(key)) {
+					theEvent.returnValue = false;
+					if (theEvent.preventDefault)
+						theEvent.preventDefault();
+				}
+			}
+		</script>
+
+
+		<script>
+			function printReportHandler() {
+
+				$("#print-report").submit();
+
+			}
+		</script>
+
+		<!-- =========================================(RK- save Lipid)========================================================== -->
+
+		<script>
+			$(document)
+					.ready(
+							function() {
+								$('#save-lipid')
+										.click(
+												function(event) {
+													event.preventDefault();
+
+													$('#loading-overlay')
+															.show();
+													$('body').addClass(
+															'loading');
+													var hashMap = new Map();
+
+													var ameId = $(
+															"#ameId-lipid")
+															.val();
+													var serumCcholesterol = $(
+															"#serumCcholesterol")
+															.val();
+													var lDLCholesterol = $(
+															"#lDLCholesterol")
+															.val();
+													var hDLCholesterol = $(
+															"#hDLCholesterol")
+															.val();
+													var vLDLcholesterol = $(
+															"#vLDLcholesterol")
+															.val();
+													var triglycerides = $(
+															"#triglycerides")
+															.val();
+													var lDLhDLRatio = $(
+															"#lDLhDLRatio")
+															.val();
+													var testCode = $(
+															"#testCode-lipid")
+															.val()
+													var fileInfo = $("#fileInput-lipid")[0].files[0];
+													if (fileInfo == null) {
+														alert("Please select file To upload.......!");
+														return false;
+													}
+													var formData = new FormData();
+													formData.append('file',
+															fileInfo);
+													hashMap.set("ameId", ameId);
+													hashMap
+															.set(
+																	"serumCcholesterol",
+																	serumCcholesterol);
+													hashMap.set(
+															"lDLCholesterol",
+															lDLCholesterol);
+													hashMap.set(
+															"hDLCholesterol",
+															hDLCholesterol);
+													hashMap.set(
+															"vLDLcholesterol",
+															vLDLcholesterol);
+													hashMap.set(
+															"triglycerides",
+															triglycerides);
+													hashMap.set("lDLhDLRatio",
+															lDLhDLRatio);
+													hashMap.set("testCode",
+															testCode);
+
+													var jsonArray = [];
+													hashMap.forEach(function(
+															value, key) {
+														var obj = {};
+														obj[key] = value;
+														jsonArray.push(obj);
+													});
+
+													// Convert the array to a JSON string
+													var jsonData = JSON
+															.stringify(jsonArray);
+													formData.append("jsonData",
+															jsonData);
+
+													/* ===================header==================== */
+													var token = $(
+															"meta[name='_csrf']")
+															.attr("content");
+													var header = $(
+															"meta[name='_csrf_header']")
+															.attr("content");
+													$('.error').text('');
+
+													$
+															.ajax({
+																type : 'POST',
+																url : 'save-lipid',
+																data : formData,
+																data : formData,
+																contentType : false,
+																processData : false,
+																beforeSend : function(
+																		xhr) {
+																	xhr
+																			.setRequestHeader(
+																					header,
+																					token);
+																},
+																success : function(
+																		response) {
+																	if (response.isValid) {
+																		alert("Data Saved Succcessfully!");
+																		investigationlipidCloseModel();
+
+																		var tbodyCompletedInvestigationList = $('#completedInvestigationTable tbody');
+																		var tbodyInvestigationList = $("#investigationList tbody")
+																		var rowToDelete = document
+																				.getElementById("lipid");
+
+																		var newRow = $('<tr>');
+
+																		newRow
+																				.append($(
+																						'<td>')
+																						.text(
+																								"Lipid Test"));
+																		newRow
+																				.append($(
+																						'<td>')
+																						.text(
+																								"Lipid Test"));
+																		newRow
+																				.append($(
+																						'<td>')
+																						.text(
+																								"Completed"));
+
+																		// Append the new row to the table's tbody
+																		tbodyCompletedInvestigationList
+																				.append(newRow);
+																		if (rowToDelete) {
+																			rowToDelete.parentNode
+																					.removeChild(rowToDelete);
+																			//tbodyInvestigationList.removeChild(rowToDelete);
+
+																		}
+
+																	}
+
+																	else {
+
+																		$
+																				.each(
+																						response.errors,
+																						function(
+																								field,
+																								errorMessage) {
+																							$(
+																									'#'
+																											+ field
+																											+ '_error')
+																									.text(
+																											errorMessage);
+																						});
+																	}
+
+																},
+																complete : function() {
+																	$(
+																			'#loading-overlay')
+																			.hide();
+																	$('body')
+																			.removeClass(
+																					'loading');
+																},
+																error : function(
+																		xhr,
+																		status,
+																		error) {
+
+																	alert("Please fill the form again somthing went WRONG!");
+																	console
+																			.error(error);
+																}
+															});
+												});
+							});
+		</script>
+
+
+
+
+
+		<!-- =========================================(RK-save CBC) ============================================================= -->
+
+		<script>
+			$(document)
+					.ready(
+							function() {
+								$('#save-cbc')
+										.click(
+												function(event) {
+													event.preventDefault();
+
+													$('#loading-overlay')
+															.show();
+													$('body').addClass(
+															'loading');
+													var hashMap = new Map();
+
+													var ameId = $("#ameId-cbc")
+															.val();
+													var haemoglobin = $(
+															"#haemoglobin")
+															.val();
+													var totalLeukocyteCount = $(
+															"#totalLeukocyteCount")
+															.val();
+													var differentialLeukocyteCount = $(
+															"#differentialLeukocyteCount")
+															.val();
+													var neutrophilsOrPolymorphs = $(
+															"#neutrophilsOrPolymorphs")
+															.val();
+													var monocytes = $(
+															"#monocytes").val();
+													var lymphocytesBTCells = $(
+															"#lymphocytesBTCells")
+															.val();
+													var basophils = $(
+															"#basophils").val();
+													var eosinophils = $(
+															"#eosinophils")
+															.val();
+													var erythrocyteSedimentationRate = $(
+															"#erythrocyteSedimentationRate")
+															.val();
+													var fileInfo = $("#fileInput-cbc")[0].files[0];
+													var testCode = $(
+															"#testCode-cbc")
+															.val();
+
+													if (fileInfo == null) {
+														alert("Please select file To upload.......!");
+														return false;
+													}
+													var formData = new FormData();
+													formData.append('file',
+															fileInfo);
+													hashMap.set("ameId", ameId);
+													hashMap.set("haemoglobin",
+															haemoglobin);
+													hashMap
+															.set(
+																	"totalLeukocyteCount",
+																	totalLeukocyteCount);
+													hashMap
+															.set(
+																	"differentialLeukocyteCount",
+																	differentialLeukocyteCount);
+													hashMap
+															.set(
+																	"neutrophilsOrPolymorphs",
+																	neutrophilsOrPolymorphs);
+													hashMap.set("monocytes",
+															monocytes);
+													hashMap
+															.set(
+																	"lymphocytesBTCells",
+																	lymphocytesBTCells);
+													hashMap.set("basophils",
+															basophils);
+													hashMap.set("eosinophils",
+															basophils);
+													hashMap
+															.set(
+																	"erythrocyteSedimentationRate",
+																	basophils);
+													hashMap.set("testCode",
+															testCode);
+
+													var jsonArray = [];
+													hashMap.forEach(function(
+															value, key) {
+														var obj = {};
+														obj[key] = value;
+														jsonArray.push(obj);
+													});
+
+													// Convert the array to a JSON string
+													var jsonData = JSON
+															.stringify(jsonArray);
+													formData.append("jsonData",
+															jsonData);
+
+													/* ===================header==================== */
+													var token = $(
+															"meta[name='_csrf']")
+															.attr("content");
+													var header = $(
+															"meta[name='_csrf_header']")
+															.attr("content");
+													$('.error').text('');
+
+													$
+															.ajax({
+																type : 'POST',
+																url : 'save-cbc',
+																data : formData,
+																data : formData,
+																contentType : false,
+																processData : false,
+																beforeSend : function(
+																		xhr) {
+																	xhr
+																			.setRequestHeader(
+																					header,
+																					token);
+																},
+																success : function(
+																		response) {
+																	if (response.isValid) {
+																		alert("Data Saved Succcessfully!");
+																		investigationcbcCloseModel();
+
+																		var tbodyCompletedInvestigationList = $('#completedInvestigationTable tbody');
+																		var tbodyInvestigationList = $("#investigationList tbody")
+																		var rowToDelete = document
+																				.getElementById("cbc");
+
+																		var newRow = $('<tr>');
+
+																		newRow
+																				.append($(
+																						'<td>')
+																						.text(
+																								"CBC Test"));
+																		newRow
+																				.append($(
+																						'<td>')
+																						.text(
+																								"CBC Test"));
+																		newRow
+																				.append($(
+																						'<td>')
+																						.text(
+																								"Completed"));
+
+																		tbodyCompletedInvestigationList
+																				.append(newRow);
+																		if (rowToDelete) {
+																			rowToDelete.parentNode
+																					.removeChild(rowToDelete);
+																			//tbodyInvestigationList.removeChild(rowToDelete);
+
+																		}
+
+																	} else {
+
+																		$
+																				.each(
+																						response.errors,
+																						function(
+																								field,
+																								errorMessage) {
+																							$(
+																									'#'
+																											+ field
+																											+ '_error')
+																									.text(
+																											errorMessage);
+																						});
+																	}
+
+																},
+																complete : function() {
+																	$(
+																			'#loading-overlay')
+																			.hide();
+																	$('body')
+																			.removeClass(
+																					'loading');
+																},
+																error : function(
+																		xhr,
+																		status,
+																		error) {
+
+																	alert("Please fill the form again somthing went WRONG!");
+																	console
+																			.error(error);
+																}
+															});
+												});
+							});
+		</script>
+
+
+
+		<!-- ====================================================================================================================== -->
+
+		<!-- ====================================================================================================================== -->
+	
+	<script>
+$(document).ready(function() {
+	$('#saveBloodSugar').click(function(event) {
+		event.preventDefault();
+		
+		$('#loading-overlay').show();
+		$('body').addClass('loading');
+        var hashMap = new Map();
+		var ameId=$("#ameId-bs").val();
+		var bloodSugarPP=$("#bspp").val();
+		var bloodSugarF=$("#bsf").val();
+		var bloodSugarRandom=$("#bloodSugarRandom").val();
+		var HbA1c=$("#HbA1c").val();
+		var testCode=$("#testCode-bs").val();
+		var fileInfo=$("#fileInput-bs")[0].files[0];
+		
+		 if(fileInfo==null){
+				alert("Please select file To upload.......!");
+				return false;
+					}
+		    var formData = new FormData();
+		    formData.append('file',fileInfo);
+			hashMap.set("ameId",ameId);
+			hashMap.set("bloodSugarPP",bloodSugarPP);
+			hashMap.set("bloodSugarF",bloodSugarF);
+			hashMap.set("bloodSugarRandom",bloodSugarRandom);
+			hashMap.set("HbA1c",HbA1c);
+			hashMap.set("testCode",testCode);
+			
+			
+			
+			
+			var jsonArray = [];
+		    hashMap.forEach(function (value, key) {
+		        var obj = {};
+		        obj[key] = value;
+		        jsonArray.push(obj);
+		    });
+
+		    // Convert the array to a JSON string
+		    var jsonData = JSON.stringify(jsonArray);
+		    formData.append("jsonData", jsonData);
+		
+/* ===================header==================== */
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		$('.error').text('');
+
+
+
+
+		$.ajax({
+			type: 'POST',
+			url: 'save-blood-sugar',
+			data:formData,
+			 data: formData,
+		        contentType: false,
+		        processData: false,
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(header, token);
+			},
+			success: function(response) {
+				if (response.isValid) {
+					alert("Data Saved Succcessfully!");
+					investigationbsCloseModel();
+					
+					var tbodyCompletedInvestigationList = $('#completedInvestigationTable tbody');
+					var tbodyInvestigationList=$("#investigationList tbody")
+					var rowToDelete=document.getElementById("bs");
+					
+					var newRow = $('<tr>');
+					  
+					newRow.append($('<td>').text("Blood Sugar Test"));
+					newRow.append($('<td>').text("Blood Sugar Test"));
+				    newRow.append($('<td>').text("Completed"));
+					    
+				    // Append the new row to the table's tbody
+				    tbodyCompletedInvestigationList.append(newRow);
+				if(rowToDelete){
+					  rowToDelete.parentNode.removeChild(rowToDelete);
+				    	//tbodyInvestigationList.removeChild(rowToDelete);
+				    	 
+					    }
+					    
+						 }
+
+				else {  
+				 
+					$.each(response.errors, function(field, errorMessage) {
+						 $('#' + field + '_error').text(errorMessage);
+						 });
+					}
+				
+},
+complete: function() {
+    $('#loading-overlay').hide();
+    $('body').removeClass('loading');
+},
+			error: function(xhr, status, error) {
+
+				alert("Please fill the form again somthing went WRONG!");
+				console.error(error);
+			}
+		});
+	});
+});
+
+
+
+
+</script>
+
+
+		<script>
+			$(document)
+					.ready(
+							function() {
+								$('#save-lft')
+										.click(
+												function(event) {
+													event.preventDefault();
+
+													$('#loading-overlay')
+															.show();
+													$('body').addClass(
+															'loading');
+
+													var hashMap = new Map();
+													var formData = new FormData();
+
+													var ameId = $("#lft-ameId")
+															.val();
+													var bilirubin = $(
+															"#bilirubin").val();
+													var directBilirubin = $(
+															"#directBilirubin")
+															.val();
+													var indirectBilirubin = $(
+															"#indirectBilirubin")
+															.val();
+													var sGOT = $("#sGOT").val();
+													var sGPT = $("#sGPT").val();
+													var aLP = $("#aLP").val();
+													var testCode = $(
+															"#lft-testCode")
+															.val();
+													var fileinfo = $("#fileInputlft")[0].files[0];
+
+													if (fileinfo == null) {
+														alert("Please select file To upload.......!");
+														return false;
+													}
+
+													formData.append('file',
+															fileinfo);
+													hashMap.set("ameId", ameId);
+													hashMap.set("bilirubin",
+															bilirubin);
+													hashMap.set(
+															"directBilirubin",
+															directBilirubin);
+													hashMap
+															.set(
+																	"indirectBilirubin",
+																	indirectBilirubin);
+													hashMap.set("sGOT", sGOT);
+													hashMap.set("sGPT", sGPT);
+													hashMap.set("aLP", aLP);
+													hashMap.set("testCode",
+															testCode);
+
+													var jsonArray = [];
+													hashMap.forEach(function(
+															value, key) {
+														var obj = {};
+														obj[key] = value;
+														jsonArray.push(obj);
+													});
+
+													// Convert the array to a JSON string
+													var jsonData = JSON
+															.stringify(jsonArray);
+													formData.append("jsonData",
+															jsonData);
+
+													/* ===================header==================== */
+													var token = $(
+															"meta[name='_csrf']")
+															.attr("content");
+													var header = $(
+															"meta[name='_csrf_header']")
+															.attr("content");
+													$('.error').text('');
+
+													$
+															.ajax({
+																type : 'POST',
+																url : 'save-lft',
+																data : formData,
+																data : formData,
+																contentType : false,
+																processData : false,
+																beforeSend : function(
+																		xhr) {
+																	xhr
+																			.setRequestHeader(
+																					header,
+																					token);
+																},
+																success : function(
+																		response) {
+																	if (response.isValid) {
+																		alert("Data Saved Succcessfully!");
+																		investigationlftCloseModel();
+
+																		var tbodyCompletedInvestigationList = $('#completedInvestigationTable tbody');
+																		var tbodyInvestigationList = $("#investigationList tbody")
+																		var rowToDelete = document
+																				.getElementById("lft");
+
+																		var newRow = $('<tr>');
+
+																		newRow
+																				.append($(
+																						'<td>')
+																						.text(
+																								"Liver Function Test"));
+																		newRow
+																				.append($(
+																						'<td>')
+																						.text(
+																								"Liver Function Test"));
+																		newRow
+																				.append($(
+																						'<td>')
+																						.text(
+																								"Completed"));
+
+																		// Append the new row to the table's tbody
+																		tbodyCompletedInvestigationList
+																				.append(newRow);
+																		if (rowToDelete) {
+																			rowToDelete.parentNode
+																					.removeChild(rowToDelete);
+																			//tbodyInvestigationList.removeChild(rowToDelete);
+
+																		}
+
+																	}
+
+																	else {
+
+																		$
+																				.each(
+																						response.errors,
+																						function(
+																								field,
+																								errorMessage) {
+																							$(
+																									'#'
+																											+ field
+																											+ '_error')
+																									.text(
+																											errorMessage);
+																						});
+																	}
+
+																},
+																complete : function() {
+																	$(
+																			'#loading-overlay')
+																			.hide();
+																	$('body')
+																			.removeClass(
+																					'loading');
+																},
+																error : function(
+																		xhr,
+																		status,
+																		error) {
+
+																	alert("Please fill the form again somthing went WRONG!");
+																	console
+																			.error(error);
+																}
+															});
+												});
+							});
+		</script>
+		<!-- ======================================================RK(save KFT)======================================================= -->
+
+		<script>
+			$(document)
+					.ready(
+							function() {
+								$('#save-kft')
+										.click(
+												function(event) {
+													event.preventDefault();
+
+													$('#loading-overlay')
+															.show();
+													$('body').addClass(
+															'loading');
+
+													var hashMap = new Map();
+													var formData = new FormData();
+
+													var ameId = $("#ameId-kft")
+															.val();
+													var bloodUrea = $(
+															"#bloodUrea").val();
+													var scrumCreatinine = $(
+															"#scrumCreatinine")
+															.val();
+													var uricAcid = $(
+															"#uricAcid").val();
+													var testCode = $(
+															"#testCode-kft")
+															.val();
+													var fileInfo = $("#fileInput-kft")[0].files[0];
+
+													if (fileInfo == null) {
+														alert("Please select file To upload.......!");
+														return false;
+													}
+
+													formData.append('file',
+															fileInfo);
+													hashMap.set("ameId", ameId);
+													hashMap.set("bloodUrea",
+															bloodUrea);
+													hashMap.set(
+															"scrumCreatinine",
+															scrumCreatinine);
+													hashMap.set("testCode",
+															testCode);
+
+													var jsonArray = [];
+													hashMap.forEach(function(
+															value, key) {
+														var obj = {};
+														obj[key] = value;
+														jsonArray.push(obj);
+													});
+
+													// Convert the array to a JSON string
+													var jsonData = JSON
+															.stringify(jsonArray);
+													formData.append("jsonData",
+															jsonData);
+
+													/* ===================header==================== */
+													var token = $(
+															"meta[name='_csrf']")
+															.attr("content");
+													var header = $(
+															"meta[name='_csrf_header']")
+															.attr("content");
+													$('.error').text('');
+
+
+
+
+		$.ajax({
+			type: 'POST',
+			url: 'save-kft',
+			data:formData,
+			 data: formData,
+		        contentType: false,
+		        processData: false,
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(header, token);
+			},
+			success: function(response) {
+				if (response.isValid) {
+				alert("Data Saved Succcessfully!");
+				investigationkftCloseModel();
+				
+				var tbodyCompletedInvestigationList = $('#completedInvestigationTable tbody');
+				var tbodyInvestigationList=$("#investigationList tbody")
+				var rowToDelete=document.getElementById("kft");
+				
+				var newRow = $('<tr>');
+				  
+				newRow.append($('<td>').text("Kidney Function Test"));
+				newRow.append($('<td>').text("Kidney Function Test"));
+			    newRow.append($('<td>').text("Completed"));
+				    
+			    // Append the new row to the table's tbody
+			    tbodyCompletedInvestigationList.append(newRow);
+			 if(rowToDelete){
+				  rowToDelete.parentNode.removeChild(rowToDelete);
+			    	//tbodyInvestigationList.removeChild(rowToDelete);
+			    	 
+				    }
+				    
+					 }
+
+				else {  
+				 
+					$.each(response.errors, function(field, errorMessage) {
+						 $('#' + field + '_error').text(errorMessage);
+						 });
+					}
+				
+},
+complete: function() {
+    $('#loading-overlay').hide();
+    $('body').removeClass('loading');
+},
+			error: function(xhr, status, error) {
+
+				alert("Please fill the form again somthing went WRONG!");
+				console.error(error);
+			}
+		});
+	});
+});
+
+
+
+
+</script>
+
+
+<!-- =================================================RK(save Urine)=========================================================== -->
+
+<!-- ======================================================RK(save KFT)======================================================= -->
+
+<script>
+	 
+      
+		/*==================================================================================================*/
+$(document).ready(function() {
+	$('#save-utmicrophy').click(function(event) {
+		event.preventDefault();
+		
+		$('#loading-overlay').show();
+		$('body').addClass('loading');
+        
+		
+		
+		var hashMap = new Map();
+		var formData = new FormData();
+		 
+		var ameId=$("#ameId-utmicrophy").val();
+		var epithelialCells=$("#epithelialCells").val();
+		var prostaticIntraepithelialNeoplasia=$("#prostaticIntraepithelialNeoplasia").val();
+		var rbc=$("#rbc").val();
+		var crystal=$("#crystal").val();
+		var colour=$("#colour").val();
+		var transparency=$("#transparency").val();
+		var reaction=$("#reaction").val();
+		var albuminCells=$("#albuminCells").val();
+		var sugar=$("#sugar").val();
+		var bileSalt=$("#bileSalt").val();
+		var ketones=$("#ketones").val();
+		var specificGravity=$("#specificGravity").val();
+		
+		var testCode=$("#testCode-utmicrophy").val();
+		var fileInfo=$("#fileInput-utmicrophy")[0].files[0];
+		
+/*==========NEW TEST FIELDS========*/
+		
+		var bilePigment=$("#bilePigment").val();
+		var appearance=$("#appearance").val();
+		var urinePregnancyTest=$("#urinePregnancyTest").val();
+		var ph=$("#ph").val();
+		var castCells=$("#castCells").val();
+		var phosphate=$("#phosphate").val();
+		var bilirubin=$("#bilirubin").val();
+		var urobilinogen=$("#urobilinogen").val();
+		var bacteria=$("#bacteria").val();
+
+	    
+	    if(fileInfo==null){
+			alert("Please select file To upload.......!");
+			return false;
+				}
+	   
+	    formData.append('file',fileInfo);
+		hashMap.set("ameId",ameId);
+		hashMap.set("epithelialCells",epithelialCells);
+		hashMap.set("prostaticIntraepithelialNeoplasia",prostaticIntraepithelialNeoplasia);
+		hashMap.set("rbc",rbc);
+		hashMap.set("crystal",crystal);
+		hashMap.set("colour",colour);
+		hashMap.set("transparency",transparency);
+		hashMap.set("reaction",reaction);
+		hashMap.set("albuminCells",albuminCells);
+		hashMap.set("sugar",sugar);
+		hashMap.set("bileSalt",bileSalt);
+		hashMap.set("ketones",ketones);
+		hashMap.set("specificGravity",specificGravity);
+        hashMap.set("testCode",testCode);
+        
+        
+        /*=======NEW TEST FIELDS=======  */
+        
+        hashMap.set("bilePigment",bilePigment);
+        hashMap.set("appearance",appearance);
+        hashMap.set("urinePregnancyTest",urinePregnancyTest);
+        hashMap.set("ph",ph);
+        hashMap.set("castCells",castCells);
+        hashMap.set("bilirubin",bilirubin);
+        hashMap.set("urobilinogen",urobilinogen);
+        hashMap.set("bacteria",bacteria);
+        hashMap.set("phosphate",phosphate);
+        
+        
+		
+		
+		var jsonArray = [];
+	    hashMap.forEach(function (value, key) {
+	        var obj = {};
+	        obj[key] = value;
+	        jsonArray.push(obj);
+	    });
+
+	    // Convert the array to a JSON string
+	    var jsonData = JSON.stringify(jsonArray);
+	    formData.append("jsonData", jsonData);
+
+/* ===================header==================== */
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		$('.error').text('');
+
+
+
+
+		$.ajax({
+			type: 'POST',
+			url: 'save-utmicrophy',
+			data:formData,
+			 data: formData,
+		        contentType: false,
+		        processData: false,
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(header, token);
+			},
+			success: function(response) {
+				if (response.isValid) {
+				alert("Data Saved Succcessfully!");
+				investigationutmicrophyCloseModel();
+				
+				var tbodyCompletedInvestigationList = $('#completedInvestigationTable tbody');
+				var tbodyInvestigationList=$("#investigationList tbody")
+				var rowToDelete=document.getElementById("utmicro");
+				
+				var newRow = $('<tr>');
+				  
+				newRow.append($('<td>').text("Urine Test Physical Microscopic"));
+				newRow.append($('<td>').text("Urine Test Physical Microscopic"));
+			    newRow.append($('<td>').text("Completed"));
+				    
+			    
+			    tbodyCompletedInvestigationList.append(newRow);
+			    if(rowToDelete){
+				   rowToDelete.parentNode.removeChild(rowToDelete);
+			    	//tbodyInvestigationList.removeChild(rowToDelete);
+			    	}
+				    
+					 }
+
+				else {  
+				 
+					$.each(response.errors, function(field, errorMessage) {
+						if(field.localeCompare("fileError")===0){
+							alert(errorMessage);
+                            investigationutmicrophyCloseModel();
+
+						}
+						else{
+						
+						 $('#' + field + '_error').text(errorMessage);
+						 }
+						 });
+						 
+					}
+				
+},
+complete: function() {
+    $('#loading-overlay').hide();
+    $('body').removeClass('loading');
+},
+			error: function(xhr, status, error) {
+
+				alert("Please fill the form again somthing went WRONG!");
+				
+				console.error(error);
+			}
+		});
+	});
+});
+
+
+
+
+</script>
+
+
+
+
+
+
+
+<!--===============================================Viral Maker========================================-->
+
+
+<!--===============================================Thypoid Profile========================================-->
+
+
+<!-- ======================================================Others Test======================================================= -->
+
+
+</body>
+
+</html>

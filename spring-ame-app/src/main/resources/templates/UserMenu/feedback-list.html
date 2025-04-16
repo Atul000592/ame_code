@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+<head>
+	<title>Feedback List</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+
+
+<style>
+.feedback-list {
+    background: #fff;
+    box-shadow: 0 2px 1px -1px #0003, 0 1px 1px #00000024, 0 1px 3px #0000001f;
+    width: 31.8%;
+    margin: 7px;
+    padding: 15px;
+    display: inline-block;
+    border-radius: 4px;
+}
+</style>
+</head>
+
+<body>
+	<!-- Begin user menu bar -->
+	<div th:replace="~{UserMenu/user-menu-master::sidebar-wrapper-user-master}"></div>
+
+	<!-- Main content area -->
+	<div class="d-flex" id="wrapper">
+
+
+		<div th:replace="~{UserMenu/left-menu-user::sidebar-wrapper-menu-user}"></div>
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+			<div th:replace="~{UserMenu/nav-bar-user::sidebar-wrapper-menu-nav-user}"></div>
+
+			<div class="container p-0">
+				<form th:action="@{dashboard-user}" method="Get">
+					<input type="submit" value="Back" class="btn btn-primary btn-md d-none" style="float: right;width: 100px;">
+				</form>
+				<div class="wisecountnactionbg">
+					<div class="proc-box py-2 px-3 ui-sortable-handle">
+						<div class="row">
+							<div class="col-md-6">
+								<label for="forceName_id"><b>Force:</b></label>
+								<select id="forceName_id" class="form-select">
+									<option value="0">Select</option>
+									<option th:each="forceList: ${forceList}" th:value="${forceList.forceNo}"
+										th:text="${forceList.forceName}"></option>
+								</select>
+							</div>
+							<div class="col-md-6">
+								<label for="unitName_id"><b>Unit:</b></label>
+								<select id="unitName_id" class="form-select">
+									<option value="0">Select</option>
+								</select>
+							</div>
+						</div>
+					</div>
+
+					<div class="w-100 float-start bg-primary-subtle px-3 fs-4 fw-semibold">
+
+						Feedback List
+					</div>
+					
+
+
+<div class="feedback-container">	
+<div class="feedback-list" th:each="feedback : ${feedbackList}">
+							<h5 th:text="${feedback.name}" class="mb-2 fw-semibold"></h5>
+							<p><strong>Designation:</strong> <span th:text="${feedback.designation}"></span></p>
+							<p><strong>Force Name:</strong> <span th:text="${feedback.forceName}"></span></p>
+							<p><strong>Feedback:</strong> <span th:text="${feedback.feedback}"></span></p>
+							<p><strong>Rating:</strong> <span class="star-rating"
+									th:text="${feedback.starRating} + ' ★'"></span></p>
+							<p class="created-on"><strong>Created On:</strong> <span
+									th:text="${feedback.createdOn}"></span></p>
+						</div></div>
+					
+
+				
+				</div>
+			</div>
+
+			<script src="vendor/jquery-ui/jquery-ui.js"></script>
+			<script>
+				function selectRating(value) {
+					document.querySelectorAll('.star-wrapper').forEach(wrapper => {
+						wrapper.classList.remove('selected');
+					});
+					const selectedWrapper = document.querySelector(`.star-wrapper[data-value="${value}"]`);
+					selectedWrapper.classList.add('selected');
+					document.getElementById('starRating').value = value;
+				}
+			</script>
+			<script>
+				$('.sub-menu ul').hide();
+				$('.sub-sub-menu ul').hide();
+				$(".sub-menu a").click(function () {
+					$(this).parent(".sub-menu").children("ul").slideToggle("100");
+					$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+				});
+
+				$(".sub-sub-menu a").click(function () {
+					$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+					$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+				});
+			</script>
+
+			<script>
+				// Get the button
+				let mybutton = document.getElementById("backtotop");
+
+				// When the user scrolls down 20px from the top of the document, show the button
+				window.onscroll = function () {
+					scrollFunction()
+				};
+
+				function scrollFunction() {
+					if (document.body.scrollTop > 20
+						|| document.documentElement.scrollTop > 20) {
+						mybutton.style.display = "block";
+					} else {
+						mybutton.style.display = "none";
+					}
+				}
+
+				// When the user clicks on the button, scroll to the top of the document
+				function topFunction() {
+					document.body.scrollTop = 0;
+					document.documentElement.scrollTop = 0;
+				}
+			</script>
+
+
+			<!-- Menu Toggle Script -->
+			<script>
+				$("#menu-toggle").click(function (e) {
+					e.preventDefault();
+					$("#wrapper").toggleClass("toggled");
+				});
+			</script>
+
+
+			<script>
+				$(document).ready(function () {
+					$('#backtotop').click(function () {
+						$("html, body").animate({
+							scrollTop: 0
+						}, 600);
+						return false;
+					});
+				});
+			</script>
+
+
+			<script>
+				$('.sub-menu ul').hide();
+				$('.sub-sub-menu ul').hide();
+				$(".sub-menu a").click(function () {
+					$(this).parent(".sub-menu").children("ul").slideToggle("100");
+					$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+				});
+
+				$(".sub-sub-menu a").click(function () {
+					$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+					$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+				});
+			</script>
+
+
+
+
+
+
+
+
+			<script src="vendor/jquery-ui/jquery-ui.js"></script>
+			<script>
+				$(function () {
+					$("#sortable-menu").sortable();
+					$("#sortable-menu").disableSelection();
+
+					$("#sortable-cards").sortable();
+					$("#sortable-cards").disableSelection();
+				});
+			</script>
+
+			<script>
+				$(document).ready(function () {
+					$('#forceName_id').on('change', function () {
+						var forceId = $(this).val();
+
+						var token = $("meta[name='_csrf']").attr("content");
+						var header = $("meta[name='_csrf_header']").attr("content");
+						$.ajax({
+							type: 'Post',
+							url: 'get-unit-by-forceNo',
+
+							data:
+							{
+								forceId: forceId,
+
+							},
+							beforeSend: function (xhr) {xhr.setRequestHeader(header, token);},
+							success: function (data) {
+								createUnitTable(data);
+							},
+							error: function (e) {
+								console.log("ERROR : ", e);
+
+							}
+						});
+					});
+				});
+
+				function createUnitTable(data) {
+					const dropdown = document.getElementById("unitName_id");
+					dropdown.innerHTML = "";
+					const option = document.createElement("option");
+					option.text = 'Select';
+					option.value = 0;
+					dropdown.appendChild(option);
+					for (let i = 0; i < data.length; i++) {
+						const option = document.createElement("option");
+						option.text = data[i].unitName;
+						option.value = data[i].unitId;
+						// !-- option.setAttribute("data", data[i].forceId)-->
+						dropdown.appendChild(option);
+					}
+				}
+
+
+				function showModal() {
+
+					const modal = document.querySelector('#staticBackdrop');
+					var modalInstance = new bootstrap.Modal(modal);
+					modalInstance.show();
+
+				}
+
+			</script>
+
+
+
+			<script>
+
+				$(document).ready(function () {
+					$("#alert-and-notification-marquee").mouseenter(() => {
+						const marquee = document
+							.getElementById("alert-and-notification-marquee");
+
+						marquee.stop();
+					})
+				});
+
+
+
+				$(document).ready(function () {
+					$("#alert-and-notification-marquee").mouseleave(() => {
+						const marquee = document
+							.getElementById("alert-and-notification-marquee");
+
+						marquee.start();
+					})
+				});
+
+
+
+			</script>
+
+			<script>
+				$(document).ready(function () {
+
+					pageScroll();
+					$("#contain").mouseover(function () {
+						clearTimeout(my_time);
+					}).mouseout(function () {
+						pageScroll();
+					});
+
+				});
+
+				var my_time;
+				function pageScroll() {
+					var objDiv = document.getElementById("contain");
+					objDiv.scrollTop = objDiv.scrollTop + 1;
+					if ((objDiv.scrollTop + 330) == objDiv.scrollHeight) {
+						objDiv.scrollTop = 0;
+					}
+					my_time = setTimeout('pageScroll()', 25);
+				}
+			</script>
+
+			<script>
+				document.querySelector('form').addEventListener('submit', function (event) {
+					const starRating = document.getElementById('starRating').value;
+					if (!starRating) {
+						alert('Please select a star rating before submitting the form.');
+						event.preventDefault(); // Prevent form submission
+					}
+				});
+			</script>
+			<script>
+				$('#unitName_id').on('change', function () {
+					var unitId = $('#unitName_id').val();
+					var forceId = $('#forceName_id').val();
+
+					if (forceId !== "0" && unitId !== "0") {
+						var token = $("meta[name='_csrf']").attr("content");
+						var header = $("meta[name='_csrf_header']").attr("content");
+
+						$.ajax({
+							type: 'POST',
+							url: 'get-feedback-by-force-unit',
+							data: {forceId: forceId, unitId: unitId},
+							beforeSend: function (xhr) {
+								xhr.setRequestHeader(header, token);
+							},
+							success: function (data) {
+								const feedbackContainer = $('.feedback-container');
+								feedbackContainer.empty(); // Clear existing feedback
+
+								if (data.length > 0) {
+									data.forEach(feedback => {
+										feedbackContainer.append(`
+                                    <div class="feedback-list">
+                                        <h5 class="mb-2 fw-semibold">${feedback.name}</h5>
+                                        <p><strong>Designation:</strong> ${feedback.designation}</p>
+                                        <p><strong>Force Name:</strong> ${feedback.forceName}</p>
+                                        <p><strong>Feedback:</strong> ${feedback.feedback}</p>
+                                        <p><strong>Rating:</strong> <span class="star-rating">${feedback.starRating} ★</span></p>
+                                        <p class="created-on"><strong>Created On:</strong> ${feedback.createdOn}</p>
+                                    </div>
+                                `);
+									});
+								} else {
+									feedbackContainer.append('<p>No feedback available for the selected criteria.</p>');
+								}
+							},
+							error: function (e) {
+								console.error("Error fetching feedback:", e);
+							}
+						});
+					}
+				});
+			</script>
+</body>
+
+</html>

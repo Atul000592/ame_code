@@ -1,0 +1,261 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+	<title>AMA DashBoard </title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+</head>
+<div th:replace="~{medical-sub-ordinate/master-doc::master-wrapper-doc}"></div>
+
+
+<body>
+
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+
+		<div th:replace="~{dealinghand/left-menu-dh::sidebar-wrapper-menu-dh}"></div>
+
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+			<div th:replace="~{medical-sub-ordinate/nav-bar::sidebar-wrapper-menu-nav-ama}"></div>
+		
+			
+			
+						<div class="container mt-3">
+							<div class="wisecountnactionbg">
+
+
+								<!-- Content Row -->
+								<div class="proc-box py-2 px-3">
+									<div class="row">
+										<div class="col-md-3">
+										<div class="alert alert-primary my-2">
+											<label class="fw-bold">IRLA /REGT NO:</label> <span
+												th:text="${candidateDetails.forceId}"></span>
+												</div>
+										</div>
+										<div class="col-md-3">
+											<div class="alert alert-primary my-2">
+											<label class="fw-bold">Name :</label> <span
+												th:text="${candidateDetails.name}"></span>
+			                               </div>
+
+										</div>
+										<div class="col-md-3">
+											<div class="alert alert-primary my-2">
+											<label class="fw-bold">Designation/Rank :</label> <span
+												th:text="${candidateDetails.designation}"></span>
+												</div>
+												
+										</div>
+										<div class="col-md-3">
+											<div class="alert alert-primary my-2">
+											<label class="fw-bold">Gender:</label> <span th:text="${candidateDetails.gender}"></span>
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="alert alert-primary my-2">
+											<label class="fw-bold">Force Name : </label> <span th:text="${candidateDetails.forceName}"></span>
+											</div>
+										</div>
+											<div class="col-md-3">
+											<div class="alert alert-primary my-2">
+											<label class="fw-bold"> Grade : </label> 
+										<span th:if="${candidateGazettedNonGazettedFlag=='Y'}" th:text="Gazetted-Officer"></span>
+							        	<span th:unless="${candidateGazettedNonGazettedFlag=='Y'}" th:text="Non-Gazetted-Officer"></span>
+											
+											</div>
+										</div>
+									</div>
+								</div>
+
+
+
+								<div id="b-homedb">
+
+<div class="row">
+	<div class="col-md-12">
+		<lable>
+			<h4 class="text-center mb-3 b-latest-data">File Upload Interface </h4>
+		</lable>
+		</div>
+		</div>
+		<form method="POST" enctype="multipart/form-data" th:action="@{/upload-file}">
+					<br>
+				<div class="row">
+	              <div class="col-md-6">
+					  <h5 style="margin-left: 24px;"> Please Select And Upload AME Declaration:</h5>
+					  </div>
+					  <div class="col-md-4">
+						  <input type="file" id="fileInput"  name="file"  onchange="validateFileSize()" accept=".pdf,.docx" required>
+					  </div>
+					  </div>
+							
+								<div class="row">
+									<div class="col-md-6">
+										
+									</div>
+									<div class="col-md-3">
+										<input  type="submit" value="Upload File" style="width:100px;color: rgb(0, 128, 192);" />
+									</div>
+										</form>
+										<div class="col-md-3">
+											<form th:action="@{display-pending-requests-upload-checkup}" method="get">
+												<input type="submit" value="Back" style="width:100px;color: rgb(0, 128, 192);">
+											</form>
+										
+									</div>
+									<div class="row">
+										<div class="col-md-6">
+										  <span id="file_error" class="fileError" style="color: Red; display: none"></span>
+										  <div id="file_error_msg" class="normalFileError"></div>
+										 <input type="hidden" th:value="${ameId}" name="ameId">
+									     <input type="hidden" th:value="${candidateForcePersonalId}" name="candidateForcePersonalId">
+									</div>
+									</div>
+										
+								</div>	</div>
+							</div>
+
+						</div>
+			
+			
+			
+			
+
+			</div>
+
+	
+
+
+
+
+		</div>
+		<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+
+
+
+	
+		
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function (e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function () {
+			$('#backtotop').click(function () {
+				$("html, body").animate({
+					scrollTop: 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function () {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function () {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+	<!-- Signup Modal -->
+	
+	 <div th:replace="~{dealinghand/sign-out-modal::sign-out-modal}"></div>
+	<!-- <div class="modal fade" id="signout-modal">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+
+				Modal Header
+				<div class="modal-header text-center d-block p-5 border-bottom-0">
+					<h3 class="modal-title">Sign Out?</h3>
+					<button type="button" class="close position-absolute" style="right: 15px; top: 8px;"
+						data-dismiss="modal">&times;</button>
+				</div>
+
+				Modal body
+				<div class="modal-body">
+					<p class="text-center">Are you sure you want to Sign Out?</p>
+					<div class="text-center py-4">
+						<form action="sign-out">
+							<button type="submit" class="btn btn-primary b-btn mx-3">Sign
+								Out</button>
+							<button class="btn btn-secondary mx-3" data-dismiss="modal">Cancel</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> -->
+
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function () {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function () {
+			$("#one-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+
+
+
+</body>
+
+</html>

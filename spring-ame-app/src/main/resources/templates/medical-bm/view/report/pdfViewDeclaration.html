@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<head>
+<meta charset="ISO-8859-1">
+
+
+<title>AME DashBoard Controller</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<div th:replace="~{medical-sub-ordinate/master-doc::master-wrapper-doc}"></div>
+<script src="js/local/view-declaration-pdf/view-declaration-file.js"></script>
+
+<!-- Include jQuery -->
+<script src="ame-datatable-js/3.5.1/jquery.min.js"></script>
+
+<!-- Include DataTables CSS -->
+<link rel="stylesheet"
+	href="ame-datatable-css/1.11.5/jquery.dataTables.min.css">
+
+<!-- Include DataTables JavaScript -->
+<script src="ame-datatable-js/1.11.5/jquery.dataTables.min.js"></script>
+
+<script>
+	$(document).ready(function() {
+		$('#example').DataTable();
+	});
+	$(document).ready(function() {
+		$('#example1').DataTable();
+	});
+</script>
+
+ <style>
+        .content-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .iframe-container {
+            flex: 2.5;
+        }
+
+        .form-container {
+            flex: 1;
+        }
+
+        iframe {
+            width: 100%;
+            height: 700px;
+            border: 1px solid #ccc;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .radio-container {
+            display: flex;
+            gap: 20px;
+        }
+        #reportDetails{
+        text-align:  left;}
+    </style>
+</head>
+
+
+<body>
+
+
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+		<div
+			th:replace="~{medical-bm/left-menu-bm::sidebar-wrapper-menu-bm}"></div>
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<div
+				th:replace="~{medical-bm/nav-bar-bm::sidebar-wrapper-menu-nav-bm}"></div>
+
+
+
+
+				<!-- Content Row -->
+
+				
+
+					<div class="container mt-5">
+
+        <!-- Content Container for Side-by-Side Layout -->
+        <div class="content-container">
+            
+            <!-- Iframe Section -->
+            <div class="iframe-container">
+               
+               <embed th:src="@{/file(filePath=${filePath})}" type="application/pdf" width="100%" height="700px">    
+            </div>
+                <div class="button-container">
+                       
+                        <form th:action="@{application-under-process-ma}" method="get">
+                            <button type="submit" class="btn btn-secondary">Back</button>
+                        </form>
+                    </div>
+
+       <!--      Consent Form Section
+            <div class="form-container">
+                <form th:action="@{/submitConsent}" method="post" id="consentForm">
+                    <div class="mb-3">
+                        <label for="reportDetails" class="form-label">Report Details</label>
+                        <textarea id="reportDetails" name="reportDetails" class="form-control" rows="4" readonly>
+                            This is the content of the report that you are reviewing. Please review it carefully.
+                                                        This is the content of the report that you are reviewing. Please review it carefully.
+                            
+                                                        This is the content of the report that you are reviewing. Please review it carefully.
+                            
+                        </textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Do you agree with the report content?</label>
+                        <div class="radio-container">
+                            <div>
+                                <input type="radio" id="agree" name="consent" value="agree" required>
+                                <label for="agree">Agree</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="disagree" name="consent" value="disagree">
+                                <label for="disagree">Disagree</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="remarks" class="form-label">Remarks</label>
+                        <textarea id="remarks" name="remarks" class="form-control" rows="3" placeholder="Provide any remarks here..."></textarea>
+                    </div>
+ </form>
+                    Submit and Back Buttons
+                    <div class="button-container">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <form th:action="@{medical-subordinate-dashboard}" method="get">
+                            <button type="submit" class="btn btn-secondary">Back</button>
+                        </form>
+                    </div>
+               
+            </div> -->
+        </div>
+    </div>
+						
+				
+		<div th:replace="~{UserMenu/display-declaration-file::sidebar-wrapper-ame-declaration-pdf}"></div>
+
+		<!-- Bootstrap Modal -->
+
+	</div>
+	</div>
+
+
+	<script>
+    function openPdfModal(e) {
+    	var ameId=e.id;
+        // Set the source of the iframe dynamically
+        const pdfViewer = document.getElementById('pdfIframe');
+        pdfViewer.src = `/declaration-view?fileName=${ameId}`;
+
+        // Show the modal
+        const modal = new bootstrap.Modal(document.getElementById('pdfModal'));
+        modal.show();
+    }
+</script>
+
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function() {
+			$('#backtotop').click(function() {
+				$("html, body").animate({
+					scrollTop : 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function() {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function() {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+	<!-- Signup Modal -->
+	<div class="modal fade" id="signout-modal">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Sign Out?</h5>
+
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<!-- Modal body -->
+					<div class="modal-body">
+						<p class="text-center">Are you sure you want to Sign Out?</p>
+						<form action="sign-out">
+							<div class="row">
+								<div class="col-md-6">
+									<button type="submit" class="btn btn-primary">Sign Out</button>
+								</div>
+								<div class="col-md-6">
+									<button type="button" class="btn btn-secondary"
+										data-bs-dismiss="modal">Cancel</button>
+								</div>
+
+							</div>
+
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function() {
+			$("#one-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+	<script>
+	     function submitForm() {
+            const form = document.getElementById('pdfForm');
+            const formData = new FormData(form);
+            const params = new URLSearchParams();
+
+            // Build the query string from form data
+            for (const pair of formData.entries()) {
+                params.append(pair[0], pair[1]);
+            }
+
+            // Construct the URL
+            const url = `${form.action}?${params.toString()}`;
+            console.log("PDF URL:", url);
+
+            // Set the iframe source to the PDF URL
+            const iframe = document.getElementById('pdfViewer');
+            iframe.src = url;
+            iframe.style.display = 'block'; // Show the iframe
+
+            return false; // Prevent the default form submission
+        }
+    </script>
+
+</body>
+</html>

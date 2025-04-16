@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	
+	<!-- Bootstrap core JavaScript -->
+		<script src="vendor/jquery/jquery.min.js"></script>
+		<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+		<script src="js/jquery.slicknav.min.js"></script>
+		<script src="js/dashboard.js"></script>
+		
+		<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+		
+    <title>Upload User Manual</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        header {
+            background-color: #1e90ff;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            background-color: white;
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        input[type="text"],
+        select,
+        input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 12px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        footer a {
+            color: #1e90ff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Please Fill the Form to Upload the User Manual!</h1>
+    </header>
+
+    <form >
+       
+        <input type="text" id="logged-in-user-name" name="logged-in-user-name" required>
+
+	
+		        <select id="role" name="role"  required>
+		            <option value="">--Select--</option>
+		            <th:block th:each="pdfRole : ${userRoleDtoList}">
+		                <option th:value="${pdfRole.roleId}" th:text="${pdfRole.roleName}" th:id="${pdfRole.roleId}" />
+		        
+		            </th:block>
+		            
+		        </select>
+
+     
+        <input type="file" id="file-name" name="file-name" class="form-control" required>
+
+        <button type="submit" id="submit-button">Submit</button>
+    </form>
+
+    <footer>
+        <p>This site is hosted by <a href="https://www.nic.in" target="_blank">NIC</a></p>
+    </footer>
+</body>
+</html>
+
+
+<script>
+	$(document).ready(function(){
+		  $("#submit-button").click(function(){
+			  event.preventDefault();
+						
+	 
+							
+							let hashMap = new Map();
+							
+							let loggedInUserName=$("#logged-in-user-name").val();
+                           
+                            let roleId=$("#role").val();
+                            let roleName=$(`#${roleId}`).text();
+                           /*  let roleCode=$("#roleCode").val(); */
+                            
+							let fileInfo = $("#file-name")[0].files[0];
+							
+							if (fileInfo == null) {
+								alert("Please select file To upload.......!");
+								
+									return false;
+							}
+							let formData = new FormData();
+							
+							formData.append('file',fileInfo);
+							hashMap.set("loggedInUserName", loggedInUserName);
+							hashMap.set("roleName", roleName);
+							hashMap.set("roleId", roleId);
+						/* 	hashMap.set("roleCode", roleCode); */
+
+							let jsonArray = [];
+							hashMap.forEach(function(
+								value, key) {
+								var obj = {};
+								obj[key] = value;
+								jsonArray.push(obj);
+							});
+
+							// Convert the array to a JSON string
+							let jsonData = JSON
+								.stringify(jsonArray);
+							formData.append("jsonData",
+								jsonData);
+
+							/* ===================header==================== */
+							var token = $("meta[name='_csrf']").attr("content");
+							var header = $("meta[name='_csrf_header']").attr("content");
+							$('.error').text('');
+	                        $('#loading-overlay').show();
+							$('body').addClass('loading');
+							let isRequestCompleted=false;
+							if(isRequestCompleted)
+								return;
+							else{
+							
+								$.ajax({
+																type: 'POST',
+																url: 'validate-and-save-user-manual',
+																data: formData,
+																data: formData,
+																contentType: false,
+																processData: false,
+																beforeSend: function(
+																	xhr) {
+																	xhr
+																		.setRequestHeader(
+																			header,
+																			token);
+																},
+																
+																
+																success: function(response) {
+																	if (response.isValid) {
+																		alert("Data Saved Succcessfully!");
+																		
+																	/*	window.location.reload();*/
+
+																	/*	var tbodyCompletedInvestigationList = $('#completedInvestigationTable tbody');
+																		var tbodyInvestigationList = $("#investigationList tbody")
+																		var rowToDelete = document
+																			.getElementById("lipid");
+
+																		var newRow = $('<tr>');
+
+																		newRow.append($('<td>').text("LIPID PROFILE"));
+																		newRow.append($('<td>').text("LIPID PROFILE"));
+																		newRow.append($('<td>').text("Completed"));
+																		newRow.append($('<td>').text("Completed"))
+																		newRow.append($('<td>').text("Completed"));;
+
+																		// Append the new row to the table's tbody
+																		tbodyCompletedInvestigationList
+																			.append(newRow);
+																		if (rowToDelete) {
+																			rowToDelete.parentNode
+																				.removeChild(rowToDelete);
+																			//tbodyInvestigationList.removeChild(rowToDelete);
+								}*/
+								isRequestCompleted=true;
+								$('#loading-overlay').hide();
+
+																$('body').removeClass('loading');
+																window.location.reload();
+								}	else {
+									$.each(response.errors,function(field,errorMessage) {
+										$('#'+ field
+										+ '_error')
+										.text(errorMessage);
+										});}
+								},
+								complete: function() {
+									$('#loading-overlay').hide();
+									$('body').removeClass('loading');
+									},
+									error: function(xhr,
+									status,
+									error) {
+										alert("Please fill the form again somthing went WRONG!");
+										console
+								.error(error);
+																}
+															});	
+								
+								
+								
+							}
+						});
+			});
+	</script>

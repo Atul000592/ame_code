@@ -1,0 +1,2784 @@
+<!doctype html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<title>AME</title>
+<div th:replace="~{medical-sub-ordinate/master-doc::master-wrapper-doc}"></div>
+
+
+</head>
+
+<body style="-webkit-print-color-adjust: exact !important;">
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+	<div th:replace="~{medical-sub-ordinate/left-menu-ama::sidebar-wrapper-menu-ama}"></div>
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<div th:replace="~{medical-sub-ordinate/nav-bar::sidebar-wrapper-menu-nav-ama}"></div>
+	
+	
+		<div class="container mt-3">
+
+				<!-- Content Row -->
+				<div class="wisecountnactionbg">
+	
+<div class="table-responsive ui-sortable-handle">
+							<table style="padding: 10px; background: #fbfbfb;width:100%;">
+			<tbody >
+	
+				<tr>
+					
+					<td class="text-center align-middle">
+						<p
+							style="font-family: 'Poppins', sans-serif; margin-top: 0;padding: 0px 0;margin: 0;font-weight: bold;text-transform: uppercase;font-size: 17px;">
+							Annual Medical Examination</p>
+					
+
+
+						<p
+							style="font-family: 'Poppins', sans-serif;margin-top: 0;padding-top: 2px;margin: 0;font-size: 12px;font-weight: 600;text-align: center;">
+							Central Armed Police Force</p>
+					</td>
+					<td width="100" class="align-middle">
+						<div style="display: flex;">
+							<div style="margin-right: 10px;">
+
+								<!-- <button class="yelow-btn" id="printpagebutton" type="button"
+									onclick="printAllotment()">Print</button>
+ -->
+							</div>
+							<div th:if="${printFlag == 'O'}">Original</div>
+							<div th:if="${printFlag == 'D'}">Duplicate</div>
+						</div>
+
+
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	
+
+	<hr>
+			<table style="padding: 10px; background: #fbfbfb;width:100%;">
+			<tbody>
+				<tr>
+					<td lass="text-start align-middle">
+						<p
+							style="font-family: 'Poppins', sans-serif;font-size: 15px;font-weight: normal;vertical-align: top;padding: 0px 0;margin:0;margin-top: 5px;text-align: left;">
+							<span
+								style="font-family: 'Poppins', sans-serif;font-size:12px;font-weight: 600;vertical-align: top;padding: 3px 0;">PERSONAL
+								DETAILS </span>
+						</p>
+					</td>
+					<td lass="text-end align-middle">
+						<p
+							style="font-family: 'Poppins', sans-serif;font-size: 15px;font-weight: normal;vertical-align: top;padding: 0px 0;margin:0;margin-top: 5px;text-align: right;">
+							<span
+								style="font-family: 'Poppins', sans-serif;font-size:12px;font-weight: 600;vertical-align: top;padding: 3px 0;">AME
+								ID :-   </span><span style="font-family: 'Poppins', sans-serif;font-size:12px;font-weight: 600;vertical-align: top;padding: 3px 0;" th:text="${ameId}"></span>
+						</p>
+					</td>
+
+
+				</tr>
+			</tbody>
+			
+		</table>
+		<hr>
+
+		<table style="padding: 10px; background: #fbfbfb;width:100%;">
+			<tbody>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 3px 0">
+						IRLA/REGT No</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 3px 0">
+						<span th:text="${forcePersonal.forceId}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 3px 0">
+						Name</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 3px 0">
+						<span th:text="${forcePersonal.name}"></span>
+					</td>
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 3px 0">
+						Rank/Designation </td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 3px 0">
+						<span th:text="${forcePersonal.designation}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 3px 0">
+						Force</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 3px 0">
+						<span th:text="BSF"></span>
+					</td>
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 3px 0">
+						Unit </td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 3px 0">
+						<span th:text="${forcePersonal.unitName}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 3px 0">
+						Date of Joining</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 3px 0">
+						<span th:text="${#dates.format(forcePersonal.joiningDate, 'dd-MM-yyyy')}"></span>
+					</td>
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 3px 0">
+						Date of Birth</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 3px 0">
+						<span th:text="${#dates.format(forcePersonal.dob, 'dd-MM-yyyy')}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 3px 0">
+						Gender </td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 3px 0">
+						<span th:text="${forcePersonal.gender}"></span>
+					</td>
+				</tr>
+
+			</tbody>
+		</table>
+	
+		<hr>
+	
+		<p
+			style="font-family: 'Poppins', sans-serif;margin-top: 0;padding-top: 2px;margin: 0;font-size: 15px;font-weight: 700;text-align: left;">
+			Physical Measurement</p>
+
+
+		<hr>
+			<table style="padding: 10px; background: #fbfbfb;width:100%;">
+			<tbody>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Height</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+						<span class="inputText" th:if="${examDtoRequest.physicalMeasurement.height==null }">--</span>
+						<span class="inputText" th:unless="${examDtoRequest.physicalMeasurement.height==null}"
+							th:text="*{examDtoRequest.physicalMeasurement.height}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Weight</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+						<span class="inputText" th:if="${examDtoRequest.physicalMeasurement.weight==null }">--</span>
+						<span class="inputText" th:unless="${examDtoRequest.physicalMeasurement.weight==null}"
+							th:text="*{examDtoRequest.physicalMeasurement.weight}"></span>
+					</td>
+					
+				</tr>
+
+
+
+				<tr th:if="${forcePersonal.gender}=='Male'">
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Chest Unexpanded</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+						<span class="inputText"
+							th:if="${examDtoRequest.physicalMeasurement.chestUnexpanded==null }">--</span>
+						<span class="inputText" th:unless="${examDtoRequest.physicalMeasurement.chestUnexpanded==null}"
+							th:text="*{examDtoRequest.physicalMeasurement.chestUnexpanded}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Chest expanded</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+						<span class="inputText"
+							th:if="${examDtoRequest.physicalMeasurement.chestExpanded==null }">--</span>
+						<span class="inputText" th:unless="${examDtoRequest.physicalMeasurement.chestExpanded==null}"
+							th:text="*{examDtoRequest.physicalMeasurement.chestExpanded}"></span>
+					</td>
+
+					
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Abdominal Girth </td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+
+						<span class="inputText"
+							th:if="${examDtoRequest.physicalMeasurement.abdominalGirth==null }">--</span>
+						<span class="inputText" th:unless="${examDtoRequest.physicalMeasurement.abdominalGirth==null}"
+							th:text="*{examDtoRequest.physicalMeasurement.abdominalGirth}"></span>
+					</td>
+
+
+					
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Trans Trochanteric Girth</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+						<span class="inputText"
+							th:if="${examDtoRequest.physicalMeasurement.trasTroChantericGirth==null }">--</span>
+						<span class="inputText"
+							th:unless="${examDtoRequest.physicalMeasurement.trasTroChantericGirth==null}"
+							th:text="*{examDtoRequest.physicalMeasurement.trasTroChantericGirth}"></span>
+					</td>
+
+					
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Ratio A/T</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+						<span class="inputText" th:if="${examDtoRequest.physicalMeasurement.ratioAT==null }">--</span>
+						<span class="inputText" th:unless="${examDtoRequest.physicalMeasurement.ratioAT==null}"
+							th:text="*{examDtoRequest.physicalMeasurement.ratioAT}"></span>
+					</td>
+
+					
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						BMI </td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+						<span class="inputText" th:if="${examDtoRequest.physicalMeasurement.bmi==null }">--</span>
+						<span class="inputText" th:unless="${examDtoRequest.physicalMeasurement.bmi==null}"
+							th:text="*{examDtoRequest.physicalMeasurement.bmi}"></span>
+					</td>
+					
+				</tr>
+
+			</tbody>
+		</table>
+		
+		<div class="buttons-div w-100">
+		<div class="float-end"  th:if="${ameMasterStatus.physicalMeasurement!='Yes'}">
+												<form action="physical-measurement-index-page-ama"  method="post">
+												<input type="hidden" th:value="${forcepersonalId}" name="forcepersonalId">
+												<input type="hidden" th:value="${ameId}" name="ameId">
+												<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+											
+                                                <input type="submit" value="Fill" class="btn btn-primary btn-sm btn-sm float-end"/>
+											</form>
+											</div>
+												<div class="float-end" th:unless="${ameMasterStatus.physicalMeasurement!='Yes'}">
+												<form action="physical-measurement-index-page-ama"  method="post">
+												<input type="hidden" th:value="${forcepersonalId}" name="forcepersonalId">
+												<input type="hidden" th:value="${ameId}" name="ameId">
+												<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+												
+                                                <input type="submit" value="Edit" class="btn btn-primary btn-sm btn-sm float-end"/>
+											</form>
+											</div>
+		</div>
+
+<hr class="mt-5"> 
+
+		<p
+			style="font-family: 'Poppins', sans-serif;margin-top: 0;padding-top: 2px;margin: 0;font-size: 15px;font-weight: 700;text-align: left;">
+			Psychological Assessment As Laid Down <b>(S)</b></p>
+		<hr>
+
+		<table style="padding: 10px; background: #fbfbfb;width:100%;">
+			<tbody>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						i) Any Past history of psychiatric illness,if so details:</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.phychologicalAssessmentAsLaidDown.psychiatricIllnessHistory==null }">Not
+							Filled Yet</span>
+						<span class="inputText"
+							th:unless="${examDtoRequest.phychologicalAssessmentAsLaidDown.psychiatricIllnessHistory==null}"
+							th:text="*{examDtoRequest.phychologicalAssessmentAsLaidDown.psychiatricIllnessHistory}"></span>
+					</td>
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						ii) Any History of breakdown/outburst or taking wrong decision indecisiveness leading to public
+						reaction or castigation of civil &nbsp; authority:
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 2px">
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.phychologicalAssessmentAsLaidDown.wrong_decision_public_castigation==null }">Not
+							Filled Yet</span>
+						<span class="inputText"
+							th:unless="${examDtoRequest.phychologicalAssessmentAsLaidDown.wrong_decision_public_castigation==null}"
+							th:text="*{examDtoRequest.phychologicalAssessmentAsLaidDown.wrong_decision_public_castigation}"></span>
+					</td>
+				</tr>
+
+
+
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						iii) History of any alcoholic/drug abuse:</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.phychologicalAssessmentAsLaidDown.alcholic_drug_abuse_history==null }">Not
+							Filled Yet</span>
+						<span class="inputText"
+							th:unless="${examDtoRequest.phychologicalAssessmentAsLaidDown.alcholic_drug_abuse_history==null}"
+							th:text="*{examDtoRequest.phychologicalAssessmentAsLaidDown.alcholic_drug_abuse_history}"></span>
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						iv) History of head injury/infective/Metabolic encephalopathy:
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.phychologicalAssessmentAsLaidDown.injury_infective_metabolic_encephalopathy_history==null }">Not
+							Filled Yet</span>
+						<span class="inputText"
+							th:unless="${examDtoRequest.phychologicalAssessmentAsLaidDown.injury_infective_metabolic_encephalopathy_history==null}"
+							th:text="*{examDtoRequest.phychologicalAssessmentAsLaidDown.injury_infective_metabolic_encephalopathy_history}"></span>
+
+					</td>
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						v) Objective Psychometric scale if any applied and result there of:
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.phychologicalAssessmentAsLaidDown.objective_psychometric_scale==null }">Not
+							Filled Yet</span>
+						<span class="inputText"
+							th:unless="${examDtoRequest.phychologicalAssessmentAsLaidDown.objective_psychometric_scale==null}"
+							th:text="*{examDtoRequest.phychologicalAssessmentAsLaidDown.objective_psychometric_scale}"></span>
+
+
+				</tr>
+
+
+			</tbody>
+		</table>
+		<div class="buttons-div w-100">
+		<div class="float-end" th:if="${ameMasterStatus.phychologicalAssessmentAsLaidDown!='Yes'}">
+												<form action="phychological-assessment-as-laid-down" method="post">
+													<input type="hidden" th:value="${forcepersonalId}" name="forcepersonalId">
+													<input type="hidden" th:value="${ameId}" name="ameId">
+													<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+												
+													<input type="submit" value="Fill" class="btn btn-primary btn-sm">
+												</form>
+											</div>
+											<div class="float-end" th:unless="${ameMasterStatus.phychologicalAssessmentAsLaidDown!='Yes'}">
+												<form action="phychological-assessment-as-laid-down" method="post">
+													<input type="hidden" th:value="${forcepersonalId}" name="forcepersonalId">
+													<input type="hidden" th:value="${ameId}" name="ameId">
+													<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+													
+													<input type="submit" value="Edit" class="btn btn-primary btn-sm btn-sm float-end">
+												</form>
+											</div>
+		</div>
+
+
+<hr class="mt-5"> 
+
+		<p
+			style="font-family: 'Poppins', sans-serif;margin-top: 0;padding-top: 2px;margin: 0;font-size: 15px;font-weight: 700;text-align: left;">
+			Hearing <b>(H)</b></p>
+		<hr>
+
+	<table style="padding: 10px; background: #fbfbfb;width:100%;">
+			<tbody>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						1. Normal in both ears:</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.hearing.normal_in_both_ears==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.hearing.normal_in_both_ears==null}"
+							th:text="*{examDtoRequest.hearing.normal_in_both_ears}"></span>
+					</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						2. Auroscopy:
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 2px">
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.hearing.auroscopy==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.hearing.auroscopy==null}"
+							th:text="*{examDtoRequest.hearing.auroscopy}"></span>
+					</td>
+				</tr>
+
+
+
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						3. Moderate defect in one ear:</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.hearing.moderate_defect_in_one_ear==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.hearing.moderate_defect_in_one_ear==null}"
+							th:text="*{examDtoRequest.hearing.moderate_defect_in_one_ear}"></span>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						4. Rennie's Test:
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.hearing.rennie_test==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.hearing.rennie_test==null}"
+							th:text="*{examDtoRequest.hearing.rennie_test}"></span>
+
+					</td>
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						5. Partial defect in both ear:</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.hearing.partial_defect_in_both_ears==null }">Not
+							Filled Yet</span>
+						<span class="inputText"
+							th:unless="${examDtoRequest.hearing.partial_defect_in_both_ears==null}"
+							th:text="*{examDtoRequest.hearing.partial_defect_in_both_ears}"></span>
+					</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						6. Weber's Test:</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.hearing.weber_test==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.hearing.weber_test==null}"
+							th:text="*{examDtoRequest.hearing.weber_test}"></span>
+
+
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						7. Any Other combinations:
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.hearing.any_other_combination==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.hearing.any_other_combination==null}"
+							th:text="*{examDtoRequest.hearing.any_other_combination}"></span>
+					</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						8. Audiometry(if indicated):</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.hearing.audiometry==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.hearing.audiometry==null}"
+							th:text="*{examDtoRequest.hearing.audiometry}"></span>
+
+
+				</tr>
+
+
+
+
+
+
+			</tbody>
+		</table>
+		<div class="buttons-div w-100">
+		<div class="float-end" th:if="${ameMasterStatus.hearing!='Yes'}">
+												<form action="assessment-hearing-ama" method="post">
+													<input type="hidden" th:value="${forcepersonalId}" name="forcepersonalId">
+													<input type="hidden" th:value="${ameId}" name="ameId">
+													<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+													
+													<input type="submit" value="Fill" class="btn btn-primary btn-sm btn-sm float-end">
+												</form>
+											</div>
+											<div class="float-end" th:unless="${ameMasterStatus.hearing!='Yes'}">
+												<form action="assessment-hearing-ama" method="post">
+													<input type="hidden" th:value="${forcepersonalId}" name="forcepersonalId">
+													<input type="hidden" th:value="${ameId}" name="ameId">
+													<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+												 
+													<input type="submit" value="Edit" class="btn btn-primary btn-sm btn-sm float-end">
+												</form>
+											</div>
+											</div>
+
+
+<hr class="mt-5"> 
+
+		<p
+			style="font-family: 'Poppins', sans-serif;margin-top: 0;padding-top: 2px;margin: 0;font-size: 15px;font-weight: 700;text-align: left;">
+			Appendages <b>(A)</b></p>
+		<hr>
+
+		<table style="padding: 10px; background: #fbfbfb;width:100%;">
+			<tbody>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						<b> Upper Limb</b>
+					</td>
+
+
+					
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Left</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Right</td>
+
+				</tr>
+
+
+
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Any Loss/infirmity in any joint or part
+						must be indicated in detail</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.appendages.anyLossInfirmityDetailsUpperRightLimb==null }">Not
+							Filled Yet</span>
+						<span class="inputText"
+							th:unless="${examDtoRequest.appendages.anyLossInfirmityDetailsUpperRightLimb==null}"
+							th:text="*{examDtoRequest.appendages.anyLossInfirmityDetailsUpperRightLimb}"></span>
+					</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.appendages.anyLossInfirmityDetailsUpperLeftLimb==null }">Not
+							Filled Yet</span>
+						<span class="inputText"
+							th:unless="${examDtoRequest.appendages.anyLossInfirmityDetailsUpperLeftLimb==null}"
+							th:text="*{examDtoRequest.appendages.anyLossInfirmityDetailsUpperLeftLimb}"></span>
+					</td>
+				</tr>
+
+
+
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						<b>Lower limb</b>
+					</td>
+
+
+					
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Left</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Right</td>
+
+				</tr>
+
+
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Any Loss/infirmity in any joint or part
+						must be indicated in detail</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.appendages.anyLossInfirmityDetailsLowerLeftLimb==null }">Not
+							Filled Yet</span>
+						<span class="inputText"
+							th:unless="${examDtoRequest.appendages.anyLossInfirmityDetailsLowerLeftLimb==null}"
+							th:text="*{examDtoRequest.appendages.anyLossInfirmityDetailsLowerLeftLimb}"></span>
+					</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.appendages.anyLossInfirmityDetailsLowerRightLimb==null }">Not
+							Filled Yet</span>
+						<span class="inputText"
+							th:unless="${examDtoRequest.appendages.anyLossInfirmityDetailsLowerRightLimb==null}"
+							th:text="*{examDtoRequest.appendages.anyLossInfirmityDetailsLowerRightLimb}"></span>
+					</td>
+				</tr>
+
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						For conditions related to spine</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.appendages.spine==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.appendages.spine==null}"
+							th:text="*{examDtoRequest.appendages.spine}"></span>
+					</td>
+				</tr>
+
+
+
+
+			</tbody>
+		</table>
+		<div class="buttons-div w-100">
+<div class="float-end" th:if="${ameMasterStatus.appendages!='Yes'}">
+													<form action="assessment-appendages-ama" method="post">
+														<input type="hidden" th:value="${forcepersonalId}" name="forcepersonalId">
+														<input type="hidden" th:value="${ameId}" name="ameId">
+														<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+														<input type="submit" value="Fill" class="btn btn-primary btn-sm btn-sm float-end">
+													</form>
+												</div>
+												<div class="float-end" th:unless="${ameMasterStatus.appendages!='Yes'}">
+													<form action="assessment-appendages-ama" method="post">
+														<input type="hidden" th:value="${forcepersonalId}" name="forcepersonalId">
+														<input type="hidden" th:value="${ameId}" name="ameId">
+														<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+														<input type="submit" value="Edit" class="btn btn-primary btn-sm btn-sm float-end">
+													</form>
+												</div>
+												</div>
+
+<hr class="mt-5"> 
+
+		<p
+			style="font-family: 'Poppins', sans-serif;margin-top: 0;padding-top: 2px;margin: 0;font-size: 15px;font-weight: 700;text-align: left;">
+			Physical<b>(P)</b></p>
+		<hr>
+		<table style="padding: 10px; background: #fbfbfb;width:100%;">
+			<tbody>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						<span style="font-size:15px;"><b>General Examination</b></span>
+					</td>
+				</tr>
+
+
+
+				<tr>
+					<td style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0"
+						colspan=""> Distance covered in 12 minutes run/walk (Meters)</td>
+
+
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.generalExamination.distanceCoveredInMin==null }">Not
+							Filled Yet</span>
+						<span class="inputText"
+							th:unless="${examDtoRequest.generalExamination.distanceCoveredInMin==null}"
+							th:text="*{examDtoRequest.generalExamination.distanceCoveredInMin}"></span>
+					</td>
+					
+					<td style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0"
+						colspan=""> Body Built</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.generalExamination.bodyBuild==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.generalExamination.bodyBuild==null}"
+							th:text="*{examDtoRequest.generalExamination.bodyBuild}"></span>
+					</td>
+					
+					
+				</tr>
+
+
+
+				
+
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						BP (mmHg)Systolic</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.generalExamination.bpSystolic==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.generalExamination.bpSystolic==null}"
+							th:text="*{examDtoRequest.generalExamination.bpSystolic}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						BP (mmHg)Diastolic</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.generalExamination.bpDiastolic==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.generalExamination.bpDiastolic==null}"
+							th:text="*{examDtoRequest.generalExamination.bpDiastolic}"></span>
+					</td>
+
+				</tr>
+
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Tongue</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.generalExamination.tounge==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.generalExamination.tounge==null}"
+							th:text="*{examDtoRequest.generalExamination.tounge}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Pulse</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.generalExamination.pulseRate==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.generalExamination.pulseRate==null}"
+							th:text="*{examDtoRequest.generalExamination.pulseRate}"></span>
+					</td>
+
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Anemia</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.generalExamination.anaemia==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.generalExamination.anaemia==null}"
+							th:text="*{examDtoRequest.generalExamination.anaemia}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Temperature(C)</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.generalExamination.temperature==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.generalExamination.temperature==null}"
+							th:text="*{examDtoRequest.generalExamination.temperature}"></span>
+					</td>
+
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Cyanosis</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.generalExamination.cyanosis==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.generalExamination.cyanosis==null}"
+							th:text="*{examDtoRequest.generalExamination.cyanosis}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Icterus</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.generalExamination.icterus==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.generalExamination.icterus==null}"
+							th:text="*{examDtoRequest.generalExamination.icterus}"></span>
+					</td>
+
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Respiration</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.generalExamination.respiration==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.generalExamination.respiration==null}"
+							th:text="*{examDtoRequest.generalExamination.respiration}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Oedema</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.generalExamination.oedema==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.generalExamination.oedema==null}"
+							th:text="*{examDtoRequest.generalExamination.oedema}"></span>
+					</td>
+
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Clubbing</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.generalExamination.clubbing==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.generalExamination.clubbing==null}"
+							th:text="*{examDtoRequest.generalExamination.clubbing}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Koilonychia</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.generalExamination.koilonychia==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.generalExamination.koilonychia==null}"
+							th:text="*{examDtoRequest.generalExamination.koilonychia}"></span>
+					</td>
+
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Lymph glands palpable</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.generalExamination.lymphGlandsPalpable==null }">Not
+							Filled Yet</span>
+						<span class="inputText"
+							th:unless="${examDtoRequest.generalExamination.lymphGlandsPalpable==null}"
+							th:text="*{examDtoRequest.generalExamination.lymphGlandsPalpable}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Tonsils</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.generalExamination.tonsils==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.generalExamination.tonsils==null}"
+							th:text="*{examDtoRequest.generalExamination.tonsils}"></span>
+					</td>
+
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						JVP</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.generalExamination.jvp==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.generalExamination.jvp==null}"
+							th:text="*{examDtoRequest.generalExamination.jvp}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Teeth/Denture</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.generalExamination.teethDenture==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.generalExamination.TeethDenture==null}"
+							th:text="*{examDtoRequest.generalExamination.TeethDenture}"></span>
+					</td>
+
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Thyroid</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.generalExamination.thyroid==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.generalExamination.thyroid==null}"
+							th:text="*{examDtoRequest.generalExamination.thyroid}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Throat</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.generalExamination.throat==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.generalExamination.throat==null}"
+							th:text="*{examDtoRequest.generalExamination.throat}"></span>
+					</td>
+
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Spleen</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.generalExamination.spleen==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.generalExamination.spleen==null}"
+							th:text="*{examDtoRequest.generalExamination.spleen}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Liver</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.generalExamination.liver==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.generalExamination.liver==null}"
+							th:text="*{examDtoRequest.generalExamination.liver}"></span>
+					</td>
+
+				</tr>
+				<tr th:if="${forcePersonal.gender}=='Female'">
+					<td style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0"
+						colspan=""> Breast Examination</td>
+
+
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.generalExamination.breastExamination==null }">Not
+							Filled Yet</span>
+						<span class="inputText"
+							th:unless="${examDtoRequest.generalExamination.breastExamination==null}"
+							th:text="*{examDtoRequest.generalExamination.breastExamination}"></span>
+					</td>
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						<span style="font-size:15px;"><b>C.V.S</b></span>
+					</td>
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						S1</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.generalExamination.s1==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.generalExamination.s1==null}"
+							th:text="*{examDtoRequest.generalExamination.s1}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						S2</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.generalExamination.s2==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.generalExamination.s2==null}"
+							th:text="*{examDtoRequest.generalExamination.s2}"></span>
+					</td>
+
+				</tr>
+
+				
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Murmur if any: </td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.generalExamination.murmur==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.generalExamination.murmur==null}"
+							th:text="*{examDtoRequest.generalExamination.murmur}"></span>
+					</td>
+				</tr>
+</table>
+
+<div class="buttons-div w-100">
+		
+		<div class="float-end"  th:if="${ameMasterStatus.generalExamination!='Yes'}">
+														<form action="assessment-General-Examination" method="post">
+															<input type="hidden" th:value="${forcepersonalId}" name="forcepersonalId">
+															<input type="hidden" th:value="${ameId}" name="ameId">
+															<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+														
+															<input type="submit" value="Fill" class="btn btn-primary btn-sm btn-sm float-end">
+														</form>
+													</div>
+														<div class="float-end"  th:unless="${ameMasterStatus.generalExamination!='Yes'}">
+														<form action="assessment-General-Examination" method="post">
+															<input type="hidden" th:value="${forcepersonalId}" name="forcepersonalId">
+															<input type="hidden" th:value="${ameId}" name="ameId">
+															<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+															
+															<input type="submit" value="Edit" class="btn btn-primary btn-sm btn-sm float-end">
+														</form>
+													</div>
+		
+		</div>
+
+<hr class="mt-5"> 	
+<p
+			style="font-family: 'Poppins', sans-serif;margin-top: 0;padding-top: 2px;margin: 0;font-size: 15px;font-weight: 700;text-align: left;">
+			Central Nervous System and Cranial Nerves</p>
+			<hr>
+<table style="padding: 10px; background: #fbfbfb;width:100%;">
+				
+				
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						<span style="font-size:12px;"><b>Higher functions:</b></span>
+					</td>
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Memory(Recent & Remote):</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.cns.memoryRecentRemote==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.cns.memoryRecentRemote==null}"
+							th:text="*{examDtoRequest.cns.memoryRecentRemote}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Intelligence</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.cns.intelligence==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.cns.intelligence==null}"
+							th:text="*{examDtoRequest.cns.intelligence}"></span>
+					</td>
+
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Personality</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.cns.personality==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.cns.personality==null}"
+							th:text="*{examDtoRequest.cns.personality}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Orientation(time,place &person):</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.cns.orientation==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.cns.orientation==null}"
+							th:text="*{examDtoRequest.cns.orientation}"></span>
+					</td>
+
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Cranial Nerves:</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.cranialNervesMeningealSign.cranialNerves==null }">Not
+							Filled Yet</span>
+						<span class="inputText"
+							th:unless="${examDtoRequest.cranialNervesMeningealSign.cranialNerves==null}"
+							th:text="*{examDtoRequest.cranialNervesMeningealSign.cranialNerves}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Meningeal Signs if any:</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.cranialNervesMeningealSign.MeningealSignIfAny==null }">Not
+							Filled Yet</span>
+						<span class="inputText"
+							th:unless="${examDtoRequest.cranialNervesMeningealSign.MeningealSignIfAny==null}"
+							th:text="*{examDtoRequest.cranialNervesMeningealSign.MeningealSignIfAny}"></span>
+					</td>
+
+				</tr>
+
+
+
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						<span style="font-size:12px;"><b>Motor System:</b></span>
+					</td>
+				</tr>
+				<tr></tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Nutrition of Muscles:</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.cranialNervesMeningealSign.nutritionOfMuscles==null }">Not
+							Filled Yet</span>
+						<span class="inputText"
+							th:unless="${examDtoRequest.cranialNervesMeningealSign.nutritionOfMuscles==null}"
+							th:text="*{examDtoRequest.cranialNervesMeningealSign.nutritionOfMuscles}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Wasting</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.cranialNervesMeningealSign.wasting==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.cranialNervesMeningealSign.wasting==null}"
+							th:text="*{examDtoRequest.cranialNervesMeningealSign.wasting}"></span>
+					</td>
+
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Tone</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.cranialNervesMeningealSign.tone==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.cranialNervesMeningealSign.tone==null}"
+							th:text="*{examDtoRequest.cranialNervesMeningealSign.tone}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Coordination</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.cranialNervesMeningealSign.coordination==null }">Not
+							Filled Yet</span>
+						<span class="inputText"
+							th:unless="${examDtoRequest.cranialNervesMeningealSign.coordination==null}"
+							th:text="*{examDtoRequest.cranialNervesMeningealSign.coordination}"></span>
+					</td>
+
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Abnormal movement/Fasciculation:</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.cranialNervesMeningealSign.abnormalMovementFasiculation==null }">Not
+							Filled Yet</span>
+						<span class="inputText"
+							th:unless="${examDtoRequest.cranialNervesMeningealSign.abnormalMovementFasiculation==null}"
+							th:text="*{examDtoRequest.cranialNervesMeningealSign.abnormalMovementFasiculation}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Power</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.cranialNervesMeningealSign.power==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.cranialNervesMeningealSign.power==null}"
+							th:text="*{examDtoRequest.cranialNervesMeningealSign.power}"></span>
+					</td>
+
+				</tr>
+
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						DTR</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.cranialNervesMeningealSign.dtr==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.cranialNervesMeningealSign.dtr==null}"
+							th:text="*{examDtoRequest.cranialNervesMeningealSign.dtr}"></span>
+					</td>
+
+				</tr>
+
+
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						<span style="font-size:12px;"><b>Sensory System:</b></span>
+					</td>
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Reflexes</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.sensorysystem.reflexes==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.sensorysystem.reflexes==null}"
+							th:text="*{examDtoRequest.sensorysystem.reflexes}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Romberg's Sign:</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.sensorysystem.rombergSign==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.sensorysystem.rombergSign==null}"
+							th:text="*{examDtoRequest.sensorysystem.rombergSign}"></span>
+					</td>
+
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						SLR(Right)</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.sensorysystem.slrTestLimbRight==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.sensorysystem.slrTestLimbRight==null}"
+							th:text="*{examDtoRequest.sensorysystem.slrTestLimbRight}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						SLR(Right)</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.sensorysystem.slrTestLimbLeft==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.sensorysystem.slrTestLimbLeft==null}"
+							th:text="*{examDtoRequest.sensorysystem.slrTestLimbLeft}"></span>
+					</td>
+
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Finger Nose Test</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.sensorysystem.fingerNoseTest==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.sensorysystem.fingerNoseTest==null}"
+							th:text="*{examDtoRequest.sensorysystem.fingerNoseTest}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Skull & Bone:
+					</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.sensorysystem.skullAndBone==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.sensorysystem.skullAndBone==null}"
+							th:text="*{examDtoRequest.sensorysystem.skullAndBone}"></span>
+					</td>
+
+				</tr>
+
+
+
+
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						<span style="font-size:12px;"><b>Reflexes:</b></span>
+					</td>
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Plantar-Reflexes:
+					</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.reflexes.plantar==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.reflexes.plantar==null}"
+							th:text="*{examDtoRequest.reflexes.plantar}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Abdominal & Cremastric Reflexes:</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.reflexes.abdominal==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.reflexes.abdominal==null}"
+							th:text="*{examDtoRequest.reflexes.abdominal}"></span>
+					</td>
+
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Cerebellar Signs:</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.reflexes.cerebellarSign==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.reflexes.cerebellarSign==null}"
+							th:text="*{examDtoRequest.reflexes.cerebellarSign}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Gower's Sign:</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.reflexes.gowerSign==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.reflexes.gowerSign==null}"
+							th:text="*{examDtoRequest.reflexes.gowerSign}"></span>
+					</td>
+
+				</tr>
+
+			</tbody>
+		</table>
+		<div class="buttons-div w-100">
+		<div class="float-end"  th:if="${ameMasterStatus.cranialnervesmeningealsign!='Yes'}">
+												<form action="assessment-CNS-CNM-reflex-sensory-main" method="post">
+													<input type="hidden" th:value="${forcepersonalId}" name="forcepersonalId">
+													<input type="hidden" th:value="${ameId}" name="ameId">
+													<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+													<input type="submit" value="Fill" class="btn btn-primary btn-sm btn-sm float-end btn-sm">
+												</form>
+											</div>
+											<div class="float-end" th:unless="${ameMasterStatus.cranialnervesmeningealsign!='Yes'}">
+												<form action="assessment-CNS-CNM-reflex-sensory-main" method="post">
+													<input type="hidden" th:value="${forcepersonalId}" name="forcepersonalId">
+													<input type="hidden" th:value="${ameId}" name="ameId">
+													<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+													<input type="submit" value="Edit" class="btn btn-primary btn-sm btn-sm float-end">
+												</form>
+											</div>
+		
+		</div>
+		
+		<!-- ===============================================Respiratory and abdomen================================= -->
+	<hr class="mt-5">
+	<p
+			style="font-family: 'Poppins', sans-serif;margin-top: 0;padding-top: 2px;margin: 0;font-size: 15px;font-weight: 700;text-align: left;">
+			Abdomen and Respiratory Systems <b></b></p>
+		<hr>
+
+	<table style="padding: 10px; background: #fbfbfb;width:100%;">
+			<tbody>
+			<tr>
+										<th colSpan="4">Respiratory System</th>
+									</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						1.Any Deformity of Chest:</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.respiratorySystem.chestDeformityAny==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.respiratorySystem.chestDeformityAny==null }"
+							th:text="${examDtoRequest.respiratorySystem.chestDeformityAny}"></span>
+					</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						2. Percussion:
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 2px">
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.respiratorySystem.percussion==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.respiratorySystem.percussion==null}"
+							th:text="${examDtoRequest.respiratorySystem.percussion}"></span>
+					</td>
+				</tr>
+
+
+
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						3.Breath sounds:</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.respiratorySystem.breathSounds==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.respiratorySystem.breathSounds==null}"
+							th:text="${examDtoRequest.respiratorySystem.breathSounds}"></span>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						4.Adventitious Sounds:
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.respiratorySystem.adventitiousSounds==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.respiratorySystem.adventitiousSounds==null}"
+							th:text="${examDtoRequest.respiratorySystem.adventitiousSounds}"></span>
+
+					</td>
+				</tr>
+				<tr>
+										<th colSpan="4">Abdomen</th>
+									</tr>
+				
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						1. Any mass Palpable:</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.abdomen.anyMassPalpable==null }">Not
+							Filled Yet</span>
+						<span class="inputText"
+							th:unless="${examDtoRequest.abdomen.anyMassPalpable==null}"
+							th:text="${examDtoRequest.abdomen.anyMassPalpable}"></span>
+					</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						2.Any other abnormality:</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.abdomen.anyOtherAbnormality==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.abdomen.anyOtherAbnormality==null}"
+							th:text="${examDtoRequest.abdomen.anyOtherAbnormality}"></span>
+
+
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						3. Piles Fissure:
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.abdomen.pilesFissure==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.abdomen.pilesFissure==null}"
+							th:text="${examDtoRequest.abdomen.pilesFissure}"></span>
+					</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						4.   Fistula:</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.abdomen.fitsula==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.abdomen.fitsula==null}"
+							th:text="${examDtoRequest.abdomen.fitsula}"></span>
+
+                   </td>
+                   
+                   
+				</tr>
+<tr>
+<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						5. Prolapse Rectum:</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.abdomen.prolapseRectum ==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.abdomen.prolapseRectum==null}"
+							th:text="${examDtoRequest.abdomen.prolapseRectum}"></span>
+
+                   </td>
+                   
+</tr>
+
+
+		
+
+
+
+
+
+
+
+
+			</tbody>
+		</table>
+		
+	<div class="buttons-div w-100">
+		<div class="float-end"
+															th:if="${ameMasterStatus.abdomen!='Yes'}">
+															<form action="assesment-abdomen-respiratory"
+																method="post">
+																<input type="hidden" th:value="${forcepersonalId}"
+																	name="forcepersonalId"> <input type="hidden"
+																	th:value="${ameId}" name="ameId"> <input
+																	type="hidden" th:value="${_csrf.token}" name="_csrf">
+																<input type="submit" value="Fill" class="btn btn-primary btn-sm btn-sm float-end float-end">
+															</form>
+														</div>
+														<div  class="float-end"
+															th:unless="${ameMasterStatus.abdomen!='Yes'}">
+															<form action="assesment-abdomen-respiratory"
+																method="post">
+																<input type="hidden" th:value="${forcepersonalId}"
+																	name="forcepersonalId"> <input type="hidden"
+																	th:value="${ameId}" name="ameId"> <input
+																	type="hidden" th:value="${_csrf.token}" name="_csrf" >
+																<input type="submit" value="Edit" class="btn btn-primary btn-sm btn-sm float-end float-end">
+															</form>
+														</div>
+		
+		</div>	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+<hr class="mt-5"> 
+
+		<p
+			style="font-family: 'Poppins', sans-serif;margin-top: 0;padding-top: 2px;margin: 0;font-size: 15px;font-weight: 700;text-align: left;">
+			Eye Factor<b>(E)</b></p>
+		<hr>
+		<table style="padding: 10px; background: #fbfbfb;width:100%;">
+			<tbody>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						S.No
+					</td>
+					<td style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0"
+						colspan="2">
+						Examination
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Right
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Left </td>
+				</tr>
+
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						a)
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Distance Vision
+					</td>
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						i)
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						--
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Without Glasses
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.eyeFactor.distant_vision_rt_wog==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.eyeFactor.distant_vision_rt_wog==null}"
+							th:text="*{examDtoRequest.eyeFactor.distant_vision_rt_wog}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.eyeFactor.distant_vision_lt_wog==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.eyeFactor.distant_vision_lt_wog==null}"
+							th:text="*{examDtoRequest.eyeFactor.distant_vision_lt_wog}"></span>
+					</td>
+
+				</tr>
+
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						ii)
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						--
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						With Glasses
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.eyeFactor.distant_vision_rt_wg==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.eyeFactor.distant_vision_rt_wg==null}"
+							th:text="*{examDtoRequest.eyeFactor.distant_vision_rt_wg}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.eyeFactor.distant_vision_lt_wg==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.eyeFactor.distant_vision_lt_wg==null}"
+							th:text="*{examDtoRequest.eyeFactor.distant_vision_lt_wg}"></span>
+					</td>
+
+				</tr>
+
+
+
+
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						b)
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Near Vision
+					</td>
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						i)
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						--
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Without Glasses
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.eyeFactor.near_vision_rt_wog==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.eyeFactor.near_vision_rt_wog==null}"
+							th:text="*{examDtoRequest.eyeFactor.near_vision_rt_wog}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.eyeFactor.near_vision_lt_wog==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.eyeFactor.near_vision_lt_wog==null}"
+							th:text="*{examDtoRequest.eyeFactor.near_vision_lt_wog}"></span>
+					</td>
+
+				</tr>
+
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						ii)
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						--
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						With Glasses
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.eyeFactor.near_vision_rt_wg==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.eyeFactor.near_vision_rt_wg==null}"
+							th:text="*{examDtoRequest.eyeFactor.near_vision_rt_wg}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align:
+						top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.eyeFactor.near_vision_lt_wg==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.eyeFactor.near_vision_lt_wg==null}"
+							th:text="*{examDtoRequest.eyeFactor.near_vision_lt_wg}"></span>
+					</td>
+
+				</tr>
+
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						c)
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Colour Vision
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						--
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.eyeFactor.color_vision_rt==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.eyeFactor.color_vision_rt==null}"
+							th:text="*{examDtoRequest.eyeFactor.color_vision_rt}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.eyeFactor.color_vision_lt==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.eyeFactor.color_vision_lt==null}"
+							th:text="*{examDtoRequest.eyeFactor.color_vision_lt}"></span>
+					</td>
+
+				</tr>
+
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						d)
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Field of Vision
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						--
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.eyeFactor.field_of_vision_rt==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.eyeFactor.field_of_vision_rt==null}"
+							th:text="*{examDtoRequest.eyeFactor.field_of_vision_rt}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.eyeFactor.field_of_vision_lt==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.eyeFactor.field_of_vision_lt==null}"
+							th:text="*{examDtoRequest.eyeFactor.field_of_vision_lt}"></span>
+					</td>
+
+				</tr>
+
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						e)
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Any other Pathology
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						--
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.eyeFactor.any_other_pathology_rt==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.eyeFactor.any_other_pathology_rt==null}"
+							th:text="*{examDtoRequest.eyeFactor.any_other_pathology_rt}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.eyeFactor.any_other_pathology_lt==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.eyeFactor.any_other_pathology_lt==null}"
+							th:text="*{examDtoRequest.eyeFactor.any_other_pathology_lt}"></span>
+					</td>
+
+				</tr>
+
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						f)
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						IOL
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						--
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.eyeFactor.iol_rt==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.eyeFactor.iol_rt==null}"
+							th:text="*{examDtoRequest.eyeFactor.iol_rt}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.eyeFactor.iol_lt==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.eyeFactor.iol_lt==null}"
+							th:text="*{examDtoRequest.eyeFactor.iol_lt}"></span>
+					</td>
+
+				</tr>
+
+
+
+
+			</tbody>
+		</table>
+		
+		<div class="buttons-div w-100">
+		
+		<div class="float-end" th:if="${ameMasterStatus.eyefactor!='Yes'}">
+													<form action="assessment-Eye-Factor-ama" method="post">
+														<input type="hidden" th:value="${forcepersonalId}" name="forcepersonalId">
+														<input type="hidden" th:value="${ameId}" name="ameId">
+														<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+														<input type="submit" value="Fill" class="btn btn-primary btn-sm btn-sm float-end">
+													</form>
+												</div>
+												<div class="float-end"  th:unless="${ameMasterStatus.eyefactor!='Yes'}">
+													<form action="assessment-Eye-Factor-ama" method="post">
+														<input type="hidden" th:value="${forcepersonalId}" name="forcepersonalId">
+														<input type="hidden" th:value="${ameId}" name="ameId">
+														<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+														<input type="submit" value="Edit" class="btn btn-primary btn-sm btn-sm float-end">
+													</form>
+												</div>
+		</div>
+		<!-- ========================================check up List======================================================= -->
+		
+		<br>
+            
+<table class="table table-striped">
+            <tbody>
+            
+            <div th:each="outerMap :${investigationReportDtosList.entrySet()}">
+              
+<!--============================================= Blood Sugar ================================================-->
+                   
+            <div th:if="${outerMap.key}=='bs'">
+              
+              
+               
+              <tr><td style="font-family: 'Poppins', sans-serif;margin-top: 0;padding-top: 2px;margin: 0;font-size: 15px;font-weight: 700;text-align: left;"><b><u>Blood Sugar</u></b></td></tr>
+              
+                <tr  th:each="innerMap :${outerMap.value.entrySet()}">
+                
+                 <td
+						style="font-family: 'Poppins', sans-serif;font-size: 15px;font-weight: normal;vertical-align: top;padding: 5px 0"><span th:text="${innerMap.key}">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${innerMap.key}==null">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.eyeFactor.iol_lt==null}"
+							th:text="${innerMap.key}"></span>
+					</td>
+                 <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 5px 0"><span th:text="${innerMap.value}"></span></td>
+              
+              
+               </tr>
+                 
+               
+            </div>
+              
+             
+               
+               
+ <!--============================================= lft(Liver Function Test)================================================-->             
+            <div th:if="${outerMap.key}=='lft'">
+              
+              
+               
+              <tr><td style="font-family: 'Poppins', sans-serif;margin-top: 0;padding-top: 2px;margin: 0;font-size: 15px;font-weight: 700;text-align: left;"><b><u>Liver Function Test</u></b></td></tr> 
+                <tr  th:each="innerMap :${outerMap.value.entrySet()}">
+                
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 15px;font-weight: normal;vertical-align: top;padding: 5px 0"><span th:text="${innerMap.key}"></span></td>
+              
+              
+                  
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 5px 0"><span th:text="${innerMap.value}"></span></td>
+              
+              
+               </tr>
+                 
+               
+            </div>
+<!--=============================================Urine Test================================================-->
+ <div th:if="${outerMap.key}=='utmicrophy'">
+              
+              
+               
+              <tr><td style="font-family: 'Poppins', sans-serif;margin-top: 0;padding-top: 2px;margin: 0;font-size: 15px;font-weight: 700;text-align: left;"><b><u>Urine Test</u></b></td></tr> 
+                <tr  th:each="innerMap :${outerMap.value.entrySet()}">
+                
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 15px;font-weight: normal;vertical-align: top;padding: 5px 0"><span th:text="${innerMap.key}"></span></td>
+              
+              
+                  
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 5px 0"><span th:text="${innerMap.value}"></span></td>
+              
+              
+               </tr>
+                 
+               
+            </div>
+<!--=============================================kft  ================================================-->
+<div th:if="${outerMap.key}=='kft'">
+              
+              
+               
+              <tr><td style="font-family: 'Poppins', sans-serif;margin-top: 0;padding-top: 2px;margin: 0;font-size: 15px;font-weight: 700;text-align: left;"><b><u>Kidney Function Test</u></b></td></tr> 
+                <tr  th:each="innerMap,count :${outerMap.value.entrySet()}">
+                
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 15px;font-weight: normal;vertical-align: top;padding: 5px 0"><span th:text="${innerMap.key}"></span></td>
+              
+              
+                  
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 5px 0"><span th:text="${innerMap.value}"></span></td>
+              
+              
+               </tr>
+                 
+               
+           
+
+           
+            </div>
+
+            </tbody>
+         </table>
+		
+		<hr>
+		<!-- Gyneo -->
+		<div th:if="${forcePersonal.gender}=='Female'">
+			
+	
+		<p
+			style="font-family: 'Poppins', sans-serif;margin-top: 0;padding-top: 2px;margin: 0;font-size: 15px;font-weight: 700;text-align: left;">
+			Gynecology & Obstetrics (Female)</p>
+		<hr>
+
+	<table style="padding: 10px; background: #fbfbfb;width:100%;">
+			<tbody>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						1. LMP:</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.gynaeAndObsFemale.lmp==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.gynaeAndObsFemale.lmp==null}"
+							th:text="*{examDtoRequest.gynaeAndObsFemale.lmp}"></span>
+					</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						2. Menstrual History:
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 2px">
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.gynaeAndObsFemale.menstrualHistory==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.gynaeAndObsFemale.menstrualHistory==null}"
+							th:text="*{examDtoRequest.gynaeAndObsFemale.menstrualHistory}"></span>
+					</td>
+				</tr>
+
+
+
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						3. Vaginal
+							Discharge(if any):</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.gynaeAndObsFemale.vaginalDischarge==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.gynaeAndObsFemale.vaginalDischarge==null}"
+							th:text="*{examDtoRequest.gynaeAndObsFemale.vaginalDischarge}"></span>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						4.UV Prolapse,(if any):
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.gynaeAndObsFemale.uvProlapse==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.gynaeAndObsFemale.uvProlapse==null}"
+							th:text="*{examDtoRequest.gynaeAndObsFemale.uvProlapse}"></span>
+
+					</td>
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						5. USG abdomen,(if any):</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.gynaeAndObsFemale.usgAbdomen==null }">Not
+							Filled Yet</span>
+						<span class="inputText"
+							th:unless="${examDtoRequest.gynaeAndObsFemale.usgAbdomen==null}"
+							th:text="*{examDtoRequest.gynaeAndObsFemale.usgAbdomen}"></span>
+					</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						6. Other ailment,(if any):</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.gynaeAndObsFemale.otherAilment==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.gynaeAndObsFemale.otherAilment==null}"
+							th:text="*{examDtoRequest.gynaeAndObsFemale.otherAilment}"></span>
+
+
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						7. Obstetrics History(If Any)
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.gynaeAndObsFemale.obstetricsHistory==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.gynaeAndObsFemale.obstetricsHistory==null}"
+							th:text="*{examDtoRequest.gynaeAndObsFemale.obstetricsHistory}"></span>
+					</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						8. Date of last confinement</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${examDtoRequest.gynaeAndObsFemale.dateOfLastConfinement==null }">Not
+							Filled Yet</span>
+						<span class="inputText" th:unless="${examDtoRequest.gynaeAndObsFemale.dateOfLastConfinement==null}"
+							th:text="*{examDtoRequest.gynaeAndObsFemale.dateOfLastConfinement}"></span>
+
+
+				</tr>
+
+
+
+
+
+
+			</tbody>
+		</table>
+		
+		<div class="buttons-div w-100">
+	
+														<div class="text-end"
+															th:if="${ameMasterStatus.gynaecologyObs!='Yes'}">
+															<form action="assessment-gynecology" method="post">
+																<input type="hidden" th:value="${forcepersonalId}"
+																	name="forcepersonalId"> <input type="hidden"
+																	th:value="${ameId}" name="ameId"> <input
+																	type="hidden" th:value="${_csrf.token}" name="_csrf">
+																<input type="submit" value="Fill" class="btn btn-primary btn-sm btn-sm float-end float-end">
+															</form>
+														</div>
+														<div class="text-end"
+															th:unless="${ameMasterStatus.gynaecologyObs!='Yes'}">
+															<form action="assessment-gynecology" method="post">
+																<input type="hidden" th:value="${forcepersonalId}"
+																	name="forcepersonalId"> <input type="hidden"
+																	th:value="${ameId}" name="ameId"> <input
+																	type="hidden" th:value="${_csrf.token}" name="_csrf">
+																<input type="submit" value="Edit" class="btn btn-primary btn-sm btn-sm float-end">
+															</form>
+														</div>
+														</div>
+			</div>
+		
+		
+	<hr class="mt-5"> 
+		
+		<!-- ============================================================================================================ -->
+            <p
+			style="font-family: 'Poppins', sans-serif;margin-top: 0;padding-top: 2px;margin: 0;font-size: 15px;font-weight: 700;text-align: left;">
+			Final Categorizations</p>
+		<hr>
+
+		<table style="padding: 10px; background: #fbfbfb;width:100%;">
+			<tbody>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						<b>Psychology</b>
+						</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${ameMasterStatus.psycological_shape}==null">Not
+							Filled Yet</span>
+						<span class="inputText"
+							th:unless="${ameMasterStatus.psycological_shape}==null"
+							th:text="${ameMasterStatus.psycological_shape}"></span>
+					</td>
+					
+
+					
+				</tr>
+				
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						<b>Hearing</b>
+						</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${ameMasterStatus.hearingShape}==null">Not
+							Filled Yet</span>
+						<span class="inputText"
+							th:unless="${ameMasterStatus.hearingShape}==null"
+							th:text="${ameMasterStatus.hearingShape}"></span>
+					</td>
+					
+
+					
+				</tr>
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						<b> Appendages</b>
+					</td>
+
+
+					
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Upper Limb</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						Lower Limb</td>
+
+				</tr>
+
+
+
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${ameMasterStatus.upperLimbShape}==null">Not
+							Filled Yet</span>
+						<span class="inputText"
+							th:unless="${ameMasterStatus.upperLimbShape}==null"
+							th:text="${ameMasterStatus.upperLimbShape}"></span>
+					</td>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${ameMasterStatus.lowerLimbShape}==null">Not
+							Filled Yet</span>
+						<span class="inputText"
+							th:unless="${ameMasterStatus.lowerLimbShape}==null"
+							th:text="${ameMasterStatus.lowerLimbShape}"></span>
+					</td>
+
+					
+				</tr>
+
+
+
+				<tr>
+					<td colSpan="1"
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						<b>Spine</b>
+					</td>
+					
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${ameMasterStatus.spineShape}==null">Not
+							Filled Yet</span>
+						<span class="inputText"
+							th:unless="${ameMasterStatus.spineShape}==null"
+							th:text="${ameMasterStatus.spineShape}"></span>
+					</td>
+
+					
+					
+					
+
+				</tr>
+
+
+
+
+				
+				
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						<b>Physical</b>
+						</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${ameMasterStatus.physicalShape}==null">Not
+							Filled Yet</span>
+						<span class="inputText"
+							th:unless="${ameMasterStatus.physicalShape}==null"
+							th:text="${ameMasterStatus.physicalShape}"></span>
+					</td>
+					
+
+					
+				</tr>
+				
+				
+				
+				
+
+<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						<b>Eye</b>
+					</td>
+
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${ameMasterStatus.eyeShape}==null">Not
+							Filled Yet</span>
+						<span class="inputText"
+							th:unless="${ameMasterStatus.eyeShape}==null"
+							th:text="${ameMasterStatus.eyeShape}"></span>
+					</td>
+					
+					
+
+				</tr>
+
+				<!-- <tr>
+					
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${ameMasterStatus.leftEyeShape}==null">Not
+							Filled Yet</span>
+						<span class="inputText"
+							th:unless="${ameMasterStatus.leftEyeShape}==null"
+							th:text="${ameMasterStatus.leftEyeShape}"></span>
+					</td>
+
+					
+				</tr> -->
+				
+				<tr>
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 12px;font-weight: 600;vertical-align: top;padding: 5px 0">
+						<b>Gynaecology</b>
+						</td>
+
+					<td
+						style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 5px 0">
+
+						<span style="color: darkred;" class="inputText"
+							th:if="${ameMasterStatus.gynaecologyShape}==null">Not
+							Filled Yet</span>
+						<span class="inputText"
+							th:unless="${ameMasterStatus.gynaecologyShape}==null"
+							th:text="${ameMasterStatus.gynaecologyShape}"></span>
+					</td>
+					
+
+					
+				</tr>
+
+
+			</tbody>
+		</table>
+		
+		
+		
+		
+	
+		
+		<!-- ============================================================================================================= -->
+		<hr>
+		<div th:if="${goToFlag}">
+				<div class="d-grid gap-2 d-md-block">
+					<button type="button" class="btn btn-secondary"
+						onclick="backToHome()" style="width: 100px; float: left;">Back</button>
+					
+
+
+				</div>
+			</div>
+			<div th:unless="${goToFlag}">
+			<div class="d-grid gap-2 d-md-block">
+					<button type="button" class="btn btn-secondary"
+						onclick="backToApplicationUnderProcess()" style="width: 100px; float: left;">Back</button>
+					
+
+
+				</div>
+			</div>
+</div>
+
+</div>
+
+<form th:action="@{back-to-index-page-ama}" method="post"
+					id="back-to-home">
+					<input type="hidden" name="forcepersonalId"
+						th:value="${forcepersonalId}"> <input type="hidden"
+						name="ameId" th:value="${ameId}">
+
+
+</form>
+
+<form th:action="@{application-under-process-ma}" method="get"
+					id="back-to-application-under-process">
+					<input type="hidden" name="forcepersonalId"
+						th:value="${forcepersonalId}"> <input type="hidden"
+						name="ameId" th:value="${ameId}">
+
+
+				</form>
+				</div>
+				</div>
+				</div>
+				
+
+</body>
+<script>
+function backToHome(){
+	
+	$("#back-to-home").submit();
+	}
+</script>
+
+<script>
+function backToApplicationUnderProcess(){
+	
+	$("#back-to-application-under-process").submit();
+	}
+</script>
+	<script>
+		function printAllotment() {
+			//Get the print button and put it into a variable
+			var printButton = document.getElementById("printpagebutton");
+			//Set the print button visibility to 'hidden' 
+			printButton.style.visibility = 'hidden';
+			//Print the page content
+			window.print()
+			printButton.style.visibility = 'visible';
+		}
+
+
+	</script>
+	
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function() {
+			$('#backtotop').click(function() {
+				$("html, body").animate({
+					scrollTop : 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function() {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function() {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+	<!-- Signup Modal -->
+	<div class="modal fade" id="signout-modal">
+	<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Sign Out?</h5>
+
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<!-- Modal body -->
+						<div class="modal-body">
+							<p class="text-center">Are you sure you want to Sign Out?</p>
+							<form action="sign-out">
+								<div class="row">
+									<div class="col-md-6">
+										<button type="submit" class="btn btn-primary btn-sm flo">Sign
+											Out</button>
+									</div>
+									<div class="col-md-6">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Cancel</button>
+									</div>
+
+								</div>
+
+							</form>
+
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>
+
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function() {
+			$("#one-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+
+</html>

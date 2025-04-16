@@ -1,0 +1,59 @@
+<!doctype html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 50px;
+        }
+        .error-code {
+            font-size: 72px;
+            color: #333;
+        }
+        .error-message {
+            font-size: 24px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        .error-description {
+            font-size: 18px;
+            color: #777;
+        }
+        .btn-back {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .btn-back:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="error-code">
+					 <span th:text="${errorCode}"></span>
+			    </div>
+				<div class="error-message">  
+					<span th:text="${errorTag}"></span>
+				</div>
+				<div class="error-description">
+					<span th:text="${errorMessage}"></span>
+				</div>
+				
+				<form th:action="@{initial-login}" method="get">
+					    								<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+
+					<input type="submit"   class="btn-back" value="Back Home">
+
+				</form>
+</body>
+</html>

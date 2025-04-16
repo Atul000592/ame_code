@@ -1,0 +1,348 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>AME DashBoard User</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css" />
+<!-- Custom styles for this template -->
+<div th:replace="~{medical-sub-ordinate/master-doc::master-wrapper-doc}"></div>
+
+
+
+
+
+</head>
+
+
+<body>
+<!-- 
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
+		<a class="navbar-brand" href="#">Logo</a>
+		<ul class="navbar-nav">
+			<li class="nav-item">
+				<a class="nav-link" href="#">Link</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#">Link</a>
+			</li>
+		</ul>
+	</nav>
+ -->
+
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+		<div class="dashboard-bgcolor border-right" id="sidebar-wrapper">
+			<div class="sidebar-heading text-center text-white"
+				style="font-size: 24px">
+				<span class="text-uppercase" style="display: inherit;" ><img alt="" src="images/NIC.png" height="30px" width="60%"> &nbsp; AME</span>
+					
+			</div>
+			<div class="list-group list-group-flush b-leftmenu">
+
+				<ul id="sortable-menu">
+					<li><a href="dashboard-user"
+						class="dashboard-bgcolor text-white border-bottom b-newpage">USER DASHBOARD</a></li>
+					<li class='sub-menu'><a href='javascript:void(0)'
+						class="dashboard-bgcolor border-bottom text-white b-newpage">Annual Medical Examinations 
+							<div class='fa fa-caret-down right'></div>
+					</a>
+						<ul>
+							<li><a class="b-newpage" href="personal-details">AME Declaration 
+</a></li>
+							<li><a class="b-newpage" href="status-user-ame">
+									Status</a></li>
+							<li><a class="b-newpage" href='change-of-board'>Change of Board</a></li>
+						
+						</ul></li>
+
+					
+					<li class='sub-menu'><a href='javascript:void(0)'
+						class="dashboard-bgcolor border-bottom text-white b-newpage">RME
+					
+							<div class='fa fa-caret-down right'></div>
+					</a>
+						<ul>
+							<li><a href='' class="b-newpage">Status</a></li>
+							<li><a href='' class="b-newpage">Appeal</a></li>
+							<li><a href='' class="b-newpage">Change of Board</a></li>
+							
+						</ul></li>
+					<li class='sub-menu'><a href=''
+						class="dashboard-bgcolor border-bottom text-white b-newpage">MIB/DRB
+							<div class='fa fa-caret-down right'></div>
+					</a>
+						<ul>
+							<li><a href='' class="b-newpage">DRB Status
+									</a></li>
+							<li><a href='' class="b-newpage">Appeal 
+									</a></li>
+						
+						</ul></li>
+							<li class='sub-menu'><a href='javascript:void(0)'
+						class="dashboard-bgcolor border-bottom text-white b-newpage">Alerts
+							<div class='fa fa-caret-down right'></div>
+					</a>
+						<ul>
+							<li><a href='' class="b-newpage">Alerts</a></li>
+							
+						</ul></li>
+							<li class='sub-menu'><a href='javascript:void(0)'
+						class="dashboard-bgcolor border-bottom text-white b-newpage">Health Card Individual
+							<div class='fa fa-caret-down right'></div>
+					</a>
+						<ul>
+							<li><a href='javascript:void(0);' class="b-newpage">Health Card Individual</a></li>	
+				</ul>
+			</div>
+		</div>
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<nav
+				class="navbar navbar-expand-lg navbar-light dashboard-bgcolor border-bottom">
+				<button class="btn text-white" id="menu-toggle">
+					<span style="display: none;">Menu</span> <span class="fas fa-bars"
+						style="font-size: 1.4rem"></span>
+				</button>
+
+				<!-- Online users -->
+				<div class="d-inline-block px-4 py-2 dropdown">
+					<div class="dropdown-toggle" data-toggle="dropdown">
+						<span class="fas fa-users text-white"
+							style="font-size: 20px; cursor: pointer;"></span>
+					</div>
+					<div class="dropdown-menu b-dropmenu-db">
+						<a class="dropdown-item" href="#">User action</a> <a
+							class="dropdown-item" href="#">Another user action</a> <a
+							class="dropdown-item" href="#">Another user action</a> <a
+							class="dropdown-item" href="#">Another user action</a>
+					</div>
+				</div>
+
+               <button class="navbar-toggler b-dropmenubtn" type="button"
+					data-toggle="collapse" data-target="#navbarSupportedContent"
+					aria-controls="navbarSupportedContent" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="far fa-caret-square-down"
+						style="font-size: 30px; color: #FFF"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+						
+						
+						<li class="nav-item"><a class="nav-link text-white" href="medical-exam">Medical Examination</a>
+						</li>
+						<li class="nav-item dropdown"><a
+							class="nav-link dropdown-toggle text-white" href="#"
+							id="navbarDropdown" role="button" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false"> Profile </a>
+							<div
+								class="dropdown-menu dropdown-menu-right text-center b-dropmenu-db"
+								aria-labelledby="navbarDropdown">
+								<a class="dropdown-item" href="register-user">Register User</a> <a
+									class="dropdown-item" href="email-send">Send Mail</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="javascript:void(0);"
+									data-toggle="modal" data-target="#signout-modal">Sign Out</a>
+
+							</div></li>
+					</ul>
+				</div>
+			</nav>
+
+
+			<div class="container-fluid">
+
+				<!-- Content Row -->
+
+
+
+				<div class="my-5" id="b-homedb">
+
+					<div class="container">
+						<h4 class="text-center mb-3 b-latest-data">AME Status Update </h4>
+						<div class="pl-4 text-right" style="font-size: 24px">
+							<span class="mr-2" id="one-item-row" style="cursor: pointer;">
+								<i class="fas fa-bars"></i>
+							</span> <span class="mr-2" id="two-item-row" style="cursor: pointer;">
+								<i class="fas fa-th-large"></i>
+							</span> <span class="mr-2" id="three-item-row" style="cursor: pointer;">
+								<i class="fas fa-th"></i>
+							</span>
+						</div>
+
+
+
+						<div class="">
+							<div class="row text-center pl-4" id="sortable-cards">
+						
+
+							<table>
+							<thead>
+							<tr>
+							<th>AME ID</th>
+							<th th:text="${ameId}"></th>
+							<th> FORCE PERSONAL ID</th>
+							<th th:text="${forcepersonalId}" colspan="2"></th>
+							</tr>
+							<tr>
+								<th>S No</th>
+								<th>Authorizer</th>
+								<th>Status</th>
+								<th>Remark</th>
+								<th>Date</th>
+							</tr>
+						
+							</thead>
+							<tbody>
+							<tr th:each="statusData,stat: ${individualModel}" >
+							<td th:text="${stat.index}"></td>
+							<td><p>NO RECORD</p></td>
+							<td th:text="${statusData.status}"></td>
+							<td><p></p></td>
+							<td><p></p></td>
+                             </tr>
+                             <tr th:if="${message}" th:text="${message}" style="font-weight: bold;"></tr>
+                        
+                            </tbody>
+                            </table>
+						
+				
+			
+					</div>
+
+				</div>
+
+			</div>
+			<div class="my-5" id="b-homedb"></div>
+
+		</div>
+
+	</div>
+
+
+
+
+	</div>
+	<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+
+
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function() {
+			$('#backtotop').click(function() {
+				$("html, body").animate({
+					scrollTop : 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function() {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function() {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+	<!-- Signup Modal -->
+	<div class="modal fade" id="signout-modal">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header text-center d-block p-5 border-bottom-0">
+					<h3 class="modal-title">Sign Out?</h3>
+					<button type="button" class="close position-absolute"
+						style="right: 15px; top: 8px;" data-dismiss="modal">&times;</button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body">
+					<p class="text-center">Are you sure you want to Sign Out?</p>
+					<div class="text-center py-4">
+						<form action="sign-out">
+							<button type="submit" class="btn btn-primary b-btn mx-3">Sign
+								Out</button>
+							<button class="btn btn-secondary mx-3" data-dismiss="modal">Cancel</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function() {
+			$("#one-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+
+
+</body>
+</html>

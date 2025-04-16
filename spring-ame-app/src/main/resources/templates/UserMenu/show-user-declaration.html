@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+
+<style type="text/css">
+.div1,.div2,.container-main{
+-webkit-box-shadow: 13px -1px 24px -16px rgba(0,0,0,0.49);
+-moz-box-shadow: 13px -1px 24px -16px rgba(0,0,0,0.49);
+box-shadow: 13px -1px 24px -16px rgba(0,0,0,0.49);
+ margin: auto;
+  width:80%;
+ 
+  padding: 10px;
+}
+tr,td{
+width: 100px;
+height: 20px;
+
+}
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse,separate;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+
+td:nth-child(even){
+font-weight: bold;
+text-transform: uppercase;
+}
+
+td:nth-child(odd){
+font-weight: bolder;
+text-transform: uppercase;
+}
+
+</style>
+</head>
+<body>
+<a th:href="@{/dashboard-user}" class="btn btn-info">View</a>
+<div class="container-main">
+<h4 align="center">PERSONAL DETAILS</h4>
+<hr>
+<div class="div1">
+
+<table>
+<tbody th:each="individualModel: ${individualModel}">
+<tr>
+<td>AME ID</td>
+<td th:text="${individualModel.ameId}" ></td>
+
+<td>FORCEPERSONAL ID</td>
+<td th:text="${individualModel.forcePersonalId}" ></td>
+</tr>
+<tr>
+<td>NAME</td>
+<td th:text="${individualModel.name}" ></td>
+<td>DESIGNATION</td>
+<td th:text="${individualModel.designation}" ></td>
+</tr>
+<tr>
+<td>RANK</td>
+<td th:text="${individualModel.rank}" ></td>
+<td>Declaration Date</td>
+<td th:text="${individualModel.declarationDate}" ></td>
+
+</tr>
+</tbody>
+</table>
+</div>
+<br>
+<hr>
+
+
+<div th:each="dataList1 ,stat: ${details}" class="div2">
+<h2>DECLARATION BY THE PERSONNEL OF CAPEs,NSG &&AR TO BE
+EXAMINED FOR SHAPE CATEGORISATION</h2>
+<table>
+<tr>
+<td>1.</td>
+<td>Major Ailment Hospitalized</td>
+<td >
+<span th:if="${dataList1.majorailmenthospitalized=='Y'}">YES</span>
+<span th:if="${dataList1.majorailmenthospitalized==''}">No Defined</span>
+ <span th:unless="${dataList1.majorailmenthospitalized=='Y'}">NO</span>
+
+</td>
+</tr>
+
+<tr>
+<td>2.</td>
+<td>Hyper Tension</td>
+<td>
+<span th:if="${dataList1.hypertension=='Y'}">YES</span>
+<span th:if="${dataList1.hypertension==''}">No Defined</span>
+<span th:unless="${dataList1.hypertension=='Y'}">NO</span>
+
+</td>
+</tr>
+
+
+<tr>
+<td>3.</td>
+    <td>IChaemic Heart</td>
+   
+    <td>
+    <span th:if="${dataList1.ichaemicheart=='Y'}">YES</span>
+    <span th:if="${dataList1.ichaemicheart==''}">No Defined</span>
+    <span th:unless="${dataList1.ichaemicheart=='Y'}">NO</span>
+    </td>
+</tr>
+<tr>
+<td>4.</td>
+    <td>Hyper Tension</td>
+    <td>
+    <span th:if="${dataList1.diabetesmellitus=='Y'}">YES</span>
+    <span th:if="${dataList1.diabetesmellitus==''}">No Defined</span>
+    <span th:unless="${dataList1.diabetesmellitus=='Y'}">NO</span>
+    
+    </td>
+</tr>
+<tr>
+<td>5.</td>
+    <td>Epilepsy</td>
+
+    <td th:text="${dataList1.epilepsy}">
+    <span th:if="${dataList1.epilepsy=='Y'}">YES</span>
+    <span th:if="${dataList1.epilepsy==''}">No Defined</span>
+    <span th:unless="${dataList1.epilepsy=='Y'}">NO</span>
+    </td>
+</tr>
+<tr>
+<td>6.</td>
+    <td>Persistent Headache</td>
+    <td>
+     <span th:if="${dataList1.persistent_headache=='Y'}">YES</span>
+    <span th:if="${dataList1.persistent_headache==''}">No Defined</span>
+    <span th:unless="${dataList1.persistent_headache=='Y'}">NO</span>
+    </td>
+</tr>
+<tr>
+<td>7.</td>
+    <td>Mental InStability</td>
+    <td>
+   
+    <span th:if="${dataList1.menatlinstability=='Y'}">YES</span>
+    <span th:if="${dataList1.menatlinstability==''}">No Defined</span>
+    <span th:unless="${dataList1.menatlinstability=='Y'}">NO</span>
+    </td>
+</tr>
+<tr>
+<td>8.</td>
+    <td>Giddiness</td>
+    <td>
+   
+    <span th:if="${dataList1.giddiness=='Y'}">YES</span>
+    <span th:if="${dataList1.giddiness==''}">No Defined</span>
+    <span th:unless="${dataList1.giddiness=='Y'}">NO</span>
+    </td>
+</tr>
+<tr>
+<td>9.</td>
+    <td>Chest Pain Palpitation</td>
+    <td>
+   
+    <span th:if="${dataList1.chestpainpalpitation=='Y'}">YES</span>
+    <span th:if="${dataList1.chestpainpalpitation==''}">No Defined</span>
+    <span th:unless="${dataList1.chestpainpalpitation=='Y'}">NO</span>
+    </td>
+</tr>
+<tr>
+<td>10.</td>
+    <td>TuberCulosis(TB) </td>
+    <td>
+
+    <span th:if="${dataList1.tb=='Y'}">YES</span>
+    <span th:if="${dataList1.tb==''}">No Defined</span>
+    <span th:unless="${dataList1.tb=='Y'}">NO</span>
+    </td>
+</tr>
+<tr>
+<td>11.</td>
+    <td>sleep</td>
+    <td>
+   
+    <span th:if="${dataList1.sleep=='Y'}">YES</span>
+    <span th:if="${dataList1.sleep==''}">No Defined</span>
+    <span th:unless="${dataList1.sleep=='Y'}">NO</span>
+    </td>
+</tr>
+<tr>
+<td>12.</td>
+    <td>Smoking Habit</td>
+    <td>
+   
+    <span th:if="${dataList1.smokinghabit=='Y'}">YES</span>
+    <span th:if="${dataList1.smokinghabit==''}">No Defined</span>
+    <span th:unless="${dataList1.smokinghabit=='Y'}">NO</span></td>
+</tr>
+<tr>
+<td>13.</td>
+    <td>Number of Cigarettes</td>
+    <td>
+   
+    <span th:if="${dataList1.numberofcigarettes=='Y'}">YES</span>
+    <span th:if="${dataList1.numberofcigarettes==''}">No Defined</span>
+    <span th:unless="${dataList1.numberofcigarettes=='Y'}">NO</span>
+    </td>
+</tr>
+<tr>
+<td>14.</td>
+    <td>Alcohol InTake</td>
+    <td>
+    
+    <span th:if="${dataList1.alcoholintake=='Y'}">YES</span>
+    <span th:if="${dataList1.alcoholintake==''}">No Defined</span>
+    <span th:unless="${dataList1.alcoholintake=='Y'}">NO</span></td>
+</tr>
+<tr>
+<td>15.</td>
+    <td>Quantity Per Day</td>
+ 
+    <td th:text="${dataList1.quantityperday}"/>
+</tr>
+<tr>
+<td>16.</td>
+    <td>Accident Injury Surgery</td>
+    <td>
+    
+    <span th:if="${dataList1.accidentinjurysurgery=='Y'}">YES</span>
+    <span th:if="${dataList1.accidentinjurysurgery==''}">No Defined</span>
+    <span th:unless="${dataList1.accidentinjurysurgery=='Y'}">NO</span>
+    </td>
+</tr>
+<tr>
+<td>17.</td>
+    <td>Defective Color Perception</td>
+    <td>
+    <span th:if="${dataList1.defectivecolorperception=='Y'}">YES</span>
+    <span th:if="${dataList1.defectivecolorperception==''}">No Defined</span>
+    <span th:unless="${dataList1.defectivecolorperception=='Y'}">NO</span>
+    </td>
+</tr>
+<tr>
+<td>18.</td>
+    <td>Color Perception Category</td>
+    <td>
+    <span th:if="${dataList1.colorperceptioncat=='Y'}">YES</span>
+    <span th:if="${dataList1.colorperceptioncat==''}">No Defined</span>
+    <span th:unless="${dataList1.colorperceptioncat=='Y'}">NO</span></td>
+</tr>
+<tr>
+<td>19.</td>
+    <td>Current New Unit</td>
+    <td th:text="${dataList1.curentnewunit}"/>
+
+  
+</tr>
+<tr>
+<td>20.</td>
+    <td>Previous Unit</td>
+    <td th:text="${dataList1.previousunit}"/>
+
+</tr>
+
+
+
+
+</table>
+</div>
+</div>
+
+
+</body>
+</html>

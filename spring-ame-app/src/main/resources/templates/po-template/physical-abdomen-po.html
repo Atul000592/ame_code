@@ -1,0 +1,1265 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>AME DashBoard Controller</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+
+
+<style>
+input.invalid {
+	background-color: #ffdddd;
+}
+
+/* Hide all steps by default: */
+.tab {
+	display: none;
+}
+
+button {
+	background-color: #04AA6D;
+	color: #ffffff;
+	border: none;
+	padding: 10px 20px;
+	font-size: 17px;
+	font-family: Raleway;
+	cursor: pointer;
+}
+
+button:hover {
+	opacity: 0.8;
+}
+
+.step {
+	height: 15px;
+	width: 15px;
+	margin: 0 2px;
+	background-color: #bbbbbb;
+	border: none;
+	border-radius: 50%;
+	display: inline-block;
+	opacity: 0.5;
+}
+
+.step.active {
+	opacity: 1;
+}
+
+.tabstatus.active {
+	opacity: 1;
+}
+
+/* Mark the steps that are finished and valid: */
+.step.finish {
+	background-color: #04AA6D;
+}
+
+#regForm {
+	display: flow-root
+}
+
+.form-horizontal {
+	float: left;
+	width: 100%;
+}
+
+#menu2 .inputText {
+	width: 50%
+}
+
+#menu2 .inputText input {
+	width: 100%;
+}
+
+
+
+.form-horizontal .col-md-6 {
+	margin-bottom: 0px;
+	min-height: 50px;
+}
+
+.tabTop {
+	float: left;
+	width: 100%;
+	margin-bottom: 20px;
+	display: flex;
+	justify-content: center;
+}
+
+.tabTop li {
+	background: #07507b;
+	border-radius: 24px;
+	margin: 0 5px 15px 5px;
+}
+
+.tabTop li a {
+	padding: 10px 15px;
+	display: block;
+	color: #fff;
+	text-decoration: none;
+}
+
+.tabTop li:last-child {
+	border: none;
+}
+
+.tabTop li.active, .tabTop li:focus, .tabTop li:hover, .tabTop li.active a:hover,
+	.nav-tabs>li>a:hover {
+	background: #a9c659;
+	border-radius: 24px;
+}
+.hidden{
+	display:none;
+}
+</style>
+</head>
+
+
+<body>
+<div th:replace="~{medical-sub-ordinate/master-doc::master-wrapper-doc}"></div>
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+			<div th:replace="~{po-template/left-menu-po::sidebar-wrapper-menu-po}"></div>
+
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+						<div th:replace="~{po-template/nav-bar-po::sidebar-wrapper-menu-nav-po}"></div>
+
+
+			<div class="container mt-3">
+
+				<div class="wisecountnactionbg">
+
+					   <div th:replace="~{medical-sub-ordinate/inner-user-details::sidebar-wrapper-inner-user-details}"></div>
+										<!-- candidate details end-->
+
+
+					<div id="loading-overlay">
+						<div class="spinner"></div>
+					</div>
+<button class="btn btn-info float-end" type="button" id="load-previous-ame-form-data">Load previous AME data</button>
+
+					<div class="proc-box py-2 px-3 text-start">
+						<form id="regForm" method="Post"
+							action="assessment-physical-abdomen-save-update-ama">
+							<h4>
+								<b>Physical General Examination</b>
+							</h4>
+
+							<!-- One "tab" for each step in the form: -->
+
+							<ul class="nav nav-tabs tabTop">
+
+								<!-- <li><a data-toggle="tab" href="#menu2">Respiratory System</a></li> -->
+								<li class="tabstatus active"><a href="#menu1">Respiratory
+										System</a></li>
+								<li class="tabstatus"><a href="#menu2">Abdomen System</a></li>
+
+
+							</ul>
+
+
+
+							<div id="menu1" class="tab" style="display: block;">
+								<div class="form-horizontal">
+								
+								<div class="row">
+									<div class="col-md-3 my-2">
+
+										<label id="inputLabel1">Any Deformity of Chest:</label>
+										</div>
+										<div class="col-md-3 my-2"> <select
+											th:field="*{examDtoRequest.respiratorySystem.chestDeformityAny}"
+											class="form-select" id="chestDeformityAny">
+											<option
+												th:value="${examDtoRequest.respiratorySystem.chestDeformityAny}"
+												th:text="*{examDtoRequest.respiratorySystem.chestDeformityAny}">
+											</option>
+											<option th:each="innerList : ${respiratoryDropDown.c1}"
+												th:text="${innerList.value}" th:value="${innerList.value}">
+											</option>
+										</select> <span id="chestDeformityAny_error" class="error"></span>
+
+									</div>
+
+									<div class="col-md-3 my-2">
+
+										<label id="inputLabel1">Percussion</label>
+										</div>
+										<div class="col-md-3 my-2"> 
+										
+										<input type="text"
+											class="inputText form-control" placeholder="Percussion"
+											id="percussion"
+											th:field="*{examDtoRequest.respiratorySystem.percussion}"
+											value="" required> <span id="percussion_error"
+											class="error"></span>
+
+
+									</div>
+								<div class="col-md-3 my-2">
+
+										<label id="inputLabel1">Breath sounds</label>
+										</div>
+										<div class="col-md-3 my-2"> <input
+											type="text" class="inputText form-control"
+											placeholder="Breath sounds" id="breathSounds"
+											th:field="*{examDtoRequest.respiratorySystem.breathSounds}"
+											value="" required> <span id="breathSounds_error"
+											class="error"></span>
+
+									</div>
+
+									<div class="col-md-3 my-2">
+
+										<label id="inputLabel1">Adventitious Sounds:</label>
+										</div>
+										<div class="col-md-3 my-2"> <select
+											th:field="*{examDtoRequest.respiratorySystem.adventitiousSounds}"
+											class="form-select" id="adventitiousSounds">
+											<option
+												th:value="${examDtoRequest.respiratorySystem.adventitiousSounds}"
+												th:text="*{examDtoRequest.respiratorySystem.adventitiousSounds}">
+											</option>
+											<option th:each="innerList : ${respiratoryDropDown.c2}"
+												th:text="${innerList.value}" th:value="${innerList.value}">
+											</option>
+										</select>
+
+									</div>
+									<div class="col-md-6">
+										<span id="adventitiousSounds_error" class="error"></span>
+
+									</div>
+									<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+									<input type="hidden" name="forcepersonalId"
+										th:value="${forcepersonalId}"> <input type="hidden"
+										name="ameId" th:value="${ameId}" id="ameId">
+
+
+								</div>
+
+							</div>
+</div>
+
+
+
+
+							<div id="menu2" class="tab">
+
+								<div class="form-horizontal">
+
+
+					
+									
+												<h6 id="inputLabel1"> Abdomen System </h6>
+											
+
+								
+									<div class="row">
+									<div class="col-md-3 my-2">
+											<label id="inputLabel1"> Any Mass Palpable</label>
+										</div>
+
+											<div class="col-md-3 my-2">
+											<select th:field="*{examDtoRequest.abdomen.anyMassPalpable}"
+												class=" form-select" id="anyMassPalpable">
+												<option th:value="${examDtoRequest.abdomen.anyMassPalpable}"
+													th:text="*{examDtoRequest.abdomen.anyMassPalpable}">
+												</option>
+												<option th:each="innerList : ${abdominSystemDropDown.c1}"
+													th:text="${innerList.value}" th:value="${innerList.value}">
+												</option>
+											</select> <span id="anyMassPalpable_error" class="error"></span>
+										</div>
+
+
+										<div class="col-md-3 my-2">
+											<label id="inputLabel1"> Any Other Abnormality</label>
+										</div>
+											<div class="col-md-3 my-2">
+											<input type="text" class="form-control" 
+												id="anyOtherAbnormality"
+												th:field="*{examDtoRequest.abdomen.anyOtherAbnormality}">
+											<span id="anyOtherAbnormality_error" class="error"></span>
+										</div>
+
+									</div>
+									<div class="row">
+
+
+										<div class="col-md-3 my-2">
+											<label id="inputLabel1"> Piles Fissure</label>
+										</div>
+										<div class="col-md-3 my-2">
+											<select th:field="*{examDtoRequest.abdomen.pilesFissure}"
+												class="form-select" id="pilesFissure">
+												<option th:value="${examDtoRequest.abdomen.pilesFissure}"
+													th:text="*{examDtoRequest.abdomen.pilesFissure}">
+												</option>
+												<option th:each="innerList : ${abdominSystemDropDown.c2}"
+													th:text="${innerList.value}" th:value="${innerList.value}">
+												</option>
+											</select> <span id="pilesFissure_error" class="error"></span>
+										</div>
+
+
+									<div class="col-md-3 my-2">
+											<label id="inputLabel1"> Fistula</label>
+										</div>
+										<div class="col-md-3 my-2">
+											<select th:field="*{examDtoRequest.abdomen.fitsula}"
+												class="form-select" id="fitsula">
+												<option th:value="${examDtoRequest.abdomen.fitsula}"
+													th:text="*{examDtoRequest.abdomen.fitsula}"></option>
+												<option th:each="innerList : ${abdominSystemDropDown.c3}"
+													th:text="${innerList.value}" th:value="${innerList.value}">
+												</option>
+											</select> <span id="fitsula_error" class="error"></span>
+
+										</div>
+									</div>
+									<div>
+
+
+									</div>
+									<div class="row">
+											<div class="col-md-3 my-2">
+											<label id="inputLabel1">Prolapse Rectum</label>
+										</div>
+										
+										<div class="col-md-3 my-2">
+
+											<input type="text" class="form-control"
+												placeholder="Enter proponed Rectum"
+												th:field="*{examDtoRequest.abdomen.prolapseRectum}"
+												id="prolapseRectum"> <span id="prolapseRectum_error"
+												class="error"></span>
+										</div>
+
+
+										<!--   <div class="col-md-3">
+									<label id="inputLabel1">Prolapse:</label>
+									</div>
+									 <div class="col-md-3">
+									 
+									 <input type="text" class="form-control" placeholder="Enter prolapse" 
+										th:field="*{examDtoRequest.abdomen.prolapse}" value=""/>
+									<select th:field="*{examDtoRequest.abdomen.hernia}" class="inputText form-control" >
+										<option th:value="${examDtoRequest.abdomen.hernia}"
+											th:text="*{examDtoRequest.abdomen.hernia}">
+										</option>
+										<option th:each="innerList : ${abdominSystemDropDown.c4}"
+											th:text="${innerList.value}" th:value="${innerList.value}">
+										</option>
+									</select>
+
+								</div>  -->
+								
+									</div>
+									
+									
+									<!-- <div class="row">
+							
+					
+							 <div class="col-md-3">
+								<label id="inputLabel1">Proponed Rectum:</label>
+								</div>
+								 <div class="col-md-3">
+								<select th:field="*{examDtoRequest.abdomen.hernia}" class="form-control"
+									placeholder="Body Type" >
+									<option th:value="${examDtoRequest.abdomen.hernia}"
+										th:text="*{examDtoRequest.abdomen.hernia}">
+									</option>
+									<option th:each="innerList : ${abdominSystemDropDown.c4}"
+										th:text="${innerList.value}" th:value="${innerList.value}">
+									</option>
+								</select>
+
+							</div>
+								</div> -->
+								</div>
+								<!--	 <div class="col-md-6">
+	 <label id="inputLabel1">8. Hydrocele:</label>
+	 <input type="text" class="form-control" placeholder="" oninput="this.className = ''" id="abdomen.hydrocele" th:field="*{examDtoRequest.abdomen.hydrocele}" value="">
+	 
+	</div>
+	</div>-->
+	
+	
+	 <!-- Categorization starts -->
+	
+	<div class="clearfix"></div>
+									
+					<div class="row">
+						<div class="col-md-12">
+								<hr>
+								<h6>Categorization</h6>
+								<hr>
+						</div>
+					</div>
+
+
+				
+							
+							
+							  
+                 
+                    
+                    <div class="row">
+						<div class="col-md-3 mb-2">
+							<label><b>Category</b></label>
+						</div>
+						<div class="col-md-3 mb-2">
+							<select class="form-select"
+											th:field="*{examDtoRequest.abdomen.pNo}"
+											onchange="selectedValue()" id="abdomenCategory">
+											<option th:value="${examDtoRequest.abdomen.pNo}"
+												th:text="*{examDtoRequest.abdomen.pNo}"></option>
+
+											<option
+												th:each="refPhysicalTypesList:${refPhysicalTypesList}"
+												th:value="${refPhysicalTypesList.value}"
+												th:text="${refPhysicalTypesList.value}"></option>
+										</select> <span id="pNo_error" class="error"></span>
+						</div>
+					</div>
+                    
+                    
+					<div class="row" id="category-type-duration-div">
+						<div class="col-md-3 mb-2">
+							<label><b>Type</b></label>
+						</div>
+						<div class="col-md-3 mb-2">
+								<select class="form-select" th:field="*{examDtoRequest.abdomen.pType}" id="pType"
+								onchange="selectedDurationBasedOnType()">
+								<option th:value="${examDtoRequest.abdomen.pType}" th:text="*{examDtoRequest.abdomen.pType}?:'Select'"></option>
+								<option th:each="refPhysicalStatusList:${refPhysicalStatusList}" th:value="${refPhysicalStatusList.name}"
+									th:text="${refPhysicalStatusList.name}"></option>
+							</select> <span id="pType_error" class="error"></span>
+						</div>
+					
+						<div class="clearfix"></div>
+						<div class="col-md-3 mb-2">
+							<label><b>Duration</b></label>
+						</div>
+						<div class="col-md-3 mb-2" id="duration-div-for-temporary">
+						<select class="form-select" id="abdomenDuration"
+											th:field="*{examDtoRequest.abdomen.pDuration}" >
+											<option th:value="${examDtoRequest.abdomen.pDuration}"
+												th:text="*{examDtoRequest.abdomen.pDuration}?:'Select'">select
+											</option>
+											<option th:each="i: ${refPhysicalDurationsList}"
+												th:text="${i.value}" th:value="${i.cValue}"></option>
+										</select> <span id="pDuration_error" class="error"></span>
+						</div>
+					
+						<div class="col-md-3 mb-2 hidden" id="duration-div-for-permanent">
+							<select class="form-select" 
+											th:field="*{examDtoRequest.abdomen.pDuration}">
+											<option th:value="P-2">P-2 Yrs</option>
+										
+										</select> <span id="pDuration_error" class="error"></span>
+								
+						</div>
+					</div>
+                 
+ <!-- Categorization starts -->
+</div>
+							<hr>
+
+
+							<div class="d-grid gap-2 d-md-block">
+								<button type="button" class="btn btn-secondary"
+									onclick="backToHome()" style="width: 100px; float: left;">Back</button>
+								<button class="btn btn-primary" type="button" id="nextBtn"
+									style="width: 100px; float: right;">Next</button>
+								<button class="btn btn-success hidden me-3" type="submit"
+									id="submit-button" style="width: 100px; float: right; display: none;">Submit</button>
+								<button class="btn btn-info me-3" type="button" id="prevBtn"
+									onclick="nextPrev(-1)"
+									style="width: 100px; float: right;">Previous</button>
+
+
+							</div>
+							<div style="text-align: center; margin-top: 40px;">
+								<span class="step active"></span> <span class="step"></span>
+
+
+							</div>
+
+
+
+
+						</form>
+
+
+
+					</div>
+
+
+
+					<form th:action="@{declaration-requests-completed-ma}" method="post"
+						id="back-to-home">
+						<input type="hidden" name="forcepersonalId"	th:value="${forcepersonalId}"> 
+						<input type="hidden" th:value="${candidateForcePersonnelId}" name="candidateForcePersonnelId" id="candidateForcePersonnelId">
+						<input type="hidden" name="ameId" th:value="${ameId}">
+
+
+					</form>
+
+
+
+
+				</div>
+				<div th:replace="~{medical-sub-ordinate/alert-modal::message-alert-modal}"></div>
+				
+			</div>
+			<!-- /#page-content-wrapper -->
+
+		</div>
+		<!-- /#wrapper -->
+
+
+
+		<!-- Bootstrap core JavaScript -->
+	<!-- 	<script src="vendor/jquery/jquery.min.js"></script>
+		<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+		<script src="js/jquery.slicknav.min.js"></script>
+		<script src="js/dashboard.js"></script>
+ -->
+		<!-- Menu Toggle Script -->
+		<script>
+			$("#menu-toggle").click(function(e) {
+				e.preventDefault();
+				$("#wrapper").toggleClass("toggled");
+			});
+		</script>
+
+
+
+		<script>
+			document.addEventListener("DOMContentLoaded", function() {
+				setDefaultValues();
+				selectedValue();
+				selectedDurationBasedOnType();
+			});
+
+//---------------------Duration------------------//		 
+     function selectedDurationBasedOnType(){
+	 var categoryType=$('#pType').val();
+	
+	 var categoryDuration=$("#abdomenDuration").val();
+	 if(categoryType==='Permanent'){
+		 	 $('#duration-div-for-permanent').show();
+		 	 $('#duration-div-for-permanent').removeClass('hidden')
+		 	 $('#duration-div-for-temporary').hide();
+		 	 
+		 	
+	 }
+	 else if(categoryType==='Temporary'&& (categoryDuration==='P-2' || !categoryDuration)){
+		 $("#abdomenDuration").val('T-12');
+		 $('#duration-div-for-temporary').show();
+		 $('#duration-div-for-temporary').removeClass('hidden');
+	     $('#duration-div-for-permanent').hide();
+	 }
+	 
+	 else{
+		
+		 $('#duration-div-for-temporary').show();
+		 $('#duration-div-for-temporary').removeClass('hidden');
+	     $('#duration-div-for-permanent').hide();
+	 
+	 }
+	
+	
+	  
+ }
+
+
+
+
+		</script>
+
+
+
+		<script>
+			function backToHome() {
+
+				$("#back-to-home").submit();
+			}
+		</script>
+		<script>
+			function selectedValue() {
+				var value = $('#abdomenCategory').val();
+				if (value == 'P-1') {
+					$("#category-type-duration-div").hide();
+					
+				} else {
+					$("#category-type-duration-div").show();
+					
+				}
+
+			}
+		</script>
+
+		<script>
+			onload = function() {
+				var prevVal = document.getElementById('selectedPType').value;
+
+				selectValue(prevVal);
+				if (prevValue == 'P-1') {
+					$("#p_type").hide();
+					$("#p_type1").hide();
+					$("#p_duration").hide();
+				} else {
+					$("#p_type").show();
+					$("#p_type1").show();
+					$("#p_duration").show();
+				}
+			}
+
+			$(document).ready(function() {
+				var prevVal = document.getElementById('selectedPType').value;
+				selectValue(prevVal);
+
+				$('#backtotop').click(function() {
+					$("html, body").animate({
+						scrollTop : 0
+					}, 600);
+					return false;
+				});
+			});
+		</script>
+
+
+		<script>
+			$('.sub-menu ul').hide();
+			$('.sub-sub-menu ul').hide();
+			$(".sub-menu a").click(
+					function() {
+						$(this).parent(".sub-menu").children("ul").slideToggle(
+								"100");
+						$(this).find(".right").toggleClass(
+								"fa-caret-up fa-caret-down");
+					});
+
+			$(".sub-sub-menu a").click(
+					function() {
+						$(this).parent(".sub-sub-menu").children("ul")
+								.slideToggle("100");
+						$(this).find(".right").toggleClass(
+								"fa-caret-up fa-caret-down");
+					});
+		</script>
+
+
+
+		<!-- Signup Modal -->
+		<div class="modal fade" id="signout-modal" data-bs-backdrop="static"
+			data-bs-keyboard="false" tabindex="-1"
+			aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Sign Out?</h5>
+
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<!-- Modal body -->
+						<div class="modal-body">
+							<p class="text-center">Are you sure you want to Sign Out?</p>
+							<form action="sign-out">
+								<div class="row">
+									<div class="col-md-6">
+										<button type="submit" class="btn btn-primary">Sign
+											Out</button>
+									</div>
+									<div class="col-md-6">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Cancel</button>
+									</div>
+
+								</div>
+
+							</form>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<script src="vendor/jquery-ui/jquery-ui.js"></script>
+		<script>
+			$(function() {
+				$("#sortable-menu").sortable();
+				$("#sortable-menu").disableSelection();
+
+				$("#sortable-cards").sortable();
+				$("#sortable-cards").disableSelection();
+			});
+		</script>
+
+
+		<script>
+			$(function() {
+				$("#one-item-row").on("click", function() {
+					$(".b-customize").addClass("col-lg-12", 300);
+					$(".b-customize").removeClass("col-lg-4", 300);
+					$(".b-customize").removeClass("col-lg-6", 300);
+
+				});
+
+				$("#two-item-row").on("click", function() {
+					$(".b-customize").addClass("col-lg-6", 300);
+					$(".b-customize").removeClass("col-lg-4", 300);
+					$(".b-customize").removeClass("col-lg-12", 300);
+
+				});
+
+				$("#three-item-row").on("click", function() {
+					$(".b-customize").addClass("col-lg-4", 300);
+					$(".b-customize").removeClass("col-lg-6", 300);
+					$(".b-customize").removeClass("col-lg-12", 300);
+
+				});
+
+			});
+		</script>
+		<script>
+			var currentTab = 0; // Current tab is set to be the first tab (0)
+			showTab(currentTab); // Display the current tab
+
+			function showTab(n) {
+				// This function will display the specified tab of the form...
+
+				var x = document.getElementsByClassName("tab");
+				x[n].style.display = "block";
+				//... and fix the Previous/Next buttons:
+
+				if (n == 0) {
+					document.getElementById("prevBtn").style.display = "none";
+					document.getElementById("submit-button").style.display = "none";
+					document.getElementById("nextBtn").classList.remove("hidden");
+					document.getElementById("submit-button").classList.add("hidden");
+					document.getElementById("nextBtn").style.display = "block";
+				} else {
+					document.getElementById("prevBtn").style.display = "inline";
+				}
+				if (n == (x.length - 1)) {
+					document.getElementById("nextBtn").classList.add("hidden");
+					document.getElementById("nextBtn").style.display = "none";
+					document.getElementById("submit-button").classList.remove("hidden");
+					document.getElementById("prevBtn").style.display = "block";
+					document.getElementById("submit-button").style.display = "block";
+					
+				} else {
+					document.getElementById("nextBtn").innerHTML = "Next";
+				}
+				//... and run a function that will display the correct step indicator:
+				fixStepIndicator(n);
+				fixTabIndicator(n)
+			}
+
+			function nextPrev(n) {
+				// This function will figure out which tab to display
+				var x = document.getElementsByClassName("tab");
+				// Exit the function if any field in the current tab is invalid:
+				if (n == 1 && !validateForm())
+					return false;
+				// Hide the current tab:
+				x[currentTab].style.display = "none";
+				// Increase or decrease the current tab by 1:
+				currentTab = currentTab + n;
+				// if you have reached the end of the form...
+				if (currentTab >= x.length) {
+					// ... the form gets submitted:
+					document.getElementById("regForm").submit();
+					return false;
+				}
+				// Otherwise, display the correct tab:
+				showTab(currentTab);
+			}
+
+			function validateForm() {
+				// This function deals with validation of the form fields
+				var x, y, i, valid = true;
+				x = document.getElementsByClassName("tab");
+				y = x[currentTab].getElementsByTagName("input");
+				// A loop that checks every input field in the current tab:
+				for (i = 0; i < y.length; i++) {
+					// If a field is empty...
+					if (y[i].value == "") {
+						// add an "invalid" class to the field:
+						y[i].className += " invalid";
+						// and set the current valid status to false
+						valid = false;
+					}
+				}
+				// If the valid status is true, mark the step as finished and valid:
+				if (valid) {
+					document.getElementsByClassName("step")[currentTab].className += " finish";
+				}
+				return valid; // return the valid status
+			}
+
+			function fixStepIndicator(n) {
+				// This function removes the "active" class of all steps...
+				var i, x = document.getElementsByClassName("step");
+				for (i = 0; i < x.length; i++) {
+					x[i].className = x[i].className.replace(" active", "");
+				}
+				//... and adds the "active" class on the current step:
+				x[n].className += " active";
+			}
+			function fixTabIndicator(n) {
+				// This function removes the "active" class of all steps...
+				var i, x = document.getElementsByClassName("tabstatus");
+				for (i = 0; i < x.length; i++) {
+					x[i].className = x[i].className.replace(" active", "");
+				}
+				//... and adds the "active" class on the current step:
+				x[n].className += " active";
+			}
+		</script>
+		<script>
+			function selectValue(e) {
+				var i = e.value;
+				if (i == 'P-1') {
+					$("#p_type").hide();
+					$("#p_type1").hide();
+					$("#p_duration").hide();
+				} else {
+					$("#p_type").show();
+					$("#p_type1").show();
+					$("#p_duration").show();
+				}
+
+			}
+		</script>
+
+
+		<script>
+$(document).ready(function() {
+	$('#nextBtn').click(function(event) {
+		event.preventDefault();
+		
+		$('#loading-overlay').show();
+		$('body').addClass('loading');
+        
+		var ameId=$("#ameId").val();
+		var chestDeformityAny=$("#chestDeformityAny").val();
+		var percussion=$("#percussion").val();
+		var breathSounds=$("#breathSounds").val();
+		var adventitiousSounds=$("#adventitiousSounds").val();
+		
+		
+		var data={
+				ameId:ameId,
+				chestDeformityAny:chestDeformityAny,
+		        percussion:percussion,
+		        breathSounds:breathSounds,
+		        adventitiousSounds:adventitiousSounds
+				
+				
+		};
+		
+		
+		
+		
+		
+		
+		
+
+		/* ===================header==================== */
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		$('.error').text('');
+
+
+
+
+		$.ajax({
+			type: 'POST',
+			url: 'validate-respiratory',
+			data:JSON.stringify(data),
+			contentType: 'application/json',
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(header, token);
+			},
+			success: function(response) {
+				if (response.isValid) {
+					nextPrev(1);
+					 }
+
+				else {  
+					
+					$.each(response.errors, function(field, errorMessage) {
+						 $('#' + field + '_error').text(errorMessage);
+						 });
+					}
+				
+},
+complete: function() {
+    $('#loading-overlay').hide();
+    $('body').removeClass('loading');
+},
+			error: function(xhr, status, error) {
+
+				alert("Please fill the form again somthing went WRONG!");
+				console.error(error);
+			}
+		});
+	});
+});
+
+
+
+$(document).ready(function() {
+	$('#regForm').submit(function(event) {
+		event.preventDefault();
+		
+		$('#loading-overlay').show();
+		$('body').addClass('loading');
+        
+		var ameId=$("#ameId").val();
+		
+		//=========Respiratory=========//
+		var chestDeformityAny=$("#chestDeformityAny").val();
+		var percussion=$("#percussion").val();
+		var breathSounds=$("#breathSounds").val();
+		var adventitiousSounds=$("#adventitiousSounds").val();
+		
+		//=========Abdomen=========//
+		
+		var pilesFissure=$("#pilesFissure").val();
+		var fitsula=$("#fitsula").val();
+		var prolapseRectum=$("#prolapseRectum").val();
+		var anyMassPalpable=$("#anyMassPalpable").val();
+		var anyOtherAbnormality=$("#anyOtherAbnormality").val();
+		var pNo=$("#abdomenCategory").val();
+		var pType=$("#pType").val();
+		if(pType=='Permanent'){
+        var pDuration="P-2";
+	    }
+		else{
+				var pDuration=$("#abdomenDuration").val();
+		}
+	
+		
+		var data1={
+				ameId:ameId,
+				chestDeformityAny:chestDeformityAny,
+		        percussion:percussion,
+		        breathSounds:breathSounds,
+		        adventitiousSounds:adventitiousSounds
+				
+				
+		};
+		var data2={
+				ameId:ameId,
+                pilesFissure:pilesFissure,
+				fitsula:fitsula,
+				prolapseRectum:prolapseRectum,
+				anyMassPalpable:anyMassPalpable,
+				anyOtherAbnormality:anyOtherAbnormality,
+				pNo:pNo,
+				pType:pType,
+				pDuration:pDuration
+				
+        };
+		
+		
+   var dataToSend={
+				data1:data1,
+				data2:data2
+				
+		};
+		
+				
+
+		/* ===================header==================== */
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		$('.error').text('');
+
+
+
+
+		$.ajax({
+			type: 'POST',
+			url: 'validate-and-save-respiratory-and-abdomen',
+			data:JSON.stringify(dataToSend),
+			contentType: 'application/json',
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(header, token);
+			},
+			success: function(response) {
+				if (response.isValid) {
+					 $('#alert-modal .modal-title').text('Success');
+			            $('#alert-modal .modal-body h3').text(response.message);
+			            
+			            $('#alert-modal .modal-body i').removeClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+			                                             .addClass('fas fa-check-circle faa-tada animated')
+			                                             .removeAttr('style');
+			            
+			            $("#cross-close-button").attr('onclick', 'backToHome()');
+			            $("#okay-close-button").attr('onclick', 'backToHome()');
+			            $('#alert-modal').modal({
+			                backdrop: 'static',
+			                keyboard: false
+			              });
+						  	            $('#alert-modal').modal('show');
+						  
+					 }
+
+				else {  
+					
+					$.each(response.errors, function(field, errorMessage) {
+						 $('#' + field + '_error').text(errorMessage);
+						 });
+					}
+				
+},
+complete: function() {
+    $('#loading-overlay').hide();
+    $('body').removeClass('loading');
+},
+			error: function(xhr, status, error) {
+
+				if(xhr.responseText){
+
+					$('#alert-modal .modal-title').text('ERROR');
+		            $('#alert-modal .modal-body h3').text(xhr.responseText);
+		            
+		           $('#alert-modal .modal-body i')  .addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+	               .css('color', 'red');
+		           $('#alert-modal').modal({
+		                backdrop: 'static',
+		                keyboard: false
+		              });
+		            $('#alert-modal').modal('show');
+				}
+					
+					else{
+						$('#alert-modal .modal-title').text('ERROR');
+			            $('#alert-modal .modal-body h3').text('Server not responding please sign-in again');
+			            
+			            $('#alert-modal .modal-body i').addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+		                                               .css('color', 'red');
+			            $('#alert-modal').modal({
+			                backdrop: 'static',
+			                keyboard: false
+			              });
+			            $('#alert-modal').modal('show');
+						
+					}
+			}
+		});
+	});
+});
+
+
+//-------------Default values----------//
+function setDefaultValues() {
+
+	//=========Respiratory=========//
+	var chestDeformityAny=$("#chestDeformityAny").val();
+	var percussion=$("#percussion").val();
+	var breathSounds=$("#breathSounds").val();
+	var adventitiousSounds=$("#adventitiousSounds").val();
+	
+	//=========Abdomen=========//
+	
+	var pilesFissure=$("#pilesFissure").val();
+	var fitsula=$("#fitsula").val();
+	var prolapseRectum=$("#prolapseRectum").val();
+	var anyMassPalpable=$("#anyMassPalpable").val();
+	var anyOtherAbnormality=$("#anyOtherAbnormality").val();
+	var pNo=$("#abdomenCategory").val();
+	
+	if(!chestDeformityAny){
+		$("#chestDeformityAny").val('Absent');
+		
+	}
+	if(!percussion){
+		$("#percussion").val('NAD');
+		
+	}
+	if(!breathSounds){
+		$("#breathSounds").val('NAD');
+		
+	}
+	if(!adventitiousSounds){
+		$("#adventitiousSounds").val('Absent');
+		
+	}
+	
+	if(!pilesFissure){
+		$("#pilesFissure").val('Absent');
+		
+	}
+	
+	if(!fitsula){
+		$("#fitsula").val('Absent');
+		
+	}
+	
+	if(!prolapseRectum){
+		$("#prolapseRectum").val('NIL');
+		
+	}
+	
+	if(!anyMassPalpable){
+		$("#anyMassPalpable").val('Not Palpable');
+		
+	}
+	if(!anyOtherAbnormality){
+		$("#anyOtherAbnormality").val('NIL');
+		
+	}
+	if(!pNo){
+		$("#abdomenCategory").val('P-1');
+		
+	}
+}
+
+
+//---------------------load previous data---------------------//
+
+$(document).ready(function(){
+	  $("#load-previous-ame-form-data").click(function(){
+		  event.preventDefault();
+		$('#loading-overlay').show();
+		$('body').addClass('loading');
+		
+    const token = $("meta[name='_csrf']").attr("content");
+	const header = $("meta[name='_csrf_header']").attr("content");
+	const formId='P';
+	const candidateForcePersonnelId=$("#candidateForcePersonnelId").val();
+	
+	dataToSend={
+			formId:formId,
+			candidateForcePersonnelId:candidateForcePersonnelId
+	},
+		 $.ajax({
+			 type:"POST",
+			 url:'get-force-personnel-previous-ame-forms-details',
+			 data:JSON.stringify(dataToSend),
+			 contentType:"application/JSON",
+			 beforeSend: function(xhr) {
+					xhr.setRequestHeader(header, token);
+				},
+		     success:function(response){
+		    	 if(response.isValid){
+		    		 
+		    		//=========Respiratory=========//
+		    			
+		    		    $("#chestDeformityAny").val(response.respiratorySystemAmeIdData.chestDeformityAny);
+		    			$("#percussion").val(response.respiratorySystemAmeIdData.percussion);
+		    			$("#breathSounds").val(response.respiratorySystemAmeIdData.breathSounds);
+		    			$("#adventitiousSounds").val(response.respiratorySystemAmeIdData.adventitiousSounds);
+		    			
+		    		//=========Abdomen=========//
+		    			
+		    			$("#pilesFissure").val(response.abdomenByAmeIdData.pilesFissure);
+		    			$("#fitsula").val(response.abdomenByAmeIdData.fitsula);
+		    			$("#prolapseRectum").val(response.abdomenByAmeIdData.prolapseRectum);
+		    			$("#anyMassPalpable").val(response.abdomenByAmeIdData.anyMassPalpable);
+		    			$("#anyOtherAbnormality").val(response.abdomenByAmeIdData.anyOtherAbnormality);
+		    			$("#abdomenCategory").val(response.abdomenByAmeIdData.pNo);
+		    			$("#pType").val(response.abdomenByAmeIdData.pType);
+		    			$("#abdomenDuration").val(response.abdomenByAmeIdData.pDuration);
+		    			
+		    		
+		    			
+		    		 
+		    		  selectedValue();
+		    		  selectedDurationBasedOnType();
+		    			
+		   			    $('#alert-modal .modal-title').text('Success');
+			            $('#alert-modal .modal-body h3').text(response.message);
+			            $('#alert-modal .modal-body i').removeClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+			                                             .addClass('fas fa-check-circle faa-tada animated')
+			                                             .removeAttr('style');
+			            
+			            $('#alert-modal').modal({
+			                backdrop: 'static',
+			                keyboard: false
+			              });
+						  	            $('#alert-modal').modal('show');
+	    		
+		    		
+		    	 }
+		    	 else{
+		    		 $('#alert-modal .modal-title').text('ERROR');
+			         $('#alert-modal .modal-body h3').text(response.errors.noRecordAvailable);
+			         $('#alert-modal .modal-body i').addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+		                                               .css('color', 'red');
+			         $('#alert-modal').modal({
+			                backdrop: 'static',
+			                keyboard: false
+			              });
+			         $('#alert-modal').modal('show');
+		    	 }
+		    	 
+		    	
+		    	 
+		     },
+		 complete:function(){
+			   $('#loading-overlay').hide();
+			   $('body').removeClass('loading');
+		 },
+			error: function(xhr, status, error) {
+				if(xhr.responseText){
+
+					$('#alert-modal .modal-title').text('ERROR');
+		            $('#alert-modal .modal-body h3').text(xhr.responseText);
+		            
+		           $('#alert-modal .modal-body i')  .addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+	               .css('color', 'red');
+		           $('#alert-modal').modal({
+		                backdrop: 'static',
+		                keyboard: false
+		              });
+		            $('#alert-modal').modal('show');
+				}
+					
+					else{
+						$('#alert-modal .modal-title').text('ERROR');
+			            $('#alert-modal .modal-body h3').text('Server not responding please sign-in again');
+			            
+			            $('#alert-modal .modal-body i').addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+		                                               .css('color', 'red');
+			            $('#alert-modal').modal({
+			                backdrop: 'static',
+			                keyboard: false
+			              });
+			            $('#alert-modal').modal('show');
+						
+					}
+			}
+		 })
+		  
+	  })
+	  
+})
+
+
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+
+<div class="dashboard-bgcolor border-right" id="sidebar-wrapper" th:fragment="sidebar-wrapper-menu-cpf">
+
+	<div class="sidebar-heading">
+
+		<img src="images/collage_CAPF.jpg" title="collage_CAPF" alt="collage_CAPFo" width="40px"
+			class="rounded-circle me-2"> <span>
+			Annual Medical Examinations(AME)</span>
+
+
+
+	</div>
+
+
+	<div class="list-group list-group-flush b-leftmenu">
+
+		<ul id="sortable-menu">
+
+			<li><a href='dashboard-user'><i class="bi bi-house"></i> Home</a></li>
+			<li><a href='mg-FadorCAPF-dash-board'><i class="bi bi-person-vcard"></i> Admin DashBoard</a></li>
+
+
+
+			<li class='sub-menu'><a href='javascript:void(0)'><i class="bi bi-gear-wide-connected"></i> Role <i class="bi bi-chevron-down"></i></a>
+				<ul>
+					<li><a class="b-newpage" href="assign-new-role-to-FadorCAPF">Assign</a></li>
+					<li><a class="b-newpage" href="show-all-assign-user-role">List</a></li>
+					<li><a class="b-newpage" href="manage-all-existing-user-role">Modification</a></li>
+				</ul>
+			</li>
+
+			<li class='sub-menu' th:if="${rCode==11||rCode==5}" ><a href='javascript:void(0)'><i class="bi bi-person-vcard"></i> Contact Us <i class="bi bi-chevron-down"></i></a>
+				<ul>
+					<li><a class="b-newpage" href="add-contact-us">Create</a></li>
+					<li><a class="b-newpage" href="edit-contact-us">Edit</a></li>
+				</ul>
+			</li>
+			
+			<li class='sub-menu'><a href='javascript:void(0)'><i class="bi bi-folder-symlink"></i>Data Transfer Status <i class="bi bi-chevron-down"></i></a>
+				<ul><li><a class="b-newpage" href="#">Data Transfer Status </a></li></li>
+		</ul>
+		<li class='sub-menu'><a href='javascript:void(0)'><i class="bi bi-inboxes"></i>View Logs </a><ul></ul>
+		</li>
+		
+		<li th:if="${rCode==11||rCode==5}" class='sub-menu'><a href='javascript:void(0)'><i class="bi bi-file-medical"></i> Doctors
+			<i class="bi bi-chevron-down"></i>
+		</a>
+
+			<ul>
+				<li><a class="b-newpage" href="identity-doctor-for-force">Identify Doctor</a></li>
+                <li><a class="b-newpage" href="doctor-list">View Doctor's</a></li>
+                <li><a class="b-newpage" href="#">Modified Doctor's</a></li>
+			</ul>
+		</li>
+
+	     <li  class='sub-menu' th:if="${rCode==11||rCode==5}" ><a href='javascript:void(0)'><i class="bi bi-joystick"></i> Controlling
+			<i class='fa fa-caret-down'></i>
+		</a>
+
+			<ul>
+				<!-- map-individual-to-controlling -->
+				<li><a class="b-newpage" href="get-controlling-officer-list">Map Individual to Controlling</a></li>
+
+                <li><a class="b-newpage" href="get-map-individual-to-reporting-list">View Controlling </a></li>
+                
+			</ul>
+		</li>
+
+
+
+		<li class='sub-menu'><a href='javascript:void(0)'><i class="bi bi-exclamation-triangle"></i> Notifications
+				<i class="bi bi-chevron-down"></i>
+			</a>
+			<ul>
+				<li><a class="b-newpage" href="add-notifications">create </a></li>
+				<li><a class="b-newpage" href="view-active-notifications">view
+					</a></li>
+		</li>
+
+		
+	</li>
+
+
+
+	</div>
+
+</div>
+</div>
+
+
+
+
+</html>

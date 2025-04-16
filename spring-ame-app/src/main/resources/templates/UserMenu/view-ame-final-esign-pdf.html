@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <title>Ame Application Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9; /* Light background for contrast */
+        }
+        h1 {
+            font-size: 28px;
+            color: #333; /* Darker color for better visibility */
+            margin-bottom: 20px; /* Space below the heading */
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-top: 20px; /* Space above the container */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+            background: #fff; /* White background for content */
+            border-radius: 8px; /* Rounded corners */
+            padding: 20px; /* Padding inside the container */
+        }
+        .pdf-container {
+            width: 50%;
+            padding-right: 20px; /* Space to the right */
+        }
+        .consent-section {
+            width: 40%;
+            padding-left: 20px; /* Space to the left */
+        }
+        .consent-section p {
+            margin: 10px 0;
+            line-height: 1.6; /* Improved line spacing for readability */
+            color: #555; /* Slightly lighter text for better contrast */
+        }
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+        input[type="checkbox"] {
+            margin-right: 10px; /* Space between checkbox and label */
+        }
+        .esign-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer;
+            transition: background-color 0.3s; /* Smooth transition */
+        }
+        .esign-button:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+        .footer {
+            margin-top: 20px; /* Space below the consent section */
+            font-size: 12px;
+            color: #777; /* Lighter color for footer text */
+            text-align: center; /* Centered footer text */
+        }
+    </style>
+</head>
+<body>
+    <h1>Ame Final  Application Report</h1>
+    
+    <div class="container">
+        <div class="pdf-container">
+            <embed th:src="@{/viewAmeFinalPdf(ameId=${ameId}, forcepersonalId=${forcepersonalId})}" type="application/pdf" width="100%" height="600px">    
+        </div>
+        
+        <div class="consent-section">
+            <p>Please check the box to provide consent to the below option:</p>
+            <p>
+                I hereby state that I have no objection in authenticating myself with the Aadhaar-based authentication system and consent to providing my Aadhaar number, biometric, and/or One Time Pin (OTP) data for Aadhaar-based authentication for the purpose of availing the e-sign service from NIC. I understand that the biometrics and/or OTP I provided for authentication shall be used only for authenticating my identity through the Aadhaar Authentication system, for obtaining my e-KYC through the Aadhaar e-KYC service. This is my consent.
+            </p>
+            
+            <div class="checkbox-label">
+                <input type="checkbox" id="consentCheckbox" name="consent" required>
+                <label for="consentCheckbox">
+                    I understand that NIC shall ensure security and confidentiality of my personal identity data provided for the purpose of Aadhaar-based authentication.
+                </label>
+            </div>
+
+            <form id="pdf-form" th:action="@{esign-pdf}" method="get" >
+                <input type="hidden" name="ameId" id="hidden-ame-id-form" th:value="${ameId}" />
+                <input type="hidden" name="forcePersonalId" th:value="${forcepersonalId}" />
+                <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+                <input type="hidden" value="f" name="fileCode"> 
+                
+                <button type="submit" class="esign-button" id="esignButton" disabled>e-Sign</button>
+            </form>
+            <script>
+                const consentCheckbox = document.getElementById("consentCheckbox");
+                const esignButton = document.getElementById("esignButton");
+            
+                // Listen for checkbox changes
+                consentCheckbox.addEventListener("change", function () {
+                    esignButton.disabled = !this.checked;
+                });
+            </script>
+        </div>
+    </div>
+
+    <div class="footer">
+        &copy; 2024 Ame Application. All rights reserved.
+    </div>
+
+   
+</body>
+
+</html>

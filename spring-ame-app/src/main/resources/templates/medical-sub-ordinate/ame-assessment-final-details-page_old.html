@@ -1,0 +1,602 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>AME DashBoard Controller</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<div th:replace="~{medical-sub-ordinate/master-doc::master-wrapper-doc}"></div>
+
+
+</head>
+
+
+<body>
+
+
+<!-- wrapper -->
+	<div class="d-flex" id="wrapper">
+     
+		<!-- Sidebar -->
+		<div
+			th:replace="~{medical-sub-ordinate/left-menu-ama::sidebar-wrapper-menu-ama}"></div>
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content wrapper -->
+		<div id="page-content-wrapper">
+
+			<div
+				th:replace="~{medical-sub-ordinate/nav-bar::sidebar-wrapper-menu-nav-ama}"></div>
+
+
+			<form class="bg-light p-4 b-dbcard main-container" method="post">
+
+					
+						<h5 style="text-align: center;">
+							AME FINAL DETAILS
+						</h5>
+						
+						
+						<div class="container-1">
+						
+						<div class="heading-content" >
+							
+							<h5>
+								Personnel Details
+							</h5>
+							<hr>
+							
+						</div>
+						<div class="row">
+							<label for="" class="col-3">IRLA
+									No./Force No.:</label>
+							<div class="col-3">
+								<span th:text="${forcePersonalDetails.irlaNumber}" class=""></span>
+							</div>
+
+							<label for="" class="col-3">Name:</label>
+							<div class="col-3">
+								<span th:text="${forcePersonalDetails.Name}"></span>
+							</div>
+
+						</div>
+						<div class="row">
+							<label for="" class="col-md-3">Rank:</label>
+							<div class="col-sm-3">
+								<span th:text="${forcePersonalDetails.rank}"></span>
+
+							</div>
+
+							<label for="" class="col-3">Gender:</label>
+							<div class="col-md-3">
+								<span th:text="${forcePersonalDetails.gender}"> </span>
+							</div>
+
+						</div>
+						<div class="row">
+
+
+
+							<label for="" class="col-md-3">Force:</label>
+							<div class="col-md-3">
+								<span th:text="${forcePersonalDetails.forceName}"></span>
+							</div>
+							<label for="" class="col-3">Unit:</label>
+							<div class="col-md-3">
+								<span th:text="${forcePersonalDetails.unitName}"></span>
+							</div>
+
+
+						</div>
+						<div class="row">
+
+
+
+
+							<label for="" class="col-md-3">Date
+									of birth:</label>
+							<div class="col-md-3">
+								<span
+									th:text="${#dates.format(forcePersonalDetails.dob,'dd-MM-yyyy')}"></span>
+							</div>
+
+							<label for="" class="col-3">Date
+									of Joining:</label>
+							<div class="col-md-3">
+								<span
+									th:text="${#dates.format(forcePersonalDetails.doj,'dd-MM-yyyy')}"></span>
+							</div>
+
+
+						</div>
+						<div class="row mb-3">
+
+
+
+							<label for="" class="col-md-3">Date
+									of Declaration:</label>
+							<div class="col-md-3">
+								<span th:text="${#dates.format(declarationDate, 'dd-MM-yyyy')}"></span>
+
+							</div>
+
+
+						</div>
+
+</div>
+
+
+
+
+
+						
+
+					
+				<div class="container-2">
+
+<div class="heading-content" >
+							
+							<h5>
+								Board Member Details         
+							</h5>
+							<hr>
+							
+							
+					<div class="row">
+
+						<label for="" class="col-4">Medical
+								Board For:</label>
+						<div class="col-2">
+							<span th:text="${medicalBoard.gFlag}"></span>
+
+						</div>
+						<label for="" class="col-4">Medical
+								Examination Type:</label>
+						<div class="col-2">
+							<span th:text="${medicalBoard.useFor}"></span>
+
+						</div>
+
+
+					</div>
+
+					<div class="row">
+
+
+
+						<label for="" class="col-4">Situated
+								At(Place):</label>
+						<div class="col-2">
+							<span th:text="${medicalBoard.place}"></span>
+
+						</div>
+						<label for="" class="col-4">Medical
+								Examination Year:</label>
+						<div class="col-2">
+							<span th:text="${medicalBoard.boardYear}"></span>
+
+						</div>
+
+
+					</div>
+
+					<div class="row ">
+
+                    <label for="" class="col-4">Constituted On:</label>
+						<div class="col-2">
+							<span
+								th:text="${#dates.format(medicalBoard.createdOn,'dd-MM-yyyy')}"></span>
+
+						</div>
+
+
+				
+
+
+						
+						
+						
+							<label for="" class="col-3">Force
+								Name:</label>
+						<div class="col-3">
+							<span th:text="${medicalBoard.createdForForce}"></span>
+
+						</div>
+						
+						
+
+					</div>
+					
+					
+					<hr>
+					<div class="row">
+					<label for="" class="col-4">Board Constituted By:</label>
+						<div class="col">
+							<span th:text="${medicalBoard.createdBy} +' / '+ ${medicalBoard.name} +' / ' + ${medicalBoard.createdByRank}"></span>
+
+						</div>
+					
+					</div>
+					
+					
+					
+					
+					
+					
+				</div>
+
+				
+				<div class="container-3">
+						<div class="heading-content" >
+					
+					<h5>Medical Board Member Details</h5>
+					
+				</div>
+					
+						<table class="a">
+							<thead>
+								<tr>
+
+								</tr>
+								<tr>
+									<th>Force Name</th>
+									<th>Force ID</th>
+									<th>Name</th>
+									<th>Designation</th>
+
+									<th>Assigned role</th>
+									<!-- <th>Action</th>
+ -->
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="medicalBoardMember : ${medicalBoardMemberDtoList}"
+									 class="memberData">
+									<td th:text="${medicalBoardMember.forceCodeName}"></td>
+									<td th:text="${medicalBoardMember.forcePersonalId}"></td>
+									<td th:text="${medicalBoardMember.Name}"></td>
+									<td th:text="${medicalBoardMember.designation}"></td>
+
+									<!-- <td th:text="${individual.country}"></td>-->
+									<td th:text="${medicalBoardMember.roleName}"></td>
+									<!-- <td>
+												<form>
+													<input type="hidden" name="boardId" th:value="${boardId}" id="boardId">
+													<input type="hidden" name="boardMemberForcePersonalId" th:value=" ${medicalBoardMember.forcePersonalId}" id="boardMemberForcePersonalId">
+													<input type="hidden" name="roleName" th:value="${medicalBoardMember.roleName}" id="roleNameId">
+													    
+													<input type="button" value="Edit"  onclick="transferRole(this)">
+												</form> -->
+
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+
+
+
+				<div class="conatiner-4">
+
+						
+				<div class="heading-content" >
+					
+					<h5>
+						<i class=""></i>Final Categorizations
+					</h5>
+					<hr>
+				</div>
+						
+						
+						
+						<div class="row">
+							<label for="" class="col-2">Appendages:</label>
+							<div class="col-10">
+							<table class="a">
+								<tr >
+									<th>Upper Limb Shape</th>
+									<th>Lower Limb Shape</th>
+									<th>Spine Shape</th>
+									
+								</tr>
+								<tr>
+								
+								    <td th:text="${ameMasterStatus.upperLimbShape}"/>
+									<td th:text="${ameMasterStatus.lowerLimbShape}"/>
+									<td th:text="${ameMasterStatus.spineShape}"/>
+									
+								</tr>
+							</table>
+						</div>
+						</div>
+						<br>
+						<div class="row">
+							<label for="" class="col-2">Eye:</label>
+							<div class="col-10">
+							<table class="a">
+								<tr>
+									<th>Left Eye Shape</th>
+									<th>Right Eye Shape</th>
+									
+								</tr>
+								<tr>
+									<td th:text="${ameMasterStatus.leftEyeShape}"></td>
+									<td th:text="${ameMasterStatus.rightEyeShape}"></td>
+									
+								</tr>
+							</table>
+						</div>
+						</div>
+					<div class="row" th:text="${ameMasterStatus.gynaecologyShape}">
+						<label for="" class="col-sm-2">Gynecology:</label>
+						<div class="col-sm-4">
+							<span th:text="${ameMasterStatus.gynaecologyShape}"></span>
+						</div>
+					</div>
+					<div class="row">
+							<label for="" class="col-sm-2">Hearing:</label>
+							<div class="col-sm-4" >
+								<span th:text="${ameMasterStatus.hearingShape}"></span>
+							</div>
+						</div>
+
+
+						<div class="row">
+							<label for="" class="col-sm-2">Physical:</label>
+							<div class="col-sm-4">
+								<span  th:text="${ameMasterStatus.physicalShape}"> </span>
+							</div>
+						</div>
+
+
+						<div class="row">
+							<label for="" class="col-sm-2">Psychology:</label>
+							<div class="col-sm-4">
+								<span th:text="${ameMasterStatus.psycological_shape}"></span>
+							</div>
+						</div>
+
+						
+
+
+
+						<div class="row mb-3">
+							<label for="title" class="col-3">Final
+									Shape Awarded:</label>
+							<div class="col-9">
+								<textarea class="form-control"
+									placeholder="Enter Final Shape Awarded" required></textarea>
+							</div>
+						</div>
+
+
+
+
+
+
+						<div class="row mb-3">
+							<label for="title" class="col-3">Advice/Employability/restriction(s)if
+									any:</label>
+							<div class="col-9">
+								<textarea class="form-control"
+									placeholder="Enter Advice/Employability/restriction(s)if any"
+									required></textarea>
+							</div>
+						</div>
+
+
+
+					</div>
+
+					<hr>
+
+
+
+
+
+
+<div class="col-12">
+						
+	<button class="btn btn-secondary" onclick="backToHome()" style="vertical-align: middle; margin: auto; display: inline-block; width: 100px;">Back</button>
+						
+	<button  class="btn btn-success" style="vertical-align: middle; margin: auto;  float:right;width: 100px;" th:value="${ameId}" id="ameId">Submit</button>
+</div>
+					
+					
+				</form>
+			<form th:action="@{/back-to-index-page-ama}" method="post"
+				id="back-to-home">
+				<input type="hidden" name="forcepersonalId"
+					th:value="${forcepersonalId}"> <input type="hidden"
+					name="ameId" th:value="${ameId}">
+					</form>
+		</div>
+	<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+	<script>
+		function backToHome() {
+
+			$("#back-to-home").submit();
+		}
+	</script>
+
+	<!-- Bootstrap core JavaScript -->
+	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="js/jquery.slicknav.min.js"></script>
+	<script src="js/dashboard.js"></script>
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function() {
+			$('#backtotop').click(function() {
+				$("html, body").animate({
+					scrollTop : 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function() {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function() {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+	
+
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function() {
+			$("#one-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+	<script>
+		var currentTab = 0; // Current tab is set to be the first tab (0)
+		showTab(currentTab); // Display the current tab
+
+		function showTab(n) {
+			// This function will display the specified tab of the form...
+			var x = document.getElementsByClassName("tab");
+			x[n].style.display = "block";
+			//... and fix the Previous/Next buttons:
+
+			if (n == 0) {
+				document.getElementById("prevBtn").style.display = "none";
+			} else {
+				document.getElementById("prevBtn").style.display = "inline";
+			}
+			if (n == (x.length - 1)) {
+				document.getElementById("nextBtn").innerHTML = "Submit";
+			} else {
+				document.getElementById("nextBtn").innerHTML = "Next";
+			}
+			//... and run a function that will display the correct step indicator:
+			fixStepIndicator(n);
+			fixTabIndicator(n)
+		}
+
+		function nextPrev(n) {
+			// This function will figure out which tab to display
+			var x = document.getElementsByClassName("tab");
+			// Exit the function if any field in the current tab is invalid:
+			if (n == 1 && !validateForm())
+				return false;
+			// Hide the current tab:
+			x[currentTab].style.display = "none";
+			// Increase or decrease the current tab by 1:
+			currentTab = currentTab + n;
+			// if you have reached the end of the form...
+			if (currentTab >= x.length) {
+				// ... the form gets submitted:
+				document.getElementById("regForm").submit();
+				return false;
+			}
+			// Otherwise, display the correct tab:
+			showTab(currentTab);
+		}
+
+		function validateForm() {
+			// This function deals with validation of the form fields
+			var x, y, i, valid = true;
+			x = document.getElementsByClassName("tab");
+			y = x[currentTab].getElementsByTagName("input");
+			// A loop that checks every input field in the current tab:
+			for (i = 0; i < y.length; i++) {
+				// If a field is empty...
+				if (y[i].value == "") {
+					// add an "invalid" class to the field:
+					y[i].className += " invalid";
+					// and set the current valid status to false
+					valid = false;
+				}
+			}
+			// If the valid status is true, mark the step as finished and valid:
+			if (valid) {
+				document.getElementsByClassName("step")[currentTab].className += " finish";
+			}
+			return valid; // return the valid status
+		}
+
+		function fixStepIndicator(n) {
+			// This function removes the "active" class of all steps...
+			var i, x = document.getElementsByClassName("step");
+			for (i = 0; i < x.length; i++) {
+				x[i].className = x[i].className.replace(" active", "");
+			}
+			//... and adds the "active" class on the current step:
+			x[n].className += " active";
+		}
+		function fixTabIndicator(n) {
+			// This function removes the "active" class of all steps...
+			var i, x = document.getElementsByClassName("tabstatus");
+			for (i = 0; i < x.length; i++) {
+				x[i].className = x[i].className.replace(" active", "");
+			}
+			//... and adds the "active" class on the current step:
+			x[n].className += " active";
+		}
+	</script>
+	<script>
+		function selectValue(e) {
+			var i = e.value;
+			alert(i);
+		}
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,566 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+<head>
+<title>AME DashBoard Controller</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css" />
+<!-- Custom styles for this template -->
+<link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/base-responsive.css" />
+<link rel="stylesheet" href="css/animate.min.css" />
+<link rel="stylesheet" href="css/slicknav.min.css" />
+<link rel="stylesheet" href="css/font-awesome.min.css" />
+<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
+	type="text/css">
+
+	<link rel="stylesheet" href="vendor/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css">
+
+<!-- <script src="vendor/charts/utils.js"></script> -->
+<script src="js/local/disable-back-button.js"></script>
+<script src="js/local/resetChangeForget.js"></script>
+
+
+<!-- Bootstrap core JavaScript -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="js/jquery.slicknav.min.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="vendor/jquery-ui/jquery-ui.js"></script>
+
+
+
+<!--data Table Css files-->
+
+<link rel="stylesheet"
+	href="css/local/dataTableCss/dataTables.bootstrap5.min.css" />
+
+
+<!--data Table js Files-->
+
+<script type="text/javascript"
+	src="js/local/dataTableJs/jquery.dataTables.min.js"></script>
+<script src="js/local/dataTableJs/dataTables.bootstrap5.min.js"></script>
+
+
+
+<!-- Include jQuery -->
+<script src="ame-datatable-js/3.5.1/jquery.min.js"></script>
+
+<!-- Include DataTables CSS -->
+<link rel="stylesheet"
+	href="ame-datatable-css/1.11.5/jquery.dataTables.min.css">
+
+<!-- Include DataTables JavaScript -->
+<script src="ame-datatable-js/1.11.5/jquery.dataTables.min.js"></script>
+
+<!-- Include Select2 CSS -->
+<link href="css/local/select2@4.1.0-rc.0/dist/select2.min.css"
+	rel="stylesheet" />
+
+<!-- Include Select2 JS -->
+<script src="js/local/select2@4.1.0-rc.0/dist/select2.min.js"></script>
+
+
+
+</head>
+
+
+<body>
+
+
+	<div
+		th:replace="~{admin-template/user-profile-modal-page::user-profile-modal}"></div>
+	<div class="d-flex" id="wrapper">
+		<div th:replace="~{admin-template/admin-left-menu::admin-left-menu}"></div>
+		<!-- Sidebar -->
+
+
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<div
+				th:replace="~{admin-template/nav-bar-bda::sidebar-wrapper-menu-nav-bda}"></div>
+
+
+			<div class="container-fluid mt-3">
+
+				<!-- Content Row -->
+
+				<div class="wisecountnactionbg">
+
+					<h6 class="text-center">**Note- Click on BoardId to See Board Details</h6>
+
+					<div id="b-homedb">
+						<div class="proc-box p-2">
+
+
+					
+
+						<div class="table-responsive">
+							<h6 class="table-heade mt-0 mb-2">Individuals Mapped To Board</h6>
+
+							<table class="table table-striped table-bordered table-hover"
+								style="font-size: 14px;" id="customers">
+								<thead class="table-light">
+
+									<tr>
+										<th>BoardID</th>
+										<th>Irla No</th>
+										<th>Name</th>
+										<th>Situated At(place)</th>
+										<th>Appointment Status</th>
+										<th>Declaration Status</th>
+										<th>Year</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr
+										th:each="medicalBoardMember : ${boardDetailDtosMappedMember}"
+										th:field="${medicalBoardMember}" class="memberData">
+										<td th:text="${medicalBoardMember.boardId}"
+											th:value="${medicalBoardMember.boardId}"
+											onclick="showDetails(this)" id="boardId"></td>
+										<td th:text="${medicalBoardMember.irlaNo}"></td>
+										<td th:text="${medicalBoardMember.name}"></td>
+
+
+										<td th:text="${medicalBoardMember.boardPlace}"></td>
+
+										<td th:text="${medicalBoardMember.appointment}"></td>
+
+										<td th:text="Pending"></td>
+
+										<td th:text="2024"></td>
+									</tr>
+								</tbody>
+
+							</table>
+						</div>
+
+</div>
+
+
+<div class="proc-box p-2">
+
+						<div class="table-responsive">
+							<h6 class="table-heade mt-0 mb-2">Individuals Mapped To Board (STATUS)</h6>
+							<table class="table table-striped table-bordered table-hover"
+								style="font-size: 14px;" id="customers1">
+								<thead class="table-light">
+
+									<tr>
+										<th>Force Name</th>
+										<th>BoardID</th>
+										<th>Irla No</th>
+										<th>Name</th>
+										<th>Situated At(place)</th>
+										<th>Appointment Status</th>
+										<th>Declaration Status</th>
+
+										<th>Declaration Check</th>
+										<th>Form Upload</th>
+
+										<th>CheckUp List</th>
+										<th>Year</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr
+										th:each="medicalBoardMember : ${boardDetailDtosMappedMemberStatusFlow}"
+										th:field="${medicalBoardMember}" class="memberData">
+										<td th:text="${medicalBoardMember.forceName}"></td>
+										<td th:text="${medicalBoardMember.boardId}"
+											th:value="${medicalBoardMember.boardId}"
+											onclick="showDetails(this)" id="boardId"></td>
+										<td th:text="${medicalBoardMember.irlaNo}"></td>
+										<td th:text="${medicalBoardMember.name}"></td>
+
+
+										<td th:text="${medicalBoardMember.boardPlace}"></td>
+
+										<td th:text="${medicalBoardMember.appointment}"></td>
+										<td th:text="${medicalBoardMember.ameFormCheck}"></td>
+										<td th:text="${medicalBoardMember.ameFormUpload}"></td>
+										<td th:text="${medicalBoardMember.ameCheckUpList}"></td>
+
+
+										<td th:text="Pending"></td>
+
+										<td th:text="2024"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					</div>
+
+
+					<form th:action="@{bda-dashboard}" method="get">
+						<input type="submit" value="Back"
+							class="btn btn-primary btn-sm float-end">
+					</form>
+
+				</div>
+				<!--</form>-->
+			</div>
+
+
+
+		</div>
+	</div>
+
+
+
+	<!-- Signup Modal -->
+	<div class="modal fade" id="signout-modal">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Sign Out?</h5>
+
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<!-- Modal body -->
+					<div class="modal-body">
+						<p class="text-center">Are you sure you want to Sign Out?</p>
+						<form action="sign-out">
+							<div class="row">
+								<div class="col-md-6">
+									<button type="submit" class="btn btn-primary">Sign Out</button>
+								</div>
+								<div class="col-md-6">
+									<button type="button" class="btn btn-secondary"
+										data-bs-dismiss="modal">Cancel</button>
+								</div>
+
+							</div>
+
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+
+	<!-- The Modal -->
+	<div id="myModal" class="modal">
+
+		<!-- Modal content -->
+		<div class="modal-content">
+			<span class="close" onclick="closeModel()">&times;</span>
+			<div class="container-2">
+				<div class="row">
+					<div class="col-md-3">
+						<label>Medical Board Details</label>
+					</div>
+					<div class="col-md-3">
+						<label class="s1" id="boardIdID"></label>
+					</div>
+					<div class="col-md-2">
+						<label>Medical Board For:-</label>
+					</div>
+					<div class="col-md-2">
+						<label class="s1" id="gFlag"></label>
+					</div>
+				</div>
+
+				<hr>
+
+				<div class="row">
+					<div class="col-md-3">
+						<label>Medical Examination Type :-</label>
+					</div>
+					<div class="col-md-1">
+						<span class="s1" id="useFor"></span>
+					</div>
+					<div class="col-md-2">
+						<label> Situated At(Place) :- </label>
+					</div>
+					<div class="col-md-2">
+						<span class="s1" id="place"> </span>
+					</div>
+
+					<div class="col-md-3">
+						<label> Medical Examination Year :- </label>
+
+					</div>
+					<div class="col-md-1">
+						<span class="s1" id="boardYear"> </span>
+					</div>
+
+				</div>
+
+				<div class="row">
+
+
+					<div class="col-md-2">
+						<label> Force Name :- </label>
+
+					</div>
+					<div class="col-md-2">
+						<span class="s1" id="forceName"></span>
+					</div>
+					<div class="col-md-2">
+						<label> Constituted On :- </label>
+					</div>
+					<div class="col-md-6">
+						<span class="s1" id="createdOn"> </span>
+					</div>
+
+				</div>
+				<br>
+				<div class="row">
+
+					<div class="col-md-2">
+						<label> Status :- </label>
+
+					</div>
+					<div class="col-md-2">
+						<span class="s1" id="status"></span>
+					</div>
+					<div class="col-md-2">
+						<label> Constituted By :- </label>
+
+					</div>
+					<div class="col-md-6">
+						<label> <span class="s1" id="createdBy"></span></label>
+					</div>
+				</div>
+			</div>
+
+			<div class="container-3">
+				<table id="customers">
+					<thead>
+						<tr>
+							<th colspan="6"><label>Medical Board Member Detail</label></th>
+
+						</tr>
+						<tr>
+							<th>S No</th>
+							<th>Force Name</th>
+							<th>Force ID</th>
+							<th>Name</th>
+							<th>Designation</th>
+
+							<th>Assigned role</th>
+
+						</tr>
+					</thead>
+					<tbody id="myTable">
+
+					</tbody>
+				</table>
+			</div>
+
+			<br>
+			<button
+				style="width: 20%; background-color: rgb(0, 87, 130); margin-left: 80%; margin-top: 10px; font-weight: bold; font-size: 14px;"
+				onclick="closeModel()">close</button>
+		</div>
+
+	</div>
+
+</body>
+
+<script>
+	$(document).ready(function() {
+		$('#customers').DataTable();
+	});
+</script>
+<script>
+	$(document).ready(function() {
+		$('#customers1').DataTable();
+	});
+</script>
+
+<script>
+	function createTable(response) {
+		var trHTML = '';
+
+		$.each(response, function(i, o) {
+			trHTML += '<tr><td>' + i + '</td><td>' + o.forceNo + '</td><td>'
+					+ o.forcePersonalId + '</td><td>' + o.name + '</td><td>'
+					+ o.designation + '</td><td>' + o.roleName + '</td></tr>';
+		});
+
+		$('#myTable').append(trHTML);
+
+	}
+</script>
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function () {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function () {
+			$("#one-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+
+	
+
+	<script>
+
+		function closeModel() {
+			var closeButton = document.getElementById("myModal");
+			closeButton.style.display = "none";
+		}
+
+
+		function showDetails(x) {
+			console.log(x.attributes[0].value);
+			var boardId = x.attributes[0].value;
+			//alert(boardId);
+
+			var modal = document.getElementById("myModal");
+
+			// Get the button that opens the modal
+			//var btn = document.getElementById("myBtn");
+
+			// Get the <span> element that closes the modal
+			var span = document.getElementsByClassName("modal");
+
+			// When the user clicks the button, open the modal 
+
+			// When the user clicks on <span> (x), close the modal
+			span.onclick = function () {
+				modal.style.display = "none";
+			}
+
+			// When the user clicks anywhere outside of the modal, close it
+			window.onclick = function (event) {
+				if (event.target == modal) {
+					modal.style.display = "none";
+				}
+			}
+			
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+		    var table = document.getElementById("myTable");
+			while (table.rows.length > 0) {
+						table.deleteRow(0);
+					}
+			$.ajax({
+
+				type: "post",
+                 url: "get-board-member-data-by-boardId",
+				cache: false,
+				dataType: 'json',
+
+				data: {boardId: boardId},
+				beforeSend: function (xhr) {
+
+					xhr.setRequestHeader(header,token);
+				},
+				success: function (response) {
+
+
+		    document.getElementById("boardIdID").innerHTML=boardId;
+            document.getElementById("gFlag").innerHTML=response.boardDetailDtos.gFlag ;
+            document.getElementById("useFor").innerHTML=response.boardDetailDtos.useFor ;
+            document.getElementById("place").innerHTML=response.boardDetailDtos.place ;
+            document.getElementById("boardYear").innerHTML=response.boardDetailDtos.boardYear ;
+            document.getElementById("forceName").innerHTML=response.boardDetailDtos.forceName ;
+            document.getElementById("createdOn").innerHTML=response.boardDetailDtos.createdOn ;
+            document.getElementById("status").innerHTML=response.boardDetailDtos.status ;
+               document.getElementById("createdBy").innerHTML=response.createdBy ;
+	
+               createTable(response.medicalBoardMemberDtoList);
+                  
+
+				},
+				error: function () {
+					alert('Error while request..');
+				}
+			});
+           
+       modal.style.display = "block";
+
+
+		}
+	</script>
+<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function () {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function () {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+	
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function (e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function () {
+			$('#backtotop').click(function () {
+				$("html, body").animate({
+					scrollTop: 0
+				}, 600);
+				return false;
+			});
+
+
+		});
+	</script>
+
+</html>

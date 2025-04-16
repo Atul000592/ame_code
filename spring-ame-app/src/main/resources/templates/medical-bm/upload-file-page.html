@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="ISO-8859-1">
+
+
+	<title>AME DashBoard Controller</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+	<style>
+
+	#file_error_msg {
+		width: 50%;
+
+		padding: 50px 0;
+		font-weight: 500;
+		font-size: 18px;
+		text-align: center;
+		background-color: rgb(209, 209, 209);
+		margin-top: 20px;
+		display: none
+	}
+.file_upload_cs{
+	
+	-webkit-box-shadow: 4px -1px 38px -11px rgba(0,0,0,0.75);
+-moz-box-shadow: 4px -1px 38px -11px rgba(0,0,0,0.75);
+box-shadow: 4px -1px 38px -11px rgba(0,0,0,0.75);
+height:90%;
+width: 100%;
+
+}
+	
+</style>
+	</head>
+
+<div th:replace="~{medical-sub-ordinate/master-doc::master-wrapper-doc}"></div>
+<body>
+
+
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+		<div
+			th:replace="~{medical-bm/left-menu-bm::sidebar-wrapper-menu-bm}"></div>
+
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<!--nav-->
+			<div
+				th:replace="~{medical-bm/nav-bar-bm::sidebar-wrapper-menu-nav-bm}"></div>
+
+<div class="container my-5" id="b-homedb">
+    <!-- First Row: IRLA/REGT No, Name, Gender -->
+    <div class="row bg-light p-3 mb-3" style="border-radius: 8px;">
+        <div class="col-md-2 font-weight-bold text-dark">IRLA/REGT No:</div>
+        <div class="col-md-2">
+            <span th:text="${candidateDetails.forceId}"></span>
+        </div>
+        <div class="col-md-2 font-weight-bold text-dark">Name:</div>
+        <div class="col-md-2">
+            <span th:text="${candidateDetails.name}"></span>
+        </div>
+        <div class="col-md-2 font-weight-bold text-dark">Gender:</div>
+        <div class="col-md-2">
+            <span th:text="${candidateDetails.gender}"></span>
+        </div>
+    </div>
+
+    <!-- Second Row: Force Name, Rank/Designation, Grade -->
+    <div class="row bg-light p-3" style="border-radius: 8px;">
+        <div class="col-md-2 font-weight-bold text-dark">Force Name:</div>
+        <div class="col-md-2">
+            <span th:text="${candidateDetails.forceName}"></span>
+        </div>
+        <div class="col-md-2 font-weight-bold text-dark">Rank/Designation:</div>
+        <div class="col-md-2">
+            <span th:text="${candidateDetails.designation}"></span>
+        </div>
+        <div class="col-md-2 font-weight-bold text-dark">Grade:</div>
+        <div class="col-md-2">
+            <span th:if="${candidateGazettedNonGazettedFlag=='Y'}" th:text="Gazetted-Officer"></span>
+            <span th:unless="${candidateGazettedNonGazettedFlag=='Y'}" th:text="Non-Gazetted-Officer"></span>
+        </div>
+    </div>
+</div>
+
+			<div class="my-5" id="b-homedb" style="background-color: rgb(255, 255, 255); margin: 10px auto; width: 70%; height: auto; padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <div class="file_upload_cs">
+        <!-- Title Section -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <h4 class="text-center" style="font-weight: bold; color: rgb(0, 128, 192);">File Upload Interface</h4>
+            </div>
+        </div>
+        
+        <!-- File Upload Form -->
+        <form method="POST" enctype="multipart/form-data" th:action="@{/upload-file}">
+            <!-- File Upload Section -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <h5>Please Select and Upload AME Declaration:</h5>
+                </div>
+                <div class="col-md-6">
+                    <input type="file" id="fileInput" name="file" onchange="validateFileSize()" accept=".pdf,.docx" required class="form-control">
+                </div>
+            </div>
+
+            <!-- Submit Button Section -->
+            <div class="row mb-4">
+                <div class="col-md-12 text-center">
+                    <input type="submit" value="Upload File" class="btn btn-primary" style="width: 150px; color: white; border-radius: 5px; padding: 10px 20px;">
+                </div>
+            </div>
+
+            <!-- Hidden Inputs for Backend Processing -->
+            <input type="hidden" th:value="${ameId}" name="ameId">
+            <input type="hidden" th:value="${candidateForcePersonalId}" name="candidateForcePersonalId">
+        </form>
+
+        <!-- Error Message Section -->
+        <div class="row mb-3">
+            <div class="col-md-12 text-center">
+                <span id="file_error" class="fileError text-danger" style="display: none;"></span>
+                <div id="file_error_msg" class="normalFileError text-danger"></div>
+            </div>
+        </div>
+
+        <!-- Back Button Section -->
+        <div class="row mt-4">
+            <div class="col-md-12 text-center">
+                <form th:action="@{display-pending-requests-upload-checkup}" method="get">
+                    <input type="submit" value="Back" class="btn btn-secondary" style="width: 100px; padding: 10px; border-radius: 5px;">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+				
+			
+
+
+	</div>
+	<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function (e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function () {
+			$('#backtotop').click(function () {
+				$("html, body").animate({
+					scrollTop: 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function () {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function () {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+	<!-- Signup Modal -->
+	<div class="modal fade" id="signout-modal">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header text-center d-block p-5 border-bottom-0">
+					<h3 class="modal-title">Sign Out?</h3>
+					<button type="button" class="close position-absolute" style="right: 15px; top: 8px;"
+						data-dismiss="modal">&times;</button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body">
+					<p class="text-center">Are you sure you want to Sign Out?</p>
+					<div class="text-center py-4">
+						<form action="sign-out">
+							<button type="submit" class="btn btn-primary b-btn mx-3">Sign
+								Out</button>
+							<button class="btn btn-secondary mx-3" data-dismiss="modal">Cancel</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function () {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function () {
+			$("#one-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+
+
+
+<!--Error message style -->
+
+
+
+<script>
+
+
+
+	function validateFileSize() {
+
+		var fileInput = document.getElementById('fileInput');
+		var file = fileInput.files[0];
+		var maxSize = 1048576; // 1 MB
+		var x = document.getElementById("file_error_msg");
+
+		var allowedFormats = ['pdf', 'docx'];
+
+		if (file) {
+			// Check file format
+			var fileName = file.name;
+			var fileExtension = fileName.split('.').pop().toLowerCase();
+			if (!allowedFormats.includes(fileExtension)) {
+
+				x.style.display = "block";
+				x.innerHTML = 'Invalid file format. Please choose a file with one of the following formats: ' + allowedFormats.join(', ');
+
+
+				fileInput.value = ''; // Clear the file input
+
+				setTimeout(function () {
+					x.style.display = 'none';
+				}, 7000);
+				return;
+			}
+
+			// Check file size
+			if (file.size > maxSize) {
+				x.style.display = "block";
+				x.innerHTML='File size exceeds the allowed limit. Please choose a smaller file ' + (maxSize / ((1024 * 1024))+' MB');
+				fileInput.value = ''; // Clear the file input
+				setTimeout(function () {
+					x.style.display = 'none';
+				}, 7000);
+				return;
+			}
+
+			// Both format and size are valid
+			alert('File format and size are within the allowed limits.');
+		}
+	}
+</script>
+
+</body>
+
+</html>

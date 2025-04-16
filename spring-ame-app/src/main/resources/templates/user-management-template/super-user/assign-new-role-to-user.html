@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+<head>
+	<meta charset="ISO-8859-1">
+
+
+	<title>AME DashBoard User Management</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+	<script src="js/local/resetChangeForget.js"></script>
+
+
+	<script src="js/local/disable-back-button.js"></script>
+
+<style>
+.table-responsive {
+    max-height: 450px;  /* Adjust based on your needs */
+    overflow-y: auto;
+}
+
+.table-responsive thead {
+    position: sticky;
+    top: 0;
+    background-color: #f8f9fa; /* Same as your table-light class */
+    z-index: 1;  /* Ensures the header stays above other rows */
+}
+</style>
+
+</head>
+
+
+<body>
+
+	<div th:replace="~{medical-sub-ordinate/master-doc::master-wrapper-doc}"></div>
+
+
+	<div class="d-flex" id="wrapper">
+
+		<div th:replace="~{user-management-template/super-user/mg-left-menu::sidebar-wrapper-menu-mg}"></div>
+
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<div th:replace="~{user-management-template/super-user/nav-bar-mg::sidebar-wrapper-menu-nav-mg}">
+			</div>
+
+
+			<div class="container-fluid mt-3">
+
+<div class="wisecountnactionbg">
+
+				<div id="b-homedb">
+
+		
+
+						<h4>Assigned Roles</h4>
+
+
+
+
+						<div class="proc-box p-3 text-start ui-sortable-handle">
+
+
+
+							<div class="table-responsive">
+								<span style="color: darkred; font-size: 20px;" th:if="${message!=null}"
+									th:text="${message}"></span>
+
+								<table id="user" class="table table-sticky">
+
+									<thead class="table-light">
+										<tr>
+											<th width="100">Serial No</th>
+											<th>ForceName</th>
+											<th>IRLA No</th>
+											<th>Name</th>
+
+											<th>Rank/Designation</th>
+
+											<th>Unit Name</th>
+											<th>Role Name</th>
+											<th colspan="3" align="center" width="110">Action</th>
+										</tr>
+									</thead>
+									<tr th:each="userRoleDtosList,statcount :${userRoleDtosList}">
+										<td th:text="${statcount.count}"></td>
+										<td th:text="${userRoleDtosList.forceName}"></td>
+										<td th:text="${userRoleDtosList.irlaNo}"> </td>
+
+										<td th:text="${userRoleDtosList.name}"></td>
+
+										<td th:text="${userRoleDtosList.rank}"></td>
+
+										<td th:text="${userRoleDtosList.unitName}"></td>
+										<td th:text="${userRoleDtosList.role}"></td>
+
+
+										<!--		<td>
+											<form action="manage-existing-user-role" method="post">
+												<input type="hidden" th:value="${userRoleDtosList.forcePersonalId}"
+													name="forcepersonalId">
+
+												<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+												<input type="submit" value="modified">
+
+											</form>
+										</td>-->
+										<td>
+											<form action="view-user-role-details" method="post">
+												<input type="hidden" th:value="${userRoleDtosList.forcePersonalId}"
+													name="forcepersonalId">
+
+												<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+												<input type="submit" value="view ">
+
+											</form>
+										</td>
+
+									</tr>
+
+								</table>
+
+							</div>
+							<div>
+
+							</div>
+
+
+						</div>
+
+					</div>
+					
+<div class="proc-box p-3 text-start ui-sortable-handle">
+	
+					<h4 class="text-center mb-3 b-latest-data">ASSIGN NEW ROLE</h4>
+					<hr>
+					
+
+						<div class="row">
+							<div class="col-1"></div>
+							<div class="col p-1 fw-semibold py-2" style="background-color:lavender;">Select Force Name</div>
+							<div class="col p-1" style="background-color:lavenderblush;">
+								<select id="forceName_id" class="form-select form-select-sm">
+									<option value="0">Select
+									</option>
+									<option th:each="forceList: ${forceList}" th:value="${forceList.forceNo}"
+										th:text="${forceList.forceName}">
+									</option>
+								</select>
+							</div>
+							<div class="col p-1 fw-semibold py-2"  style="background-color:lavender;">Select Unit Name</div>
+							<div class="col p-1" style="background-color:lavender;">				
+									<select id="unit_Id" class="form-select form-select-sm">
+									</select>
+						
+
+							</div>
+							<div class="col-1"></div>
+						</div>
+				
+
+<div class="table-responsive mt-2">
+					<table class="table table-striped" id="example">
+					<thead class="table-light">
+							<tr>
+
+								<th width="70">S.No</th>
+								<th>Force Name</th>
+								<th>IRLA No</th>
+								<th>Name</th>
+								<th>Force Unit</th>
+								<th width="120">Action</th>
+							</tr>
+						</thead>
+						<tbody id="myTable">
+
+						</tbody>
+					</table>
+					</div>
+
+	
+
+					<!--  hidden section-->
+
+
+				</div>
+
+				<div class="my-5" id="b-homedb"></div>
+
+			</div>
+
+		</div>
+
+
+
+
+	</div>
+	<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+
+
+
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function (e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function () {
+			$('#backtotop').click(function () {
+				$("html, body").animate({
+					scrollTop: 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function () {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function () {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+
+
+
+
+	<!--Model-2 for role Assign-->
+	<!-- The Modal -->
+	
+	
+			<!-- Modal -->
+<div class="modal fade" id="createRoleModeId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+		    <div class="modal-header">
+			<span class="close2" onclick="closeModel()">&times;</span>
+		    </div>
+
+
+   <div class="modal-body">
+		
+			<form th:action="@{assign-new-role-super-user}" method="post" id="form_id" enctype="multipart/form-data">
+
+
+				
+					<div class="row">
+						<div class="col-md-12">
+							<h5>Create New Role</h5>
+						</div>
+					</div>
+
+					<hr>
+
+					<div class="row">
+						<div class="col-md-4">
+							<label>IRLA No :-</label>
+						</div>
+						<div class="col-md-6">
+							<span class="s1" id="irlaNo"></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label>
+								Name :-
+							</label>
+						</div>
+						<div class="col-md-6">
+							<span class="s1" id="name">
+
+							</span>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-4">
+							<label>
+								Designation :-
+							</label>
+
+						</div>
+						<div class="col-md-6">
+							<span class="s1" id="rank">
+
+							</span>
+						</div>
+					</div>
+
+
+					<div class="row">
+						<div class="col-md-4">
+							<label>
+								Force Name :-
+							</label>
+
+						</div>
+						<div class="col-md-6">
+							<span class="s1" id="forceName"></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label>
+								Unit :-
+							</label>
+						</div>
+						<div class="col-md-6">
+							<span class="s1" id="unit">
+
+							</span>
+						</div>
+
+					</div>
+				
+
+				
+
+	
+					<div class="row">
+						<div class="col-md-4">
+							<label> Order Number *</label>
+						</div>
+						<div class="col-md-6">
+							<input type="text" name="orderNumbar" required>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label> Order Date *</label>
+						</div>
+						<div class="col-md-6">
+
+							<input type="date" name="orderDate" max="" id="date-input" required>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label> Order By (Name/Irla No) *</label>
+						</div>
+						<div class="col-md-6">
+
+							<input type="text" name="name_irlaNo" required>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label> Department * </label>
+						</div>
+						<div class="col-md-6">
+							<select id="departmentId" onchange="getDesignationList(this)">
+
+							</select>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label> Designation *</label>
+						</div>
+						<div class="col-md-6">
+							<select name="rankDropDown" id="rankDropDown" required>
+								<option value="0">Select</option>
+							</select>
+
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-4">
+							<label> Role Type *</label>
+						</div>
+						<div class="col-md-6">
+
+							<div class="roleList" id="roleList">
+
+								<select class="roleTypeSelect" id="roleTypeSelect">
+
+								</select>
+
+
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label>Permission To Assign Role*</label>
+						</div>
+						<div class="col-md-6">
+
+							<div>
+
+								<select id="permissionList">
+
+								</select>
+
+
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label>Attach File *</label>
+						</div>
+						<div class="col-md-3">
+							<input type="file" name="file" id="fileInput" onchange="validateFileSize()"
+								accept=".pdf,.docx">
+						</div>
+						<div class="col-md-5">
+							<div id="file_error_msg" class="normalFileError">
+							</div>
+						</div>
+					</div>
+					<!--		<div class="row">
+						<div class="col-md-4">
+							<label>Attach File *</label>
+						</div>
+						<div class="col-md-6">
+							<input type="file" name="file" required id="file">
+						</div>
+					</div>-->
+					<div class="row">
+						<div class="col-md-4">
+							<label>Remark *</label>
+						</div>
+						<div class="col-md-6">
+							<input type="text" name="remark" required>
+						</div>
+					</div>
+
+					<br>
+					<div class="row">
+						<div class="col-md-6">
+
+						</div>
+
+						<div class="col-md-3">
+							<input type="hidden" name="forcePersonalIdAssignRole" id="forcePersonalIdAssignRole">
+							<input type="hidden" name="roleId" id="roleIdId">
+							<input type="hidden" name="permissionRoleId" id="permissionRoleId">
+							<input type="hidden" name="department" id="departmentId_Id">
+							<input type="hidden" name="designation" id="designationId">
+							<button
+								style="width:20%;background-color: rgb(0, 87, 130);font-weight: bold; font-size: 14px;width: 65%;"
+								onclick="assign_newRole()">
+								Assign
+							</button>
+						</div>
+						<div class="col-md-3">
+							<button
+								style="width:20%;background-color: rgb(0, 87, 130);font-weight: bold; font-size: 14px;width:65%;"
+								onclick="closeModel()">
+								Cancel
+							</button>
+						</div>
+					</div>
+
+
+			
+			</form>
+		</div>
+	</div>
+	
+	</div>
+</div>
+	
+	
+<!--	<div id="createRoleModeId" class="modal2">
+
+		 Modal content 
+		<div class="modal-content2">
+			<span class="close2" onclick="closeModel()">&times;</span>
+			<form th:action="@{assign-new-role-super-user}" method="post" id="form_id" enctype="multipart/form-data">
+
+
+				<div class="container-2">
+					<div class="row">
+						<div class="col-md-12">
+							<h5>Create New Role</h5>
+						</div>
+					</div>
+
+					<hr>
+
+					<div class="row">
+						<div class="col-md-4">
+							<label>IRLA No :-</label>
+						</div>
+						<div class="col-md-6">
+							<span class="s1" id="irlaNo"></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label>
+								Name :-
+							</label>
+						</div>
+						<div class="col-md-6">
+							<span class="s1" id="name">
+
+							</span>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-4">
+							<label>
+								Designation :-
+							</label>
+
+						</div>
+						<div class="col-md-6">
+							<span class="s1" id="rank">
+
+							</span>
+						</div>
+					</div>
+
+
+					<div class="row">
+						<div class="col-md-4">
+							<label>
+								Force Name :-
+							</label>
+
+						</div>
+						<div class="col-md-6">
+							<span class="s1" id="forceName"></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label>
+								Unit :-
+							</label>
+						</div>
+						<div class="col-md-6">
+							<span class="s1" id="unit">
+
+							</span>
+						</div>
+
+					</div>
+					<br>
+
+				</div>
+
+				<div class="container-3">
+					<div class="row">
+						<div class="col-md-4">
+							<label> Order Number *</label>
+						</div>
+						<div class="col-md-6">
+							<input type="text" name="orderNumbar" required>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label> Order Date *</label>
+						</div>
+						<div class="col-md-6">
+
+							<input type="date" name="orderDate" max="" id="date-input" required>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label> Order By (Name/Irla No) *</label>
+						</div>
+						<div class="col-md-6">
+
+							<input type="text" name="name_irlaNo" required>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label> Department * </label>
+						</div>
+						<div class="col-md-6">
+							<select id="departmentId" onchange="getDesignationList(this)">
+
+							</select>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label> Designation *</label>
+						</div>
+						<div class="col-md-6">
+							<select name="rankDropDown" id="rankDropDown" required>
+								<option value="0">Select</option>
+							</select>
+
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-4">
+							<label> Role Type *</label>
+						</div>
+						<div class="col-md-6">
+
+							<div class="roleList" id="roleList">
+
+								<select class="roleTypeSelect" id="roleTypeSelect">
+
+								</select>
+
+
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label>Permission To Assign Role*</label>
+						</div>
+						<div class="col-md-6">
+
+							<div>
+
+								<select id="permissionList">
+
+								</select>
+
+
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label>Attach File *</label>
+						</div>
+						<div class="col-md-3">
+							<input type="file" name="file" id="fileInput" onchange="validateFileSize()"
+								accept=".pdf,.docx">
+						</div>
+						<div class="col-md-5">
+							<div id="file_error_msg" class="normalFileError">
+							</div>
+						</div>
+					</div>
+							<div class="row">
+						<div class="col-md-4">
+							<label>Attach File *</label>
+						</div>
+						<div class="col-md-6">
+							<input type="file" name="file" required id="file">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label>Remark *</label>
+						</div>
+						<div class="col-md-6">
+							<input type="text" name="remark" required>
+						</div>
+					</div>
+
+					<br>
+					<div class="row">
+						<div class="col-md-6">
+
+						</div>
+
+						<div class="col-md-3">
+							<input type="hidden" name="forcePersonalIdAssignRole" id="forcePersonalIdAssignRole">
+							<input type="hidden" name="roleId" id="roleIdId">
+							<input type="hidden" name="permissionRoleId" id="permissionRoleId">
+							<input type="hidden" name="department" id="departmentId_Id">
+							<input type="hidden" name="designation" id="designationId">
+							<button
+								style="width:20%;background-color: rgb(0, 87, 130);font-weight: bold; font-size: 14px;width: 65%;"
+								onclick="assign_newRole()">
+								Assign
+							</button>
+						</div>
+						<div class="col-md-3">
+							<button
+								style="width:20%;background-color: rgb(0, 87, 130);font-weight: bold; font-size: 14px;width:65%;"
+								onclick="closeModel()">
+								Cancel
+							</button>
+						</div>
+					</div>
+
+
+				</div>
+			</form>
+		</div>
+	</div>-->
+	
+	
+	
+	<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+        
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+	
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function () {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function () {
+			$("#one-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+
+
+
+
+		$(document).ready(function () {
+
+
+			$('#forceName_id').on('change', function () {
+
+				var forceId = $(this).val();
+
+
+				var token = $("meta[name='_csrf']").attr("content");
+				var header = $("meta[name='_csrf_header']").attr("content");
+				$.ajax({
+					type: 'Post',
+					url: 'get-unit-by-forceNo-board',
+
+					data: {forceId: forceId}, beforeSend: function (xhr) {
+
+						xhr.setRequestHeader(header, token);
+					},
+
+					success: function (data) {
+
+						console.log(data.unitList);
+						const dropdown = document.getElementById("unit_Id");
+						dropdown.innerHTML = "";
+						const option = document.createElement("option");
+						option.text = 'Select';
+						option.value = 0;
+						// !-- option.setAttribute("data", data[i].forceId)-->
+						dropdown.appendChild(option);
+						for (let i = 0; i < data.unitList.length; i++) {
+							const option = document.createElement("option");
+							option.text = data.unitList[i].unitName;
+							option.value = data.unitList[i].unitId;
+							// !-- option.setAttribute("data", data[i].forceId)-->
+							dropdown.appendChild(option);
+						}
+
+					},
+					error: function (e) {
+
+
+
+						console.log("ERROR : ", e);
+
+					}
+				});
+			});
+		});
+
+
+		//=========//
+
+
+		//=======get forcePersonal details by unit==================//
+
+		$('#unit_Id').on('change', function () {
+			var unitId = $(this).val();
+			var forceName_id = $("#forceName_id").val();
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+
+			let text = "Press a button!\nEither OK or Cancel.";
+			if (confirm(text) == true) {
+				text = "CONFIRM TO SEARCH DATA PRESS OK ";
+
+
+				$.ajax({
+
+					type: "post",
+					url: "get-force-personal-by-unit-force-id",
+					cache: false,
+					dataType: 'json',
+
+					data: ({queryData: JSON.stringify({unitNo: unitId, forceNo: forceName_id})}),
+
+
+					beforeSend: function (xhr) {
+
+						xhr.setRequestHeader(header, token);
+					},
+					success: function (response) {
+						console.log(response);
+						var table = document.getElementById("myTable");
+						while (table.rows.length > 0) {
+							table.deleteRow(0);
+						}
+						createTable(response.personalResponeseAjax);
+						crateDropDownRoleList(response.masterRoleList);
+						crateDropDownPermissionList(response.masterRoleList);
+					},
+					error: function () {
+						alert('Error while request..');
+					}
+				});
+			}
+		});
+
+
+
+
+		//===================create table dynamically to fetch data==================//
+		function createTable(response) {
+			var trHTML = '';
+
+			$.each(response, function (i, o) {
+				trHTML += '<tr  class="memberData" ><td>' + i + '<input type="hidden" id="forcePersonalId" value="' + o.forcePersonalId + '"' +
+					'</td><td><input type="hidden" id="forceNameId" value="' + o.forceName + '">' + o.forceName +
+					'</td><td><input type="hidden"  id="irlaNoId" value="' + o.irlaNumber + '">' + o.irlaNumber +
+					'</td><td><input type="hidden" id="nameId" value="' + o.name + '">' + o.name +
+
+					'</td><td><input type="hidden" id="unitNameId" value="' + o.unitName + '" >' + o.unitName +
+					'</td><td>' + ' <button class="btn btn-primary btn-sm" name="btnAddToList" onclick="createNewRoleModel(this)">Assign Role</button>' +
+					'</td></tr>';
+			});
+
+			$('#myTable').append(trHTML);
+
+		}
+
+
+
+
+
+
+
+		//========sending data to save =======//
+
+		$('#membersubmit').click(function () {
+			var formData = [];
+
+			var table = $(tbodyfinal);
+			console.log(table.children.length);
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			var rows = table.find('.memberData');
+			if (rows.length != 0) {
+				for (var i = 0; i < rows.length; i++) {
+					var rowData = {};
+					rowData['irlaNo'] = $(rows[i]).find('#irlaNoId').val();
+					rowData['name'] = $(rows[i]).find('#nameId').val();
+					rowData['forceName'] = $(rows[i]).find('#forceNameId').val();
+					rowData['unitName'] = $(rows[i]).find('#unitNameId').val();
+					rowData['roleName'] = $(rows[i]).find('#roleTypeSelect :selected').val();
+					rowData['forcePersonalId'] = $(rows[i]).find("#forcePersonalId").val();
+
+
+
+
+
+					// set all data
+
+					formData.push(rowData);
+				}
+
+
+				console.log(formData);
+				var datan = "hello";
+				var data1 = JSON.stringify(formData);
+				//set value of committeeMemberData 
+				//$('committeeMemberData').val(JSON.stringify(formData));
+
+				//$('membersubmit').submit(
+
+				$.ajax({
+					type: "POST",
+					contentType: "application/json",
+					url: "get-new-role-to-user",
+					data: data1,
+					dataType: 'json',
+					/* cache: false,
+					timeout: 600000, */
+					beforeSend: function (xhr) {
+
+						xhr.setRequestHeader(header, token);
+					},
+					success: function (data) {
+						alert(data.message);
+						rows.remove();
+						window.location.href = "assign-new-role-to-user";
+					},
+					error: function (e) {
+
+
+
+						console.log("ERROR : ", e);
+
+					}
+				});
+			}
+			else {
+				alert("Please chose atleast one member in Board");
+			}
+
+			// JSON.stringify(formData)
+			// form submit
+			//$('membersubmitt').submit();
+			//form.submit();
+			//e.submit();
+			//document.membersubmitt.submit();
+
+		}
+		);
+
+		function deleteFromList(e) {
+			var row = $(e).closest('.memberData').remove();
+
+		}
+
+
+	</script>
+	<script>
+		/*date disable future date picking*/
+		var today = new Date().toISOString().split('T')[0];
+		document.getElementById("date-input").setAttribute("max", today);
+
+	</script>
+
+</body>
+
+</html>

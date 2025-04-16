@@ -1,0 +1,1077 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+<head>
+	<title>AMA DashBoard </title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<div th:replace="~{user-management-template/force-admin-user/mg-header-menu::sidebar-wrapper-menu-header}"></div>
+
+	<!--data Table Css files-->
+
+	<link rel="stylesheet" href="css/local/dataTableCss/dataTables.bootstrap5.min.css" />
+
+
+	<!--data Table js Files-->
+
+	<script type="text/javascript" src="js/local/dataTableJs/jquery.dataTables.min.js"></script>
+	<script src="js/local/dataTableJs/dataTables.bootstrap5.min.js"></script>
+	
+<!--           map-to-reporting officer         -->	
+		<script src="js/local/map-individual-to-reporting.js"></script>
+
+
+
+
+</head>
+
+
+<body>
+
+
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+
+		<div th:replace="~{user-management-template/force-admin-user/mg-left-menu::sidebar-wrapper-menu-cpf}"></div>
+
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+		<div
+				th:replace="~{medical-sub-ordinate/nav-bar::sidebar-wrapper-menu-nav-ama}"></div>
+				
+					<div id="loading-overlay">
+						<div class="spinner"></div>
+
+
+					</div>
+
+			<div class="container-fluid">
+
+				<!-- Content Row -->
+
+					<div class="container mt-3">
+
+				<div class="wisecountnactionbg">
+
+                         <div class="proc-box py-2 px-3 text-start">
+					
+						<!-- Iterate over the controllingList -->
+						<div th:each="userRole : ${controllingList}">
+                       <div class="row">
+							<div class="col-md-3">
+								<div class="alert alert-primary my-2">
+									<label class="fw-bold">Name:</label>
+									<span th:text="${userRole.Name}"></span>
+								</div>
+							</div>
+
+							<div class="col-md-3">
+								<div class="alert alert-primary my-2">
+									<label class="fw-bold">Rank:</label>
+									<span th:text="${userRole.rank}"></span>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="alert alert-primary my-2">
+									<label class="fw-bold">IRLA No:</label>
+									<span id="irla-no" th:text="${userRole.irlaNo}"
+										th:value="${userRole.irlaNo}"></span>
+								</div>
+							</div>
+                       </div>
+                        <div class="row">
+
+							<div class="col-md-6">
+								<div class="alert alert-primary my-2">
+									<label class="fw-bold">Force Name:</label>
+									<span th:text="${userRole.forceName}"></span>
+								</div>
+							</div>
+							
+							<div class="col-md-6">
+								<div class="alert alert-primary my-2">
+									<label class="fw-bold">Unit:</label>
+									<span th:text="${userRole.unitName}"></span>
+								</div>
+							</div>
+							</div>
+						<input type="hidden" id="controllingForcePersonalId"  th:value="${userRole.forcePersonalId}">
+
+					</div>
+				</div>
+
+
+				<hr>
+
+
+
+
+
+				<div class="row d-flex align-items-center">
+					<div class="col-md-1">
+
+						Force :-
+
+					</div>
+					<div class="col-md-3">
+						<select id="forceName_id" class="form-select">
+							<option value="0">Select
+							</option>
+							<option th:each="forceList: ${forceList}" th:value="${forceList.forceNo}"
+								th:text="${forceList.forceName}">
+							</option>
+						</select>
+					</div>
+					<div class="col-md-1">
+
+						Unit:-
+						</label>
+					</div>
+					<div class="col-md-3">
+
+						<span aria-label="Default select example">
+							<select id="unit_Id" class="form-select">
+							</select>
+						</span>
+					</div>
+
+					<div class="col-md-2">
+						<label>
+							Attach Unit:-
+						</label>
+					</div>
+					<div class="col-md-2">
+
+						<span aria-label="Default select example">
+							<select id="attach_unit" class="form-select">
+							</select>
+						</span>
+
+					</div>
+				</div>
+
+
+				<hr>
+				<div class="w-100">
+					<h6> Pending For Mapping (Reporting Officer)</h6>
+
+					<table class="table table-striped table-bordered table-hover" id="example" style="font-size:14px;">
+						<thead class="table-light">
+							<tr>
+
+								<th>Force</th>
+								<th>IRLA No</th>
+								<th>Name</th>
+								<th>Designation</th>
+								<th>Gender</th>
+
+								<th>Unit</th>
+                                <th width="30"><input type="checkbox" id="select-all"
+										class="select-all-checkbox"> All</th>
+							</tr>
+						</thead>
+						<tbody id="myTable">
+
+
+						</tbody>
+					</table>
+					<div class="row">
+						<div class="col-md-6">
+							<form th:action="@{mg-FadorCAPF-dash-board}" method="get">
+		                 <input type="submit" value="Back" class="btn btn-primary ">
+	                         </form>
+
+						</div>
+						<div class="col-md-6">
+							<button class="btn btn-primary" style="float:right;" type="button" id="saveMapping"
+								onclick="submitMapping()">Submit</button>
+						</div>
+
+					</div>
+
+
+				</div>
+				<input type="hidden" id="forceNumber">
+				<input type="hidden" id="unitNumber">
+
+
+				<hr>
+
+		
+
+
+			</div>
+
+
+
+</div>
+		</div>
+		</div>
+		<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function (e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+
+		$(document).ready(function () {
+			$('#example').DataTable();
+		});
+
+		$(document).ready(function () {
+			$('#mappedTable').DataTable();
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function () {
+			$('#backtotop').click(function () {
+				$("html, body").animate({
+					scrollTop: 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function () {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function () {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+	<!-- Signup Modal -->
+	<div class="modal fade" id="signout-modal">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header text-center d-block p-5 border-bottom-0">
+					<h3 class="modal-title">Sign Out?</h3>
+					<button type="button" class="close position-absolute" style="right: 15px; top: 8px;"
+						data-dismiss="modal">&times;</button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body">
+					<p class="text-center">Are you sure you want to Sign Out?</p>
+					<div class="text-center py-4">
+						<form action="sign-out">
+							<button type="submit" class="btn btn-primary b-btn mx-3">Sign
+								Out</button>
+							<button class="btn btn-secondary mx-3" data-dismiss="modal">Cancel</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+	<script>
+		$(function () {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function () {
+			$("#one-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+
+	</script>
+
+
+
+
+
+	<!-- js code  -->
+
+
+	<script>
+
+
+		$(document).ready(function () {
+
+			$('#forceName_id').on('change', function () {
+
+				var forceId = $(this).val();
+				var token = $("meta[name='_csrf']").attr("content");
+				var header = $("meta[name='_csrf_header']").attr("content");
+				$.ajax({
+					type: 'Post',
+					url: 'get-unit-by-forceNo-board',
+
+					data: {forceId: forceId}, beforeSend: function (xhr) {
+
+						xhr.setRequestHeader(header, token);
+					},
+
+					success: function (data) {
+
+						createDataForUnit(data.unitList);
+						createDataForAttachUnit(data.unitList);
+
+
+					},
+					error: function (e) {
+
+
+
+						console.log("ERROR : ", e);
+
+					}
+				});
+			});
+
+		});
+
+
+		//====on change boardId get board details====//
+
+
+		$('#unit_Id').on('change', function () {
+			console.log("Unit ID changed");
+
+			var unitId = $(this).val();
+			var forceName_id = $("#forceName_id").val();
+			console.log("Unit ID:", unitId);
+			console.log("Force Name ID:", forceName_id);
+
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+
+
+			$.ajax({
+				type: "post",
+				url: "get-force-personal-by-unit-for-reporting-officer",
+				cache: false,
+				dataType: 'json',
+				data: {
+					queryData: JSON.stringify({unitNo: unitId, forceNo: forceName_id})
+				},
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader(header, token);
+				},
+				success: function (response) {
+					console.log("Ajax success. Response:", response);
+
+					$("#forceNumber").val(response.forceNo);
+					$("#unitNumber").val(response.unitId);
+
+					// Destroy the existing DataTable before initializing with new data
+					if ($.fn.DataTable.isDataTable("#example")) {
+						$("#example").dataTable().fnDestroy();
+						console.log("DataTable destroyed");
+					}
+
+					// Initialize DataTable with new data
+					$("#example").DataTable({
+						"scrollX": true, // Enable horizontal scrolling
+						"scrollY": "200px", // Enable vertical scrolling with a fixed height
+						"data": response.personalResponeseAjax, // Assuming response.data contains your new data
+						"columns": [
+
+							{"data": 'forceName'},
+							{"data": 'irlaNumber'},
+							{"data": 'name'},
+							{"data": 'designation'},
+							{"data": 'gender'},
+
+							{"data": 'unitName'},
+							{
+								"data": null,
+								"render": function (data, type, full, meta) {
+									return '<input type="checkbox" name="candidateId"  value="' + data.irlaNumber + '">';
+								}
+							}
+						]
+					});
+					console.log("DataTable initialized with new data");
+				},
+				error: function (xhr, status, error) {
+					console.log("Ajax error:", error);
+					alert('Error while request..');
+				}
+			});
+
+
+
+		});
+
+
+
+
+		//================================ Attach unit Data =============================//
+
+
+		$('#attach_unit').on('change', function () {
+			console.log("Unit ID changed");
+
+			var unitId = $(this).val();
+			var forceName_id = $("#forceName_id").val();
+			console.log("Unit ID:", unitId);
+			console.log("Force Name ID:", forceName_id);
+
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+
+			$.ajax({
+				type: "post",
+				url: "get-force-personal-by-attach-unit-for-reporting-officer",
+				cache: false,
+				dataType: 'json',
+				data: {
+					queryData: JSON.stringify({unitNo: unitId, forceNo: forceName_id})
+				},
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader(header, token);
+				},
+				success: function (response) {
+					console.log("Ajax success. Response:", response);
+
+					$("#forceNumber").val(response.forceNo);
+					$("#unitNumber").val(response.unitId);
+
+					// Destroy the existing DataTable before initializing with new data
+					if ($.fn.DataTable.isDataTable("#example")) {
+						$("#example").dataTable().fnDestroy();
+						console.log("DataTable destroyed");
+					}
+
+					// Initialize DataTable with new data
+					$("#example").DataTable({
+						"scrollX": true, // Enable horizontal scrolling
+						"scrollY": "150px", // Enable vertical scrolling with a fixed height
+						"data": response.personalResponeseAjax, // Assuming response.data contains your new data
+						"columns": [
+
+							{"data": 'forceName'},
+							{"data": 'irlaNumber'},
+							{"data": 'name'},
+							{"data": 'designation'},
+							{"data": 'gender'},
+							{"data": 'unitName'},
+							{
+								"data": null,
+								"render": function (data, type, full, meta) {
+									return '<input type="checkbox" name="candidateId"  value="' + data.irlaNumber + '">';
+								}
+							}
+						]
+					});
+					console.log("DataTable initialized with new data");
+				},
+				error: function (xhr, status, error) {
+					console.log("Ajax error:", error);
+					alert('Error while request..');
+				}
+			});
+
+
+
+		});
+
+
+
+
+
+
+
+		//get Mapped member data by boardid
+
+		// $('#boardId').on('change', function () {
+		//     var boardId = $(this).val();
+		//     var token = $("meta[name='_csrf']").attr("content");
+		//     var header = $("meta[name='_csrf_header']").attr("content");
+
+
+		//     $.ajax({
+
+		//         type: "post",
+
+		//         url: "get-mapped-data-by-boardId",
+		//         cache: false,
+		//         dataType: 'json',
+
+		//         data: {boardId: boardId},
+		//         beforeSend: function (xhr) {-->
+
+		//             xhr.setRequestHeader(header, token);-->
+		//         },-->
+		//         success: function (response) {-->
+
+		//             if ($.fn.DataTable.isDataTable("#mappedTable")) {
+		//                 $("#mappedTable").dataTable().fnDestroy();
+		//                 console.log("Mapped DataTable destroyed .....");
+		//             }
+		//             alert("Members mapped to the board Id: " + boardId);
+		//             $("#mappedTable").DataTable({
+		//                 "scrollX": true, // Enable horizontal scrolling
+		//                 "scrollY": "200px", // Enable vertical scrolling with a fixed height
+		//                 "data": response, // Assuming response.data contains your new data
+		//                 "columns": [
+		//                     {
+		//                         "data": null, "render": function (data, type, full, meta) {
+		//                             return meta.row + 1; // Add 1 to meta.row to start numbering from 1
+		//                         }
+		//                     },
+		//                     {"data": 'forceName'},
+		//                     {"data": 'irlaNumber'},
+		//                     {"data": 'name'},
+		//                     {"data": 'designation'},
+		//                     {"data": 'unitName'},
+
+		//                 ]
+		//             });
+
+
+		//             $("#forceName_id").value = "";
+
+
+
+		//         },
+		//         error: function () {
+		//             alert('Error while request..');
+		//         }
+		//     });
+		// });
+
+
+
+
+
+		function createDataForUnit(data) {
+
+			const dropdown = document.getElementById("unit_Id");
+			dropdown.innerHTML = "";
+			const option = document.createElement("option");
+			option.text = 'Select';
+			option.value = 0;
+			// !-- option.setAttribute("data", data[i].forceId)-->
+			dropdown.appendChild(option);
+			for (let i = 0; i < data.length; i++) {
+				const option = document.createElement("option");
+				option.text = data[i].unitName;
+				option.value = data[i].unitId;
+				// !-- option.setAttribute("data", data[i].forceId)-->
+				dropdown.appendChild(option);
+			}
+		}
+
+		function createDataForAttachUnit(data) {
+
+			const dropdown = document.getElementById("attach_unit");
+			dropdown.innerHTML = "";
+			const option = document.createElement("option");
+			option.text = 'Select';
+			option.value = 0;
+			// !-- option.setAttribute("data", data[i].forceId)-->
+			dropdown.appendChild(option);
+			for (let i = 0; i < data.length; i++) {
+				const option = document.createElement("option");
+				option.text = data[i].unitName;
+				option.value = data[i].unitId;
+				// !-- option.setAttribute("data", data[i].forceId)-->
+				dropdown.appendChild(option);
+			}
+		}
+
+
+
+
+
+
+	</script>
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	</div>
+
+	</div>
+
+
+	</div>
+
+	</div>
+
+
+
+	<hr>
+
+
+
+
+
+
+
+	</div>
+	<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+
+
+	<!-- Bootstrap core JavaScript -->
+
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function (e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+
+
+
+		$(document).ready(function () {
+			$('#example').DataTable();
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function () {
+			$('#backtotop').click(function () {
+				$("html, body").animate({
+					scrollTop: 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function () {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function () {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+	<!-- Signup Modal -->
+
+
+	<div class="modal fade" id="signout-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Sign Out?</h5>
+
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<!-- Modal body -->
+					<div class="modal-body">
+						<p class="text-center">Are you sure you want to Sign Out?</p>
+						<form action="sign-out">
+							<div class="row">
+								<div class="col-md-6">
+									<button type="submit" class="btn btn-primary">Sign
+										Out</button>
+								</div>
+								<div class="col-md-6">
+									<button type="button" class="btn btn-secondary"
+										data-bs-dismiss="modal">Cancel</button>
+								</div>
+
+							</div>
+
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<script>
+		$(function () {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function () {
+			$("#one-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+
+	<script>
+		function completedRequest() {
+			alert("NO AME REQUEST COMPLETED YET.................!")
+			return false;
+		}
+
+
+
+		function openPopup() {
+			var modal = document.getElementById('myModalControlling');
+			modal.style.display = 'flex'; // Show the modal
+		}
+
+		// Function to close the popup
+		function closePopup() {
+			var modal = document.getElementById('myModalControlling');
+			modal.style.display = 'none'; // Hide the modal
+		}
+
+
+
+		// Close the modal when clicking outside of it
+		window.onclick = function (event) {
+			var modal = document.getElementById('myModalControlling');
+			if (event.target == modal) {
+				modal.style.display = 'none'; // Hide the modal
+			}
+		}
+		
+		//=========//
+
+
+		//=======get forcePersonal details by unit==================//
+
+	
+		
+
+		//===================create table dynamically to fetch data==================//
+		function createForUnitTable(response) {
+			var trHTML = '';
+			$.each(response, function (i, o) {
+				trHTML += '<tr  class="memberData" ><td>'
+					+ (i + 1)
+					+ '<input type="hidden" id="forcePersonalId" value="'
+					+ o.forcePersonalId + '"'
+					+ '</td><td><input type="hidden" id="forceNameId" value="' + o.forceName + '">'
+					+ o.forceName
+					+ '</td><td><input type="hidden"  id="irlaNoId" value="' + o.irlaNumber + '">'
+					+ o.irlaNumber
+					+ '</td><td><input type="hidden" id="nameId" value="' + o.name + '">'
+					+ o.name
+					+
+
+					'</td><td><input type="hidden" id="unitNameId" value="' + o.unitName + '" >'
+					+ o.unitName
+					+ '</td><td>'
+					+ ' <input type="checkbox" name="checkbox" ></button>'
+					+ '</td></tr>';
+			});
+
+			$('#myTable').append(trHTML);
+
+		}
+
+
+		//================================createForAttachUnitTable==================================================//
+
+		function createForAttachUnitTable(response) {
+			var trHTML = '';
+			$.each(response, function (i, o) {
+				trHTML += '<tr  class="memberData" ><td>'
+					+ (i + 1)
+					+ '<input type="hidden" id="forcePersonalId" value="'
+					+ o.forcePersonalId + '"'
+					+ '</td><td><input type="hidden" id="forceNameId" value="' + o.forceName + '">'
+					+ o.forceName
+					+ '</td><td><input type="hidden"  id="irlaNoId" value="' + o.irlaNumber + '">'
+					+ o.irlaNumber
+					+ '</td><td><input type="hidden" id="nameId" value="' + o.name + '">'
+					+ o.name
+					+
+
+					'</td><td><input type="hidden" id="unitNameId" value="' + o.unitName + ' " >'
+					+ o.attachUnit + '<span style="color: darkred;font-weight: 600;">(Original)</span> / ' + o.unitName
+					+ '<span style="color: darkblue;font-weight: 600;">(Attached Unit)</span> </td><td>'
+					+ ' <button class="btnAddToList" name="btnAddToList" onclick="createNewRoleModelCapfAdmin(this)">Assign Role</button>'
+					+ '</td></tr>';
+			});
+
+			$('#myTable').append(trHTML);
+
+		}
+
+
+
+
+
+
+	</script>
+	
+		<script>
+	       $(document).ready(function() {
+	           var table = $('#example').DataTable();
+
+	        
+			   // Handle the Select All checkbox
+			   $('#select-all').on('click', function () {
+			       var isChecked = $(this).prop('checked');
+			       // Ensure DataTable is re-initialized before selecting checkboxes
+			       if ($.fn.DataTable.isDataTable('#example')) {
+			           var table = $('#example').DataTable();
+			           table.rows().nodes().to$().find('input[type="checkbox"]').prop('checked', isChecked);
+			           var rowCount = table.data().count();
+			           console.log('Total number of rows:', rowCount);
+			       }
+});
+	           // Handle row checkbox changes
+	           $('#example tbody').on('change', 'input[type="checkbox"]', function() {
+	               var totalCheckboxes = $('#example tbody input[type="checkbox"]').length;
+	               var checkedCheckboxes = $('#example tbody input[type="checkbox"]:checked').length;
+	               $('#select-all').prop('checked', totalCheckboxes === checkedCheckboxes);
+	           });
+
+	        
+	       });
+	       
+	       
+	       
+	                $(document).ready(function() {
+            $('#attach_unit').select2();
+        });
+	        
+         $(document).ready(function() {
+            $('#unit_Id').select2();
+        });
+         
+         
+
+         
+         
+         
+         
+         
+	   </script>
+	
+
+	<style>
+		.head-st {
+			color: #0086b3;
+			font-weight: 600;
+
+		}
+	</style>
+	<style>
+		#customers {
+			font-family: Arial, Helvetica, sans-serif;
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		#customers td,
+		#customers th {
+			border: 1px solid #ddd;
+			padding: 8px;
+			font-weight: 500;
+		}
+
+		#customers tr:nth-child(even) {
+			background-color: #f2f2f2;
+
+		}
+
+		#customers tr:hover {
+			background-color: #ddd;
+		}
+
+		#customers th {
+			padding-top: 12px;
+			padding-bottom: 12px;
+
+			background-color: rgb(0, 128, 192);
+			color: white;
+
+		}
+
+		.button {
+			background-color: rgb(0, 128, 192);
+			/* Green */
+			border: none;
+			color: white;
+			padding: 15px 32px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			margin: 4px 2px;
+			cursor: pointer;
+		}
+
+		label {
+			display: center;
+			font-weight: 700;
+		}
+
+
+		.container-2 {
+			box-shadow: 8px 7px 229px -44px rgba(0, 0, 0, 0.59);
+			-webkit-box-shadow: 8px 7px 229px -44px rgba(0, 0, 0, 0.59);
+			-moz-box-shadow: 8px 7px 229px -44px rgba(0, 0, 0, 0.59);
+			font-weight: 500;
+			width: 100%;
+			height: 25%;
+			background-color: #ebebeb;
+
+			font-size: 16px;
+		}
+
+		.container-3 {
+			margin-top: 5%;
+		}
+
+		#s1 {
+			font-weight: 400;
+			color: rgb(0, 128, 192);
+		}
+
+		.modalControlling {
+			display: none;
+			/* Hidden by default */
+			position: fixed;
+			/* Stay in place */
+			z-index: 1000;
+			/* Sit on top */
+			left: 0;
+			top: 0;
+			width: 100%;
+			/* Full width */
+			height: 100%;
+			/* Full height */
+			overflow: auto;
+			/* Enable scroll if needed */
+			background-color: rgba(0, 0, 0, 0.4);
+			/* Black w/ opacity */
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.modal-content {
+			background-color: #fefefe;
+			padding: 20px;
+			border: 1px solid #888;
+			width: 80%;
+			/* Could be more or less, depending on screen size */
+			max-width: 600px;
+			/* Maximum width for the modal */
+			box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+			/* Optional shadow for a better look */
+			position: relative;
+		}
+
+		/* Close button */
+		.close {
+			color: #aaa;
+			float: right;
+			font-size: 28px;
+			font-weight: bold;
+			margin-left: auto;
+		}
+
+		.close:hover,
+		.close:focus {
+			color: black;
+			text-decoration: none;
+			cursor: pointer;
+		}
+	</style>
+</body>
+
+</html>

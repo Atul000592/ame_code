@@ -1,0 +1,317 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>AMA DashBoard</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<div th:replace="~{ame-board-and-presiding-officer/header-file::header-file-wrapper}"></div>
+
+</head>
+
+
+<body>
+
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+
+		<div
+			th:replace="~{medical-sub-ordinate/left-menu-ama::sidebar-wrapper-menu-ama}"></div>
+
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+
+
+			<!--nav-->
+			<div
+				th:replace="~{medical-sub-ordinate/nav-bar::sidebar-wrapper-menu-nav-ama}"></div>
+
+			
+			<div class="container mt-3">
+			<form th:action="@{role-map-to-bm-dashboard}" method="post">
+				<input type="submit" value="Back" class="btn btn-info btn-md" style="float: right;width: 100px;">
+				</form>
+				<div class="wisecountnactionbg">
+
+
+					<!-- Content Row -->
+					<div class="proc-box py-2 px-3">
+						<div class="row">
+							<div class="col-md-3">
+							<div class="alert alert-primary my-2">
+								<label class="fw-bold">Board ID :</label> <span
+									th:text="${boardDetails.boardId}"></span>
+									</div>
+							</div>
+							<div class="col-md-3">
+								<div class="alert alert-primary my-2">
+								<label class="fw-bold">Board Type :</label> <span
+									th:text="${boardDetails.useFor}"></span>
+</div>
+
+							</div>
+							<div class="col-md-3">
+								<div class="alert alert-primary my-2">
+								<label class="fw-bold">Created On :</label> <span
+									th:text="${#dates.format(boardDetails.createdOn,'dd-MM-yyyy')}"></span>
+									</div>
+									
+							</div>
+							<div class="col-md-3">
+								<div class="alert alert-primary my-2">
+								<label class="fw-bold">Location :</label> <span th:text="${boardDetails.place}"></span>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="alert alert-primary my-2">
+								<label class="fw-bold">Force Name : </label> <span th:text="BSF"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+
+					<div id="b-homedb">
+
+						<h4>Latest Data</h4>
+
+						<div class="row" id="sortable-cards">
+							<div class="col-lg-6 col-sm-12">
+								<div class="proc-box">
+									
+									<h4><i class="fas fa-user-graduate"></i>
+									 Board Associated with You (Provide AME Appointment)</h4>
+
+									<hr>
+								
+								<span th:text="'Give Appointment For medical Examination'" style="color: #cc0066; font-size: 16px;"></span>
+								
+
+								<a href="pending-for-appointment-controller-ma" class="btn btn-info btn-sm">Click Here</a>
+									
+
+								</div>
+							</div>
+
+							<div class="col-lg-6 col-sm-12">
+								<div class="proc-box">
+
+									<h4>Declaration
+										Completed and Pending For Approval</h4>
+										<hr>
+									<div class="row">
+										<div class="col-md-8">
+
+											<h6>Appointment Pending / Completed</h6>
+										</div>
+										<div class="col-md-4">
+											<h5>
+												<span th:text="${pendingcountama}"></span>/<span
+													th:text="${appointmentcompletedama}"></span>
+											</h5>
+										</div>
+									</div>
+                              <a href="show-ame-declaration-list" class="btn btn-info btn-sm">Click Here</a>
+
+					</div>
+							</div>
+
+							<div class="col-lg-6 col-sm-12">
+								<div class="proc-box">
+									<h4> Upload(AME
+										Declaration) And Investigation List</h4>
+
+									<hr>
+									<div class="row">
+										<div class="col-md-10">
+											<h6>Upload AME Pending / Completed</h6>
+										</div>
+										<div class="col-md-2">
+										    <p class="text-left font-weight-bold" style="font-size:16px;">
+												<span th:text="${AmeDeclarationFormUploadPendingCount}"></span> / <span th:text="${AMEDeclarationFormUploadCompletedCount}"></span>
+											</p>
+										</div>
+
+									</div>
+
+									<div class="row">
+										<div class="col-md-10">
+											<h6>Investigation List Pending /
+												Completed</h6>
+										</div>
+										<div class="col-md-2">
+										    <p class="text-left font-weight-bold" style="font-size:16px;">
+										<span th:text="${AMECheckupListPendingCount}"></span> / <span th:text="${AMEDeclarationFormUploadCompletedCount}"></span>
+											</p>
+										</div>
+
+									</div>
+
+
+								<a
+											href="display-pending-requests-upload-checkup" class="btn btn-info btn-sm">Click Here</a>
+							
+
+								</div>
+							</div>
+							<div class="col-lg-6 col-sm-12">
+								<div class="proc-box">
+								
+									 <h4>	<i class="fas fa-university"></i>
+										Application Recieved and Under Process</h4> 
+										<hr>
+
+									<div class="row">
+										<div class="col-md-10">
+											<h6>Completed / Pending</h6>
+										</div>
+										<div class="col-md-2">
+											<H5>
+												<span th:text="${totalCompletedAma}"></span>
+											</h5>
+										</div>
+
+									</div>
+
+								
+
+										<a
+											href="application-under-process-ma" class="btn btn-info btn-sm">Click Here</a>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-lg-6 col-sm-12">
+							<!--		<div class="proc-box">
+										<i class="fas fa-university"
+											></i>
+										<div class="">
+											<p class="text-left font-weight-bold"
+												style="font-size: 14px;">List of Personal In the board and Declaration Status</p>
+											<h3 class="text-left font-weight-bold"
+												style="margin-top: -5px"></h3>
+
+											<div class="text-left" style="margin: 10px 0px 5px;">
+
+												<form th:action="@{/force-personal-board-detail}" method="post">
+													<input type="hidden" name="forcePersonalId" th:value="${forcePersonalId}">
+													<input type="hidden"	name="boardId" 	th:value="${boardId}">
+													<input type="submit" value="View Detail">
+													
+																							</form>
+											</div>
+										</div>
+									</div>-->
+						</div>
+
+
+
+					</div>
+
+				</div>
+				<div class="my-5" id="b-homedb"></div>
+
+			</div>
+
+		</div>
+
+
+
+
+	</div>
+	<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+
+
+
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function (e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function () {
+			$('#backtotop').click(function () {
+				$("html, body").animate({
+					scrollTop: 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function () {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function () {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+	
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function () {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function () {
+			$("#one-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+
+
+</body>
+
+</html>

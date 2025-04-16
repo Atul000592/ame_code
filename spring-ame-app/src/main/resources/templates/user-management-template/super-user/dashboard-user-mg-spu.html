@@ -1,0 +1,236 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>AMA DashBoard </title>
+	<meta charset="utf-8">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+	<script src="js/local/resetChangeForget.js"></script>
+
+
+	<script src="js/local/disable-back-button.js"></script>
+
+</head>
+
+
+<body>
+	<div th:replace="~{medical-sub-ordinate/master-doc::master-wrapper-doc}"></div>
+
+
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+
+		<div th:replace="~{user-management-template/super-user/mg-left-menu::sidebar-wrapper-menu-mg}"></div>
+
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<div th:replace="~{user-management-template/super-user/nav-bar-mg::sidebar-wrapper-menu-nav-mg}"></div>
+
+			<div class="container-fluid mt-3">
+
+				<div class="wisecountnactionbg">
+
+
+
+					<div id="b-homedb">
+
+
+
+						<div class="row" id="sortable-cards">
+
+							<div class="col-lg-6 ">
+								<div class="proc-box">
+
+									<i class="fas fa-users fs-2 mb-2"></i>
+									<h4 class="mb-2"> ASSIGN ROLE
+									</h4>
+
+
+
+									<a href="assign-new-role-to-user"> Click
+										Here</a>
+
+
+								</div>
+							</div>
+							<div class="col-lg-6 ">
+								<div class="proc-box">
+									<i class="fas fa-user-graduate fs-2 mb-2"></i>
+
+									<h4 class="mb-2">EDIT ROLE</h4>
+
+
+									<a href="manage-all-existing-user-role"> Click
+										Here</a>
+								</div>
+							</div>
+
+
+							<div class="col-lg-6 ">
+								<div class="proc-box">
+									<i class="fas fa-university fs-2 mb-2"></i>
+
+									<h4 class="mb-3">NO OF ROLES
+										ASSIGNED ROLES </h4>
+									<div class="row" >
+										<div class="col">
+										<h6>Total</h6>	
+												<span class="text-danger" th:text="${totalRoleCount}"></span>
+										</div>
+										<div class="col">
+											<h6>Active</h6>
+												<span class="text-danger" th:text="${activeRoleCount}"></span>
+										</div>
+										<div class="col">
+											<h6>InActive</h6>
+													<span class="text-danger" th:text="${InActiveRoleCount}"></span>
+										</div>
+									</div>
+						
+
+							
+
+									<a href="show-existing-user-role-sup-ad">Click
+												Here</a>
+									
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+
+	</div>
+
+
+
+	<form th:action="@{manage-existing-user-role}" method="post" id="editUser">
+		<input type="hidden" name="forcepersonalId" th:value="${loginForcePersonalId}">
+		<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+
+	</form>
+
+
+	</div>
+	<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+
+
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function (e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function () {
+			$('#backtotop').click(function () {
+				$("html, body").animate({
+					scrollTop: 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function () {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function () {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+
+		$(document).ready(function () {
+			$("#editUser-on a").click(function () {
+				//Do stuff when clicked
+				$("#editUser").submit();
+			});
+		});
+
+
+
+	</script>
+
+
+
+	
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function () {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function () {
+			$("#one-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+
+	<script>
+		function completedRequest() {
+			alert("NO AME REQUEST COMPLETED YET.................!")
+			return false;
+		}
+
+	</script>
+
+</body>
+
+</html>

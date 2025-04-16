@@ -1,0 +1,555 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<head>
+<title>AME DashBoard Controller</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<div th:replace="~{user-management-template/force-admin-user/mg-header-menu::sidebar-wrapper-menu-header}"></div>
+
+
+
+
+
+<!-- Include jQuery -->
+    <script src="ame-datatable-js/3.5.1/jquery.min.js"></script>
+    
+    <!-- Include DataTables CSS -->
+    <link rel="stylesheet" href="ame-datatable-css/1.11.5/jquery.dataTables.min.css">
+    
+    <!-- Include DataTables JavaScript -->
+    <script src="ame-datatable-js/1.11.5/jquery.dataTables.min.js"></script>
+    
+    
+</head>
+
+
+<body>
+<!-- 
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
+		<a class="navbar-brand" href="#">Logo</a>
+		<ul class="navbar-nav">
+			<li class="nav-item">
+				<a class="nav-link" href="#">Link</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#">Link</a>
+			</li>
+		</ul>
+	</nav>
+ -->
+
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+	<div th:replace="~{user-management-template/force-admin-user/mg-left-menu::sidebar-wrapper-menu-cpf}"></div>
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<div th:replace="~{user-management-template/force-admin-user/nav-bar-mg::sidebar-wrapper-menu-nav-cpf}"></div>
+
+
+			<div class="container-fluid">
+
+				<!-- Content Row -->
+<div class="row" style="margin-top: 2%;width: 95%;float:unset;">
+	<div class="col-md-6" style="font-weight: 600;">
+			<label>
+			<h5>Identify Doctor</h5>	
+			</label>
+		</div>
+		</div>
+<div class="row" style="margin-top: 2%;width: 95%;float:unset;">
+		<div class="col-md-2">
+			<label style="font-weight: 600;">
+				Force :-
+			</label>
+		</div>
+		<div class="col-md-4">
+			<label th:text="${loginForceName}">
+				
+			</label>
+			<input type="hidden" id="forceName_id" th:value="${forceNumber}">
+		</div>
+		<div class="col-md-2" style="font-weight: 600;">
+			<label>
+				Unit In:-
+			</label>
+		</div>
+		<div class="col-md-4">
+			<label>
+				<span  aria-label="Default select example">
+					<select id="unit_Id" style="width:200px">
+							<option value="0">Select
+				</option>
+				<option th:each="unitList: ${unitList}" th:value="${unitList.unitId}"
+					th:text="${unitList.unitName}">
+				</option>
+					</select>
+				</span>
+			</label>
+		</div>
+    </div>
+
+
+	<hr>
+	<div style="width: 95%;float:unset;" >
+		<h5 class="text-center"> List of Force Personal</h5>
+	
+		<table style="width:100%; font-size:14px;font-family:'Times New Roman', Times, serif;font-size: 14px;" class="table table-striped" id="example" >
+			<thead>
+				<tr>
+					
+	                <th>Force</th>
+					<th>IRLA No</th>
+					<th>Name</th>
+					<th>Gender</th>
+					
+					<th>Designation</th>
+					<th>Unit</th>
+					<th width="50">Action</th>
+
+				</tr>
+			</thead>
+			<tbody id="myTable">
+
+
+			</tbody>
+		</table>
+
+	</div>
+
+<form th:action="@{identity-doctor-for-force}" id="formId">
+	
+</form>
+
+
+
+<div class="modal fade" id="FinalSubmit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="OTP-Alart" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-4" id="exampleModalCenteredScrollableTitle" style="margin: auto;"><b>Mark Doctor</b></h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+  
+  <h6 class="modal-title fs-5">Individual Details</h6>
+  <hr>
+  <div class="row">
+	  <div class="col-md-3">
+		  <label>Name</label>
+	  </div>
+	  <div class="col-md-3">
+		  <span id="name"></span>
+	  </div>
+	  <div class="col-md-3">
+		  <label>IRLA No</label>
+	  </div>
+	  <div class="col-md-3">
+		  <span id="irlaNo"></span>
+	  </div>
+		  
+  </div>
+  <div class="row">
+	  <div class="col-md-3">
+		  <label>Rank/Designation</label>
+	  </div>
+	  <div class="col-md-3">
+		  <span id="rank"></span>
+	  </div>
+	  <div class="col-md-3">
+		 
+	  </div>
+	  <div class="col-md-3">
+		  
+	  </div>
+	  
+		  
+  </div>
+   <div class="row">
+	  <div class="col-md-3">
+		  <label>Force</label>
+	  </div>
+	  <div class="col-md-3">
+		  <span id="forceName"></span>
+	  </div>
+	  <div class="col-md-3">
+		  <label>Unit Name</label>
+	  </div>
+	  <div class="col-md-3">
+		  <span id="unitName"></span>
+	  </div>
+	  
+	  </div>
+
+<br>
+<hr>
+<div class="row">
+
+	<div class="col-md-12"><b>Please Read the Details And Click (I Agree) to Mark as a Doctor..</b> </span>
+	</div>
+</div>
+
+
+</div>
+      <div class="modal-footer">
+		  <div class="row">
+			
+			  <div class="col-md-6">
+				  <button type="button" class="btn btn-light mx-2" data-bs-dismiss="modal">Cancel</button>
+			  </div>
+			  <div class="col-md-6">
+				  <button type="button" class="btn btn-primary mx-2" data-bs-dismiss="modal" onclick="markAsDoctor()" id="fpId">I Agree</button> 
+			  </div>
+		  </div>
+       
+      
+      </div>
+    </div>
+  </div>
+  
+  </div>
+
+
+
+	</div>
+	<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+		
+		 $(document).ready(function() {
+            $('#example').DataTable();
+        });
+        
+         $(document).ready(function() {
+            $('#mappedTable').DataTable();
+        });
+	</script>
+
+
+	<script>
+		$(document).ready(function() {
+			$('#backtotop').click(function() {
+				$("html, body").animate({
+					scrollTop : 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function() {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function() {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+	<!-- Signup Modal -->
+	<div class="modal fade" id="signout-modal">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header text-center d-block p-5 border-bottom-0">
+					<h3 class="modal-title">Sign Out?</h3>
+					<button type="button" class="close position-absolute"
+						style="right: 15px; top: 8px;" data-dismiss="modal">&times;</button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body">
+					<p class="text-center">Are you sure you want to Sign Out?</p>
+					<div class="text-center py-4">
+						<form action="sign-out">
+							<button type="submit" class="btn btn-primary b-btn mx-3">Sign
+								Out</button>
+							<button class="btn btn-secondary mx-3" data-dismiss="modal">Cancel</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function() {
+			$("#one-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+		
+		
+		
+		
+		
+		$(document).ready(function () {
+
+
+		$('#forceName_id').on('change', function () {
+
+			var forceId = $(this).val();
+
+
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			$.ajax({
+				type: 'Post',
+				url: 'get-unit-by-forceNo-board',
+
+				data: {forceId: forceId}, beforeSend: function (xhr) {
+
+					xhr.setRequestHeader(header, token);
+				},
+
+				success: function (data) {
+
+					console.log(data);
+					const dropdown = document.getElementById("unit_Id");
+					dropdown.innerHTML = "";
+					const option = document.createElement("option");
+					option.text = 'Select';
+					option.value = 0;
+					// !-- option.setAttribute("data", data[i].forceId)-->
+					dropdown.appendChild(option);
+					for (let i = 0; i < data.length; i++) {
+						const option = document.createElement("option");
+						option.text = data[i].unitName;
+						option.value = data[i].unitId;
+						// !-- option.setAttribute("data", data[i].forceId)-->
+						dropdown.appendChild(option);
+					}
+
+				},
+				error: function (e) {
+
+
+
+					console.log("ERROR : ", e);
+
+				}
+			});
+		});
+
+		});
+		
+		
+       //====on change boardId get board details====//
+ 
+
+$('#unit_Id').on('change', function () {
+    console.log("Unit ID changed");
+    
+    var unitId = $(this).val();
+    var forceName_id = $("#forceName_id").val();
+    console.log("Unit ID:", unitId);
+    console.log("Force Name ID:", forceName_id);
+    
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+   
+        $.ajax({
+            type: "post",
+            url: "get-force-personal-by-unit-id-non-medic",
+            cache: false,
+            dataType: 'json',
+            data: {
+                queryData: JSON.stringify({ unitNo: unitId, forceNo: forceName_id })
+            },
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function (response) {
+                console.log("Ajax success. Response:", response);
+                
+                $("#forceNumber").val(response.forceNo);
+                $("#unitNumber").val(response.unitId);
+
+                // Destroy the existing DataTable before initializing with new data
+                if ($.fn.DataTable.isDataTable("#example")) {
+                    $("#example").dataTable().fnDestroy();
+                    console.log("DataTable destroyed");
+                }
+
+                // Initialize DataTable with new data
+                $("#example").DataTable({
+					 "scrollX": true, // Enable horizontal scrolling
+                     "scrollY": "270px", // Enable vertical scrolling with a fixed height
+                    "data": response.personalResponeseAjax, // Assuming response.data contains your new data
+                    "columns": [
+                    
+                        { "data": 'forceName' },
+                        { "data": 'irlaNumber' },
+                        { "data": 'name' },
+                        { "data": 'gender' },
+
+                        { "data": 'designation' },
+                         { "data": 'unitName' },
+                        {
+                            "data": null,
+                            "render": function (data, type, full, meta) {
+                return '<input type="button" value="Mark Doctor" onclick="getForcePersonalDetailsForAssignAsDoctor(this)"  name="' + data.forcePersonalId + '">';                            }
+                        }
+                    ]
+                });
+                console.log("DataTable initialized with new data");
+            },
+            error: function (xhr, status, error) {
+                console.log("Ajax error:", error);
+                alert('Error while request..');
+            }
+        });
+
+       
+   
+});
+		
+		
+		//get Mapped member data by boardid
+
+
+
+ 
+		
+	</script>
+	
+	
+	<script>
+		
+		
+		function getForcePersonalDetailsForAssignAsDoctor(e){
+			var id=e.name;
+			 
+             
+              var token = $("meta[name='_csrf']").attr("content");
+              var header = $("meta[name='_csrf_header']").attr("content");
+
+   
+        $.ajax({
+            type: "post",
+            url: "get-force-personal-details-for-medical-cadre",
+           
+            dataType: 'json',
+            data:{ id : id},
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function (response) {
+                console.log("Ajax success. Response:", response);
+               
+               
+            $("#forceName").text(response.forceName);
+            $("#irlaNo").text(response.fp.forceId);
+            $("#name").text(response.fp.name);
+            $("#rank").text(response.fp.designation);
+            $("#unitName").text(response.unitName);
+             $("#fpId").val(response.fp.forcePersonalId);
+            
+               
+                const modal = document.querySelector('#FinalSubmit');
+                var modalInstance = new bootstrap.Modal(modal);
+                modalInstance.show();
+           
+            },
+            error: function (xhr, status, error) {
+                console.log("Ajax error:", error);
+                alert('Error while request..');
+            }
+        });
+             
+		}
+		
+	</script>
+	
+	<script>
+		function markAsDoctor(){
+		  var fp_id=$("#fpId").val();
+		    
+              var token = $("meta[name='_csrf']").attr("content");
+              var header = $("meta[name='_csrf_header']").attr("content");
+
+   
+        $.ajax({
+            type: "post",
+            url: "assign-new-doctor-to-unit",
+           
+            dataType: 'json', 
+            data:{ id : fp_id},
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function (response) {
+                console.log("Ajax success. Response:", response);
+               
+               alert("Doctor Marked Successfully....................!" +response);
+               $("#formId").submit();
+            },
+            error: function (xhr, status, error) {
+                console.log("Ajax error:", error);
+                alert('Error while request..');
+            }
+        });
+		}
+	</script>
+	
+
+
+</body>

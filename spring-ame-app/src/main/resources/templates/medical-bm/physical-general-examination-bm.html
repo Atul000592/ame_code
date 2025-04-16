@@ -1,0 +1,1224 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>AME DashBoard Controller</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+<div th:replace="~{medical-sub-ordinate/master-doc::master-wrapper-doc}"></div>
+
+
+</head>
+
+
+<body>
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+		<div th:replace="~{medical-bm/left-menu-bm::sidebar-wrapper-menu-bm}"></div>
+
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+
+
+			<!--nav-->
+			<div
+				th:replace="~{medical-bm/nav-bar-bm::sidebar-wrapper-menu-nav-bm}"></div>
+
+
+
+			<div class="container mt-3">
+
+				<div class="wisecountnactionbg">
+
+                   <div th:replace="~{medical-sub-ordinate/inner-user-details::sidebar-wrapper-inner-user-details}">
+					   
+				   </div>
+
+										</div>
+					<!-- candidate details end-->
+
+					<div id="loading-overlay">
+						<div class="spinner"></div>
+					</div>
+
+<button class="btn btn-info float-end" type="button" id="load-previous-ame-form-data">Load previous AME data</button>
+					<div class="proc-box py-2 px-3 text-start">
+     
+
+						<form id="regForm" th:object="${generalExamination}">
+
+							<!-- One "tab" for each step in the form: -->
+
+
+							
+							<div class="row">
+
+							
+
+								<div class="col-md-10 my-2">
+										<h4>Physical(General Examination)</h4>
+								</div>
+								<div class="col-md-2 my-2">
+									<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#cooper-test"
+									onclick="openAppendixE()">Cooper Test</button>
+								</div>
+
+
+
+
+							</div>
+							<hr>
+
+
+							<div class="row">
+					
+								<label class="col-md-3 my-2">Distance covered in 12 minutes run/walk (Meters)</label>
+							
+								<div class="col-md-3 my-2">
+									<input type="text" class="form-control"
+										placeholder="Distance covered in minutes"
+										th:field="*{distanceCoveredInMin}" id="distanceCoveredInMin" onkeypress='validate(event)'>
+
+
+						
+									<span id="distanceCoveredInMin_error" class="error"></span>
+								</div>
+
+						
+
+						
+								<label class="col-md-3 my-2">Body Built</label>
+							
+								<div class="col-md-3 my-2">
+									<select th:field="*{bodyBuild}" class="form-select"
+										id="bodyBuild">
+										<option th:value="${bodyBuild}" th:text="*{bodyBuild}"></option>
+										<option th:each="innerList : ${gDropDownOptions.c1}"
+											th:text="${innerList.value}" th:value="${innerList.value}">
+										</option>
+									</select>
+
+
+
+
+									<span id="bodyBuild_error" class="error"></span>
+								</div>
+							</div>
+					
+
+							<div class="row">
+
+							
+									<label class="col-md-3 my-2">BP (mmHg)Systolic</label> 
+									
+										<div class="col-md-3 my-2">
+									<select class="form-select"
+										th:field="*{bpSystolic}" id="bpSystolic">
+										<option th:value="*{bpSystolic}" th:text="*{bpSystolic}">select
+										</option>
+										<option
+											th:each="i: ${#numbers.sequence(bpRange.lowerRange,bpRange.upperRange)}"
+											th:text="${i}+' '+${bpRange.unit}" th:value="${i}">
+									</select> <span id="bpSystolic_error" class="error"></span>
+								</div>
+					
+									<label class="col-md-3 my-2">BP (mmHg)Diastolic</label> 
+										<div class="col-md-3 my-2">
+										<select class="form-select"
+										th:field="*{bpDiastolic}" id="bpDiastolic">
+										<option th:value="*{bpDiastolic}" th:text="*{bpDiastolic}">select
+										</option>
+										<option
+											th:each="i: ${#numbers.sequence(bpRange.lowerRange,bpRange.upperRange)}"
+											th:text="${i}+' '+${bpRange.unit}" th:value="${i}">
+									</select>
+
+
+							
+
+
+								<span id="bpDiastolic_error" class="error"></span>
+
+	</div>
+						
+								<label class="col-md-3 my-2">Tongue</label>
+								<div class="col-md-3 my-2">
+								 <select th:field="*{tounge}"
+										class="form-select" id="tounge">
+										<option th:value="${tounge}" th:text="*{tounge}"></option>
+
+										<option th:each="innerList : ${gDropDownOptions.c2}"
+											th:text="${innerList.value}" th:value="${innerList.value}">
+										</option>
+									</select> <span id="tounge_error" class="error"></span>
+
+								</div>
+						
+
+								<label class="col-md-3 my-2">Pulse/&nbsp;mt</label>
+										<div class="col-md-3 my-2"> <select th:field="*{pulseRate}"
+										class="form-select" id="pulseRate">
+
+										<option th:value="${pulseRate}" th:text="*{pulseRate}"></option>
+
+										<option
+														th:each="i: ${#numbers.sequence(pulse.lowerRange, pulse.upperRange)}"
+														th:text="${i}+' '+${pulse.unit}"
+														th:value="${i}">
+									</select> <span id="pulseRate_error" class="error"></span>
+
+
+								</div>
+						
+								<label class="col-md-3 my-2">Anemia</label>
+										<div class="col-md-3 my-2"> <select th:field="*{anaemia}"
+										class="form-select" id="anaemia">
+										<option th:value="${anaemia}" th:text="*{anaemia}"></option>
+
+										<option style="font-weight: bold;"
+											th:each="innerList : ${gDropDownOptions.c3}"
+											th:text="${innerList.value}" th:value="${innerList.value}">
+										</option>
+									</select> <span id="anaemia_error" class="error"></span>
+
+								</div>
+
+					
+								<label class="col-md-3 my-2">Temp(F)</label>
+									<div class="col-md-3 my-2">
+										<input type="text" class="form-control"
+											th:field="*{temperature}" id="temperature" onkeypress='validate(event)'> <span
+											id="temperature_error" class="error"></span>
+
+									</div>
+			
+								<label class="col-md-3 my-2">Cyanosis</label>		<div class="col-md-3 my-2">
+								 <select th:field="*{cyanosis}"
+										class="form-select" id="cyanosis">
+										<option th:value="${cyanosis}" th:text="*{cyanosis}"></option>
+
+										<option style="font-weight: bold;"
+											th:each="innerList : ${gDropDownOptions.c4}"
+											th:text="${innerList.value}" th:value="${innerList.value}">
+										</option>
+									</select> <span id="cyanosis_error" class="error"></span>
+
+								</div>
+
+						
+								<label class="col-md-3 my-2">Icterus</label>
+										<div class="col-md-3 my-2"> <select th:field="*{icterus}"
+										class="form-select" id="icterus">
+										<option th:value="${icterus}" th:text="*{icterus}"></option>
+
+										<option style="font-weight: 500;"
+											th:each="innerList : ${gDropDownOptions.c5}"
+											th:text="${innerList.value}" th:value="${innerList.value}">
+										</option>
+									</select> <span id="icterus_error" class="error"></span>
+								</div>
+
+					
+								<label class="col-md-3 my-2">Respiration</label>
+										<div class="col-md-3 my-2"> <select th:field="*{respiration}"
+										class="form-select" id="respiration">
+										<option th:value="*{respiration}" th:text="*{respiration}"></option>
+
+
+										<option th:each="i: ${#numbers.sequence(10,50)}"
+											th:text="${i}+' '+'per/min'" th:value="${i}">
+									</select> <span id="respiration_error" class="error"></span>
+
+
+
+								</div>
+
+
+								<label class="col-md-3 my-2">Oedema</label> 
+										<div class="col-md-3 my-2"><select th:field="*{oedema}"
+										class="form-select" id="oedema">
+										<option th:value="${oedema}" th:text="*{oedema}"></option>
+
+										<option style="font-weight: 500;"
+											th:each="innerList : ${gDropDownOptions.c6}"
+											th:text="${innerList.value}" th:value="${innerList.value}">
+										</option>
+									</select> <span id="oedema_error" class="error"></span>
+								</div>
+					
+								<label class="col-md-3 my-2">Clubbing</label>		<div class="col-md-3 my-2"> <select th:field="*{clubbing}"
+										class="form-select" id="clubbing">
+										<option th:value="${clubbing}" th:text="*{clubbing}"></option>
+
+										<option style="font-weight: 500;"
+											th:each="innerList : ${gDropDownOptions.c7}"
+											th:text="${innerList.value}" th:value="${innerList.value}">
+										</option>
+									</select> <span id="clubbing_error" class="error"></span>
+
+								</div>
+
+						
+								<label class="col-md-3 my-2">Koilonychia</label>
+										<div class="col-md-3 my-2"> <select th:field="*{koilonychia}"
+										class="form-select" id="koilonychia">
+										<option th:value="${koilonychia}" th:text="*{koilonychia}"></option>
+
+										<option style="font-weight: 500;"
+											th:each="innerList : ${gDropDownOptions.c8}"
+											th:text="${innerList.value}" th:value="${innerList.value}">
+										</option>
+									</select> <span id="koilonychia_error" class="error"></span>
+								</div>
+								
+					
+								<label class="col-md-3 my-2">Lymph glands palpable</label>		<div class="col-md-3 my-2"> <select
+										th:field="*{lymphGlandsPalpable}" class="form-select"
+										id="lymphGlandsPalpable">
+										<option th:value="${lymphGlandsPalpable}"
+											th:text="*{lymphGlandsPalpable}"></option>
+
+										<option style="font-weight: 500;"
+											th:each="innerList : ${gDropDownOptions.c9}"
+											th:text="${innerList.value}" th:value="${innerList.value}">
+										</option>
+									</select> <span id="lymphGlandsPalpable_error" class="error"></span>
+
+								</div>
+							
+								<label class="col-md-3 my-2">Tonsils</label>		<div class="col-md-3 my-2"> <select th:field="*{tonsils}"
+										class="form-select" id="tonsils">
+										<option th:value="${tonsils}" th:text="*{tonsils}"></option>
+
+										<option style="font-weight: 500;"
+											th:each="innerList : ${gDropDownOptions.c14}"
+											th:text="${innerList.value}" th:value="${innerList.value}">
+										</option>
+									</select> <span id="tonsils_error" class="error"></span>
+								</div>
+				
+								<label class="col-md-3 my-2">JVP</label> 		<div class="col-md-3 my-2"><select th:field="*{jvp}"
+										class="form-select" id="jvp">
+										<option th:value="${jvp}" th:text="*{jvp}"></option>
+
+										<option style="font-weight: 500;"
+											th:each="innerList : ${gDropDownOptions.c10}"
+											th:text="${innerList.value}" th:value="${innerList.value}">
+										</option>
+									</select> <span id="jvp_error" class="error"></span>
+
+								</div>
+
+						
+								<label class="col-md-3 my-2">Teeth/Denture</label>		<div class="col-md-3 my-2"> <select th:field="*{teethDenture}"
+										class="form-select" id="teethDenture">
+										<option th:value="${teethDenture}" th:text="*{teethDenture}"></option>
+
+										<option style="font-weight: 500;"
+											th:each="innerList : ${gDropDownOptions.c15}"
+											th:text="${innerList.value}" th:value="${innerList.value}">
+										</option>
+									</select> <span id="teethDenture_error" class="error"></span>
+
+								</div>
+
+
+					
+								<label class="col-md-3 my-2">Thyroid</label>		<div class="col-md-3 my-2"> <select th:field="*{thyroid}"
+										class="form-select" id="thyroid">
+										<option th:value="${thyroid}" th:text="*{thyroid}"></option>
+
+										<option style="font-weight: 500;"
+											th:each="innerList : ${gDropDownOptions.c11}"
+											th:text="${innerList.value}" th:value="${innerList.value}">
+										</option>
+									</select> <span id="thyroid_error" class="error"></span>
+
+								</div>
+
+							
+								<label class="col-md-3 my-2">Throat</label>		<div class="col-md-3 my-2"> 
+									<input type="text" class="form-control"
+										placeholder="throat" th:field="*{throat}" id="throat">
+									<span id="throat_error" class="error"></span>
+								</div>
+
+
+				
+								<label class="col-md-3 my-2">Spleen</label> 		<div class="col-md-3 my-2"><select th:field="*{spleen}"
+										class="form-select" id="spleen">
+										<option th:value="${spleen}" th:text="*{spleen}"></option>
+
+										<option style="font-weight: 500;"
+											th:each="innerList : ${gDropDownOptions.c12}"
+											th:text="${innerList.value}" th:value="${innerList.value}">
+										</option>
+									</select> <span id="spleen_error" class="error"></span>
+
+								</div>
+
+						
+								<label class="col-md-3 my-2">Liver</label>		<div class="col-md-3 my-2"> <select th:field="*{liver}"
+										class="form-select" id="liver">
+										<option th:value="${liver}" th:text="*{liver}"></option>
+
+										<option style="font-weight: 500;"
+											th:each="innerList : ${gDropDownOptions.c13}"
+											th:text="${innerList.value}" th:value="${innerList.value}">
+										</option>
+									</select> <span id="liver_error" class="error"></span>
+								</div>
+
+
+							</div>
+
+							<div class="row" th:if="${candidateDetails.gender}=='Female'">
+						
+								<label class="col-md-3 my-2">Breast Examination</label> 
+								<div class="col-md-3 my-2"> 
+								<input type="text"
+										class="form-control" placeholder="Breast Examination"
+										th:field="*{breastExamination}" id="breastExamination">
+									<span id="breastExamination_error" class="error"></span>
+
+								</div>
+
+
+
+
+							</div>
+
+
+
+
+
+
+							<div class="row">
+								<div class="col-md-6">
+									<h5>
+									<label>(ii) C.V.S</label>
+									</h5>
+
+
+
+								</div>
+							</div>
+							<div class="row">
+							
+								<label class="col-md-3 my-2">S1</label>
+								
+								<div class="col-md-3 my-2"> 
+								 <select th:field="*{s1}" class="form-select"
+										id="s1">
+										<option th:value="${s1}" th:text="*{s1}"></option>
+
+										<option style="font-weight: 500;"
+											th:each="innerList : ${gDropDownOptions.c16}"
+											th:text="${innerList.value}" th:value="${innerList.value}">
+										</option>
+									</select> <span id="s1_error" class="error"></span>
+
+								</div>
+
+
+
+
+
+						
+								<label class="col-md-3 my-2">S2</label>
+								<div class="col-md-3 my-2"> 
+								 <select th:field="*{s2}" class="form-select"
+										id="s2">
+										<option th:value="${s2}" th:text="*{s2}"></option>
+
+										<option style="font-weight: 500;"
+											th:each="innerList : ${gDropDownOptions.c17}"
+											th:text="${innerList.value}" th:value="${innerList.value}">
+										</option>
+									</select> <span id="s2_error" class="error"></span>
+
+								</div>
+
+						
+								<label class="col-md-3 my-2">Murmur if any:</label> 
+								<div class="col-md-3 my-2"> 
+								<select th:field="*{murmur}"
+										class="form-select" id="murmur">
+										<option th:value="${murmur}" th:text="*{murmur}"></option>
+
+										<option style="font-weight: 500;"
+											th:each="innerList : ${gDropDownOptions.c17}"
+											th:text="${innerList.value}" th:value="${innerList.value}">
+										</option>
+									</select> <span id="liver_error" class="error"></span>
+
+								</div>
+							</div>
+					
+				
+							<hr>
+							<div class="d-grid gap-2 d-md-block mb-5">
+								<button type="button" class="btn btn-secondary"
+									onclick="backToHome()" style="width: 100px; float: left;">Back</button>
+								<button type="submit" class="btn btn-success"
+									style="width: 100px; float: right;">Submit</button>
+
+
+							</div>
+
+
+
+</div>	
+
+							<input type="hidden" th:value="${ameId}" name="ameId" id="ameId">
+							<input type="hidden" th:value="${forcepersonalId}"
+								name="forcepersonalId">
+
+
+						</form>
+							<form th:action="@{/declaration-requests-completed-ma}" method="post" id="back-to-home">
+					<input type="hidden" name="forcepersonalId" th:value="${forcepersonalId}">
+					<input class="btn btn-secondary" type="hidden" name="ameId" th:value="${ameId}">
+
+				</form>
+
+
+
+
+					</div>
+
+
+
+
+
+
+					<div
+						th:replace="~{medical-sub-ordinate/alert-modal::message-alert-modal}"></div>
+
+				</div>
+				<!-- /#page-content-wrapper -->
+
+			</div>
+			</div>
+			</div>
+			<!-- /#wrapper -->
+			<script>
+		function backToHome() {
+
+			$("#back-to-home").submit();
+		}
+	</script>
+
+
+			<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			setDefaultValues();
+		});
+		</script>
+
+			<!-- Menu Toggle Script -->
+			<script>
+		$("#menu-toggle").click(function (e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+			<script>
+		$(document).ready(function () {
+			$('#backtotop').click(function () {
+				$("html, body").animate({
+					scrollTop: 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+			<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function () {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function () {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+			<!-- Signup Modal -->
+			<div class="modal fade" id="signout-modal" data-bs-backdrop="static"
+				data-bs-keyboard="false" tabindex="-1"
+				aria-labelledby="staticBackdropLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg modal-dialog-centered">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">Sign Out?</h5>
+
+								<button type="button" class="btn-close" data-bs-dismiss="modal"
+									aria-label="Close"></button>
+							</div>
+							<!-- Modal body -->
+							<div class="modal-body">
+								<p class="text-center">Are you sure you want to Sign Out?</p>
+								<form action="sign-out">
+									<div class="row">
+										<div class="col-md-6">
+											<button type="submit" class="btn btn-primary">Sign
+												Out</button>
+										</div>
+										<div class="col-md-6">
+											<button type="button" class="btn btn-secondary"
+												data-bs-dismiss="modal">Cancel</button>
+										</div>
+
+									</div>
+
+								</form>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+<div class="modal fade" id="cooper-test" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+	aria-labelledby="OTP-Alart" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg ">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-4" id="exampleModalCenteredScrollableTitle" style="margin: auto;">
+					<b style="text-align: center;">Cooper Test</b></h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div style="max-height: 800px; overflow-y: auto;">
+				<img src="images/cooper-test.jpg" alt="My Image" style="height:auto; width:auto">
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" style="width: 100px;"
+					data-bs-dismiss="modal">Close</button>
+
+			</div>
+
+		</div>
+	</div>
+</div>
+
+			<script src="vendor/jquery-ui/jquery-ui.js"></script>
+			<script>
+		$(function () {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+			<script>
+		$(function () {
+			$("#one-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+			<script>
+		var currentTab = 0; // Current tab is set to be the first tab (0)
+		showTab(currentTab); // Display the current tab
+
+		function showTab(n) {
+			// This function will display the specified tab of the form...
+			var x = document.getElementsByClassName("tab");
+			x[n].style.display = "block";
+			//... and fix the Previous/Next buttons:
+
+			if (n == 0) {
+				document.getElementById("prevBtn").style.display = "none";
+			} else {
+				document.getElementById("prevBtn").style.display = "inline";
+			}
+			if (n == (x.length - 1)) {
+				document.getElementById("nextBtn").innerHTML = "Submit";
+			} else {
+				document.getElementById("nextBtn").innerHTML = "Next";
+			}
+			//... and run a function that will display the correct step indicator:
+			fixStepIndicator(n);
+			fixTabIndicator(n)
+		}
+
+		function nextPrev(n) {
+			// This function will figure out which tab to display
+			var x = document.getElementsByClassName("tab");
+			// Exit the function if any field in the current tab is invalid:
+			if (n == 1 && !validateForm()) return false;
+			// Hide the current tab:
+			x[currentTab].style.display = "none";
+			// Increase or decrease the current tab by 1:
+			currentTab = currentTab + n;
+			// if you have reached the end of the form...
+			if (currentTab >= x.length) {
+				// ... the form gets submitted:
+				document.getElementById("regForm").submit();
+				return false;
+			}
+			// Otherwise, display the correct tab:
+			showTab(currentTab);
+		}
+
+		function validateForm() {
+			// This function deals with validation of the form fields
+			var x, y, i, valid = true;
+			x = document.getElementsByClassName("tab");
+			y = x[currentTab].getElementsByTagName("input");
+			// A loop that checks every input field in the current tab:
+			for (i = 0; i < y.length; i++) {
+				// If a field is empty...
+				if (y[i].value == "") {
+					// add an "invalid" class to the field:
+					y[i].className += " invalid";
+					// and set the current valid status to false
+					valid = false;
+				}
+			}
+			// If the valid status is true, mark the step as finished and valid:
+			if (valid) {
+				document.getElementsByClassName("step")[currentTab].className += " finish";
+			}
+			return valid; // return the valid status
+		}
+
+		function fixStepIndicator(n) {
+			// This function removes the "active" class of all steps...
+			var i, x = document.getElementsByClassName("step");
+			for (i = 0; i < x.length; i++) {
+				x[i].className = x[i].className.replace(" active", "");
+			}
+			//... and adds the "active" class on the current step:
+			x[n].className += " active";
+		}
+		function fixTabIndicator(n) {
+			// This function removes the "active" class of all steps...
+			var i, x = document.getElementsByClassName("tabstatus");
+			for (i = 0; i < x.length; i++) {
+				x[i].className = x[i].className.replace(" active", "");
+			}
+			//... and adds the "active" class on the current step:
+			x[n].className += " active";
+		}
+	</script>
+
+			<!-- ===============================================RK=================================================================== -->
+			<script>
+	$(document).ready(function() {
+		$('#regForm').submit(function(event) {
+			 event.preventDefault();
+			    var ameId=$("#ameId").val();
+			    var bodyBuild=$("#bodyBuild").val();
+				var bpSystolic=$("#bpSystolic").val();
+				var bpDiastolic=$("#bpDiastolic").val();
+				var tounge=$("#tounge").val();
+				var pulseRate=$("#pulseRate").val();
+				var temperature=$("#temperature").val();
+				var anaemia=$("#anaemia").val();
+				var cyanosis=$("#cyanosis").val();
+				var respiration=$("#respiration").val();
+				var icterus=$("#icterus").val();
+			    var oedema=$("#oedema").val();
+			    var clubbing=$("#clubbing").val();
+			    var koilonychia=$("#koilonychia").val();
+				var lymphGlandsPalpable=$("#lymphGlandsPalpable").val();
+				var tonsils=$("#tonsils").val();
+			    var jvp=$("#jvp").val();
+			    var teethDenture=$("#teethDenture").val();
+			    var thyroid=$("#thyroid").val();
+			    var throat=$("#throat").val();
+			    var spleen=$("#spleen").val();
+			    var liver=$("#liver").val();
+			    var cvs=$("#cvs").val();
+				var s1=$("#s1").val();
+			    var s2=$("#s2").val();
+			    var murmur=$("#murmur").val();
+			    var distanceCoveredInMin=$("#distanceCoveredInMin").val();
+			    var breastExamination=$("#breastExamination").val();
+			    var gender=$("#candidateDetailsGender").text();
+		    
+			var formData={
+			
+					 ameId:ameId,
+					 bodyBuild:bodyBuild,
+				     bpSystolic:bpSystolic,
+			         bpDiastolic:bpDiastolic,
+					 tounge:tounge,
+					 pulseRate:pulseRate,
+					 temperature:temperature,
+					 anaemia:anaemia,
+					 cyanosis:cyanosis,
+					 respiration:respiration,
+					 icterus:icterus,
+				     oedema:oedema,
+				     clubbing: clubbing,
+				     koilonychia:koilonychia,
+                     lymphGlandsPalpable:lymphGlandsPalpable,
+                     tonsils:tonsils,
+				     jvp:jvp,
+				     teethDenture:teethDenture,
+				     thyroid:thyroid,
+				     throat:throat,
+				     spleen:spleen,
+				     liver:liver,
+				     cvs:cvs,
+					 s1: s1,
+				     s2:s2,
+				     murmur: murmur,
+				     distanceCoveredInMin:distanceCoveredInMin,
+				     breastExamination:breastExamination
+
+					
+			};
+			
+			var dataToSend={
+				data:formData,
+				gender:gender
+			}
+
+			/* ===================header==================== */
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			/* ===============clearing previous error message============ */
+			$('.error').text('');
+			
+			
+			/* =====================Spinner================= */
+              $('#loading-overlay').show();
+			  $('body').addClass('loading');
+
+
+			$.ajax({
+				type: 'POST',
+				url: 'validate-and-save-physical-general-examination',
+				data:JSON.stringify(dataToSend),
+				contentType: 'application/json',
+				async:true,
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader(header, token);
+				},
+				success: function(response) {
+					
+					 
+
+					if (response.isValid) {
+						 $('#alert-modal .modal-title').text('Success');
+				            $('#alert-modal .modal-body h3').text(response.message);
+				            
+				            $('#alert-modal .modal-body i').removeClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+				                                             .addClass('fas fa-check-circle faa-tada animated')
+				                                             .removeAttr('style');
+				            
+				            $("#cross-close-button").attr('onclick', 'backToHome()');
+				            $("#okay-close-button").attr('onclick', 'backToHome()');
+				            $('#alert-modal').modal({
+				                backdrop: 'static',
+				                keyboard: false
+				              });
+							  	            $('#alert-modal').modal('show');
+							  
+						 }
+
+					else {
+                             $.each(response.errors, function(field, errorMessage) {
+							 $('#' + field + '_error').text(errorMessage);
+							
+							});
+						}
+					
+	},
+	 complete: function() {
+         $('#loading-overlay').hide();
+         $('body').removeClass('loading');
+     },
+				error: function(xhr, status, error) {
+
+					if(xhr.responseText){
+
+						$('#alert-modal .modal-title').text('ERROR');
+			            $('#alert-modal .modal-body h3').text(xhr.responseText);
+			            
+			           $('#alert-modal .modal-body i')  .addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+		               .css('color', 'red');
+			           $('#alert-modal').modal({
+			                backdrop: 'static',
+			                keyboard: false
+			              });
+			            $('#alert-modal').modal('show');
+					}
+						
+						else{
+							$('#alert-modal .modal-title').text('ERROR');
+				            $('#alert-modal .modal-body h3').text('Server not responding please sign-in again');
+				            
+				            $('#alert-modal .modal-body i').addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+			                                               .css('color', 'red');
+				            $('#alert-modal').modal({
+				                backdrop: 'static',
+				                keyboard: false
+				              });
+				            $('#alert-modal').modal('show');
+							
+						}
+				}
+			});
+		});
+	});
+
+
+
+
+	
+	
+	</script>
+	
+	<script>
+			
+					function validate(evt) {
+						var theEvent = evt || window.event;
+
+						// Handle paste
+						if (theEvent.type === 'paste') {
+							key = event.clipboardData.getData('text/plain');
+						} else {
+							// Handle key press
+							var key = theEvent.keyCode || theEvent.which;
+							key = String.fromCharCode(key);
+						}
+						var regex = /[0-9]|\./;
+						if (!regex.test(key)) {
+							theEvent.returnValue = false;
+							if (theEvent.preventDefault)
+								theEvent.preventDefault();
+						}
+					}
+					
+					
+					
+					//-------------Default values----------//
+					function setDefaultValues() {
+						
+						var tounge=$("#tounge").val();
+						var pulseRate=$("#pulseRate").val();
+						var temperature=$("#temperature").val();
+						var anaemia=$("#anaemia").val();
+						var cyanosis=$("#cyanosis").val();
+						var respiration=$("#respiration").val();
+						var icterus=$("#icterus").val();
+					    var oedema=$("#oedema").val();
+					    var clubbing=$("#clubbing").val();
+					    var koilonychia=$("#koilonychia").val();
+						var lymphGlandsPalpable=$("#lymphGlandsPalpable").val();
+						var tonsils=$("#tonsils").val();
+					    var jvp=$("#jvp").val();
+					    var teethDenture=$("#teethDenture").val();
+					    var thyroid=$("#thyroid").val();
+					    var throat=$("#throat").val();
+					    var spleen=$("#spleen").val();
+					    var liver=$("#liver").val();
+					    var cvs=$("#cvs").val();
+						var s1=$("#s1").val();
+					    var s2=$("#s2").val();
+					    var murmur=$("#murmur").val();
+					    var distanceCoveredInMin=$("#distanceCoveredInMin").val();
+					    var breastExamination=$("#breastExamination").val();
+					    var gender=$("#candidateDetailsGender").text();
+					    
+					    if(!tounge){
+					    	$("#tounge").val('Moist');
+					    	}
+					    
+					    if(!pulseRate){
+					    	$("#pulseRate").val('80');
+					    	}
+					    if(!anaemia){
+					    	$("#anaemia").val('ABSENT');
+					    	
+					    }
+					    if(!temperature){
+					    	$("#temperature").val('98.4');
+					    	
+					    }
+					    
+					    if(!cyanosis){
+					    	$("#cyanosis").val('ABSENT');
+					    	
+					    }
+					    
+					    if(!respiration){
+					    	$("#respiration").val('18');
+					    	
+					    }
+					    if(!icterus){
+					    	$("#icterus").val('ABSENT');
+					    	
+					    }
+					    
+					    if(!oedema){
+					    	$("#oedema").val('ABSENT');
+					    	
+					    }
+					    
+					    if(!clubbing){
+					    	$("#clubbing").val('ABSENT');
+					    	
+					    }
+					    
+					    if(!koilonychia){
+					    	$("#koilonychia").val('ABSENT');
+					    	
+					    }
+					    
+					    if(!lymphGlandsPalpable){
+					    	$("#lymphGlandsPalpable").val('NOT PALPABLE');
+					    	
+					    }
+				    
+					    if(!tonsils){
+					    	$("#tonsils").val('NOT ENLARGED');
+					    	
+					    }
+					    
+					    if(!jvp){
+					    	$("#jvp").val('NOT RAISED');
+					    	
+					    }
+					    
+					    if(!teethDenture){
+					    	$("#teethDenture").val('GOOD');
+					    	
+					    }
+					    
+					    if(!thyroid){
+					    	$("#thyroid").val('NOT ENLARGED');
+					    	
+					    }
+					    
+					    if(!throat){
+					    	$("#throat").val('NAD');
+					    	
+					    }
+					    if(!spleen){
+					    	$("#spleen").val('NOT PALPABLE');
+					    	
+					    }
+					    
+					    if(!liver){
+					    	$("#liver").val('NOT ENLARGED');
+					    	
+					    }
+					    if(gender==='Female'){
+					    if(!breastExamination){
+					    	$("#breastExamination").val('NAD');
+					    	
+					    }}
+					    
+					    if(!s1){
+					    	$("#s1").val('AUDIBLE');
+					    	
+					    }
+					    
+					    if(!s2){
+					    	$("#s2").val('AUDIBLE');
+					    	
+					    }
+					    
+					    if(!murmur){
+					    	$("#murmur").val('NOT AUDIBLE');
+					    	
+					    }
+				    
+						  
+
+					}
+
+			function openAppendixE(){
+		
+           const modal = document.querySelector('#cooper-test');
+           var modalInstance = new bootstrap.Modal(modal);
+           modalInstance.show();}
+			
+			
+			
+			//---------------------load previous data---------------------//
+
+			$(document).ready(function(){
+				  $("#load-previous-ame-form-data").click(function(){
+					  event.preventDefault();
+					$('#loading-overlay').show();
+					$('body').addClass('loading');
+					
+			    const token = $("meta[name='_csrf']").attr("content");
+				const header = $("meta[name='_csrf_header']").attr("content");
+				const formId='GE';
+				const candidateForcePersonnelId=$("#candidateForcePersonnelId").val();
+				
+				dataToSend={
+						formId:formId,
+						candidateForcePersonnelId:candidateForcePersonnelId
+				},
+					 $.ajax({
+						 type:"POST",
+						 url:'get-force-personnel-previous-ame-forms-details',
+						 data:JSON.stringify(dataToSend),
+						 contentType:"application/JSON",
+						 beforeSend: function(xhr) {
+								xhr.setRequestHeader(header, token);
+							},
+					     success:function(response){
+					    	 if(response.isValid){
+					    		 
+					 		    $("#bodyBuild").val(response.generalExaminationByAmeIdData.bodyBuild);
+							    $("#bpSystolic").val(response.generalExaminationByAmeIdData.bpSystolic);
+								$("#bpDiastolic").val(response.generalExaminationByAmeIdData.bpDiastolic);
+								$("#tounge").val(response.generalExaminationByAmeIdData.tounge);
+								$("#pulseRate").val(response.generalExaminationByAmeIdData.pulseRate);
+								$("#temperature").val(response.generalExaminationByAmeIdData.temperature);
+								$("#anaemia").val(response.generalExaminationByAmeIdData.anaemia);
+								$("#cyanosis").val(response.generalExaminationByAmeIdData.cyanosis);
+								$("#respiration").val(response.generalExaminationByAmeIdData.respiration);
+							    $("#icterus").val(response.generalExaminationByAmeIdData.icterus);
+							    $("#oedema").val(response.generalExaminationByAmeIdData.oedema);
+							    $("#clubbing").val(response.generalExaminationByAmeIdData.clubbing);
+							    $("#koilonychia").val(response.generalExaminationByAmeIdData.koilonychia);
+								$("#lymphGlandsPalpable").val(response.generalExaminationByAmeIdData.lymphGlandsPalpable);
+								$("#tonsils").val(response.generalExaminationByAmeIdData.tonsils);
+							    $("#jvp").val(response.generalExaminationByAmeIdData.jvp);
+							    $("#teethDenture").val(response.generalExaminationByAmeIdData.teethDenture);
+							    $("#thyroid").val(response.generalExaminationByAmeIdData.thyroid);
+							    $("#throat").val(response.generalExaminationByAmeIdData.throat);
+							    $("#spleen").val(response.generalExaminationByAmeIdData.spleen);
+							    $("#liver").val(response.generalExaminationByAmeIdData.liver);
+							    //$("#cvs").val(generalExaminationByAmeIdData.cvs);
+								$("#s1").val(response.generalExaminationByAmeIdData.s1);
+							    $("#s2").val(response.generalExaminationByAmeIdData.s2);
+							    $("#murmur").val(response.generalExaminationByAmeIdData.murmur);
+							    $("#distanceCoveredInMin").val(response.generalExaminationByAmeIdData.distanceCoveredInMin);
+							    
+							    const gender=$("#candidateDetailsGender").text();
+							    
+							    if(gender==='Female')
+								$("#breastExamination").val(response.generalExaminationByAmeIdData.breastExamination);
+								    	
+								    
+							    
+							    
+					    	
+					    			
+					   			    $('#alert-modal .modal-title').text('Success');
+						            $('#alert-modal .modal-body h3').text(response.message);
+						            $('#alert-modal .modal-body i').removeClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+						                                             .addClass('fas fa-check-circle faa-tada animated')
+						                                             .removeAttr('style');
+						            
+						           /*  $("#cross-close-button").attr('onclick', 'backToHome()');
+						            $("#okay-close-button").attr('onclick', 'backToHome()'); */
+						            $('#alert-modal').modal({
+						                backdrop: 'static',
+						                keyboard: false
+						              });
+									  	            $('#alert-modal').modal('show');
+				    		
+					    		
+					    	 }
+					    	 else{
+					    		 $('#alert-modal .modal-title').text('ERROR');
+						         $('#alert-modal .modal-body h3').text(response.errors.noRecordAvailable);
+						         $('#alert-modal .modal-body i').addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+					                                               .css('color', 'red');
+						         $('#alert-modal').modal({
+						                backdrop: 'static',
+						                keyboard: false
+						              });
+						         $('#alert-modal').modal('show');
+					    	 }
+					    	 
+					    	
+					    	 
+					     },
+					 complete:function(){
+						   $('#loading-overlay').hide();
+						   $('body').removeClass('loading');
+					 },
+						error: function(xhr, status, error) {
+							if(xhr.responseText){
+
+								$('#alert-modal .modal-title').text('ERROR');
+					            $('#alert-modal .modal-body h3').text(xhr.responseText);
+					            
+					           $('#alert-modal .modal-body i')  .addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+				               .css('color', 'red');
+					           $('#alert-modal').modal({
+					                backdrop: 'static',
+					                keyboard: false
+					              });
+					            $('#alert-modal').modal('show');
+							}
+								
+								else{
+									$('#alert-modal .modal-title').text('ERROR');
+						            $('#alert-modal .modal-body h3').text('Server not responding please sign-in again');
+						            
+						            $('#alert-modal .modal-body i').addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+					                                               .css('color', 'red');
+						            $('#alert-modal').modal({
+						                backdrop: 'static',
+						                keyboard: false
+						              });
+						            $('#alert-modal').modal('show');
+									
+								}
+						}
+					 })
+					  
+				  })
+				  
+			})
+			
+				
+	</script>
+	
+</body>
+
+</html>

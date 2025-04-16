@@ -1,0 +1,73 @@
+<div id="user-master-wrapper" th:fragment="sidebar-wrapper-user-master">
+
+	<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="css/base.css" />
+	<link rel="stylesheet" href="css/base-responsive.css" />
+	<link rel="stylesheet" href="css/animate.min.css" />
+	<link rel="stylesheet" href="css/slicknav.min.css" />
+
+	<link rel="stylesheet" href="vendor/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css">
+	
+
+
+	<!-- Bootstrap core JavaScript -->
+	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="js/jquery.slicknav.min.js"></script>
+	<script src="js/dashboard.js"></script>
+	<script src="js/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+	<script src="js/ajax/libs/crypto-js/4.1.1/encryptMessage.js"></script>
+	<script src="js/local/resetChangeForget.js"></script>
+
+	<script src="js/local/disable-back-button.js"></script>
+
+
+	<style>
+        .invalid { color: red; }
+        .valid { color: green; }
+    </style>
+    
+	<!-- Signup Modal -->
+	<div class="modal fade" id="signout-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Sign Out?</h5>
+
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<!-- Modal body -->
+					<div class="modal-body">
+						<p class="text-center">Are you sure you want to Sign Out?</p>
+						<form action="sign-out" method="get">
+							<div class="row">
+								<div class="col-md-6">
+									<button type="submit" class="btn btn-primary">Sign
+										Out</button>
+								</div>
+								<div class="col-md-6">
+									<button type="button" class="btn btn-secondary"
+										data-bs-dismiss="modal">Cancel</button>
+								</div>
+
+							</div>
+
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<form th:action="sign-out" id="sign-out-form" method="get">
+
+	</form>
+
+
+</div>
+

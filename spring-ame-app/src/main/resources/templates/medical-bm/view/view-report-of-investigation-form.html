@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investigation Report</title>
+    <link rel="stylesheet" href="css/local/4.5.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css" />
+<!-- Custom styles for this template -->
+<link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/base-responsive.css" />
+<link rel="stylesheet" href="css/animate.min.css" />
+<link rel="stylesheet" href="css/slicknav.min.css" />
+<link rel="stylesheet" href="css/font-awesome.min.css" />
+<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+<script src="vendor/charts/Chart.js"></script>
+<script src="vendor/charts/moment.min.js"></script>
+<script src="vendor/charts/Chart.min.js"></script>
+<script src="vendor/charts/utils.js"></script>
+<script src="js/local/createpdf.js"></script>
+	<!-- Bootstrap core JavaScript -->
+	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="js/jquery.slicknav.min.js"></script>
+	<script src="js/dashboard.js"></script>
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+
+<style>
+	td {
+            padding: 15px 0; /* Adjust the value to change the row spacing */
+        }
+</style>
+    <style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    th, td {
+        font-size: 14px;
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    th {
+        font-weight: bold;
+        text-transform: uppercase;
+        background-color: #f2f2f2;
+    }
+
+    /* Specific styles for Lipid table */
+    #lipid-header {
+        font-size: 17px;
+        font-weight: bold;
+        text-align: center;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+</style>
+</head>
+<body>
+    <div class="container mt-4">
+		<div class="wisecountnactionbg">
+        <table  style="width:100%" >
+            <tbody>
+               <tr>
+                  <td style="text-align: center;margin: 0;vertical-align: top;">
+                     <p style="font-family: 'Poppins', sans-serif; margin-top: 0;padding: 0px 0;margin: 0;font-weight: bold;text-transform: uppercase;font-size: 17px;">Investigation Report  View</p>
+                    
+              
+                  </td>
+                  <td style="vertical-align: top;">
+                     <!-- <p style="font-family: 'Poppins', sans-serif;font-size: 10px;font-weight: normal;vertical-align: top;padding: 0px 0;margin:0"><span th:text="${createdOn}"></span></p>
+                  --><div style="display: flex;">
+					
+				 	 </div>
+				 	<!--  <div th:if="${printFlag == 'O'}">Original</div> -->
+					<!-- <div th:if="${printFlag == 'D'}">Duplicate</div></div> -->	
+                 
+                 
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+
+         <table  style="padding: 10px;width:100%;">
+            <tbody>
+                <tr>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">IRLA / REGT No:</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0;width: 10%;"><span th:text="${forcePersonalDetails.forceId}"></span></td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">NAME    :</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${forcePersonalDetails.Name}"></span></td>
+                </tr>
+                <tr>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">UNIT/BATTALION/HQ :</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${forcePersonalDetails.unitName}"></span></td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">FORCE   :</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${forcePersonalDetails.forceName}"></span></td>
+                </tr>
+               <tr>
+                  
+              </tr>
+             
+               <tr>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">RANK    :</td>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${forcePersonalDetails.rank}"></span></td>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">DOB :</td>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${#dates.format(forcePersonalDetails.dob,'dd-MM-yyyy')}"></span></td>
+              </tr>
+              
+               <tr>
+                 
+              </tr>
+               <tr>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">GENDER  :</td>
+                  <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${forcePersonalDetails.gender}"></span></td>
+              </tr>
+              
+            </tbody>
+         </table>
+    
+         <div th:if="${investigationDto.liverFunctionTest.ameId !=null}">
+         <br><br>
+           <table  style="width:100%;">
+            <tbody>
+            <p style="font-family: 'Poppins', sans-serif; margin-top: 0;padding: 0px 0;margin: 0;font-weight: bold;text-transform: uppercase;font-size: 17px;">Liver Function Test</p>
+             <tr style="background-color: aliceblue;">
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:20%;color: darkred;">Test Name:</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:20%;color: darkred;">Result:</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:20%;color: darkred;">Range:</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:30%;color: darkred;">Units:</td>
+                </tr>
+          <tr></tr>
+                <tr>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Bilirubin</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.liverFunctionTest.bilirubin}"></span></td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">0.2-1.1</td>
+                     <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">mg/dL</td>
+                </tr>
+                <tr>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Direct Bilirubin</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.liverFunctionTest.directBilirubin}"></span></td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">0.0-0.30</td>
+                     <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">mg/dL</td>
+                </tr>
+                <tr>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Indirect Bilirubin</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.liverFunctionTest.indirectBilirubin}"></span></td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">0.2-0.8</td>
+                     <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">mg/dL</td>
+                </tr>
+                <tr>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">SGOT</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.liverFunctionTest.sGOT}"></span></td>
+
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">08-40</td>
+                     <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Units/l</td>
+                </tr>
+                <tr>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">SGPT</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.liverFunctionTest.sGPT}"></span></td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">05-35</td>
+                     <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Units/l</td>
+                </tr>
+
+                <tr>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">ALP</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.liverFunctionTest.aLP}"></span></td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">60-270</td>
+                     <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Units/l</td>
+                </tr>
+                      <tr>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Total Protein</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.liverFunctionTest.totalProtein}"></span></td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">6.0-8.0</td>
+                     <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Units/l</td>
+                </tr>
+                      <tr>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">GGPT</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.liverFunctionTest.GGTP}"></span></td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">--</td>
+                     <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">--</td>
+                </tr>
+                      <tr>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Albumin</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.liverFunctionTest.albumin}"></span></td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">3.7-5.0</td>
+                     <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">gm/dL</td>
+                </tr>
+                      <tr>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Globulins</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.liverFunctionTest.globulin}"></span></td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">2.3-3.6</td>
+                     <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">gm/dL</td>
+                </tr>
+                      <tr>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">A:G Ratio</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.liverFunctionTest.AGRatio}"></span></td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">--</td>
+                     <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">--</td>
+                </tr>
+
+          </tbody>
+            </table>
+            </div>
+            <div th:if="${investigationDto.kft.ameId !=null}">
+            <br><br>
+            
+            <table  style="padding: 10px;width:100%;">
+                <tbody>
+                <p style="font-family: 'Poppins', sans-serif; margin-top: 0;padding: 0px 0;margin: 0;font-weight: bold;text-transform: uppercase;font-size: 17px;">Kidney Function Test</p>
+                <tr style="background-color: aliceblue;">
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:20%;color: darkred;">Test Name:</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:20%;color: darkred;">Result:</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:20%;color: darkred;">Range:</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:30%;color: darkred;">Units:</td>
+                </tr>
+                    <tr>
+                        <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Blood Urea:</td>
+                        <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.kft.bloodUrea}"></span></td>
+                        <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">13-45</td>
+                         <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">mg/dL:</td>
+
+                    </tr>
+                    <tr>
+                        <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Serum  Creatine:</td>
+                        <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.kft.scrumCreatinine}"></span></td>
+                        <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">0.8-1.4</td>
+                        <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">mg/dL:</td>
+
+                    </tr>
+                    <tr>
+                        <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Uric Acid:</td>
+                        <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.kft.uricAcid}"></span></td>
+                        <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Male(2.4-7.0)/
+							Female(1.5-6.0)</td>
+                        <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">mg/dL:</td>
+
+                    </tr>
+              </tbody>
+                </table>
+                </div>
+                <div th:if="${investigationDto.bloodSugar.ameId !=null}">
+<br><br>
+                <table  style="padding: 10px;width:100%;">
+                    <tbody>
+                    <p style="font-family: 'Poppins', sans-serif; margin-top: 0;padding: 0px 0;margin: 0;font-weight: bold;text-transform: uppercase;font-size: 17px;">Blood Sugar</p>
+                     <tr style="background-color: aliceblue;">
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:20%;color: darkred;">Test Name:</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:20%;color: darkred;">Result:</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:20%;color: darkred;">Range:</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:30%;color: darkred;">Units:</td>
+                </tr>
+                        <tr th:if="${investigationDto.bloodSugarPPValue}">
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Blood Sugar-PP:</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.bloodSugarPPValue.bloodSugarPP}"></span></td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;color: rgb(74, 0, 0);">less than 140 </td>
+                             <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">mg/dL:</td>
+
+                        </tr>
+                        <tr th:if="${investigationDto.bloodSugarFValue}">
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Blood Sugar-F:</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.bloodSugarFValue.bloodSugarF}"></span></td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;color: rgb(74, 0, 0);">60-100</td>
+                             <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">mg/dL:</td>
+
+                        </tr>
+                        <tr th:if="${investigationDto.bloodSugarRandomValue}">
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Blood Sugar Random:</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.bloodSugarRandomValue.bloodSugarRandom}"></span></td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;color: rgb(74, 0, 0);">125 or lower.</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">mg/dL:</td>
+                        </tr>
+                        <tr th:if="${investigationDto.bloodSugarHbA1cValue}">
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">HbA1c:</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.bloodSugarHbA1cValue.HbA1c}"></span></td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;color: rgb(74, 0, 0);">4.27-6.07</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">%</td>
+                        </tr>
+                  </tbody>
+                    </table>
+                    </div>
+<div th:if="${investigationDto.completeBloodCountCBC.ameId !=null}">
+                    <br><br>
+                <table  style="padding: 10px;width:100%;">
+                    <tbody>
+                    <p style="font-family: 'Poppins', sans-serif; margin-top: 0;padding: 0px 0;margin: 0;font-weight: bold;text-transform: uppercase;font-size: 17px;">Complete Blood Count(CBC)</p>
+                     <tr style="background-color: aliceblue;">
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:20%;color: darkred;">Test Name:</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:20%;color: darkred;">Result:</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:20%;color: darkred;">Range:</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:30%;color: darkred;">Units:</td>
+                </tr>
+                       <tr>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Haemoglobin:</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.completeBloodCountCBC.haemoglobin}"></span></td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">M-12.5-18/ F-11.5-14</td>
+                             <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">gm%</td>
+                        </tr>
+                          <tr>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Total Leukocyte Count(TLC) :</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.completeBloodCountCBC.totalLeukocyteCount}"></span></td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">4000-11000</td>
+                             <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">per cum</td>
+                        </tr>
+                
+                        <tr>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Neutrophils:</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.completeBloodCountCBC.neutrophilsOrPolymorphs}"></span></td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">40-70</td>
+                             <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">%</td>
+                        </tr>
+                        <tr>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Monocytes:</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.completeBloodCountCBC.monocytes}"></span></td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">02-10</td>
+                             <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">%</td>
+                        </tr>
+                        <tr>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Lymphocyte:</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.completeBloodCountCBC.lymphocytes}"></span></td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">20-45</td>
+                             <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">%</td>
+                        </tr>
+                        <tr>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Basophils:</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.completeBloodCountCBC.basophils}"></span></td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">00-10</td>
+                              <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">%</td>
+                        </tr>
+                        <tr>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Eosinophils:</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.completeBloodCountCBC.eosinophils}"></span></td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">01-06</td>
+                             <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">%</td>
+                        </tr>
+                        <tr>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Erythrocyte Sedimentation Rate(ESR):</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.completeBloodCountCBC.erythrocyteSedimentationRate}"></span></td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">0-20</td>
+                             <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">mm in 1st hour</td>
+                        </tr>
+                         <tr>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Platelet Count :</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.completeBloodCountCBC.plateletCount}"></span></td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">150-450</td>
+                             <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">10^3/ul</td>
+                        </tr>
+                   
+                  </tbody>
+                    </table>
+                   </div> 
+                    
+<div th:if="${investigationDto.urineTestPhysicalMicroscopic.ameId !=null}">
+                    <br><br>
+
+                    
+                <table  style="padding: 10px;width:100%;">
+                    <tbody>
+                    <p style="font-family: 'Poppins', sans-serif; margin-top: 0;padding: 0px 0;margin: 0;font-weight: bold;text-transform: uppercase;font-size: 17px;">Urine Physical/Urine Microscope</p>
+                       <tr style="background-color: aliceblue;">
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:20%;color: darkred;">Test Name:</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:20%;color: darkred;">Result:</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:20%;color: darkred;">Range:</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:30%;color: darkred;">Units:</td>
+                </tr>
+                        <tr>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Epithelial Cells:</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.urineTestPhysicalMicroscopic.epithelialCells}"></span></td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">15-20</td>
+                             <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">HPF</td>
+                        </tr>
+                        <tr>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Cast cells:</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.urineTestPhysicalMicroscopic.castCells}"></span></td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">--</td>
+                             <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">--</td>
+                        </tr>
+                         <tr>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Pus cells:</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.urineTestPhysicalMicroscopic.pusCells}"></span></td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">--</td>
+                             <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">--</td>
+                        </tr>
+                        <tr>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">RBC:</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.urineTestPhysicalMicroscopic.rbc}"></span></td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">--</td>
+                             <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">--</td>
+                        </tr>
+                        <tr>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Crystal:</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.urineTestPhysicalMicroscopic.crystal}"></span></td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">mg/dL:</td>
+                             <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">mg/dL:</td>
+                        </tr>
+                        <tr>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Physical Exam</td>
+                        </tr>
+                        <tr>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Colour:</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.urineTestPhysicalMicroscopic.colour}"></span></td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">--</td>
+                             <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">--</td>
+                        </tr>
+                        <tr>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Transparency:</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.urineTestPhysicalMicroscopic.transparency}"></span></td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">--</td>
+                             <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">--</td>
+                        </tr>
+                        <tr>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Reaction:</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.urineTestPhysicalMicroscopic.reaction}"></span></td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">mg/dL:</td>
+                             <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">mg/dL:</td>
+                        </tr>
+                        <tr>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Albumin  :</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.urineTestPhysicalMicroscopic.albuminCells}"></span></td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">--</td>
+                             <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">NIL/TRACE/++++</td>
+                        </tr>
+                        <tr>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Sugar:</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.urineTestPhysicalMicroscopic.sugar}"></span></td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">--</td>
+                             <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">NIL/TRACE/++++</td>
+                        </tr>
+                        <tr>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Bile Salt:</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.urineTestPhysicalMicroscopic.bileSalt}"></span></td>
+                             <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">--</td>
+                              <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Negative/Positive</td>
+                        </tr>
+                        <tr>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">ketones:</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.urineTestPhysicalMicroscopic.ketones}"></span></td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">--</td>
+                             <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Negative/Positive</td>
+                        </tr>
+                        <tr>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Specific gravity:</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.urineTestPhysicalMicroscopic.specificGravity}"></span></td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">--</td>
+                             <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">--</td>
+                        </tr>
+                     <tr th:if="${forcePersonalDetails.gender=='Female'}" >
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">UPT :</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.urineTestPhysicalMicroscopic.upt}"></span></td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">--</td>
+                             <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">--</td>
+                        </tr>
+
+
+                       
+                  </tbody>
+                    </table>
+</div>
+<div th:if="${investigationDto.thyroidProfile.ameId !=null}">
+                    <br><br>
+                <table  style="padding: 10px;width:100%;">
+                    <tbody>
+                    <p style="font-family: 'Poppins', sans-serif; margin-top: 0;padding: 0px 0;margin: 0;font-weight: bold;text-transform: uppercase;font-size: 17px;">Thyroid Profile</p>
+                      <tr style="background-color: aliceblue;">
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:20%;color: darkred;">Test Name:</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:20%;color: darkred;">Result:</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:20%;color: darkred;">Range:</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:30%;color: darkred;">Units:</td>
+                </tr>
+                        <tr>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">T3:</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.thyroidProfile.t3}"></span></td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">100-200</td>
+                             <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">ng/dL</td>
+                        </tr>
+                        <tr>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">T4:</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.thyroidProfile.t4}"></span></td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">4.5-11.2</td>
+                             <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">mcg/dL</td>
+                        </tr>
+                        <tr>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">TSH:</td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.thyroidProfile.tsh}"></span></td>
+                            <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">0.4-5.0</td>
+                             <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">mIU/dL</td>
+                        </tr>
+                  </tbody>
+                    </table>
+</div>
+                 <div th:if="${investigationDto.viralMakers.ameId !=null}">
+                    <br><br>
+                 
+                    <table  style="padding: 10px;width:100%;">
+                        <tbody>
+                        <p style="font-family: 'Poppins', sans-serif; margin-top: 0;padding: 0px 0;margin: 0;font-weight: bold;text-transform: uppercase;font-size: 17px;">Viral Markers</p>
+                           <tr style="background-color: aliceblue;">
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:20%;color: darkred;">Test Name:</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:20%;color: darkred;">Result:</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:20%;color: darkred;">Range:</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:30%;color: darkred;">Units:</td>
+                </tr>
+                            <tr>
+                                <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">HIV1:</td>
+                                <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.viralMakers.hiv1}"></span></td>
+                                <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">--</td>
+                                 <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Reactive/Non Reactive</td>
+                            </tr>
+                            <tr>
+                                <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">HIV2:</td>
+                                <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.viralMakers.hiv2}"></span></td>
+                                <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">--</td>
+                                 <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Reactive/Non Reactive</td>
+                            </tr>
+                            <tr>
+                                <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">HBSAG:</td>
+                                <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.viralMakers.hbsAg}"></span></td>
+                                <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">--</td>
+                                 <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Reactive/Non Reactive</td>
+                            </tr>
+                            <tr>
+                                <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">VDRL:</td>
+                                <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.viralMakers.vdrl}"></span></td>
+                                <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">--</td>
+                                 <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Reactive/Non Reactive</td>
+                            </tr>
+                            <tr>
+                                <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">HCV:</td>
+                                <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.viralMakers.hcv}"></span></td>
+                                <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">--</td>
+                                 <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Reactive/Non Reactive</td>
+                            </tr>
+                      </tbody>
+                        </table>
+    </div>
+  <div th:if="${investigationDto.lipid.ameId !=null}">
+                        <br><br>
+                        <table  style="padding: 10px;width:100%;">
+                            <tbody>
+                            <p style="font-family: 'Poppins', sans-serif; margin-top: 0;padding: 0px 0;margin: 0;font-weight: bold;text-transform: uppercase;font-size: 17px;">Lipid</p>
+                            <tr style="background-color: aliceblue;">
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:20%;color: darkred;">Test Name:</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:20%;color: darkred;">Result:</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:20%;color: darkred;">Range:</td>
+                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:30%;color: darkred;">Units:</td>
+                </tr>
+                                <tr>
+                                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Serum cholesterol:</td>
+                                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.lipid.serumCcholesterol}"></span></td>
+                                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">mg/dL:</td>
+                                     <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">mg/dL:</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">LDL cholesterol:</td>
+                                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.lipid.lDLCholesterol}"></span></td>
+                                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">65-180</td>
+                                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">mg/dL:</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">HDL Cholesterol:</td>
+                                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.lipid.hDLCholesterol}"></span></td>
+                                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">30-70</td>
+                                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">mg/dL:</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">VLDL cholesterol:</td>
+                                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.lipid.vLDLcholesterol}"></span></td>
+                                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">02-38</td>
+                                      <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">mg/dL:</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">Triglycerides:</td>
+                                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.lipid.triglycerides}"></span></td>
+                                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">30-170</td>
+                                      <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">--</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">LDL/HDL Ratio:</td>
+                                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${investigationDto.lipid.lDLhDLRatio}"></span></td>
+                                    <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">1.2-2.0</td>
+                                     <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0">ratio</td>
+                                </tr>
+                          </tbody>
+                            </table>
+                            </div>
+                              <div th:if="${other!=null}">
+<br><br>
+                            <table style="padding: 10px;width:100%;">
+                                <tbody>
+                                    <p style="font-family: 'Poppins', sans-serif; margin-top: 0;padding: 0px 0;margin: 0;font-weight: bold;text-transform: uppercase;font-size: 17px;">Others Test</p>
+                                <tr style="background-color: aliceblue;">
+                               <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:20%;color: darkred;">Test Name:</td>
+                              <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:20%;color: darkred;">Result:</td>
+                             <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:20%;color: darkred;">Range:</td>
+                          <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0;width:30%;color: darkred;">Units:</td>
+                </tr>
+                                    
+                                    <!-- Iterate over the 'others' list -->
+                                    <tr th:each="other : ${investigationDto.others}">
+                                        <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: 600;vertical-align: top;padding: 3px 0" >Test Name:</td>
+                                        <!-- Adjust the following cells as per your 'others' data structure -->
+                                        <td style="font-family: 'Poppins', sans-serif;font-size: 14px;font-weight: normal;vertical-align: top;padding: 3px 0"><span th:text="${other.testName}"></span></td>
+                                        
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                              </div>
+                        
+
+    <!-- Form to submit ameId to the generate-pdf endpoint -->
+
+
+    <script>
+        // Set the hidden input value when the form is loaded
+        document.getElementById('hidden-ame-id-form').value = document.getElementById('hidden-ame-id').value;
+    </script>
+                          
+        </div>
+                            </div>
+       
+</body>
+</html>

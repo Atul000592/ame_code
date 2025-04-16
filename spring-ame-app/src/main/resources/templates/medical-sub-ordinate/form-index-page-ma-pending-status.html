@@ -1,0 +1,901 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>AME DashBoard Controller</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+<div th:replace="~{medical-sub-ordinate/master-doc::master-wrapper-doc}"></div>
+
+
+
+</head>
+
+
+<body>
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+		<div th:replace="~{medical-sub-ordinate/left-menu-ama::sidebar-wrapper-menu-ama}"></div>
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<div th:replace="~{medical-sub-ordinate/nav-bar::sidebar-wrapper-menu-nav-ama}"></div>
+
+
+			<div class="container mt-3">
+
+			
+            <form class="wisecountnactionbg" id="formId" >
+            
+            <div class="proc-box p-3 text-start">
+     
+				<div class="row">
+				
+					<div class="col-md-3">
+						<label class="fw-medium">Name of the force</label>
+					</div>
+						<div class="col-md-3">
+								<!-- <span th:if="${candidateDetails.forceNo==1}">
+									Assam Rifle
+								</span>
+								<span th:if="${candidateDetails.forceNo==2}">
+									Border Security Force (BSF)
+								</span> -->
+									<span th:text="${candidateDetails.forceName}"></span>
+								</div>
+				<div class="col-md-3">
+						<label class="fw-medium">IRLA/REGT No</label>
+					</div>
+					<div class="col-md-3">
+						<span th:text="${candidateDetails.forceId}" ></span>
+						</div>
+					</div>
+				
+				<div class="row">
+					<div class="col-md-3">
+						<label class="fw-medium">Name</label>
+					</div>
+					<div class="col-md-3">
+						<span th:text="${candidateDetails.name}"></span>
+						</div>
+					<div class="col-md-3">
+						<label class="fw-medium">Rank</label>
+					</div>
+					<div class="col-md-3">
+						<span th:text="${candidateDetails.rank}"></span>
+						</div>
+					
+					</div>
+					<div class="row">
+					
+					<div class="col-md-3">
+						<label class="fw-medium">Unit/formation</label>
+					</div>
+					<div class="col-md-3">
+						<span th:text="${candidateDetails.unitName}"></span>
+						</div>
+							<div class="col-md-3">
+							<label class="fw-medium">Grade</label>
+						</div>
+						<div class="col-md-3">
+							<span th:if="${candidateGazettedNonGazettedFlag=='Y'}" th:text="GazettedOfficer"></span>
+								<span th:unless="${candidateGazettedNonGazettedFlag=='Y'}" th:text="NonGazettedOfficer"></span>
+						</div>
+					</div>
+						<div class="row">
+					<div class="col-md-3">
+						<label class="fw-medium">Age</label>
+					</div>
+					<div class="col-md-3">
+						<span th:text="${age}"></span>
+						</div>
+					<div class="col-md-3">
+						<label class="fw-medium">DOB</label>
+					</div>
+					<div class="col-md-3">
+						<span th:text="${#dates.format(candidateDetails.dob,'dd-MM-yyyy')}">--</span>
+						</div>
+					</div>
+					<div class="row">
+					<div class="col-md-3">
+						<label class="fw-medium">Gender</label>
+						</div>
+						<div class="col-md-3">
+						<span th:text="${candidateDetails.gender}" id="candidateDetailsGender" ></span>
+						</div>
+						</div>
+					<div class="row">
+					<div class="col-md-3">
+						<label class="fw-medium">DOJ</label>
+					</div>
+					<div class="col-md-3">
+					<span th:text="${#dates.format(candidateDetails.joiningDate, 'dd-MM-yyyy')}"></span>
+						</div>
+				<div class="col-md-3">
+						<label class="fw-medium">Total Service</label>
+					</div>
+					<div class="col-md-3">
+						<span th:text="${doj}">--</span>
+						</div>
+					</div>
+				
+				<!--	<div class="row">
+					<div class="col-md-3">
+						<label class="fw-medium">Previous Date of Examination</label>
+					</div>
+					<div class="col-md-3">
+						<span th:text="${#dates.format(placeAndDateDto.last_ame_date, 'dd-MM-yyyy')}"></span>
+						</div>
+						<div class="col-md-3">
+						<label class="fw-medium">Previous Place of Examination</label>
+					</div>
+					<div class="col-md-3">
+						<span th:text="${placeAndDateDto.last_ame_place}"></span>
+						</div>
+					</div>-->
+					
+					
+					</div>
+					
+					 <div id="loading-overlay">
+   <div class="spinner"></div>
+  
+  
+</div>
+
+			 <div class="proc-box p-3 text-start">
+					<h5>Pending Remark</h5>
+					
+					<br>
+					<hr>
+					
+					<div class="row mb-2">
+					<div class="col-md-2">
+						<label>Remark</label>
+					</div>
+					<div class="col-md-10">
+						<input class="form-control" type="text"  th:field=*{amePendingStatus.remark}    id="pendingRemark"
+							  maxlength="200" >
+							 <span class="error" id="height_error"></span>
+			<!-- 			<div class="valid-feedback">Valid.</div>
+						<div class="invalid-feedback">Please fill out this field.</div> -->
+					</div>
+				</div>
+			
+				
+	
+
+
+		<div class="row mb-2">
+			<div class="col-md-6">
+				<input type="hidden" th:value="${forcepersonalId}" name="forcePersonalId">
+				<input type="hidden" th:value="${ameId}" name="ameId" id="ameId">
+			</div>
+		</div>
+	
+<hr>
+
+		<div class="d-grid gap-2 d-md-block">
+<button type="button" class="btn btn-secondary" onclick="backToHome()" style="width:100px;">Back</button>
+
+<button type="submit" class="btn btn-success" style="width:100px;float:right;margin:0 0 0 50;">Submit</button>
+
+
+</div>
+ </div>
+ <div class="row mb-2">
+			<div class="col-md-6">
+				<input type="hidden" th:value="${candidateForcePersonnelId}" name="candidateForcePersonnelId" id="candidateForcePersonnelId">
+				</div>
+</div>
+ 
+ 
+ 
+ 
+</form>
+<form th:action="@{/declaration-requests-completed-ma}" method="post" id="back-to-home">
+	  <input type="hidden" name="forcepersonalId" th:value="${forcepersonalId}" id="forcePersonalId">
+      <input type="hidden" name="ameId" th:value="${ameId}" id="ameId">
+	 
+ </form>
+
+
+
+
+		</div>
+
+	
+
+
+
+
+	</div>
+	<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+<!-- =============================================Validation================================================================= -->
+	<script>
+	
+	
+	
+	
+	
+	 
+	</script>
+	
+<!-- ===========================================Validation End============================================================= -->	
+	
+
+
+
+
+<script>
+	function backToHome(){
+		
+	$("#back-to-home").submit();
+	}
+</script>
+
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function() {
+			$('#backtotop').click(function() {
+				$("html, body").animate({
+					scrollTop : 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function() {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function() {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+	<!-- Signup Modal -->
+
+		<div class="modal fade" id="signout-modal" data-bs-backdrop="static"
+			data-bs-keyboard="false" tabindex="-1"
+			aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Sign Out?</h5>
+
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<!-- Modal body -->
+						<div class="modal-body">
+							<p class="text-center">Are you sure you want to Sign Out?</p>
+							<form action="sign-out">
+								<div class="row">
+									<div class="col-md-6">
+										<button type="submit" class="btn btn-primary">Sign
+											Out</button>
+									</div>
+									<div class="col-md-6">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Cancel</button>
+									</div>
+
+								</div>
+
+							</form>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
+
+
+<!--  Model AppendexE Submit-->
+  
+  <div class="modal fade" id="appendixE" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="OTP-Alart" aria-hidden="true" >
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg ">
+    <div class="modal-content">
+		   <div class="modal-header">
+        <h1 class="modal-title fs-4" id="exampleModalCenteredScrollableTitle" style="margin: auto;"><b>Appendix-E</b></h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+		<div style="max-height: 800px; overflow-y: auto;">
+			<img src="images/height_weight_chart_male.jpg" alt="My Image" style="height:900px; width:900px;">
+		</div>
+	
+		<div class="modal-footer">
+		 <button type="button" class="btn btn-primary" style="width: 100px;"  data-bs-dismiss="modal">Close</button>
+
+  </div>
+  
+</div>
+</div>  
+	</div>
+
+
+
+<!--  Model AppendexF Submit-->
+
+	<div class="modal fade" id="appendixF" data-bs-backdrop="static"
+		data-bs-keyboard="false" tabindex="-1" aria-labelledby="OTP-Alart"
+		aria-hidden="true">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg ">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-4"
+						id="exampleModalCenteredScrollableTitle" style="margin: auto;">
+						<b>Appendix-F</b>
+					</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div style="max-height: 800px; overflow-y: auto;">
+					<img src="images/height_weight_chart_female.jpg" alt="My Image"
+						style="height: 900px; width: 900px;">
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary"
+						data-bs-dismiss="modal" style="width: 100px;">Close</button>
+
+  </div>
+  
+</div>
+</div>  
+	</div>
+
+	
+<div th:replace="~{medical-sub-ordinate/alert-modal::message-alert-modal}"></div>
+		
+	
+  
+</div>
+
+
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<!-- <script>
+		$(function() {
+			$("#one-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script> -->
+<script>
+var currentTab = 0; // Current tab is set to be the first tab (0)
+showTab(currentTab); // Display the current tab
+
+function showTab(n) {
+  // This function will display the specified tab of the form...
+  var x = document.getElementsByClassName("tab");
+  x[n].style.display = "block";
+  //... and fix the Previous/Next buttons:
+	
+  if (n == 0) {
+    document.getElementById("prevBtn").style.display = "none";
+  } else {
+    document.getElementById("prevBtn").style.display = "inline";
+  }
+  if (n == (x.length - 1)) {
+    document.getElementById("nextBtn").innerHTML = "Submit";
+  } else {
+    document.getElementById("nextBtn").innerHTML = "Next";
+  }
+  //... and run a function that will display the correct step indicator:
+  fixStepIndicator(n);
+  fixTabIndicator(n)
+}
+
+function nextPrev(n) {
+  // This function will figure out which tab to display
+  var x = document.getElementsByClassName("tab");
+  // Exit the function if any field in the current tab is invalid:
+  if (n == 1 && !validateForm()) return false;
+  // Hide the current tab:
+  x[currentTab].style.display = "none";
+  // Increase or decrease the current tab by 1:
+  currentTab = currentTab + n;
+  // if you have reached the end of the form...
+  if (currentTab >= x.length) {
+    // ... the form gets submitted:
+    document.getElementById("regForm").submit();
+    return false;
+  }
+  // Otherwise, display the correct tab:
+  showTab(currentTab);
+}
+
+function validateForm() {
+  // This function deals with validation of the form fields
+  var x, y, i, valid = true;
+  x = document.getElementsByClassName("tab");
+  y = x[currentTab].getElementsByTagName("input");
+  // A loop that checks every input field in the current tab:
+  for (i = 0; i < y.length; i++) {
+    // If a field is empty...
+    if (y[i].value == "") {
+      // add an "invalid" class to the field:
+      y[i].className += " invalid";
+      // and set the current valid status to false
+      valid = false;
+    }
+  }
+  // If the valid status is true, mark the step as finished and valid:
+  if (valid) {
+    document.getElementsByClassName("step")[currentTab].className += " finish";
+  }
+  return valid; // return the valid status
+}
+
+function fixStepIndicator(n) {
+  // This function removes the "active" class of all steps...
+  var i, x = document.getElementsByClassName("step");
+  for (i = 0; i < x.length; i++) {
+    x[i].className = x[i].className.replace(" active", "");
+  }
+  //... and adds the "active" class on the current step:
+  x[n].className += " active";
+}
+function fixTabIndicator(n) {
+	  // This function removes the "active" class of all steps...
+	  var i, x = document.getElementsByClassName("tabstatus");
+	  for (i = 0; i < x.length; i++) {
+	    x[i].className = x[i].className.replace(" active", "");
+	  }
+	  //... and adds the "active" class on the current step:
+	  x[n].className += " active";
+	}
+</script>
+<!-- ============================================================================================================================ -->
+<script>
+	
+	function chestMeasurement(){
+		
+		var chestId=document.getElementById("chestExpanded").value;
+		var chestIdNext=document.getElementById("chestUnexpanded").value;
+		
+		if(chestId==0||chestIdNext==0){
+			alert("Chest On full expiration(in Cm) and Chest on full inspiration(in Cm) should not be 0 ")
+			document.getElementById("chestExpanded").value='';
+			document.getElementById("chestUnexpanded").value='';
+		}
+		
+		if(chestId>chestIdNext){
+			alert("Chest on full inspiration(in Cm)should be greater than Chest On full expiration(in Cm)   ")
+			document.getElementById("chestExpanded").value='';
+			document.getElementById("chestUnexpanded").value='';
+			return false;
+		}
+		
+	}
+	
+	function calculateBmi(){
+		var height=document.getElementById("height").value;
+		var weight=document.getElementById("weight").value;
+		 var regex = /^\d{1,3}(\.\d{1,2})?$/;
+		 var specialCharacterRegex=/[!@#$%^&*(),.?":{}|<>]/;
+	    var heightinm=(height/100);
+	    var bmi=weight/(heightinm*heightinm);
+		 document.getElementById("bmi").value=bmi.toFixed(2);
+		 }
+		
+	
+		function calculateBmiHeightChange(){
+		
+		var height=document.getElementById("height").value.trim();
+		var weight=document.getElementById("weight").value.trim();
+		 var regex = /^\d{1,3}(\.\d{1,2})?$/;
+		 var specialCharacterRegex=/[!@#$%^&*(),?":{}|<>]/;
+		 var alphabetregex
+		    
+		 if(height==0){
+			alert("Height cannot be Zero");
+			return false;
+		}
+		if(height===null){
+			alert("Height cannot be null");
+			return false;
+		}
+	     if(isNaN(height)){
+			alert("Only number is allowed");
+			return false;
+		}
+		if(!regex.test(height)){
+			alert("Please enter in (3,2)");
+			/* return false; */
+		}
+		
+		if(specialCharacterRegex.test(height)){
+			alert("No special characters allowed");
+			return false;
+		}
+		
+		if(weight==0||isNaN(weight)){
+			alert("Enter correct Value for Weight");
+			return false;
+		}
+		
+		
+		var heightinm=(height/100);
+	    var bmi=weight/(heightinm*heightinm);
+		document.getElementById("bmi").value=bmi.toFixed(2);
+			
+		} 
+
+function CalculateRatio(){
+	
+	var a=document.getElementById("abdominalGirth").value;
+	var t=document.getElementById("t").value;
+	if(a==0||t==0){
+		//alert("Please select Abdominal girth (Cm) and Trans-TroChanteric girth (in Cm)");
+		return false;
+	}
+
+	var ratioat=a/t;
+	document.getElementById("ratio_at").value=ratioat.toFixed(2);
+	return ratioat;
+	
+}
+
+function CalculateRatioWithChange(){
+	
+	var a=document.getElementById("abdominalGirth").value;
+	var t=document.getElementById("trasTroChantericGirth").value;
+	if(a==0){
+		alert("Please select Abdominal girth (Cm)");
+		return false;
+	}if(t==0){
+		alert("Please Select Trans-TroChanteric girth (in Cm)");
+		return false;
+		}
+    var ratioat=a/t;
+	document.getElementById("ratioAT").value=ratioat.toFixed(2);
+	return ratioat;
+	
+}
+	
+
+	/* $("#formId").on( "submit", function( event ) {
+	var bmi=document.getElementById("bmi").value;
+	var ratioAt=document.getElementById("ratio_at").value;
+	if(bmi<=0){
+		alert("Please Calculate BMI");
+		calculateBmi();
+		return false;
+	}
+	if(ratioAt<=0||ratioAt=='NaN'){
+		alert("Please Check Ratio A/T is  Calculated ");
+	   var ratio=CalculateRatio();
+	   return false;
+	}
+});
+ */
+
+
+
+
+</script>
+
+<script>
+$(document).ready(function() {
+	$('#formId').submit(function(event) {
+		event.preventDefault();
+		$('#loading-overlay').show();
+		$('body').addClass('loading');
+        
+		var ameId = $("#ameId").val();
+        var remark=$("#pendingRemark").val();
+		var bmi=$("#bmi").val();
+		var boardId=$("#bmi").val();
+		var irlaNo= $("#irlaNo").val();
+	    var candidateForcePersonnelId=$("#candidateForcePersonnelId").val();
+	    var loggedInUserForcePersonnelId=$("#loggedInUserForcePersonnelId").val();
+	     /* if(gender=="Female"){
+	    	 var chestExpanded=null;
+	 		var chestUnexpanded=null;
+	    	 
+	     }
+	     else{
+	    	 var chestExpanded=$("#chestExpanded").val();
+		 	 var chestUnexpanded=$("#chestUnexpanded").val(); 
+	     } */
+	 
+		var data={
+				ameId:ameId,
+		        bmi:bmi,
+		      	remark:remark,
+		       }
+	     
+	   //  var loggedInUserForcePersonnelId= {loggedInUserForcePersonnelId:loggedInUserForcePersonnelId}
+	     
+	   //  var candidateForcePersonnelId= {candidateForcePersonnelId:candidateForcePersonnelId}
+	     
+		var dataToSend={
+	    		 data:data,
+	    		
+	    		 loggedInUserForcePersonnelId:loggedInUserForcePersonnelId,
+	    		 candidateForcePersonnelId:candidateForcePersonnelId
+	    		 
+	    		 
+	     }
+		
+
+		/* ===================header==================== */
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+
+
+
+
+
+		$.ajax({
+			type: 'POST',
+			url: 'save-ame-pending-status',
+			data:JSON.stringify(dataToSend),
+			contentType: 'application/json',
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(header, token);
+			},
+			success: function(response) {
+				if (response.isValid) {
+					
+			        $('#alert-modal .modal-title').text('Success');
+		            $('#alert-modal .modal-body h3').text(response.message);
+		            
+		            $('#alert-modal .modal-body i').removeClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+		                                             .addClass('fas fa-check-circle faa-tada animated')
+		                                             .removeAttr('style');
+		            
+		            $("#cross-close-button").attr('onclick', 'backToHome()');
+		            $("#okay-close-button").attr('onclick', 'backToHome()');
+		            $('#alert-modal').modal({
+		                backdrop: 'static',
+		                keyboard: false
+		              });
+		            $('#alert-modal').modal('show');
+		            
+                    //alert(response.message);
+					//$('#back-to-home').unbind('submit').submit();
+					 }
+
+				else {
+					$.each(response.errors, function(field, errorMessage) {
+                            $('#' + field + '_error').text(errorMessage);
+						});
+					}
+				
+},
+		
+		complete: function() {
+		    $('#loading-overlay').hide();
+		    $('body').removeClass('loading');
+		},
+			error: function(xhr, status, error) {
+				if(xhr.responseText){
+
+					$('#alert-modal .modal-title').text('ERROR');
+		            $('#alert-modal .modal-body h3').text(xhr.responseText);
+		            
+		           $('#alert-modal .modal-body i')  .addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+	               .css('color', 'red');
+		           $('#alert-modal').modal({
+		                backdrop: 'static',
+		                keyboard: false
+		              });
+		            $('#alert-modal').modal('show');
+				}
+					
+					else{
+						$('#alert-modal .modal-title').text('ERROR');
+			            $('#alert-modal .modal-body h3').text('Server not responding please sign-in again');
+			            
+			            $('#alert-modal .modal-body i').addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+		                                               .css('color', 'red');
+			            $('#alert-modal').modal({
+			                backdrop: 'static',
+			                keyboard: false
+			              });
+			            $('#alert-modal').modal('show');
+						
+					}
+			}
+		});
+	});
+});
+
+
+
+
+</script>
+
+<script>
+	
+	function openAppendixE(){
+		
+           const modal = document.querySelector('#appendixE');
+           var modalInstance = new bootstrap.Modal(modal);
+           modalInstance.show();
+
+	}
+function openAppendixF(){
+		
+           const modal = document.querySelector('#appendixF');
+           var modalInstance = new bootstrap.Modal(modal);
+           modalInstance.show();
+
+	}
+
+//---------------------load previous data---------------------//
+
+$(document).ready(function(){
+	  $("#load-previous-ame-form-data").click(function(){
+		  event.preventDefault();
+		$('#loading-overlay').show();
+		$('body').addClass('loading');
+		
+    const token = $("meta[name='_csrf']").attr("content");
+	const header = $("meta[name='_csrf_header']").attr("content");
+	const formId='PM';
+	const candidateForcePersonnelId=$("#candidateForcePersonnelId").val();
+	
+	dataToSend={
+			formId:formId,
+			candidateForcePersonnelId:candidateForcePersonnelId
+	},
+		 $.ajax({
+			 type:"POST",
+			 url:'get-force-personnel-previous-ame-forms-details',
+			 data:JSON.stringify(dataToSend),
+			 contentType:"application/JSON",
+			 beforeSend: function(xhr) {
+					xhr.setRequestHeader(header, token);
+				},
+		     success:function(response){
+		    	 if(response.isValid){
+		    		 $("#height").val(response.previousPhysicalMeasurmentData.height);
+			  		 $("#weight").val(response.previousPhysicalMeasurmentData.weight);
+			  		 $("#bmi").val(response.previousPhysicalMeasurmentData.bmi);
+			  		 $("#abdominalGirth").val(response.previousPhysicalMeasurmentData.abdominalGirth);
+			  		 $("#trasTroChantericGirth").val(response.previousPhysicalMeasurmentData.trasTroChantericGirth);
+			  		 $("#chestExpanded").val(response.previousPhysicalMeasurmentData.chestExpanded);
+			  	 	 $("#chestUnexpanded").val(response.previousPhysicalMeasurmentData.chestUnexpanded); 
+			  	     $("#ratioAT").val(response.previousPhysicalMeasurmentData.ratioAT);
+			  	     
+			  	     
+			  	   $('#alert-modal .modal-title').text('Success');
+		            $('#alert-modal .modal-body h3').text(response.message);
+		            
+		            $('#alert-modal .modal-body i').removeClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+		                                             .addClass('fas fa-check-circle faa-tada animated')
+		                                             .removeAttr('style');
+		            
+		           /*  $("#cross-close-button").attr('onclick', 'backToHome()');
+		            $("#okay-close-button").attr('onclick', 'backToHome()'); */
+		            $('#alert-modal').modal({
+		                backdrop: 'static',
+		                keyboard: false
+		              });
+					  	            $('#alert-modal').modal('show');
+		    	 }
+		    	 else{
+		    		 $('#alert-modal .modal-title').text('ERROR');
+			         $('#alert-modal .modal-body h3').text(response.errors.noRecordAvailable);
+			         $('#alert-modal .modal-body i').addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+		                                               .css('color', 'red');
+			         $('#alert-modal').modal({
+			                backdrop: 'static',
+			                keyboard: false
+			              });
+			         $('#alert-modal').modal('show');
+		    	 }
+		    	 
+		    	
+		    	 
+		     },
+		 complete:function(){
+			   $('#loading-overlay').hide();
+			   $('body').removeClass('loading');
+		 },
+			error: function(xhr, status, error) {
+				if(xhr.responseText){
+
+					$('#alert-modal .modal-title').text('ERROR');
+		            $('#alert-modal .modal-body h3').text(xhr.responseText);
+		            
+		           $('#alert-modal .modal-body i')  .addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+	               .css('color', 'red');
+		           $('#alert-modal').modal({
+		                backdrop: 'static',
+		                keyboard: false
+		              });
+		            $('#alert-modal').modal('show');
+				}
+					
+					else{
+						$('#alert-modal .modal-title').text('ERROR');
+			            $('#alert-modal .modal-body h3').text('Server not responding please sign-in again');
+			            
+			            $('#alert-modal .modal-body i').addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+		                                               .css('color', 'red');
+			            $('#alert-modal').modal({
+			                backdrop: 'static',
+			                keyboard: false
+			              });
+			            $('#alert-modal').modal('show');
+						
+					}
+			}
+		 })
+		  
+	  })
+	  
+})
+	
+	
+	 
+	</script>
+
+
+
+
+</body>
+</html>

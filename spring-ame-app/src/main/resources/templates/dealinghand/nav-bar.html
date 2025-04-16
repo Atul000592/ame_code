@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<nav
+	class="navbar navbar-expand-mg dashboard-bgcolor"
+	th:fragment="sidebar-wrapper-menu-nav-dh">
+	
+	<button id="menu-toggle">
+		<span class="fas fa-bars"></span>
+	</button>
+
+
+	<ul class="nav das-nav">
+		<li class="nav-item">
+		<li class="nav-item">IRLA /REGT NO: <span
+			th:text="${loginUserDetails.forceId}" ></span></li>
+		<li class="nav-item">NAME: <span
+			th:text="${loginUserDetails.name}" ></span></li>
+		<li class="nav-item">RANK/DESIGNATION: <span
+			th:text="${loginUserDetails.designation}" ></span></li>
+		<li class="nav-item"><span
+			th:if="${gazettedNonGazettedFlag=='Y'}" th:text="GazettedOfficer" ></span></li>
+		<li class="nav-item"><span
+			th:unless="${gazettedNonGazettedFlag=='Y'}"
+			th:text="Non-GazettedOfficer" ></span></li>
+		<li class="nav-item"><span
+			style="color: rgb(255, 255, 0); font-weight: 600;"
+			th:text="${userType}"></span></li>
+
+
+
+
+<li class="nav-item dropdown"><a
+			class="nav-link dropdown-toggle " href="#" role="button"
+			data-bs-toggle="dropdown" aria-expanded="false"> Profile </a>
+			<ul class="dropdown-menu text-small shadow">
+				<li>
+					<a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"
+						data-bs-target="#profileModal" onclick="fetchAndShowProfile()">User Profile</a>
+				</li>
+				<li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#change-password-modal">Change
+						Password</a></li>
+				
+				<li><hr class="dropdown-divider"></li>
+				<li><a class="dropdown-item" href="javascript:void(0);"
+					data-bs-toggle="modal" data-bs-target="#signout-modal">Sign Out</a></li>
+
+
+
+
+			</ul></li>
+	</ul>
+</nav>

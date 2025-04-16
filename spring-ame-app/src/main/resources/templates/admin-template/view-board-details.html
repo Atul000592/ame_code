@@ -1,0 +1,516 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>AME DashBoard Controller</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css" />
+<!-- Custom styles for this template -->
+<link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/base-responsive.css" />
+<link rel="stylesheet" href="css/animate.min.css" />
+<link rel="stylesheet" href="css/slicknav.min.css" />
+<link rel="stylesheet" href="css/font-awesome.min.css" />
+<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
+	type="text/css">
+
+<!-- Bootstrap core JavaScript -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="js/jquery.slicknav.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="js/local/disable-back-button.js"></script>
+
+<!--role modification js-->
+<script src="js/local/role-modification.js"></script>
+
+<!--Create new Role Css File-->
+<link rel="stylesheet" href="css/local/roleTransfer.css" />
+<script src="js/local/resetChangeForget.js"></script>
+
+
+</head>
+
+
+<body>
+	<!-- 
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
+		<a class="navbar-brand" href="#">Logo</a>
+		<ul class="navbar-nav">
+			<li class="nav-item">
+				<a class="nav-link" href="#">Link</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#">Link</a>
+			</li>
+		</ul>
+	</nav>
+ -->
+
+
+	<div class="d-flex" id="wrapper">
+		<div th:replace="~{admin-template/admin-left-menu::admin-left-menu}"></div>
+		<!-- Sidebar -->
+
+
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<div
+				th:replace="~{admin-template/nav-bar-bda::sidebar-wrapper-menu-nav-bda}"></div>
+
+			<div class="container-fluid mt-3">
+
+				<!-- Content Row -->
+
+				<div class="wisecountnactionbg">
+					<h4>Medical Board Details</h4>
+					<hr>
+					<div id="b-homedb">
+
+
+						<div class="row">
+
+							<div class="col-md-2">
+								<label style="font-size: large; font-weight: bold;">Medical
+									Board For : </label>
+							</div>
+							<div class="col-md-2 text-end">
+								<label style="color: darkred;" id="s1"
+									th:text="${medicalBoard.gFlag}"></labe>
+							</div>
+						</div>
+						<hr>
+
+						<div class="row">
+							<div class="col-md-3">Medical Examination Type :-</div>
+							<div class="col-md-1">
+								<span id="s1" th:text="${medicalBoard.useFor}"></span>
+							</div>
+							<div class="col-md-2">Situated At(Place) :-</div>
+							<div class="col-md-2">
+								<span id="s1" th:text="${medicalBoard.place}"> </span>
+							</div>
+
+							<div class="col-md-3">Medical Examination Year :-</div>
+							<div class="col-md-1">
+								<span id="s1" th:text="${medicalBoard.boardYear}"> </span>
+							</div>
+
+						</div>
+						<hr>
+						<div class="row">
+
+							<div class="col-md-2">Force Name :-</div>
+							<div class="col-md-2">
+								<span id="s1" th:text="${medicalBoard.forceName}"></span>
+							</div>
+							<div class="col-md-2">Constituted On :-</div>
+							<div class="col-md-2">
+								<span id="s1"
+									th:text="${#dates.format(medicalBoard.createdOn,'dd-MM-yyyy')}">
+
+								</span>
+							</div>
+							<div class="col-md-3">Status :-</div>
+							<div class="col-md-1">
+								<!--<span id="s1" th:text="${medicalBoard.status}"></span>-->
+								<span th:text="ACTIVE"> </span>
+							</div>
+
+						</div>
+						<hr>
+						<div class="row">
+							<div class="col-md-2">
+								<label> Constituted By :- </label>
+
+							</div>
+							<div class="col-md-6">
+								<label> <span class="s1" th:text="${createdBy}"></span></label>
+							</div>
+						</div>
+					</div>
+					<hr>
+
+					<div>
+
+						<form th:action="@{add-board-member}" method="post">
+							<input type="hidden" th:value="${medicalBoard.boardId}"
+								id="boardId" name="boardId">
+							<!-- <input type="hidden" th:value="${_csrf.token}" name="_csrf"> -->
+							<input type="submit" value="Add Member" class="btn btn-info btn-sm">
+
+						</form>
+					</div>
+					<span th:if="${message!=null}" th:text="${message}" th:id="'messageSpan'" style="color: darkred;font-size: 20px;">
+						
+					</span>
+
+					<div class="table-responsive">
+						<h6 class="table-heade">Medical Board Member Details</h6>
+						<table class="table table-striped table-bordered table-hover"
+							id="customers" style="font-size: 14px;">
+							<thead class="table-light">
+
+								<tr>
+									<th>Force Name</th>
+									<th>Force ID</th>
+									<th>Name</th>
+									<th>Gender</th>
+									<th>Designation</th>
+
+
+									<th>Assigned role</th>
+									<th>Status</th>
+									<th>Action</th>
+
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="medicalBoardMember : ${medicalBoardMemberDtoList}"
+									class="memberData">
+									<td th:text="${medicalBoardMember.forceNo}"></td>
+									<td th:text="${medicalBoardMember.IrlaNumber}"></td>
+
+									<td th:text="${medicalBoardMember.Name}"></td>
+									<td th:text="${medicalBoardMember.gender}"></td>
+									<td th:text="${medicalBoardMember.designation}"></td>
+
+									<!-- <td th:text="${individual.country}"></td>-->
+									<td
+										th:text="${#strings.toUpperCase(medicalBoardMember.roleName)}"></td>
+										<td>
+											<span
+												th:text="${medicalBoardMember.statusValue}" style="color: darkred;font-weight: 600;"></span>
+											
+										</td>
+
+									<td>
+										<form class="m-0" >
+										<input type="hidden"  th:value="${boardId}" id="boardId"> 
+										<input type="hidden"  th:value=" ${medicalBoardMember.forcePersonalId}" id="boardMemberForcePersonalId"> 
+										<input type="hidden"  th:value="${medicalBoardMember.status}" id="statusCode">
+									
+										<input th:if="${medicalBoardMember.status==1}" type="button" class="btn btn-info btn-sm" value="Inactivate user" onclick="transferRole(this)">
+								
+									
+										<input th:if="${medicalBoardMember.status==0}" type="button" class="btn btn-info btn-sm" value="Activate User" onclick="transferRole(this)">
+									
+										
+										</form>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<form id="transfer-role" method="post" th:action="@{transfer-boardmember-role-by-boardId}">
+						<input type="hidden"  name="boardId" id="boardIdId"> 
+						<input type="hidden" name="boardMemberForcePersonalId" id="boardMemberForcePersonalIdId"> 
+						<input type="hidden" name="statusCodeId" id="statusCodeId"> 
+						</form>
+					
+					<form th:action="@{view-board}" method="get">
+						<input type="submit" value="Back" class="btn btn-info btn-md">
+					</form>
+				</div>
+
+
+
+
+			</div>
+			<!--</form>-->
+		</div>
+
+
+
+	</div>
+	</div>
+
+	</div>
+
+	<!--model for role transfer-->
+	<!--Model-2 for role Assign-->
+	<!-- The Modal -->
+	<div id="userRoleTransfer" class="modal4">
+
+		<!-- Modal content -->
+		<div class="modal-content4">
+			<span class="close4" onclick="closeModel()">&times;</span>
+
+
+
+			<div class="container-2">
+				<div class="row">
+					<div class="col-md-12">
+						<h5>Assigner</h5>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<label>BoardId</label>
+					</div>
+					<div class="col-md-3">
+						<span class="s1" id="transferBoardId"></span>
+					</div>
+				</div>
+
+
+				<hr>
+
+				<div class="row">
+					<div class="col-md-4">
+						<label>IRLA No :-</label>
+					</div>
+					<div class="col-md-6">
+						<span class="s1" id="irlaNo"></span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<label> Name :- </label>
+					</div>
+					<div class="col-md-6">
+						<span class="s1" id="name"> </span>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4">
+						<label> Designation :- </label>
+
+					</div>
+					<div class="col-md-6">
+						<span class="s1" id="rank"> </span>
+					</div>
+				</div>
+
+
+				<div class="row">
+					<div class="col-md-4">
+						<label> Force Name :- </label>
+
+					</div>
+					<div class="col-md-6">
+						<span class="s1" id="forceName"></span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<label> Unit :- </label>
+					</div>
+					<div class="col-md-6">
+						<span class="s1" id="unit"> </span>
+					</div>
+
+				</div>
+				<br>
+
+			</div>
+			<br>
+			<hr>
+			<br> <label>Assignee Details</label>
+			<table style="width: 100%">
+				<thead>
+					<tr>
+						<th>S.No</th>
+						<th>Force</th>
+						<th>IRLA No</th>
+						<th>Name</th>
+						<th>Designation</th>
+						<th>Unit</th>
+						<th>Option</th>
+
+					</tr>
+				</thead>
+				<br>
+
+				<tbody id="assignee">
+
+
+
+				</tbody>
+
+			</table>
+			<br>
+			<div class="row">
+				<div class="col-md-4">
+					<label>Remark *</label>
+				</div>
+				<div class="col-md-6">
+					<input type="text" name="remark" id="remark" required> <input
+						type="hidden" name="transferForcePersonalId"
+						id="transferForcePersonalId">
+				</div>
+			</div>
+
+			<br>
+			<div class="row">
+
+
+				<div class="col-md-6"></div>
+				<div class="col-md-3">
+					<input type="hidden" name="rcd" id="rcd"> <input
+						type="hidden" name="rrcd" id="rrcd">
+					<button
+						style="width: 20%; background-color: rgb(0, 87, 130); font-weight: bold; font-size: 14px; width: 65%;"
+						onclick="transferRoleTo()">Transfer Role</button>
+				</div>
+				<div class="col-md-3">
+					<button
+						style="width: 20%; background-color: rgb(0, 87, 130); font-weight: bold; font-size: 14px; width: 65%;"
+						onclick="closeModel4()">Cancel</button>
+				</div>
+			</div>
+
+
+		</div>
+		</form>
+	</div>
+	</div>
+	<!-- /#wrapper -->
+
+
+
+
+
+	<!--	<script src="js/dashboard.js"></script>-->
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function() {
+			$('#backtotop').click(function() {
+				$("html, body").animate({
+					scrollTop : 0
+				}, 600);
+				return false;
+			});
+
+			// for Committe submitt
+
+		});
+	</script>
+
+
+
+
+
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function() {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function() {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+	<!-- Signup Modal -->
+	<div class="modal fade" id="signout-modal" data-bs-backdrop="static"
+		data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Sign Out?</h5>
+
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<!-- Modal body -->
+					<div class="modal-body">
+						<p class="text-center">Are you sure you want to Sign Out?</p>
+						<form action="sign-out">
+							<div class="row">
+								<div class="col-md-6">
+									<button type="submit" class="btn btn-primary">Sign Out</button>
+								</div>
+								<div class="col-md-6">
+									<button type="button" class="btn btn-secondary"
+										data-bs-dismiss="modal">Cancel</button>
+								</div>
+
+							</div>
+
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function() {
+			$("#one-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+	<script>
+	    // Check if the span is present
+	    var messageSpan = document.getElementById('messageSpan');
+	    if (messageSpan) {
+	        // Set a timer to hide the span after 5 seconds (5000 milliseconds)
+	        setTimeout(function() {
+	            messageSpan.style.display = 'none';
+	        }, 5000);
+	    }
+	</script>
+
+
+</body>
+
+</html>

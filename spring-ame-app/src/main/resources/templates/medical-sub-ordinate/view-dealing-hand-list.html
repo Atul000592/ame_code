@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+<head>
+<meta charset="ISO-8859-1">
+
+
+<title>AME DashBoard Controller</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<div th:replace="~{medical-sub-ordinate/master-doc::master-wrapper-doc}"></div>
+
+<style>
+#user {
+  font-family: 'Courier New', Courier, monospace, 'Times New Roman', Times, serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#user td, #user th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#user tr:nth-child(even){background-color: #f2f2f2;}
+
+#user tr:hover {background-color: #ddd;}
+
+#user th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #0086b3;
+  color: white;
+}
+</style>
+
+
+
+</head>
+
+
+<body>
+
+
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+	<div th:replace="~{medical-sub-ordinate/left-menu-ama::sidebar-wrapper-menu-ama}"></div>
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<div th:replace="~{medical-sub-ordinate/nav-bar::sidebar-wrapper-menu-nav-ama}"></div>
+
+			<div class="container-fluid">
+
+				<!-- Content Row -->
+
+
+
+				<div class="my-5" id="b-homedb">
+
+					<div class="container" >
+						<h4 class="text-center mb-3 b-latest-data">List of Dealing Hand</h4>
+					
+
+
+<div>
+	<span th:if="${message!=null}" th:text="${message}">
+		
+	</span>
+</div>
+						<div class="" style="overflow: scroll;">
+							
+							<div>
+	
+
+<div>
+<table id="user">
+
+<thead>
+<tr>
+<th>Serial No</th>
+<th>BoardId</th>
+<th>IRLA No</th>
+
+<th>Name</th>
+<th>Rank</th>
+<th>Status</th>
+
+</tr>
+</thead>
+<tr th:each="dealingHandList,statcount :${dealingHandList}">
+<td th:text="${statcount.count}"></td>
+
+<td th:text="${dealingHandList.boardId}"> </td>
+
+<td th:text="${dealingHandList.irlaNo}"></td>
+
+<td th:text="${dealingHandList.name}"></td>
+
+<td th:text="${dealingHandList.designation}"></td>
+<td th:text="${dealingHandList.status}"></td>
+
+
+</tr>
+
+</table>
+
+</div>
+<div>
+
+</div>
+</div>
+			
+					</div>
+
+				</div>
+
+			</div>
+			<div class="my-5" id="b-homedb"></div>
+
+		</div>
+
+	</div>
+
+
+
+
+	</div>
+	<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function() {
+			$('#backtotop').click(function() {
+				$("html, body").animate({
+					scrollTop : 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function() {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function() {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+	<!-- Signup Modal -->
+	<div class="modal fade" id="signout-modal">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header text-center d-block p-5 border-bottom-0">
+					<h3 class="modal-title">Sign Out?</h3>
+					<button type="button" class="close position-absolute"
+						style="right: 15px; top: 8px;" data-dismiss="modal">&times;</button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body">
+					<p class="text-center">Are you sure you want to Sign Out?</p>
+					<div class="text-center py-4">
+						<form action="sign-out">
+							<button type="submit" class="btn btn-primary b-btn mx-3">Sign
+								Out</button>
+							<button class="btn btn-secondary mx-3" data-dismiss="modal">Cancel</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function() {
+			$("#one-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+
+
+</body>
+</html>

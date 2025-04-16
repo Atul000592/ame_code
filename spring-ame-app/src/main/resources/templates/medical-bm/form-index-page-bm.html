@@ -1,0 +1,738 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>AME DashBoard User</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<div th:replace="~{medical-sub-ordinate/master-doc::master-wrapper-doc}"></div>
+
+
+
+<style>
+
+
+.btn-primary,.btn-success{
+	min-width: 100px;
+	font-size: 14px;
+	font-weight: 600;
+}
+.text-start{
+	font-size: 14px;
+	font-weight: 600;
+}
+
+</style> 
+</head>
+
+
+<body>
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+	<div th:replace="~{medical-bm/left-menu-bm::sidebar-wrapper-menu-bm}"></div>
+
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+
+
+			<!--nav-->
+			<div
+				th:replace="~{medical-bm/nav-bar-bm::sidebar-wrapper-menu-nav-bm}"></div>
+
+
+			<div class="container-fluid mt-3">
+
+				<!-- Content Row -->
+				<div class="wisecountnactionbg">
+
+
+					<div id="b-homedb">
+
+
+						<h4 class="w-100 mb-4">AME FORM PARTS <form action="application-under-process-ma" method="get" class="float-end">
+                     <input type="submit" value="Back"  class="btn btn-primary">
+					</form></h4>
+					
+
+							<div class="proc-box px-4">
+
+								<div class="row">
+									<div class="col-md-3">
+										<div class="alert alert-primary">
+											<label class="fw-bold">IRLA /REGT No:</label> <span
+												th:text="${candidateDetails.forceId}"></span>
+										</div>
+									</div>
+
+									<div class="col-md-3">
+										<div class="alert alert-primary">
+											<label class="fw-bold">Name:</label> <span
+												th:text="${candidateDetails.name}"></span>
+										</div>
+									</div>
+
+									<div class="col-md-3">
+										<div class="alert alert-primary">
+											<label class="fw-bold">Gender:</label> <span
+												th:text="${candidateDetails.gender}"></span>
+										</div>
+									</div>
+
+									<div class="col-md-3">
+										<div class="alert alert-primary">
+											<label class="fw-bold">Force Name:</label> <span th:text="${candidateDetails.forceName}"> Assam Rifle
+											</span> 
+										</div>
+									</div>
+
+									<div class="col-md-3">
+										<div class="alert alert-primary my-2">
+											<label class="fw-bold">Rank/Designation:</label> <span
+												th:text="${candidateDetails.designation}"></span>
+										</div>
+								</div>
+
+									<div class="col-md-3">
+										<div class="alert alert-primary">
+											<label class="fw-bold"> Grade: </label> <span
+												th:if="${candidateGazettedNonGazettedFlag=='Y'}"
+												th:text="GazettedOfficer"></span> <span
+												th:unless="${candidateGazettedNonGazettedFlag=='Y'}"
+												th:text="NonGazettedOfficer"></span>
+										</div>
+									</div>
+								</div>
+								</div>
+								
+		
+			
+			<div class="proc-box pt-3 pb-0" style="display: flex; justify-content: space-around;">
+				
+						<!-- <form action="medical-subordinate-member-display-report-ma" method="post" class="m-0">
+                              <input type="hidden" th:value="*{forcepersonalId}" name="forcepersonalId"> 
+                              <input type="hidden" th:value="*{ameId}" name="ameId">
+                               <input type="hidden" th:value="${_csrf.token}" name="_csrf">
+							  <input type="submit" value="View Ame report" class="btn btn-primary">
+							  </form>
+			 -->
+						
+					
+							<div class="col-md-3">
+								<!-- <form action="view-report-of-investigation-form" method="post" target="_blank" rel="noopener noreferrer">
+								<input type="hidden" th:value="*{forcepersonalId}" name="forcepersonalId"> 
+								<input type="hidden" th:value="*{ameId}" name="ameId"> 
+								<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+								 <input type="submit" value="View Investigation Report" class="btn btn-primary" style="width: auto;">
+								</form>
+								 -->
+								</div>
+						
+							
+							<form th:action="@{download-declaration-file-uploaded}" method="get" target=”_blank” rel="noopener noreferrer">
+								<input type="hidden" th:value="*{forcepersonalId}" name="forcepersonalId">
+								<input type="hidden" th:value="*{ameId}" name="ameId">
+								<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+								<input type="submit" value="View Declaration" class="btn btn-primary">
+                            </form>
+							
+						
+										
+										 <div th:if="${finalDetails!='N'}">
+										
+											</div>
+										
+											<div th:if="${finalDetails!='N'}">
+												<form action="ame-assessment-final-details"  method="post" class="m-0">
+												<input type="hidden" th:value="${forcepersonalId}" name="forcepersonalId">
+												<input type="hidden" th:value="${ameId}" name="ameId">
+												<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+												<input type="hidden" name="function" th:value="view">
+                                                   <input type="submit" value="Final Detail" class="btn btn-primary">
+											</form>
+											</div>
+									
+							
+							</div>
+							
+							
+					
+							
+									<h4>
+										<span th:if="${message!=null}" th:text="${message}"></span>
+									</h4>
+									
+									
+									<div class="row" id="sortable-cards">
+										<div class="col-lg-6 col-sm-12">
+											<div class="proc-box py-2 px-3">
+										
+													<div class="row">
+														<div class="col-sm-6 text-start">Physical Measurement</div>
+														<div class="col-md-2 text-end"
+															th:if="${ameMasterStatus.physicalMeasurement!='Yes'}">
+															<form action="physical-measurement-index-page-ama"
+																method="post">
+																<input type="hidden" th:value="${forcepersonalId}"
+																	name="forcepersonalId"> <input type="hidden"
+																	th:value="${ameId}" name="ameId"> <input
+																	type="hidden" th:value="${_csrf.token}" name="_csrf">
+
+																<input type="submit" value="Fill" class="btn btn-primary">
+															</form>
+														</div>
+														<div class="col-md-2 text-end"
+															th:unless="${ameMasterStatus.physicalMeasurement!='Yes'}">
+															<form action="physical-measurement-index-page-ama"
+																method="post">
+																<input type="hidden" th:value="${forcepersonalId}"
+																	name="forcepersonalId"> <input type="hidden"
+																	th:value="${ameId}" name="ameId"> <input
+																	type="hidden" th:value="${_csrf.token}" name="_csrf">
+
+																<input type="submit" value="Edit" class="btn btn-primary">
+															</form>
+														</div>
+														<div class="col-md-2 text-end"
+															th:unless="${ameMasterStatus.physicalMeasurement!='Yes'}">
+															<form action="physical-measurement-index-page-view-ama"
+																method="post">
+																<input type="hidden" th:value="${forcepersonalId}"
+																	name="candidateForcepersonalId"> <input
+																	type="hidden" th:value="${ameId}" name="ameId">
+																<input type="hidden" th:value="${_csrf.token}"
+																	name="_csrf"> <input type="submit" value="View" class="btn btn-primary">
+															</form>
+														</div>
+													</div>
+													
+													<div class="row my-3">
+														<div class="col-md-6 text-start">
+															<label>Psychological Assessment as Laid
+																Down(S)&nbsp;&&nbsp;Category</label>
+														</div>
+														<div class="col-md-2 text-end"
+															th:if="${ameMasterStatus.phychologicalAssessmentAsLaidDown!='Yes'}">
+															<form action="psychological-assessment-as-laid-down"
+																method="post">
+																<input type="hidden" th:value="${forcepersonalId}"
+																	name="forcepersonalId"> <input type="hidden"
+																	th:value="${ameId}" name="ameId"> <input
+																	type="hidden" th:value="${_csrf.token}" name="_csrf">
+
+																<input type="submit" value="Fill" class="btn btn-primary">
+															</form>
+														</div>
+														<div class="col-md-2 text-end"
+															th:unless="${ameMasterStatus.phychologicalAssessmentAsLaidDown!='Yes'}">
+															<form action="psychological-assessment-as-laid-down"
+																method="post">
+																<input type="hidden" th:value="${forcepersonalId}"
+																	name="forcepersonalId"> <input type="hidden"
+																	th:value="${ameId}" name="ameId"> <input
+																	type="hidden" th:value="${_csrf.token}" name="_csrf">
+
+																<input type="submit" value="Edit" class="btn btn-primary">
+															</form>
+														</div>
+														<div class="col-md-2 text-end"
+															th:unless="${ameMasterStatus.phychologicalAssessmentAsLaidDown!='Yes'}">
+															<form action="psychology-as-laid-down-view" method="post">
+																<input type="hidden" th:value="${forcepersonalId}"
+																	name="candidateForcepersonalId"> <input
+																	type="hidden" th:value="${ameId}" name="ameId">
+																<input type="hidden" th:value="${_csrf.token}"
+																	name="_csrf"> <input type="submit" value="View" class="btn btn-primary">
+															</form>
+														</div>
+
+													</div>
+													
+													<div class="row">
+														<div class="col-md-6 text-start">
+															Hearing(H)&nbsp;&&nbsp;Category</div>
+														<div class="col-md-2 text-end"
+															th:if="${ameMasterStatus.hearing!='Yes'}">
+															<form action="assessment-hearing-ama" method="post">
+																<input type="hidden" th:value="${forcepersonalId}"
+																	name="forcepersonalId"> <input type="hidden"
+																	th:value="${ameId}" name="ameId"> <input
+																	type="hidden" th:value="${_csrf.token}" name="_csrf">
+
+																<input type="submit" value="Fill" class="btn btn-primary">
+															</form>
+														</div>
+														<div class="col-md-2 text-end"
+															th:unless="${ameMasterStatus.hearing!='Yes'}">
+															<form action="assessment-hearing-ama" method="post">
+																<input type="hidden" th:value="${forcepersonalId}"
+																	name="forcepersonalId"> <input type="hidden"
+																	th:value="${ameId}" name="ameId"> <input
+																	type="hidden" th:value="${_csrf.token}" name="_csrf">
+
+																<input type="submit" value="Edit" class="btn btn-primary">
+															</form>
+														</div>
+														<div class="col-md-2 text-end"
+															th:unless="${ameMasterStatus.hearing!='Yes'}">
+															<form action="assessment-hearing-view" method="post">
+																<input type="hidden" th:value="${forcepersonalId}"
+																	name="candidateForcepersonalId"> <input
+																	type="hidden" th:value="${ameId}" name="ameId">
+																<input type="hidden" th:value="${_csrf.token}"
+																	name="_csrf"> <input type="submit" value="View" class="btn btn-primary">
+															</form>
+														</div>
+
+													</div>
+
+											
+											</div>
+										</div>
+
+										<div class="col-lg-6 col-sm-12">
+											<div class="proc-box py-2 px-3">
+
+										
+													<div class="row">
+														<div class="col-md-6 text-start">General Examination(Physical)</div>
+														<div class="col-md-2 text-end"
+															th:if="${ameMasterStatus.generalExamination!='Yes'}">
+															<form action="assessment-General-Examination"
+																method="post">
+																<input type="hidden" th:value="${forcepersonalId}"
+																	name="forcepersonalId"> <input type="hidden"
+																	th:value="${ameId}" name="ameId"> <input
+																	type="hidden" th:value="${_csrf.token}" name="_csrf">
+
+																<input type="submit" value="Fill" class="btn btn-primary">
+															</form>
+														</div>
+														<div class="col-md-2 text-end"
+															th:unless="${ameMasterStatus.generalExamination!='Yes'}">
+															<form action="assessment-General-Examination"
+																method="post">
+																<input type="hidden" th:value="${forcepersonalId}"
+																	name="forcepersonalId"> <input type="hidden"
+																	th:value="${ameId}" name="ameId"> <input
+																	type="hidden" th:value="${_csrf.token}" name="_csrf">
+
+																<input type="submit" value="Edit" class="btn btn-primary">
+															</form>
+														</div>
+														<div class="col-md-2 text-end"
+															th:unless="${ameMasterStatus.generalExamination!='Yes'}">
+															<form action="general-examination-view" method="post">
+																<input type="hidden" th:value="${forcepersonalId}"
+																	name="candidateForcepersonalId"> <input
+																	type="hidden" th:value="${ameId}" name="ameId">
+																<input type="hidden" th:value="${_csrf.token}"
+																	name="_csrf"> <input type="submit" value="View" class="btn btn-primary">
+															</form>
+														</div>
+													</div>
+													
+														<div class="row my-3">
+														
+														
+														<div class="col-md-6 text-start">Central Nervous System &
+															Cranial Nerves Meningeal Sign Reflexes & Sensory
+															System(Physical)</div>
+														<div class="col-md-2 text-end"
+															th:if="${ameMasterStatus.cranialnervesmeningealsign!='Yes'}">
+															<form action="assessment-CNS-CNM-reflex-sensory-main"
+																method="post">
+																<input type="hidden" th:value="${forcepersonalId}"
+																	name="forcepersonalId"> <input type="hidden"
+																	th:value="${ameId}" name="ameId"> <input
+																	type="hidden" th:value="${_csrf.token}" name="_csrf">
+																<input type="submit" value="Fill" class="btn btn-primary">
+															</form>
+														</div>
+														<div class="col-md-2 text-end"
+															th:unless="${ameMasterStatus.cranialnervesmeningealsign!='Yes'}">
+															<form action="assessment-CNS-CNM-reflex-sensory-main"
+																method="post">
+																<input type="hidden" th:value="${forcepersonalId}"
+																	name="forcepersonalId"> <input type="hidden"
+																	th:value="${ameId}" name="ameId"> <input
+																	type="hidden" th:value="${_csrf.token}" name="_csrf">
+																<input type="submit" value="Edit" class="btn btn-primary">
+															</form>
+														</div>
+														<div class="col-md-2 text-end"
+															th:unless="${ameMasterStatus.cranialnervesmeningealsign!='Yes'}">
+															<form action="cns-reflexes-sensory-system--view"
+																method="post">
+																<input type="hidden" th:value="${forcepersonalId}"
+																	name="candidateForcepersonalId"> <input
+																	type="hidden" th:value="${ameId}" name="ameId">
+																<input type="hidden" th:value="${_csrf.token}"
+																	name="_csrf"> <input type="submit" value="View" class="btn btn-primary">
+															</form>
+														</div>
+														
+														</div>
+														<div class="row">
+														<div class="col-md-6 text-start">Abdomen and Respiratory System
+															(Physical) Category</div>
+														<div class="col-md-2 text-end"
+															th:if="${ameMasterStatus.abdomen!='Yes'}">
+															<form action="assesment-abdomen-respiratory"
+																method="post">
+																<input type="hidden" th:value="${forcepersonalId}"
+																	name="forcepersonalId"> <input type="hidden"
+																	th:value="${ameId}" name="ameId"> <input
+																	type="hidden" th:value="${_csrf.token}" name="_csrf">
+																<input type="submit" value="Fill" class="btn btn-primary">
+															</form>
+														</div>
+														<div class="col-md-2 text-end"
+															th:unless="${ameMasterStatus.abdomen!='Yes'}">
+															<form action="assesment-abdomen-respiratory"
+																method="post">
+																<input type="hidden" th:value="${forcepersonalId}"
+																	name="forcepersonalId"> <input type="hidden"
+																	th:value="${ameId}" name="ameId"> <input
+																	type="hidden" th:value="${_csrf.token}" name="_csrf" >
+																<input type="submit" value="Edit" class="btn btn-primary">
+															</form>
+														</div>
+														<div class="col-md-2 text-end"
+															th:unless="${ameMasterStatus.abdomen!='Yes'}">
+															<form action="abdomen-respiratory-view" method="post">
+																<input type="hidden" th:value="${forcepersonalId}"
+																	name="candidateForcepersonalId"> <input
+																	type="hidden" th:value="${ameId}" name="ameId">
+																<input type="hidden" th:value="${_csrf.token}"
+																	name="_csrf"> <input type="submit" value="View" class="btn btn-primary">
+															</form>
+														</div>
+													</div>
+
+
+												</div>
+											</div>
+								
+									<div class="col-lg-6 col-sm-12">
+									<div class="proc-box py-2 px-3">
+
+												<div class="row">
+													<div class="col-md-6 text-start">Appendages(A)
+														 Category</div>
+													<div class="col-md-2 text-end"
+														th:if="${ameMasterStatus.appendages!='Yes'}">
+														<form action="assessment-appendages-ama" method="post">
+															<input type="hidden" th:value="${forcepersonalId}"
+																name="forcepersonalId"> <input type="hidden"
+																th:value="${ameId}" name="ameId"> <input
+																type="hidden" th:value="${_csrf.token}" name="_csrf">
+															<input type="submit" value="Fill" class="btn btn-primary">
+														</form>
+													</div>
+													<div class="col-md-2 text-end"
+														th:unless="${ameMasterStatus.appendages!='Yes'}">
+														<form action="assessment-appendages-ama" method="post">
+															<input type="hidden" th:value="${forcepersonalId}"
+																name="forcepersonalId"> <input type="hidden"
+																th:value="${ameId}" name="ameId"> <input
+																type="hidden" th:value="${_csrf.token}" name="_csrf">
+															<input type="submit" value="Edit" class="btn btn-primary">
+														</form>
+													</div>
+													<div class="col-md-2 text-end"
+														th:unless="${ameMasterStatus.appendages!='Yes'}">
+														<form action="appendages-view" method="post">
+															<input type="hidden" th:value="${forcepersonalId}"
+																name="candidateForcepersonalId"> <input
+																type="hidden" th:value="${ameId}" name="ameId">
+															<input type="hidden" th:value="${_csrf.token}"
+																name="_csrf"> <input type="submit" value="View" class="btn btn-primary">
+														</form>
+													</div>
+													
+													</div>
+													
+													<div class="row my-3">
+													
+													<div class="col-md-6 text-start">Eye
+														Factor (E) Category</div>
+													<div class="col-md-2 text-end"
+														th:if="${ameMasterStatus.eyefactor!='Yes'}">
+														<form action="assessment-Eye-Factor-ama" method="post">
+															<input type="hidden" th:value="${forcepersonalId}"
+																name="forcepersonalId"> <input type="hidden"
+																th:value="${ameId}" name="ameId"> <input
+																type="hidden" th:value="${_csrf.token}" name="_csrf">
+															<input type="submit" value="Fill" class="btn btn-primary">
+														</form>
+													</div>
+													<div class="col-md-2 text-end"
+														th:unless="${ameMasterStatus.eyefactor!='Yes'}">
+														<form action="assessment-Eye-Factor-ama" method="post">
+															<input type="hidden" th:value="${forcepersonalId}"
+																name="forcepersonalId"> <input type="hidden"
+																th:value="${ameId}" name="ameId"> <input
+																type="hidden" th:value="${_csrf.token}" name="_csrf">
+															<input type="submit" value="Edit" class="btn btn-primary">
+														</form>
+													</div>
+													<div class="col-md-2 text-end"
+														th:unless="${ameMasterStatus.eyefactor!='Yes'}">
+														<form action="eye-factor-view" method="post">
+															<input type="hidden" th:value="${forcepersonalId}"
+																name="candidateForcepersonalId"> <input
+																type="hidden" th:value="${ameId}" name="ameId">
+															<input type="hidden" th:value="${_csrf.token}"
+																name="_csrf"> <input type="submit" value="View" class="btn btn-primary">
+														</form>
+													</div>
+</div>
+
+													<div class="row"
+														th:if="${candidateDetails.gender=='Female'}">
+
+														<div class="col-md-6 text-start">Gynecology and Obs
+															Factor(G) Category</div>
+														<div class="col-md-2 text-end"
+															th:if="${ameMasterStatus.gynaecologyObs!='Yes'}">
+															<form action="assessment-gynecology" method="post">
+																<input type="hidden" th:value="${forcepersonalId}"
+																	name="forcepersonalId"> <input type="hidden"
+																	th:value="${ameId}" name="ameId"> <input
+																	type="hidden" th:value="${_csrf.token}" name="_csrf">
+																<input type="submit" value="Fill" class="btn btn-primary">
+															</form>
+														</div>
+														<div class="col-md-2 text-end"
+															th:unless="${ameMasterStatus.gynaecologyObs!='Yes'}">
+															<form action="assessment-gynecology" method="post">
+																<input type="hidden" th:value="${forcepersonalId}"
+																	name="forcepersonalId"> <input type="hidden"
+																	th:value="${ameId}" name="ameId"> <input
+																	type="hidden" th:value="${_csrf.token}" name="_csrf">
+																<input type="submit" value="Edit" class="btn btn-primary">
+															</form>
+														</div>
+														<div class="col-md-2 text-end"
+															th:unless="${ameMasterStatus.gynaecologyObs!='Yes'}">
+															<form action="assessment-gynecology-view" method="post">
+																<input type="hidden" th:value="${forcepersonalId}"
+																	name="candidateForcepersonalId"> <input
+																	type="hidden" th:value="${ameId}" name="ameId">
+																<input type="hidden" th:value="${_csrf.token}"
+																	name="_csrf"> <input type="submit" value="View" class="btn btn-primary">
+															</form>
+														</div>
+													</div>
+												</div>
+											</div>
+									
+									<div class="col-lg-6 col-sm-12">
+									<div class="proc-box py-2 px-3">
+
+
+												<div class="row">
+													<div class="col-md-6 text-start">Investigation</div>
+													<div class="col-md-2 text-end"
+														th:if="${ameMasterStatus.investigation!='Yes'}">
+														<form action="assessment-investigation-report"
+															method="post">
+															<input type="hidden" th:value="${forcepersonalId}"
+																name="forcepersonalId"> <input type="hidden"
+																th:value="${ameId}" name="ameId"> <input
+																type="hidden" th:value="${_csrf.token}" name="_csrf">
+															<input type="submit" value="Fill" class="btn btn-primary">
+														</form>
+													</div>
+													<div class="col-md-2 text-end"th:unless="${ameMasterStatus.investigation!='Yes'}">
+														<form action="assessment-investigation-ama" method="post">
+															<input type="hidden" th:value="${forcepersonalId}"
+																name="forcepersonalId"> <input type="hidden"
+																th:value="${ameId}" name="ameId"> <input
+																type="hidden" th:value="${_csrf.token}" name="_csrf">
+															<input type="submit" value="Edit" class="btn btn-primary">
+														</form>
+													</div>
+													<div class="col-md-2 text-end"
+														th:unless="${ameMasterStatus.investigation!='Yes'}">
+														<form action="assessment-investigation-view-ama"
+															method="post">
+															<input type="hidden" th:value="${forcepersonalId}"
+																name="candidateForcepersonalId"> <input
+																type="hidden" th:value="${ameId}" name="ameId">
+															<input type="hidden" th:value="${_csrf.token}"
+																name="_csrf"> <input type="submit" value="View" class="btn btn-primary">
+														</form>
+													</div>
+													</div>
+													
+                                                    <div class="row my-3">
+													<div class="col-md-6 text-start">CAPTURE IMAGE</div>
+													<div class="col-md-2">
+															<form th:action="@{/image-upload-ama}" method="post">
+															<input type="hidden" th:value="${forcepersonalId}"
+																name="candidateForcePersonalId"> <input
+																type="hidden" th:value="${ameId}" name="ameId">
+															<input type="hidden" th:value="${_csrf.token}"
+																name="_csrf"> <input type="submit"
+																value="Capture" class="btn btn-primary">
+														</form>
+													</div>
+													</div>
+													
+									
+											</div>
+										</div>
+									</div>
+								</div>
+
+
+							</div>
+
+						</div>
+						<div class="my-5" id="b-homedb"></div>
+
+					</div>
+
+				</div>
+
+
+
+
+			</div>
+			<!-- /#page-content-wrapper -->
+
+		</div>
+		<!-- /#wrapper -->
+
+
+
+
+
+		<!-- Menu Toggle Script -->
+		<script>
+			$("#menu-toggle").click(function(e) {
+				e.preventDefault();
+				$("#wrapper").toggleClass("toggled");
+			});
+		</script>
+
+
+		<script>
+			$(document).ready(function() {
+				$('#backtotop').click(function() {
+					$("html, body").animate({
+						scrollTop : 0
+					}, 600);
+					return false;
+				});
+			});
+		</script>
+
+
+		<script>
+			$('.sub-menu ul').hide();
+			$('.sub-sub-menu ul').hide();
+			$(".sub-menu a").click(
+					function() {
+						$(this).parent(".sub-menu").children("ul").slideToggle(
+								"100");
+						$(this).find(".right").toggleClass(
+								"fa-caret-up fa-caret-down");
+					});
+
+			$(".sub-sub-menu a").click(
+					function() {
+						$(this).parent(".sub-sub-menu").children("ul")
+								.slideToggle("100");
+						$(this).find(".right").toggleClass(
+								"fa-caret-up fa-caret-down");
+					});
+		</script>
+
+
+
+		<!-- Signup Modal -->
+		<div class="modal fade" id="signout-modal">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Sign Out?</h5>
+
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<!-- Modal body -->
+						<div class="modal-body">
+							<p class="text-center">Are you sure you want to Sign Out?</p>
+							<form action="sign-out">
+								<div class="row">
+									<div class="col-md-6">
+										<button type="submit" class="btn btn-primary">Sign
+											Out</button>
+									</div>
+									<div class="col-md-6">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Cancel</button>
+									</div>
+
+								</div>
+
+							</form>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<script src="vendor/jquery-ui/jquery-ui.js"></script>
+		<script>
+		$(function() {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+		<script>
+		$(function() {
+			$("#one-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+</body>
+</html>
+
+
+
+

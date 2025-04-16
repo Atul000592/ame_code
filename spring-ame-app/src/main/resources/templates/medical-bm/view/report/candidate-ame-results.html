@@ -1,0 +1,348 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>AME DashBoard</title>
+<meta charset="utf-8">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Custom styles for this template -->
+<div th:replace="~{medical-sub-ordinate/master-doc::master-wrapper-doc}"></div>
+<script src="js/local/view-declaration-pdf/view-declaration-file.js"></script>
+
+
+<!-- Include jQuery -->
+    <script src="ame-datatable-js/3.5.1/jquery.min.js"></script>
+    
+    <!-- Include DataTables CSS -->
+    <link rel="stylesheet" href="ame-datatable-css/1.11.5/jquery.dataTables.min.css">
+    
+    <!-- Include DataTables JavaScript -->
+    <script src="ame-datatable-js/1.11.5/jquery.dataTables.min.js"></script>
+
+<script>
+	 $(document).ready(function() {
+            $('#example').DataTable();
+        });
+     
+</script>
+
+</head>
+
+
+<body>
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+		<div
+			th:replace="~{medical-sub-ordinate/left-menu-ama::sidebar-wrapper-menu-ama}"></div>
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			     <!--nav-->
+			<div
+				th:replace="~{medical-sub-ordinate/nav-bar::sidebar-wrapper-menu-nav-ama}"></div>
+
+
+		<div class="container-fluid mt-3">
+
+				<div class="wisecountnactionbg px-4">
+
+
+
+				<div id="b-homedb">
+
+						<h4>Personnel Information </h4>
+						
+								<div class="row text-center " id="sortable-cards">
+									 <div class="proc-box p-3 text-start">
+     
+				<div class="row">
+				
+					<div class="col-md-3">
+						<label class="fw-medium">Name of the force</label>
+						
+									
+							
+					</div>
+						<div class="col-md-3"><span th:text="${candidateDetails.forceCodeName}" > </span>
+								
+								</div>
+								
+				<div class="col-md-3">
+						<label class="fw-medium">IRLA/REGT No.</label>
+					</div>
+					<div class="col-md-3">
+						<span th:text="${candidateDetails.forceId}"></span>
+						</div>
+					</div>
+				
+				<div class="row">
+					<div class="col-md-3">
+						<label class="fw-medium">Name</label>
+					</div>
+					<div class="col-md-3">
+						<span th:text="${candidateDetails.name}"></span>
+						</div>
+					<div class="col-md-3">
+						<label class="fw-medium">Rank</label>
+					</div>
+					<div class="col-md-3">
+						<span th:text="${candidateDetails.rank}"></span>
+						</div>
+					
+					</div>
+					<div class="row">
+					
+					<div class="col-md-3">
+						<label class="fw-medium">Unit/formation</label>
+					</div>
+					<div class="col-md-3">
+						<span th:text="${candidateDetails.unitName}"></span>
+						</div>
+							<div class="col-md-3">
+							<label class="fw-medium">Grade</label>
+						</div>
+						<div class="col-md-3">
+							<span th:if="${candidateDetails.gazettedNonGazettedFlag=='G'}">Gazetted Officer</span>
+								<span th:unless="${candidateDetails.gazettedNonGazettedFlag=='G'}">Non-Gazetted Officer</span>
+						</div>
+					</div>
+						<div class="row">
+					<div class="col-md-3">
+						<label class="fw-medium">Age</label>
+					</div>
+					<div class="col-md-3">
+						<span th:text="${age}"></span>
+						</div>
+					<div class="col-md-3">
+						<label class="fw-medium">DOB</label>
+					</div>
+					<div class="col-md-3">
+						<span th:text="${#dates.format(candidateDetails.dob,'dd-MM-yyyy')}">--</span>
+						</div>
+					</div>
+					<div class="row">
+					<div class="col-md-3">
+						<label class="fw-medium">Gender</label>
+						</div>
+						<div class="col-md-3">
+						<span th:text="${candidateDetails.gender}" id="candidateDetailsGender" ></span>
+						</div>
+						</div>
+					<div class="row">
+					<div class="col-md-3">
+						<label class="fw-medium">DOJ</label>
+					</div>
+					<div class="col-md-3">
+					<span th:text="${#dates.format(candidateDetails.joiningDate, 'dd-MM-yyyy')}"></span>
+						</div>
+				<div class="col-md-3">
+						<label class="fw-medium">Total Service</label>
+					</div>
+					<div class="col-md-3">
+						<span th:text="${doj}">--</span>
+						</div>
+					</div>
+				
+			
+					
+					
+					</div>
+					<div class="proc-box p-3 text-start">
+					<h6> AME RESULTS</h6>
+					
+<table class="table table-striped table-bordered table-hover" id="example">
+
+<thead class="table-light">
+<tr>
+<th>S No</th>
+<th>AME ID</th>
+<th>Final Category Awarded</th>
+<th>Board ID / Place</th>
+<th>Year</th>
+<th>Final Report</th>
+
+</tr>
+</thead>
+<tr th:each="ameFinalResultCandidates,statcount :${ameFinalResultCandidates}">
+<td th:text="${statcount.count}"></td>
+<td th:text="${ameFinalResultCandidates.ameId}"> </td>
+
+<td th:text="${ameFinalResultCandidates.shapeCategoryAwarded}"></td>
+
+<td th:text="${ameFinalResultCandidates.boardId + ' / ' + ameFinalResultCandidates.place}"></td>
+
+	<!--<span th:if="${ameFinalResultCandidates.boardId=='null'}" th:text="${ameFinalResultCandidates.boardId}"></span>
+		<span th:unless="${ameFinalResultCandidates.boardId==null}" th:text="92829028920"></span>-->
+
+</td>
+<td>
+	<!--<span th:if="${ameFinalResultCandidates.ameYear=='null'}" th:text="${ameFinalResultCandidates.ameYear}"></span>
+		<span th:unless="${ameFinalResultCandidates.ameYear==null}" th:text="2024"></span>-->
+		<span th:text="${ameFinalResultCandidates.ameYear}" ></span>
+</td>
+<td>
+<div class="row">
+<div class="col-md-6">
+	<form th:action="@{download-ame-final-report-uploaded}" method="get" target=”_blank” rel="noopener noreferrer">
+		<input type="hidden" th:value="${candidateForcePersonalId}" name="forcepersonalId">
+		<input type="hidden" th:value="${ameFinalResultCandidates.ameId}" name="ameId">
+		<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+		<input type="submit" value="Download" class="btn btn-info btn-sm">
+	</form>
+	</div>
+	<div class="col-md-6">
+		<form th:action="@{view-final-report-ame}" method="get" >
+											<input type="hidden" th:value="${ameFinalResultCandidates.ameId}" name="ameId">
+											<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+											<input type="submit" value="View" class="btn btn-info btn-sm">
+
+										</form>
+										</div>
+										</div>
+</td>
+
+</tr>
+
+</table>
+</div>
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+</div>
+
+<div th:replace="~{UserMenu/display-declaration-file::sidebar-wrapper-ame-declaration-pdf}"></div>
+
+
+</div>
+
+
+
+	
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function() {
+			$('#backtotop').click(function() {
+				$("html, body").animate({
+					scrollTop : 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function() {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function() {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+	<!-- Signup Modal -->
+<div class="modal fade" id="signout-modal" data-bs-backdrop="static"
+			data-bs-keyboard="false" tabindex="-1"
+			aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Sign Out?</h5>
+
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<!-- Modal body -->
+						<div class="modal-body">
+							<p class="text-center">Are you sure you want to Sign Out?</p>
+							<form action="sign-out">
+								<div class="row">
+									<div class="col-md-6">
+										<button type="submit" class="btn btn-primary">Sign
+											Out</button>
+									</div>
+									<div class="col-md-6">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Cancel</button>
+									</div>
+
+								</div>
+
+							</form>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
+
+
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function() {
+			$("#one-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+
+
+</body>
+</html>

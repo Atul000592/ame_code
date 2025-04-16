@@ -1,0 +1,1 @@
+${irlaNo} Awarded Medical Category ${categoryAwarded}${categoryAwarded1}${categoryAwarded2} on ${ameCompletedOnDate}. Appear before Medical Board on or before ${ameReviewDate} for review. Regards BSF

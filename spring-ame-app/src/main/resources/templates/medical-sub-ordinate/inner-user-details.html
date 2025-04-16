@@ -1,0 +1,35 @@
+ <div th:fragment="sidebar-wrapper-inner-user-details">
+<div class="proc-box py-2 px-3 text-start">
+						<div class="row">
+							<div class="col-md-4">
+								<label class="fw-medium">IRLA /REGT No:</label> <span
+									th:text="${candidateDetails.forceId}"></span>
+							</div>
+							<div class="col-md-4">
+								<label class="fw-medium">Name:</label> <span
+									th:text="${candidateDetails.name}"></span>
+							</div>
+							<div class="col-md-4">
+								<label class="fw-medium">Gender:</label> <span
+									th:text="${candidateDetails.gender}" id="candidateDetailsGender"></span>
+							</div>
+							<div class="col-md-4">
+						<label class="fw-medium">Force Name:</label>
+									<span
+									th:text="${candidateDetails.forceName}"></span>
+
+							</div>
+							<div class="col-md-4">
+								<label class="fw-medium">Rank/Designation:</label> <span
+									th:text="${candidateDetails.designation}"></span>
+							</div>
+
+							<div class="col-md-4">
+								<label class="fw-medium"> Grade: </label> <span
+									th:if="${candidateGazettedNonGazettedFlag=='G'}"
+								>Gazetted Officer</span> <span
+									th:unless="${candidateGazettedNonGazettedFlag=='G'}"
+									>Non-gazettedOfficer</span>
+							</div>
+						</div>
+						</div>

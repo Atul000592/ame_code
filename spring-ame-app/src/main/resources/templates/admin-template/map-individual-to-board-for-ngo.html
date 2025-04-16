@@ -1,0 +1,1012 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+<head>
+<title>AME DashBoard Controller</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css" />
+<!-- Custom styles for this template -->
+<link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/base-responsive.css" />
+<link rel="stylesheet" href="css/animate.min.css" />
+<link rel="stylesheet" href="css/slicknav.min.css" />
+<link rel="stylesheet" href="css/font-awesome.min.css" />
+<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
+	type="text/css">
+
+
+<script src="js/local/disable-back-button.js"></script>
+ <script src="js/local/resetChangeForget.js"></script>
+
+
+<!-- Bootstrap core JavaScript -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="js/jquery.slicknav.min.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="vendor/jquery-ui/jquery-ui.js"></script>
+
+
+
+
+
+
+<!-- Include jQuery -->
+<script src="ame-datatable-js/3.5.1/jquery.min.js"></script>
+
+<!-- Include DataTables CSS -->
+<link rel="stylesheet"
+	href="ame-datatable-css/1.11.5/jquery.dataTables.min.css">
+
+<!-- Include DataTables JavaScript -->
+<script src="ame-datatable-js/1.11.5/jquery.dataTables.min.js"></script>
+
+<!-- Include Select2 CSS -->
+<link href="css/local/select2@4.1.0-rc.0/dist/select2.min.css"
+	rel="stylesheet" />
+
+<!-- Include Select2 JS -->
+<script src="js/local/select2@4.1.0-rc.0/dist/select2.min.js"></script>
+
+
+
+
+<style>
+.select-all-checkbox {
+	margin-right: 5px;
+}
+</style>
+
+
+<style>
+.dataTables_wrapper .dataTables_length {
+	float: left;
+	margin-bottom: 15px;
+}
+</style>
+
+</head>
+
+
+<body>
+	<!-- 
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
+		<a class="navbar-brand" href="#">Logo</a>
+		<ul class="navbar-nav">
+			<li class="nav-item">
+				<a class="nav-link" href="#">Link</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#">Link</a>
+			</li>
+		</ul>
+	</nav>
+ -->
+
+
+	<div class="d-flex" id="wrapper">
+	
+
+		<!-- Sidebar -->
+		<div th:replace="~{admin-template/admin-left-menu::admin-left-menu}"></div>
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+
+			<div
+				th:replace="~{admin-template/nav-bar-bda::sidebar-wrapper-menu-nav-bda}"></div>
+
+
+			<div class="container">
+			
+				<div class="wisecountnactionbg">
+
+					<div id="loading-overlay">
+						<div class="spinner"></div>
+
+
+					</div>
+
+					<!-- Content Row -->
+					<div class="row d-flex align-items-center">
+						<div class="col-md-2" style="font-weight: 600;font-size: 14px;color: black;" >Medical Board :-</div>
+						<div class="col-md-6">
+
+							<select id="boardId" class="form-select"
+								style="font-size: 14px; padding: 2%;">
+								<option value="0">Select</option>
+								<option th:each="downDtosList: ${downDtosList}"
+									th:value="${downDtosList.boardId}"
+									th:text="${downDtosList.value}" th:selected="*{boardId == downDtosList.boardId}"></option>
+							</select>
+							
+
+
+						</div>
+               <div class="col-md-4">
+               <span style="font-weight: 600;font-size: 14px;color: black;" >NON GAZETTED MEMBER MAPPING(NGO's)</span> </div>
+					</div>
+					<hr>
+					<div class="row d-flex align-items-center">
+					<div class="col-md-3">
+					<span style="font-weight: 600;font-size: 14px;color:black;font-family:Arial,sans-serif " >Search by Unit / Attach Unit</span>
+					</div>
+						<div class="col-md-1">Force :-</div>
+						<div class="col-md-2">
+							<select id="forceName_id" class="form-select"
+								style="font-size: 14px; padding: 2%;">
+								<option value="0">Select</option>
+								<option th:each="forceList: ${forceList}"
+									th:value="${forceList.forceNo}"
+									th:text="${forceList.forceName}"></option>
+							</select>
+						</div>
+						<div class="col-md-1">
+
+						<label>	Unit:- </label>
+						</div>
+						<div class="col-md-2">
+
+							<span aria-label="Default select example"
+								style="font-size: 14px; padding: 0%;"> <select
+								id="unit_Id" class="form-select" style="font-size: 14px; padding: 0%;">
+							</select>
+							</span>
+						</div>
+
+						<div class="col-md-1">
+							<label> Attach Unit:- </label>
+						</div>
+						<div class="col-md-2">
+
+							<span aria-label="Default select example"
+								style="font-size: 12px; padding: 0%;"> <select
+								id="attach_unit" class="form-select" style="font-size: 14px; padding: 0%;">
+							</select>
+							</span>
+
+						</div>
+					</div>
+					<hr>
+				
+					
+<!--                     	<div class="row d-flex align-items-center">
+                    	<div class="col-md-3">
+					<span style="font-weight:550;font-size: 14px;color: black;font-family:Arial,sans-serif " >Search By IRLA / REGT NO</span>
+					</div>
+						<div class="col-md-1">Force :-</div>
+						<div class="col-md-2">
+							<select id="forceIdId" class="form-select"
+								style="font-size: 14px; padding: 2%;">
+								<option value="0">Select</option>
+								<option th:each="forceList: ${forceList}"
+									th:value="${forceList.forceNo}"
+									th:text="${forceList.forceName}"></option>
+							</select>
+						</div>
+						<div class="col-md-2">
+
+						<label>	IRLA / REGT NO </label>
+						</div>
+						<div class="col-md-2">
+
+							<span aria-label="Default select example"
+								style="font-size: 14px; padding: 0%;"> 
+							<input type="text" id="irlaNo" > 
+							</span>
+						</div>
+						<div class="col-md-2">
+						<button  class="btn btn-primary btn-md" onclick="getDataByIrlaNo()">Search</button>
+						</div>
+						</div> -->
+
+					
+					</div>
+
+					<hr>
+				<br>
+					<div class="w-100">
+		
+						
+
+						<table class="table table-striped table-bordered table-hover" id="unitdatatable" style="font-size: 12px; padding: 0%;">
+							<thead class="table-light">
+							<tr>
+							<th colspan="7">
+							Pending For Mapping (Board)
+							</th>
+							</tr>
+								<tr>
+
+									<th>Force</th>
+									<th>IRLA No</th>
+									<th>Name</th>
+									<th>Gender</th>
+									<th>Designation</th>
+									<th>Unit</th>
+									<th width="30"><input type="checkbox" id="select-all"
+										class="select-all-checkbox"> All</th>
+
+								</tr>
+							</thead>
+							<tbody>
+
+
+							</tbody>
+						</table>
+<hr>
+						<div class="row">
+							<div class="col-md-6">
+								<form th:action="@{bda-dashboard}" method="get">
+									<input type="submit" value="Back"
+										class="btn btn-primary btn-md sendList">
+								</form>
+
+							</div>
+							<div class="col-md-6">
+								<button class="btn btn-primary btn-md" style="float: right;"
+									type="button" id="saveMapping">Submit</button>
+							</div>
+
+						</div>
+
+
+					</div>
+					<input type="hidden" id="forceNumber"> <input type="hidden"
+						id="unitNumber">
+
+
+					<hr>
+
+					<div class="w-10">
+						<h6 style="font-weight: 600;">Mapped To Board</h6>
+
+
+						<table class="table table-striped table-bordered table-hover"
+							id="mappedTable" style="font-size: 14px; padding: 0%;">
+							<thead class="table-light">
+								<tr>
+									<th width="50">S No</th>
+									<th>Force</th>
+									<th>IRLA No</th>
+									<th>Name</th>
+									<th>Gender</th>
+
+									<th>Designation</th>
+									<th width="50">Unit</th>
+
+
+								</tr>
+							</thead>
+
+							<tbody>
+
+
+							</tbody>
+						</table>
+
+
+					</div>
+
+
+				</div>
+
+
+</div>
+
+			</div>
+			<!-- /#page-content-wrapper -->
+
+		</div>
+		<!-- /#wrapper -->
+
+
+		<!-- Menu Toggle Script -->
+		<script>
+			$("#menu-toggle").click(function (e) {
+				e.preventDefault();
+				$("#wrapper").toggleClass("toggled");
+			});
+
+	
+
+			$(document).ready(function () {
+				$('#mappedTable').DataTable();
+			});
+		</script>
+
+
+		<script>
+			$(document).ready(function () {
+				$('#backtotop').click(function () {
+					$("html, body").animate({
+						scrollTop: 0
+					}, 600);
+					return false;
+				});
+			});
+		</script>
+
+
+		<script>
+			$('.sub-menu ul').hide();
+			$('.sub-sub-menu ul').hide();
+			$(".sub-menu a").click(function () {
+				$(this).parent(".sub-menu").children("ul").slideToggle("100");
+				$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+			});
+
+			$(".sub-sub-menu a").click(function () {
+				$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+				$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+			});
+		</script>
+<div th:replace="~{medical-sub-ordinate/alert-modal::message-alert-modal}"></div>
+
+
+		<!-- Signup Modal -->
+		<div class="modal fade" id="signout-modal">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+
+					<!-- Modal Header -->
+					<div class="modal-header text-center d-block p-5 border-bottom-0">
+						<h3 class="modal-title">Sign Out?</h3>
+						<button type="button" class="close position-absolute"
+							style="right: 15px; top: 8px;" data-dismiss="modal">&times;</button>
+					</div>
+
+					<!-- Modal body -->
+					<div class="modal-body">
+						<p class="text-center">Are you sure you want to Sign Out?</p>
+						<div class="text-center py-4">
+							<form action="sign-out">
+								<button type="submit" class="btn btn-primary b-btn mx-3">Sign
+									Out</button>
+								<button class="btn btn-secondary mx-3" data-dismiss="modal">Cancel</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+
+		<script>
+			$(function () {
+				$("#sortable-menu").sortable();
+				$("#sortable-menu").disableSelection();
+
+				$("#sortable-cards").sortable();
+				$("#sortable-cards").disableSelection();
+			});
+		</script>
+
+
+
+
+
+
+
+		<!-- js code  -->
+
+
+		<script>
+
+
+			$(document).ready(function () {
+
+				$('#forceName_id').on('change', function () {
+
+					var forceId = $(this).val();
+					var token = $("meta[name='_csrf']").attr("content");
+					var header = $("meta[name='_csrf_header']").attr("content");
+					$.ajax({
+						type: 'Post',
+						url: 'get-unit-by-forceNo-board',
+
+						data: {forceId: forceId}, beforeSend: function (xhr) {
+
+							xhr.setRequestHeader(header, token);
+						},
+
+						success: function (data) {
+
+							createDataForUnit(data.unitList);
+							createDataForAttachUnit(data.unitList);
+
+
+						},
+						error: function (e) {
+
+
+
+							console.log("ERROR : ", e);
+
+						}
+					});
+				});
+
+			});
+
+
+			//====on change boardId get board details====//
+
+
+			$('#unit_Id').on('change', function () {
+				console.log("Unit ID changed");
+
+				var unitId = $(this).val();
+				var forceName_id = $("#forceName_id").val();
+				var board_id_a = $("#boardId").val();
+				var unitType=1;
+				
+				if(board_id_a=="0"){
+					alert("Please select BoardId...........!");
+					return false;
+				}
+				
+				console.log("Unit ID:", unitId);
+				console.log("Force Name ID:", forceName_id);
+
+				var token = $("meta[name='_csrf']").attr("content");
+				var header = $("meta[name='_csrf_header']").attr("content");
+
+
+				$.ajax({
+					type: "post",
+					url: "get-force-personal-by-unit-id",
+					cache: false,
+					dataType: 'json',
+					data: {
+						queryData: JSON.stringify({unitNo: unitId, forceNo: forceName_id,boardId:board_id_a,unitType:unitType})
+					},
+					beforeSend: function (xhr) {
+						xhr.setRequestHeader(header, token);
+					},
+					success: function (response) {
+						console.log("Ajax success. Response:", response);
+
+						$("#forceNumber").val(response.forceNo);
+						$("#unitNumber").val(response.unitId);
+
+						// Destroy the existing DataTable before initializing with new data
+						if ($.fn.DataTable.isDataTable("#unitdatatable")) {
+							$("#unitdatatable").dataTable().fnDestroy();
+							console.log("DataTable destroyed");
+						}
+
+						// Initialize DataTable with new data
+						$("#unitdatatable").DataTable({
+							"scrollX": true, // Enable horizontal scrolling
+							"scrollY": "200px", // Enable vertical scrolling with a fixed height
+							"data": response.personalResponeseAjax, // Assuming response.data contains your new data
+							"columns": [
+
+								{"data": 'forceName'},
+								{"data": 'irlaNumber'},
+								{"data": 'name'},
+								{"data":'gender'},
+								{"data": 'designation'},
+								{"data": 'unitName'},
+								{
+									"data": null,
+									"render": function (data, type, full, meta) {
+										return '<input type="checkbox" name="candidateId" class="row-checkbox"  value="' + data.forcePersonalId + '">';
+									}
+								}
+							]
+						});
+						console.log("DataTable initialized with new data");
+					},
+					error: function (xhr, status, error) {
+						console.log("Ajax error:", error);
+						alert('Error while request..');
+					}
+				});
+
+
+
+			});
+
+
+
+
+			//================================ Attach unit Data =============================//
+
+
+			$('#attach_unit').on('change', function () {
+				console.log("Unit ID changed");
+
+				var unitId = $(this).val();
+				var forceName_id = $("#forceName_id").val();
+				var board_id_a = $("#boardId").val();
+				var unitType=2;
+
+				console.log("Unit ID:", unitId);
+				console.log("Force Name ID:", forceName_id);
+
+				var token = $("meta[name='_csrf']").attr("content");
+				var header = $("meta[name='_csrf_header']").attr("content");
+
+				if(board_id_a=="0"){
+					alert("Please select BoardId...........!");
+					return false;
+				}
+
+				$.ajax({
+					type: "post",
+					url: "get-force-personal-by-attach-unit-id",
+					cache: false,
+					dataType: 'json',
+					data: {
+						queryData: JSON.stringify({unitNo: unitId, forceNo: forceName_id,boardId:board_id_a,unitType:unitType})
+					},
+					beforeSend: function (xhr) {
+						xhr.setRequestHeader(header, token);
+					},
+					success: function (response) {
+						console.log("Ajax success. Response:", response);
+
+						$("#forceNumber").val(response.forceNo);
+						$("#unitNumber").val(response.unitId);
+
+						// Destroy the existing DataTable before initializing with new data
+					if ($.fn.DataTable.isDataTable("#unitdatatable")) {
+                     var table = $("#unitdatatable").DataTable();
+                      table.destroy();
+                       console.log("DataTable destroyed");
+                       }
+
+						// Initialize DataTable with new data
+						$("#unitdatatable").DataTable({
+							"scrollX": true, // Enable horizontal scrolling
+							"scrollY": "200px", // Enable vertical scrolling with a fixed height
+							"data": response.personalResponeseAjax, // Assuming response.data contains your new data
+							"columns": [
+
+								{"data": 'forceName'},
+								{"data": 'irlaNumber'},
+								{"data": 'name'},
+								{"data":'gender'},
+								{"data": 'designation'},
+								{"data": 'unitName'},
+								{
+									"data": null,
+									"render": function (data, type, full, meta) {
+										return '<input type="checkbox" name="candidateId"  value="' + data.forcePersonalId + '">';
+									}
+								}
+							]
+						});
+						console.log("DataTable initialized with new data");
+					},
+					error: function (xhr, status, error) {
+						console.log("Ajax error:", error);
+						alert('Error while request..');
+					}
+				});
+
+
+
+			});
+
+
+
+
+
+
+
+			//get Mapped member data by boardid
+
+			$('#boardId').on('change', function (){
+				
+				var boardId = $(this).val();
+				var token = $("meta[name='_csrf']").attr("content");
+				var header = $("meta[name='_csrf_header']").attr("content");
+
+
+				$.ajax({
+
+					type: "post",
+
+					url: "get-mapped-data-by-boardId",
+					cache: false,
+					dataType: 'json',
+
+					data: {boardId: boardId},
+					beforeSend: function (xhr) {
+
+						xhr.setRequestHeader(header, token);
+					},
+					success: function (response) {
+						if (response.isValid) {
+						 $('#alert-modal .modal-title').text('Success');
+				            $('#alert-modal .modal-body h3').text(response.message);
+				            
+				            $('#alert-modal .modal-body i').removeClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+				                                             .addClass('fas fa-check-circle faa-tada animated')
+				                                             .removeAttr('style');
+				            
+				            $("#cross-close-button").attr('onclick', 'backToHome()');
+				            $("#okay-close-button").attr('onclick', 'backToHome()');
+				            $('#alert-modal').modal({
+				                backdrop: 'static',
+				                keyboard: false
+				              });
+							  	            $('#alert-modal').modal('show');
+							  
+						 }
+
+						if ($.fn.DataTable.isDataTable("#mappedTable")) {
+							$("#mappedTable").dataTable().fnDestroy();
+							console.log("Mapped DataTable destroyed .....");
+						}
+						$("#mappedTable").DataTable({
+							"scrollX": true, // Enable horizontal scrolling
+							"scrollY": "200px", // Enable vertical scrolling with a fixed height
+							"data": response, // Assuming response.data contains your new data
+							"columns": [
+								{
+									"data": null, "render": function (data, type, full, meta) {
+										return meta.row + 1; // Add 1 to meta.row to start numbering from 1
+									}
+								},
+								{"data": 'forceName'},
+								{"data": 'irlaNumber'},
+								{"data": 'name'},
+								{"data":'gender'},
+								{"data": 'designation'},
+								{"data": 'unitName'},
+
+							]
+						});
+
+
+						$("#forceName_id").value = "";
+
+
+
+					},
+					error: function () {
+						alert('Error while request..');
+					}
+				});
+			});
+
+
+			/*-- mapped data----*/
+
+			$(document).ready(function () {
+				$("#saveMapping").click(function () {
+					$('#loading-overlay').show();
+					$('body').addClass('loading');
+					var arr = new Array();
+					var Myarray = new Array();
+					var board_id_a = $("#boardId").val();
+				    const unitId=$("#unit_Id").val();
+                    const attachedUnitId = $("#attach_unit").val();
+
+
+					if (board_id_a == 0) {
+						//alert("Please select board Id ");
+						return false;
+					}
+
+					var forceNumber = $("#forceNumber").val();
+					var unitNumber = $("#unitNumber").val();
+					var table = document.getElementById("unitdatatable");
+					var myTable = document.getElementById("myTable");
+
+					var token = $("meta[name='_csrf']").attr("content");
+					var header = $("meta[name='_csrf_header']").attr("content");
+					$.each($("input[name='candidateId']:checked"), function () {
+
+						arr.push($(this).val());
+
+					});
+                    if(arr.length==0){
+						alert("please select atleast one person for mapping...");
+						return false; 
+									
+									}
+					arr.push(board_id_a);
+					arr.push(forceNumber);
+					arr.push(unitNumber);
+
+					var data = JSON.stringify(arr);
+
+
+					$.ajax({
+
+						type: "post",
+
+						url: "send-request-to-map-forcepersonal-to-board",
+						cache: false,
+						dataType: 'json',
+						contentType: "application/json",
+						data: data,
+						beforeSend: function (xhr) {
+
+							xhr.setRequestHeader(header, token);
+						},
+						success: function (response) {
+							if (response.isValid) {
+								 $('#alert-modal .modal-title').text('Success');
+						            $('#alert-modal .modal-body h3').text(response.message);
+						            
+						            $('#alert-modal .modal-body i').removeClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+						                                             .addClass('fas fa-check-circle faa-tada animated')
+						                                             .removeAttr('style');
+						            
+						           /* $("#cross-close-button").attr('onclick', 'backToHome()');
+						              $("#okay-close-button").attr('onclick', 'backToHome()'); */
+						            $('#alert-modal').modal({
+						                backdrop: 'static',
+						                keyboard: false
+						              });
+									  	            $('#alert-modal').modal('show');
+									  				if ($.fn.DataTable.isDataTable("#mappedTable")) {
+														$("#mappedTable").dataTable().fnDestroy();
+														console.log("Mapped DataTable destroyed .....");
+													}
+													$("#mappedTable").DataTable({
+														"scrollX": true, // Enable horizontal scrolling
+														"scrollY": "200px", // Enable vertical scrolling with a fixed height
+														"data": response, // Assuming response.data contains your new data
+														"columns": [
+															{
+																"data": null, "render": function (data, type, full, meta) {
+																	return meta.row + 1; // Add 1 to meta.row to start numbering from 1
+																}
+															},
+															{"data": 'forceName'},
+															{"data": 'irlaNumber'},
+															{"data": 'name'},
+															{"data":'gender'},
+															{"data": 'designation'},
+															{"data": 'unitName'},
+
+														]
+													});
+													
+
+													// Destroy the existing DataTable before initializing with new data
+
+													var table = document.getElementById("unitdatatable");
+													while (table.rows.length > 0) {
+														table.deleteRow(0);
+													}
+													
+													if(attachedUnitId){
+														
+														$("#boardId").val(board_id_a).trigger('change');
+														$("#forceNumber").val(forceNumber).trigger('change');
+														
+														if(unitId!=null){
+														
+															$("#unit_Id").val(unitId).trigger('change');
+														}
+							                            $("#attach_unit").val(attachedUnitId).trigger('change');
+							                            }
+														else{
+															$("#boardId").val(board_id_a).trigger('change');
+															$("#forceNumber").val(forceNumber).trigger('change');
+															if(unitId!=null)
+															{
+															   $("#unit_Id").val(unitId).trigger('change');
+															}
+														} 
+								 }
+
+							
+				
+						},complete: function() {
+						    $('#loading-overlay').hide();
+						    $('body').removeClass('loading');
+						},
+						error: function () {
+							alert('Error while request..');
+						}
+					});
+
+
+				});
+			});
+
+
+
+
+			function createDataForUnit(data) {
+
+				const dropdown = document.getElementById("unit_Id");
+				dropdown.innerHTML = "";
+				const option = document.createElement("option");
+				option.text = 'Select';
+				option.value = 0;
+				// !-- option.setAttribute("data", data[i].forceId)-->
+				dropdown.appendChild(option);
+				for (let i = 0; i < data.length; i++) {
+					const option = document.createElement("option");
+					option.text = data[i].unitName;
+					option.value = data[i].unitId;
+					// !-- option.setAttribute("data", data[i].forceId)-->
+					dropdown.appendChild(option);
+				}
+			}
+
+			function createDataForAttachUnit(data) {
+
+				const dropdown = document.getElementById("attach_unit");
+				dropdown.innerHTML = "";
+				const option = document.createElement("option");
+				option.text = 'Select';
+				option.value = 0;
+				// !-- option.setAttribute("data", data[i].forceId)-->
+				dropdown.appendChild(option);
+				for (let i = 0; i < data.length; i++) {
+					const option = document.createElement("option");
+					option.text = data[i].unitName;
+					option.value = data[i].unitId;
+					// !-- option.setAttribute("data", data[i].forceId)-->
+					dropdown.appendChild(option);
+				}
+			}
+
+
+
+
+
+
+		</script>
+
+
+
+		<script>
+	       $(document).ready(function() {
+	           var table = $('#unitdatatable').DataTable();
+
+	        
+			   // Handle the Select All checkbox
+			   $('#select-all').on('click', function () {
+			       var isChecked = $(this).prop('checked');
+			       // Ensure DataTable is re-initialized before selecting checkboxes
+			       if ($.fn.DataTable.isDataTable('#unitdatatable')) {
+			           var table = $('#unitdatatable').DataTable();
+			           table.rows().nodes().to$().find('input[type="checkbox"]').prop('checked', isChecked);
+			           var rowCount = table.data().count();
+			           console.log('Total number of rows:', rowCount);
+			       }
+});
+	           // Handle row checkbox changes
+	           $('#unitdatatable tbody').on('change', 'input[type="checkbox"]', function() {
+	               var totalCheckboxes = $('#unitdatatable tbody input[type="checkbox"]').length;
+	               var checkedCheckboxes = $('#unitdatatable tbody input[type="checkbox"]:checked').length;
+	               $('#select-all').prop('checked', totalCheckboxes === checkedCheckboxes);
+	           });
+
+	        
+	       });
+	       
+	       
+	       
+	                $(document).ready(function() {
+            $('#attach_unit').select2();
+        });
+	        
+         $(document).ready(function() {
+            $('#unit_Id').select2();
+        });
+         
+         
+//=====================find Force Personnel by Name or Irla no==============================//
+
+
+			 function getDataByIrlaNo(){
+				
+				var iralNo = $("#irlaNo").val();
+				var forceName_id = $("#forceIdId").val();
+				var board_id_a = $("#boardId").val();
+				var unitType=1;
+				if(iralNo==""){
+					alert("Please Add IRAL /REGT NO ...........!");
+					return false;
+				}
+				if(board_id_a=="0"){
+					alert("Please select BoardId...........!");
+					return false;
+				}
+				if(forceName_id=="0"){
+					alert("Please select Force Name...........!");
+					return false;
+				}
+				
+				
+				console.log("Force Name ID:", forceName_id);
+
+				var token = $("meta[name='_csrf']").attr("content");
+				var header = $("meta[name='_csrf_header']").attr("content");
+
+
+				$.ajax({
+					type: "post",
+					url: "get-force-personal-by-irlaNo-for-mapping",
+					cache: false,
+					dataType: 'json',
+					data: {
+						queryData: JSON.stringify({iralNo: iralNo, forceNo: forceName_id,boardId:board_id_a,unitType:unitType})
+					},
+					beforeSend: function (xhr) {
+						xhr.setRequestHeader(header, token);
+					},
+					success: function (response) {
+						//console.log("Ajax success. Response:", response);
+                         
+						if(response.responseCode==1){
+						
+						$("#forceNumber").val(response.forceNo);
+						$("#unitNumber").val(response.unitId);
+
+						// Destroy the existing DataTable before initializing with new data
+						if ($.fn.DataTable.isDataTable("#unitdatatable")) {
+							$("#unitdatatable").dataTable().fnDestroy();
+							console.log("DataTable destroyed");
+						}
+
+						// Initialize DataTable with new data
+						$("#unitdatatable").DataTable({
+							"scrollX": true, // Enable horizontal scrolling
+							"scrollY": "200px", // Enable vertical scrolling with a fixed height
+							"data": response.personalResponeseAjax, // Assuming response.data contains your new data
+							"columns": [
+
+								{"data": 'forceName'},
+								{"data": 'irlaNumber'},
+								{"data": 'name'},
+								{"data":'gender'},
+								{"data": 'designation'},
+								{"data": 'unitName'},
+								{
+									"data": null,
+									"render": function (data, type, full, meta) {
+										return '<input type="checkbox" name="candidateId" class="row-checkbox"  value="' + data.forcePersonalId + '">';
+									}
+								}
+							]
+						});
+						console.log("DataTable initialized with new data");
+					}else{
+						// Destroy the existing DataTable before initializing with new data
+						if ($.fn.DataTable.isDataTable("#unitdatatable")) {
+							$("#unitdatatable").dataTable().fnDestroy();
+							console.log("DataTable destroyed");
+							}
+						alert("NO DATA FOUND BY THE IRAL / REGT NO :");
+					}
+						},
+					error: function (xhr, status, error) {
+						console.log("Ajax error:", error);
+						alert('Error while request..');
+					}
+				});
+
+
+
+			}
+
+         
+         
+         
+         
+	   </script>
+</body>
+
+</html>

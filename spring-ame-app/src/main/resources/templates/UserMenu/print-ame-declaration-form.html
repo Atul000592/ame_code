@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+<title>AME</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<div th:replace="~{medical-sub-ordinate/master-doc::master-wrapper-doc}"></div>
+
+
+
+<style>
+body {
+	background-color: #fff;
+}
+.pt{
+	border: none!important;
+	font-size: 11px;
+	text-transform: none !important;
+	column-span: 2;
+}
+
+.b-leftmenu ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.b-leftmenu ul li {
+	/* Sub Menu */
+	
+}
+.table-1 tr td
+{
+	border: none;
+}
+.b-leftmenu ul li a {
+	display: block;
+	background: #ebebeb;
+	padding: 10px 15px;
+	color: #333;
+	text-decoration: none;
+	-webkit-transition: 0.2s linear;
+	-moz-transition: 0.2s linear;
+	-ms-transition: 0.2s linear;
+	-o-transition: 0.2s linear;
+	transition: 0.2s linear;
+}
+
+.b-leftmenu ul li a:hover {
+	background: #f8f8f8;
+	color: #515151;
+}
+
+.b-leftmenu ul li a .fa {
+	width: 11px;
+	text-align: center;
+	margin-right: 5px;
+	float: right;
+}
+
+.b-leftmenu ul ul {
+	background-color: #ebebeb;
+}
+
+.b-leftmenu .sub-menu ul li a {
+	background: #f8f8f8;
+	border-left: 4px solid transparent;
+	padding: 10px 25px;
+}
+
+.b-leftmenu .sub-sub-menu ul li a {
+	padding: 10px 20px 10px 40px;
+}
+
+.b-leftmenu a.b-newpage:hover {
+	background: #ebebeb;
+	border-left: 4px solid #3498db;
+}
+
+.card {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	max-width: 300px;
+	margin: auto;
+	text-align: center;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.title {
+	color: grey;
+	font-size: 14px;
+}
+
+button {
+	border: none;
+	outline: 0;
+	display: inline-block;
+	padding: 8px;
+	color: white;
+	background-color: #000;
+	text-align: center;
+	cursor: pointer;
+	width: 100%;
+	font-size: 14px;
+}
+
+a {
+	text-decoration: none;
+	font-size: 14px;
+	color: black;
+}
+
+button:hover, a:hover {
+	opacity: 0.7;
+}
+</style>
+
+ 
+  
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+
+<style type="text/css">
+.div1,.div2,.container-main{
+ margin: auto;
+  width:90%;
+ padding: 10px;
+}
+.div{
+	background-color: rgb(192, 192, 192);
+}
+.div2 h3{width:100%; text-align: center; font-size:17px;}
+
+table {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 11px;
+  border-collapse: collapse,separate;
+  width:100%;
+}
+
+td, th {
+  border: 1px solid #000;
+  text-align: left;
+  padding: 3px 5px;
+}
+
+
+td:nth-child(even){
+font-weight: bold;
+text-transform: none;
+}
+
+td:nth-child(odd){
+font-weight: bold;
+text-transform: none;
+}
+.certifieddesc{margin-top:15px; font-weight: bold; font-size: 11px;}
+.mainContent{float:left; width:100%; padding-bottom: 100px;;}
+
+@media print {
+    #print-div {
+        display: none;
+    }
+}
+</style>
+
+
+</head>
+
+
+
+
+
+
+</div>
+
+<script>
+	
+$( "#target" ).submit(function( event ) {
+ 
+  var mesg=$("#remark").val();
+  if(mesg==""){
+	  alert("please add a Remark ........!")
+	  return false;
+	    }
+return true;
+});
+	
+	
+</script>
+
+
+
+
+
+<body>
+ 
+<div class="mainContent" >
+  <div class="row">
+      <div class="col-md-12" id="print-div">
+		  	<form th:action="@{generate-decleration-pdf}" method="get">
+		<input type="hidden" name="ameId" th:value="${AmeId}" />
+		<input type="hidden" name="forcepersonalId" th:value="${forcepersonalId}" />
+<input type="submit" style="margin-top:20px; width:150px ;background-color: #3498db; float: right;" value="pdf">
+
+	</form>
+	  </div>
+  </div>
+  
+ 
+
+<div th:each="dataList1 ,stat: ${details}" class="div2" >
+<div style="text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  background: #cccccc29;
+  padding: 10px;">DECLARATION BY THE PERSONNEL OF CAPF,NSG & AR TO BE
+EXAMINED FOR SHAPE CATEGORISATION</div>
+
+
+	<div style="font-size: 12px;
+  font-weight: bold;
+  padding: 10px;
+  border: solid 1px #000;
+  border-bottom: none;">
+		AME ID :- 
+
+		<span th:text="${AmeId}"></span>
+	</div>
+
+
+
+
+
+<table>
+<tr>
+	<td style="width: 50px; text-align: center;">
+		1) 
+	</td>
+	<td>Date of Recruitment (Joining in the Force)</td>
+<td style="width: 150px;">
+	 	<span th:text="${#dates.format(individualModel.date_of_joining,'dd-MM-yyyy')}"></span>
+	</td>
+</tr>	
+	
+<tr>
+<td style="width: 50px; text-align: center;">2)</td>
+<td>Have you ever been  examined for any major ailment or hospitalized during last one year ?</td>
+<td style="width: 150px;">
+<span th:if="${dataList1.majorailmenthospitalized=='Y'}">Yes</span>
+<span th:if="${dataList1.majorailmenthospitalized==''}">No Defined</span>
+ <span th:unless="${dataList1.majorailmenthospitalized=='Y'}">No
+
+</td>
+</tr>
+<tr >
+	<td style="width: 50px; text-align: center;">3)</td>
+		<td colspan="2">
+			<table>
+				<tr>
+				<td style="border: none!important;" colspan="2">Are You a patient of ?</td>
+				</tr>
+				<tr>
+					<td class="pt"> a) &nbsp;Hypertension (High Blood Pressure)</td>
+					<td style="border: none!important;" > <span th:if="${dataList1.diabetesmellitus=='Y'}">Yes</span>
+						<span th:if="${dataList1.diabetesmellitus==''}">No Defined</span>
+						<span th:unless="${dataList1.diabetesmellitus=='Y'}">No
+					</td>
+				</tr>
+				<tr>
+					<td class="pt">b) &nbsp;Ischemic Heart-disease</td>
+					<td style="border: none!important;" colspan="2">
+						<span th:if="${dataList1.ichaemicheart=='Y'}">Yes</span>
+						<span th:if="${dataList1.ichaemicheart==''}">No Defined</span>
+						<span th:unless="${dataList1.ichaemicheart=='Y'}">No
+					</td>
+				</tr>
+				<tr>
+				<td class="pt">c) &nbsp;Diabetes Mellitus</td>
+				
+				<td style="border: none!important;" colspan="2">
+					<span th:if="${dataList1.diabetesmellitus=='Y'}">Yes</span>
+					<span th:if="${dataList1.diabetesmellitus==''}">No Defined</span>
+					<span th:unless="${dataList1.diabetesmellitus=='Y'}">No</span>
+				</td>
+				</tr>
+				<tr>
+				<td class="pt">d) &nbsp;Chronic Cough/Bronchial asthma/COPD</td>
+				
+				<td style="border: none!important;">
+				<span th:if="${dataList1.copd=='Y'}">Yes</span>
+				<span th:if="${dataList1.copd==''}">No Defined</span>
+				<span th:unless="${dataList1.copd=='Y'}">No</span>
+                 </td>
+				</tr>
+				<tr>
+				<td class="pt">e) &nbsp;Epilepsy</td>
+				<td style="border: none!important;">
+					<span th:if="${dataList1.epilepsy=='Y'}">Yes</span>
+					<span th:if="${dataList1.epilepsy==''}">No Defined</span>
+					<span th:unless="${dataList1.epilepsy=='Y'}">No
+				</td>
+				</tr>
+				<tr>
+				<td class="pt">f) &nbsp;Persistent Headache</td>
+				<td style="border: none!important;">
+					<span th:if="${dataList1.persistent_headache=='Y'}">Yes</span>
+					<span th:if="${dataList1.persistent_headache==''}">No Defined</span>
+					<span th:unless="${dataList1.persistent_headache=='Y'}">No
+				</td>
+				</tr>
+					<tr>
+				<td class="pt">g) &nbsp;Mental Instability</td>
+				<td style="border: none!important;">
+					<span th:if="${dataList1.menatlinstability=='Y'}">Yes</span>
+					<span th:if="${dataList1.menatlinstability==''}">No Defined</span>
+					<span th:unless="${dataList1.menatlinstability=='Y'}">No
+				</td>
+				</tr>
+				
+			</table>
+			
+		</td>
+	</tr>
+	
+
+
+<tr>
+
+<td style="width: 50px; text-align: center;">4)</td>
+    <td>Have you suffered from giddiness at any time ?</td>
+    <td>
+   
+    <span th:if="${dataList1.giddiness=='Y'}">Yes</span>
+    <span th:if="${dataList1.giddiness==''}">No Defined</span>
+    <span th:unless="${dataList1.giddiness=='Y'}">No
+    </td>
+</tr>
+<tr>
+<td style="width: 50px; text-align: center;">5)</td>
+    <td>Have you suffered from  chest pain/palpitation</td>
+    <td>
+   
+    <span th:if="${dataList1.chestpainpalpitation=='Y'}">Yes</span>
+    <span th:if="${dataList1.chestpainpalpitation==''}">No Defined</span>
+    <span th:unless="${dataList1.chestpainpalpitation=='Y'}">No
+    </td>
+</tr>
+<tr>
+<td style="width: 50px; text-align: center;">6)</td>
+    <td>Did you ever suffer from Tuberculosis ? </td>
+    <td>
+
+    <span th:if="${dataList1.tb=='Y'}">Yes</span>
+    <span th:if="${dataList1.tb==''}">No Defined</span>
+    <span th:unless="${dataList1.tb=='Y'}">No
+    </td>
+</tr>
+<tr>
+<td style="width: 50px; text-align: center;">7)</td>
+    <td colspan="2">Your</td>
+    
+</tr>
+<tr>
+	<td></td>
+    <td>a)&nbsp;Appetite</td>
+    <td><span th:text="${dataList1.appetite}"></span></td>
+</tr>
+<tr>
+	<td></td>
+    <td>b)&nbsp;Sleep</td>
+    <td><span th:text="${dataList1.sleep}"></span></td>
+</tr>
+<tr>
+<td style="width: 50px; text-align: center;">8)</td>
+    <td>Smoking habit</td>
+    <td>
+   
+    <span th:if="${dataList1.smokinghabit=='Y'}">Yes</span>
+    <span th:if="${dataList1.smokinghabit==''}">No Defined</span>
+    <span th:unless="${dataList1.smokinghabit=='Y'}">No</td>
+</tr>
+<tr>
+<td></td>
+    <td>Number of cigarettes Per day</td>
+
+   <td th:text="${dataList1.numberofcigarettes}"/>
+
+ 
+</tr>
+<tr>
+<td style="width: 50px; text-align: center;">9)</td>
+    <td>Alcohol intake</td>
+    <td>
+    
+    <span th:if="${dataList1.alcoholintake=='Y'}">Yes</span>
+    <span th:if="${dataList1.alcoholintake==''}">No Defined</span>
+    <span th:unless="${dataList1.alcoholintake=='Y'}">No</td>
+</tr>
+<tr>
+<td></td>
+    <td>Average quantity per day</td>
+ 
+    <td th:text="${dataList1.quantityperday}"/>
+</tr>
+<tr>
+<td style="width: 50px; text-align: center;">10)</td>
+    <td>Any Accident/Injury/major Surgery undergone so far</td>
+    <td>
+    
+    <span th:if="${dataList1.accidentinjurysurgery=='Y'}">Yes</span>
+    <span th:if="${dataList1.accidentinjurysurgery==''}">No Defined</span>
+    <span th:unless="${dataList1.accidentinjurysurgery=='Y'}">No
+    </td>
+</tr>
+<tr>
+	<tr>
+		<td style="width: 50px; text-align: center;">11)</td>
+		<td>
+			Have you been transferred recently or under order of transfer ?
+		</td>
+		<td>
+			
+		<span th:if="${dataList1.recentTransferData=='Y'}">Yes</span>
+		<span th:unless="${dataList1.recentTransferData=='Y'}">No
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>Previous Unit</td>
+        <td th:if="${dataList1.recentTransferData=='Y'}">
+			<span th:text="${individualModel.previous_unit}"></span>
+		</td>
+		  <td th:unless="${dataList1.recentTransferData=='Y'}">
+			<span></span>
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>New Unit</td>
+        <td th:if="${dataList1.recentTransferData=='Y'}"><span th:text="${individualModel.curent_new_unit}"></span></td>
+         <td th:unless="${dataList1.recentTransferData=='Y'}">
+			<span></span>		
+		</td>
+	</tr>
+
+<tr>
+	<td style="width: 50px; text-align: center;">12)</td>
+	<td>Date of Last AME:</td>
+	<td><span th:text="${#dates.format(individualModel.lastAmeDate,'dd-MM-yyyy')}"></span></td>
+ </tr>
+<tr>
+	<td style="width: 50px; text-align: center;">13)</td>
+    <td>Place of Last AME:</td>
+    <td><span th:text="${individualModel.lastAmePlace}" ></span> </td>
+</tr>
+
+	<tr>
+		<td style="width: 50px; text-align: center;">14)</td>
+		<td>Medical Category of Last AME:</td>
+		<td>
+			<span th:text="${dataList1.lastAmeStatus}">
+				
+			</span>
+		</td>
+	</tr>
+	<tr>
+
+</table>
+<p class="certifieddesc" style="">It is further certified that the above facts stated by me are true to my best of knowledge and belief. 
+	 I have not suppressed any fact concerning my health condition ever in past and as is at present</p>
+<table class="table-1" >
+	<tbody>
+		<tr>
+			<td style="color: rgb(0, 0, 0);">I Agree/Don't agree to undergo HIV Test</td>
+			<td>
+			<td style="color: red;">
+				<span th:if="${dataList1.hivTest=='Y'}">Agree</span>
+				<span th:unless="${dataList1.hivTest=='Y'}">Do Not Agree</span>
+			</td>
+			</td>
+			
+		</tr>
+	
+		
+	</tbody>
+</table>
+</div>
+	
+	
+	<div class="div2">
+	
+	<table class="table-1" style="float: right; width:40%;">
+<tbody th:each="individualModel: ${individualModel}">
+	<tr>
+		<td>Signature</td>
+	</tr>
+	<tr>
+		<td></td>
+	</tr>
+
+<tr style="font-weight: normal;">
+<td style="font-weight: normal;">Name:</td>
+<td th:text="${forcePersonnelDtoIndividualModel.name}" style="font-weight: normal;"></td>
+</tr>
+<tr>
+<td style="font-weight: normal;">Rank/Designation</td>
+<td th:text="${forcePersonnelDtoIndividualModel.rank}" style="font-weight: normal;"></td>
+</tr>
+<tr>
+<td style="font-weight: normal;">Declaration Date</td>
+<td th:text="${#dates.format(individualModel.declarationDate,'dd-MM-yyyy')}" style="font-weight: normal;"></td>
+</tr>
+<tr>
+<td style="font-weight: normal;">IRLA/REGT No.</td>
+<td th:text="${individualModel.forceId}" style="font-weight: normal;"></td>
+</tr>
+<tr>
+<td style="font-weight: normal;">Unit</td>
+<td th:text="${forcePersonnelDtoIndividualModel.unitName}" style="font-weight: normal;"></td>
+</tr>
+	
+</tbody>
+</table>
+
+	<table class="table-1" style="float: left; width:40%;">
+	<tr>
+	 <td style="font-weight: normal;">Place:</td>
+	 <td style="font-weight: normal;"><span th:text="${individualModel.place}"></span></td>
+		</tr>
+		<tr>
+		<td style="font-weight: normal;">Date:</td>
+		 <td style="font-weight: normal;"><span th:text="${#dates.format(currentDate,'dd-MM-yyyy')}"></span></td>
+	 </tr>
+</table>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+
+
+	
+	
+
+
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

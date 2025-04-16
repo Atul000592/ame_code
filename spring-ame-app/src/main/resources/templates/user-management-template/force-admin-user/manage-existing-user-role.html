@@ -1,0 +1,383 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+<head>
+	<title>AMA DashBoard </title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+
+	
+	<style>
+	label{
+	font-weight: 600;
+	}
+	
+	.close3 {
+    float: right;
+    font-size: 30px;
+    margin: -15px 0 0 0;
+}
+label {
+    font-weight: 500;
+    font-size: initial;
+}
+</style>
+
+
+<div th:replace="~{user-management-template/force-admin-user/mg-header-menu::sidebar-wrapper-menu-header}"></div>
+
+<!--Create new Role js file PopUp File-->
+	<script src="js/local/role-modification.js"></script>
+
+	<!--Create new Role Css File Popup file -->
+	<link rel="stylesheet" href="css/local/role-modification.css" />
+	<link rel="stylesheet" href="css/master1.css" />
+</head>
+
+
+<body>
+
+   
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+
+		<div th:replace="~{user-management-template/force-admin-user/mg-left-menu::sidebar-wrapper-menu-cpf}"></div>
+
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<div th:replace="~{user-management-template/force-admin-user/nav-bar-mg::sidebar-wrapper-menu-nav-cpf}">
+			</div>
+
+		<div class="container-fluid mt-3">
+
+				<!-- Content Row -->
+
+				<div class="wisecountnactionbg">
+
+
+
+				<div  id="b-homedb">
+     <span th:if="${message!=null}" th:text="${message}">
+		 
+	 </span>
+				<div class="proc-box py-2 px-3 ui-sortable-handle">
+
+						<h4>Assigned Roles</h4>
+				
+<hr>
+
+
+						<div class="table-responsive">
+							<table class="table table-striped table-bordered table-hover" id="user" style="font-size: 14px;">
+
+								<thead class="table-light">
+									<tr>
+									<tr>
+										<th>Serial No</th>
+										<th>ForceName</th>
+										<th>IRLA No</th>
+										<th>Name</th>
+
+										<th>Rank/Designation</th>
+
+										<th>Unit Name</th>
+										<th>Assigned Role</th>
+										<th>Assigned By</th>
+										<th>Assigned On</th>
+										<th>Status</th>
+										<th colspan="2" width="140" class=text-center>Action</th>
+									
+									</tr>
+
+									
+								</thead>
+								<tr th:each="roleListDetails,statcount :${roleListDetails}" id="roleDetails">
+									<td th:text="${statcount.count}"></td>
+									<td th:text="${roleListDetails.forceName}"></td>
+									<td th:text="${roleListDetails.irlaNo}"> </td>
+
+									<td th:text="${roleListDetails.name}"></td>
+									<td th:text="${roleListDetails.rank}"></td>
+									<td th:text="${roleListDetails.unitName}"></td>
+
+									<td th:text="${roleListDetails.roleName}"></td>
+										<td th:text="${roleListDetails.mappedByIrlaNo}"></td>
+											<td th:text="${#dates.format(roleListDetails.mappedOn,'dd/MM/yyyy')}"></td>
+									<td th:text="${roleListDetails.status}"></td>
+									
+									<td colspan="2">
+										<button onclick="roleModificationMethod(this)" th:value="${roleListDetails.id}"
+											th:name="${roleListDetails.forcePersonalId}" class="btn btn-info btn-sm btn3d float-start">
+											Status
+										</button>
+										
+									
+										<form th:action="@{get-role-assigned-privilge-for-user}" method="post">
+										<input type="hidden" th:value="${roleListDetails.transactionId}" name="transactionId">
+									   <input type="hidden" th:value="${roleListDetails.forcePersonalId}" name="candidateForcePersonnelId">
+
+										<input type="submit" value="Privilage" class="btn btn-primary btn-sm btn3d float-end">
+										</form>
+									</td>
+								</tr>
+
+							</table>
+
+						</div>
+
+					</div>
+
+					</div>
+					<form th:action="@{mg-FadorCAPF-dash-board}" method="get">
+						<input type="submit" value="Back" class="btn btn-primary btn-sm float-end">
+					</form>
+
+
+			</div>
+
+		</div>
+
+
+
+
+	</div>
+	<!-- /#page-content-wrapper -->
+
+
+
+
+
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function (e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function () {
+			$('#backtotop').click(function () {
+				$("html, body").animate({
+					scrollTop: 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function () {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function () {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+	
+
+	<!--==========================================ROLE MODIFICATION DIV MODEL=================================-->
+
+		<div id="modified-user-role" class="modal3">
+<div class="d-flex justify-content-center pt-5">
+	
+
+			<!-- Modal content -->
+			<div class="modal-content3 proc-box w-50">
+
+				<span class="close3" onclick="closeModel()">&times;</span>
+
+		
+				
+							<h5>Update User Role Status</h5>
+				
+
+					<hr>
+
+					<div class="row">
+					
+						<label class="col-md-4 text-start">IRLA No :-</label>
+					
+						<div class="col-md-8 text-start">
+							<span class="s1" id="irlaNo"></span>
+						</div>
+					
+						<label class="col-md-4 text-start">
+							Name :-
+						</label>
+					
+						<div class="col-md-8 text-start">
+							<span class="s1" id="name">
+					
+							</span>
+						</div>
+					
+						<label class="col-md-4 text-start">
+							Designation :-
+						</label>
+					
+					
+						<div class="col-md-8 text-start">
+							<span class="s1" id="rank">
+					
+							</span>
+						</div>
+					
+					
+					
+					
+						<label class="col-md-4 text-start">
+							Force Name :-
+						</label>
+					
+					
+						<div class="col-md-8 text-start">
+							<span class="s1" id="forceName"></span>
+						</div>
+					
+						<label class="col-md-4 text-start">
+							Unit :-
+						</label>
+					
+						<div class="col-md-8 text-start">
+							<span class="s1" id="unitName">
+					
+							</span>
+						</div>
+					
+						<label class="col-md-4 text-start">
+							Current Role Status :-
+						</label>
+					
+						<div class="col-md-8 text-start">
+							<span class="s1" id="statusCode">
+					
+							</span>
+						</div>
+					</div>
+<hr>
+
+	
+					<div class="row mb-3">
+					
+						<label class="col-md-4 text-start">Change Role Status</label>	
+				
+					<div class="col-md-8 text-start">
+
+							<select id="dropDownList" name="status" class="form-select" >
+                               <!-- <option th:each="option : ${options}" th:value="${option.id}" th:text="${option.name}">
+								</option>-->
+								
+								<option value="1">Active</option>
+								<option value="0">Inactive</option>
+							</select>
+
+						</div>
+					</div>
+				
+					<div class="row mb-3">
+					
+							<label class="col-md-4 text-start">Remark/Reason *</label>
+					
+					<div class="col-md-8 text-start">
+							<textarea name="remark" class="form-control" id="remark" required></textarea>
+						</div>
+					</div>
+
+
+				<div class="row">
+
+				
+					<div class="col-md-8 text-end">
+
+
+						<button class="btn btn-danger" onclick="closeModel()" style="float: left;"> Cancel </button>
+					</div>
+						<div class="col-md-4 text-start"> <input type="hidden" name="forcePersonalIdAssignRole"
+							id="forcePersonalIdAssignRole">
+						<input type="hidden" name="roleIdId" id="roleIdId">
+
+						<button class="btn btn-primary" onclick="changeRoleStatus(this)" style="float: right" >Assign</button>
+					</div>
+				</div>
+
+
+</div>
+
+			</div>
+		</div>
+
+
+      </div>
+    </div>	
+
+	
+	<script>
+		$(function () {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function () {
+			$("#one-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+
+	<script>
+		function completedRequest() {
+			alert("NO AME REQUEST COMPLETED YET.................!")
+			return false;
+		}
+
+	</script>
+
+
+
+
+</body>
+

@@ -1,0 +1,563 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<head>
+<title>Contact Us</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css" />
+<!-- Custom styles for this template -->
+<link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/base-responsive.css" />
+<link rel="stylesheet" href="css/animate.min.css" />
+<link rel="stylesheet" href="css/slicknav.min.css" />
+<link rel="stylesheet" href="css/master1.css" />
+<link rel="stylesheet" href="css/font-awesome.min.css" />
+<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+<!-- Bootstrap core JavaScript -->
+	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="js/jquery.slicknav.min.js"></script>
+	<script src="js/dashboard.js"></script>
+<script src="js/local/resetChangeForget.js"></script>
+
+
+</head>
+
+
+<body class="d-flex flex-column h-100">
+
+	<main class="flex-shrink-0">
+		<div class="d-flex" id="wrapper">
+
+			<!-- Sidebar -->
+
+			<div
+				th:replace="~{user-management-template/force-admin-user/mg-left-menu::sidebar-wrapper-menu-cpf}"></div>
+
+			<!-- /#sidebar-wrapper -->
+
+			<!-- Page Content -->
+			<div id="page-content-wrapper">
+
+				<div
+					th:replace="~{user-management-template/force-admin-user/nav-bar-mg::sidebar-wrapper-menu-nav-cpf}"></div>
+
+
+			<!--	<marquee class="marquee-bg" behavior="scroll" direction="left"
+					scrollamount="12">This text will scroll from right to
+					left</marquee>
+
+-->
+<br>
+
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-12" id="b-homedb">
+							<div class="wisecountnactionbg">
+								<h4 class="b-latest-data">
+
+									
+									
+									Latest Data
+								
+									
+								</h4>
+
+								<div class="row" id="sortable-cards">
+<form id="contactForm">
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label for="department">Department *</label>
+                    <select class="form-select" name="department" id="departmentId" onchange="getDesignationList(this)">
+                        <option value="">Select Department</option>
+                        <option th:each="dept : ${departmentList}" th:value="${dept.forceNo}" th:text="${dept.forceName}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="designation">Designation *</label>
+                    <select class="form-select" name="designation" id="designationId" onchange="getForcePersonnelList(this)">
+                        <option value="">Select Designation</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="irlaNo">Name/IRLA/REG No</label>
+                    <select class="form-select" name="irlaNo" id="forceId">
+                        <option value="">Select IRLA No</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label for="iSD">ISD</label>
+                    <select id="isd" name="iSD" required>
+						 <option value="">Select ISD</option>
+                        <option th:each="isd : ${isdList}" th:value="${isd.value}" th:text="${isd.value}"></option>
+                        
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="phNO">Phone No</label>
+                    <input type="text" id="phno" name="phNO" pattern="\d{10}" required autocomplete="off">
+                    <small class="error-message" style="color: red; display: none;">Phone number must be exactly 10 digits.</small>
+                </div>
+                <div class="form-group">
+                    <label for="stD">STD</label>
+                    <select id="std" name="stD" required>
+						   <option value=""> Select STD</option>
+                        <option th:each="std : ${stdList}" th:value="${std.value}" th:text="${std.value}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="mobileNo">Mobile No</label>
+                    <input type="text" id="mobileNo" name="mobileNo" pattern="\d{10}"required autocomplete="off">
+                    <small class="error-message-mobile" style="color: red; display: none;">Mobile number must be exactly 10 digits.</small>
+                </div>
+            </div>
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required autocomplete="off">
+                    <small class="error-message-email" style="color: red; display: none;">Please enter a valid email address.</small>
+                </div>
+                
+                   <div class="form-group">
+                    <label for="contactType"> ConatctType</label>
+                    
+                    <select id="contactType" name="contactType" required>
+						<option value="">Select Contact Type</option>
+                        <option th:each="contactType : ${contactTypes}" th:value="${contactType.id}" th:text="${contactType.value}"></option>
+                    </select>
+                </div>
+            
+            <div class="form-group">
+                <div>
+                <input type="submit" value="Submit">
+            </div>
+            </div>
+        </form>
+
+
+						
+								</div>
+
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+				<div class="my-5" id="b-homedb"></div>
+
+			</div>
+
+		</div>
+
+
+		</div>
+		<!-- /#page-content-wrapper -->
+
+		</div>
+		</div>
+	</main>
+	<!-- /#wrapper -->
+
+
+
+	
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function() {
+			$('#backtotop').click(function() {
+				$("html, body").animate({
+					scrollTop : 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+<script>
+
+
+
+function createDesignationDropDown(rankList) {
+        var dropdown = document.getElementById("designationId");
+        dropdown.innerHTML = "";
+        const defaultOption = document.createElement("option");
+        defaultOption.text = "Select Designation";
+        defaultOption.value = "0";
+        dropdown.appendChild(defaultOption);
+        for (let i = 0; i < rankList.length; i++) {
+            const option = document.createElement("option");
+            option.text = rankList[i].rankFullName;
+            option.value = rankList[i].id;
+            dropdown.appendChild(option);
+        }
+    }
+
+   
+function getDesignationList(departmentSelect) {
+    var forceId = departmentSelect.value;
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    $.ajax({
+
+                type: "post",
+                url: "getDesignations",
+                cache: false,
+                dataType: 'json',
+
+                data: { forceId: forceId },
+                beforeSend: function (xhr) {
+
+                    xhr.setRequestHeader(header, token);
+                },
+                success: function (response) {
+                    //createDepartmentDropDown(response.departmentList)
+                   console.log(response)
+                    createDesignationDropDown(response.rankList);
+
+
+
+
+                },
+                error: function () {
+                    alert('Error while request..');
+                }
+
+            });
+        }
+
+
+        
+function getForcePersonnelList(e){
+const department=$("#departmentId").val();
+const designation=e.value;
+
+const dataToSend={
+	               department:department,
+                   designation:designation
+                 }
+
+var token = $("meta[name='_csrf']").attr("content");
+var header = $("meta[name='_csrf_header']").attr("content");
+	
+	
+    $.ajax({
+			type: 'POST',
+			url: 'get-force-id',
+			data:JSON.stringify(dataToSend),
+			contentType: 'application/json',
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(header, token);
+			},
+			success: function(response) {
+				if (response.forcePersonnelList) {
+					console.log(response.forcePersonnelList);
+					
+					const orderByDropDown = document.getElementById("forceId");
+					orderByDropDown.innerHTML='';
+					response.forcePersonnelList.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.name; 
+                option.textContent = item.forceId+"-"+item.name+"-"+item.designation+"-"+item.unitName; 
+                orderByDropDown.appendChild(option);
+            });
+					
+					
+					
+					
+		}
+		
+		else{
+			
+			
+					console.log(response.personnelOthersList);
+					
+					const orderByDropDown = document.getElementById("orderByDropDown");
+					orderByDropDown.innerHTML='';
+					response.personnelOthersList.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.name; 
+                option.textContent = item.name+"-"+item.designation; 
+                orderByDropDown.appendChild(option);
+            });
+					
+					
+					
+					
+		}
+			
+			
+		},
+complete: function() {
+    $('#loading-overlay').hide();
+    $('body').removeClass('loading');
+},
+			error: function(xhr, status, error) {
+
+				alert("Please fill the form again somthing went WRONG!");
+				console.error(error);
+			}
+		});
+}
+
+
+
+        $(document).ready(function() {
+            $("#contactForm").submit(function(event) {
+                event.preventDefault();
+
+                var token = $("meta[name='_csrf']").attr("content");
+                var header = $("meta[name='_csrf_header']").attr("content");
+
+                var formData = {
+                    department: $("#departmentId").val(),
+                    designation: $("#designationId").val(),
+                    irlaNo: $("#forceId").val(),
+                    iSD: $("#isd").val(),
+                    phNO: $("#phno").val(),
+                    stD: $("#std").val(),
+                    mobileNo: $("#mobileNo").val(),
+                    email: $("#email").val(),
+                    contactType:$("#contactType").val(),
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "save-contact-us",
+                    contentType: "application/json",
+                    data: JSON.stringify(formData),
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader(header, token);
+                    },
+                    success: function(response) {
+                        $("#resultMessage").html("<p>" + response.message + "</p>");
+                        window.location.reload();
+                    },
+                    error: function() {
+                        $("#resultMessage").html("<p>There was an error processing your request. Please try again.</p>");
+                        window.location.reload();
+                    }
+                });
+            });
+        });
+
+
+        
+
+</script>
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function() {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function() {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+		
+			$(document).ready(function () {
+			$("#editUser-on a").click(function () {
+				//Do stuff when clicked
+				$("#editUser").submit();
+			});
+		});
+
+		
+		
+	</script>
+
+<script>
+
+document.getElementById('phno').addEventListener('input', function() {
+    var phoneInput = this;
+    var errorMessage = document.querySelector('.error-message');
+
+    // Check if the input matches the 10-digit pattern
+    var isValid = /^\d{10}$/.test(phoneInput.value);
+
+    if (!isValid) {
+        errorMessage.style.display = 'block';
+    } else {
+        errorMessage.style.display = 'none';
+    }
+});
+
+
+document.getElementById('email').addEventListener('input', function() {
+    var emailInput = this;
+    var errorMessageEmail = document.querySelector('.error-message-email');
+    var isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value);
+
+    if (!isValidEmail) {
+        errorMessageEmail.style.display = 'block';
+    } else {
+        errorMessageEmail.style.display = 'none';
+    }
+});
+document.getElementById('mobileNo').addEventListener('input', function() {
+    var mobileInput = this;
+    var errorMessage = document.querySelector('.error-message-mobile');
+
+    // Check if the input matches the 10-digit pattern
+    var isValid = /^\d{10}$/.test(mobileInput.value);
+
+    if (!isValid) {
+        errorMessage.style.display = 'block';
+    } else {
+        errorMessage.style.display = 'none';
+    }
+});
+
+
+document.getElementById('contactForm').addEventListener('submit', function(event) {
+    var phoneInput = document.getElementById('phno');
+    var emailInput = document.getElementById('email');
+    var mobileInput = document.getElementById('mobileNo');
+    var isValidPhone = /^\d{10}$/.test(phoneInput.value);
+    var isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value);
+    var isValidMobile = /^\d{10}$/.test(mobileInput.value);
+
+    if (!isValidPhone || !isValidEmail || !isValidMobile) {
+        event.preventDefault(); // Prevent form submission
+        if (!isValidPhone) {
+            alert('Phone number must be exactly 10 digits.');
+        }
+        if (!isValidMobile) {
+            alert('Mobile number must be exactly 10 digits.');
+        }
+        if (!isValidEmail) {
+            alert('Please enter a valid email address.');
+        }
+    }
+});
+
+</script>
+
+	<!-- Signup Modal -->
+	<style>
+		 body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        width: 80%;
+        margin: 50px auto;
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+    }
+
+    .container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    .form-group input[type="date"] {
+        padding: 8px;
+    }
+
+    .form-group input[type="submit"] {
+        background-color: rgb(0, 128, 255);
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    .form-group input[type="submit"]:hover {
+        background-color: rgb(0, 128, 255);
+    }
+
+    .form-group-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .form-group-row .form-group {
+        flex: 1 1 calc(25% - 10px);
+        /* Four columns */
+    }
+
+	</style>
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function() {
+			$("#one-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+
+
+
+</body>
+</html>

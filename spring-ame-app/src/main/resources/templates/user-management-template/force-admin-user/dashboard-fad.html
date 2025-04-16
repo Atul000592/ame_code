@@ -1,0 +1,262 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>AMA DashBoard</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<div th:replace="~{user-management-template/force-admin-user/mg-header-menu::sidebar-wrapper-menu-header}"></div>
+
+
+
+</head>
+
+
+<body class="d-flex flex-column h-100">
+
+	<main class="flex-shrink-0">
+		<div class="d-flex" id="wrapper">
+
+			<!-- Sidebar -->
+
+			<div
+				th:replace="~{user-management-template/force-admin-user/mg-left-menu::sidebar-wrapper-menu-cpf}"></div>
+
+			<!-- /#sidebar-wrapper -->
+
+			<!-- Page Content -->
+			<div id="page-content-wrapper">
+
+				<div
+					th:replace="~{user-management-template/force-admin-user/nav-bar-mg::sidebar-wrapper-menu-nav-cpf}"></div>
+
+
+			<!--	<marquee class="marquee-bg" behavior="scroll" direction="left"
+					scrollamount="12">This text will scroll from right to
+					left</marquee>
+
+-->
+<br>
+
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-12" id="b-homedb">
+							<div class="wisecountnactionbg">
+								<h5>Latest Data</h5>
+
+								<div class="row" id="sortable-cards">
+
+									<div class="col-lg-6 col-sm-12 b-customize">
+										<div class="proc-box">
+
+											<h4>
+												<i class="bi bi-person-add fs-1"></i> Assign Role
+											</h4>
+<hr>
+												<a href="assign-new-role-to-FadorCAPF" class="btn btn-info btn3d"> Click Here</a>
+											
+										</div>
+									</div>
+									<div class="col-lg-6 col-sm-12 b-customize">
+										<div class="proc-box">
+
+											<h4>
+												<i class="bi bi-pencil-square fs-3"></i>Edit Role
+											</h4>
+<hr>
+										
+												<a href="manage-all-existing-user-role" class="btn btn-info btn3d"> Click Here</a>
+										
+										</div>
+
+									</div>
+									<div class="col-lg-6 col-sm-12 b-customize">
+										<div class="proc-box">
+
+											<h4>
+												<i class="bi bi-person-gear fs-1"></i> No of Roles Assigned
+											</h4>
+
+<hr>
+											<div class="row">
+												<div class="col-sm-4">
+											<h6>Total<br>
+												<span th:text="${totalRoleCount}"></span></h6>	
+												</div>
+												<div class="col-sm-4">
+												<h6>Active<br>
+												<span th:text="${activeRoleCount}"></span></h6>	
+												</div>
+												<div class="col-sm-4">
+												<h6>InActive<br>
+												<span th:text="${InActiveRoleCount}"></span></h6>	
+												</div>
+											</div>
+											
+																				
+											<a
+													href="show-all-assign-user-role" class="btn btn-info btn3d">Click Here</a>
+													
+											
+										</div>
+									</div>
+								</div>
+
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+				<div class="my-5" id="b-homedb"></div>
+
+			</div>
+
+		</div>
+
+
+		</div>
+		<!-- /#page-content-wrapper -->
+
+		</div>
+		</div>
+	</main>
+	<!-- /#wrapper -->
+
+
+
+	
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function() {
+			$('#backtotop').click(function() {
+				$("html, body").animate({
+					scrollTop : 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function() {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function() {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+		
+			$(document).ready(function () {
+			$("#editUser-on a").click(function () {
+				//Do stuff when clicked
+				$("#editUser").submit();
+			});
+		});
+
+		
+		
+	</script>
+
+
+
+	<!-- Signup Modal -->
+	<div class="modal fade" id="signout-modal">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Sign Out?</h5>
+
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<!-- Modal body -->
+						<div class="modal-body">
+							<p class="text-center">Are you sure you want to Sign Out?</p>
+							<form action="sign-out">
+								<div class="row">
+									<div class="col-md-6">
+										<button type="submit" class="btn btn-primary">Sign
+											Out</button>
+									</div>
+									<div class="col-md-6">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Cancel</button>
+									</div>
+
+								</div>
+
+							</form>
+
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>
+
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function() {
+			$("#one-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+
+	<script>
+	function completedRequest(){
+		alert("NO AME REQUEST COMPLETED YET.................!")
+		return false;
+	}
+	
+</script>
+
+</body>
+</html>

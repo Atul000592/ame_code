@@ -1,0 +1,579 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>AME DashBoard Controller</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+
+<script src="js/local/resetChangeForget.js"></script>
+<script src="js/local/disable-back-button.js"></script>
+
+
+</head>
+
+
+<body>
+
+<div th:replace="~{medical-sub-ordinate/master-doc::master-wrapper-doc}"></div>
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+	<div th:replace="~{dealinghand/left-menu-dh::sidebar-wrapper-menu-dh}"></div>
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+					<div th:replace="~{medical-sub-ordinate/nav-bar::sidebar-wrapper-menu-nav-ama}"></div>
+
+
+
+			<div class="container mt-4">
+			<div class="wisecountnactionbg">
+			
+			
+			
+			
+<!-- ================candidate Details-=======================-->
+<div th:replace="~{medical-sub-ordinate/inner-user-details::sidebar-wrapper-inner-user-details}"></div>
+                         <!-- candidate details end-->
+			<div id="loading-overlay">
+   <div class="spinner"></div>
+  
+  
+</div>
+			
+			
+			<form class="proc-box p-3 text-start" id="regForm">
+  <h5>Psychological assessment as Laid Down(s)</h5>
+  <!-- One "tab" for each step in the form: -->
+  
+  <!-- <ul class="nav nav-tabs tabTop">
+  <li class="active"><a data-toggle="tab" href="#menu1">Physical Measurement</a></li>
+  <li><a data-toggle="tab" href="#menu2">Phychological assessment as Laid Down(s)</a></li>
+  <li><a data-toggle="tab" href="#menu3">Hearing(H)</a></li>
+  <li><a data-toggle="tab" href="#menu4">Appendages(A)</a></li>
+    
+</ul> -->
+
+
+ <hr>
+  
+   
+     <div class="row">
+  <div class="col-md-6 mb-2">
+    <label>Any Past history of psychiatric illness,if so details</label>
+    <input type="text" class="form-control" placeholder=""  th:field="*{phychologicalAssessmentAsLaidDown.psychiatricIllnessHistory}" id="psychiatricIllnessHistory" >
+    <span id="psychiatricIllnessHistory_error" class="error"></span>
+  </div>
+  
+
+  
+  <div class="col-md-12 mb-2">
+		<label>Any History of breakdown/outburst or taking wrong decision indecisiveness leading to public reaction
+			or castigation of civil authority:</label>
+
+		
+			   <select th:field="*{phychologicalAssessmentAsLaidDown.wrong_decision_public_castigation}" class="form-select" 
+									id="wrong_decision_public_castigation" >
+									<option th:value="${phychologicalAssessmentAsLaidDown.wrong_decision_public_castigation}" 
+									th:text="*{phychologicalAssessmentAsLaidDown.wrong_decision_public_castigation}"></option>
+
+									<option style="font-weight:500;" th:each="innerList : ${psychologyDropDown.c1}"
+										th:text="${innerList.value}" th:value="${innerList.value}">
+									</option>
+								</select>
+								<span id="wrongDecisionPublicCastigation_error" class="error"></span>
+	</div>
+  
+   </div>
+     <div class="row">
+	  <div class="col-md-6 mb-2">
+    <label>History of any alcoholic/drug abuse</label>
+    
+    
+        <select th:field="*{phychologicalAssessmentAsLaidDown.alcholic_drug_abuse_history}" class="form-select"
+									id="alcholic_drug_abuse_history" >
+									<option th:value="${phychologicalAssessmentAsLaidDown.alcholic_drug_abuse_history}" 
+									th:text="*{phychologicalAssessmentAsLaidDown.alcholic_drug_abuse_history}"></option>
+
+									<option style="font-weight:500;" th:each="innerList : ${psychologyDropDown.c2}"
+										th:text="${innerList.value}" th:value="${innerList.value}">
+									</option>
+								</select>
+								<span id="alcholicDrugAbuseHistory_error" class="error"></span>
+   </div>
+
+   <div class="col-md-6 mb-2">
+    <label>History of head injury/infective/metabolicen-cephalopathy:</label>
+       <select class="form-select" th:field="*{phychologicalAssessmentAsLaidDown.injury_infective_metabolic_encephalopathy_history}"
+									id="injury_infective_metabolic_encephalopathy_history" >
+									<option th:value="${phychologicalAssessmentAsLaidDown.injury_infective_metabolic_encephalopathy_history}" 
+									th:text="*{phychologicalAssessmentAsLaidDown.injury_infective_metabolic_encephalopathy_history}"></option>
+
+									<option style="font-weight:500;" th:each="innerList : ${psychologyDropDown.c3}"
+										th:text="${innerList.value}" th:value="${innerList.value}">
+									</option>
+								</select>
+								<span id="injuryInfectiveMetabolicEncephalopathyHistory_error" class="error"></span>
+   
+  </div>
+   
+
+	<div class="col-md-6 mb-2">
+    <label>Objective Psychometric scale if any applied and result there of:</label>
+    <input class="form-control shake-on-error" type="text" th:field="*{phychologicalAssessmentAsLaidDown.objective_psychometric_scale}" id="objective_psychometric_scale" >
+ <span id="objectivePsychometricScale_error" class="error"></span>
+  </div>
+ 
+   
+ </div>
+ 
+
+
+	
+ 
+  
+   <input type="hidden" name="forcepersonalId" th:value="${forcepersonalId}">
+   <input type="hidden" name="ameId" th:value="${ameId}" id="ameId">
+   
+ 
+<hr>
+   
+<div class="d-grid gap-2 d-md-block">
+<button type="button" class="btn btn-secondary" onclick="backToHome()" style="width:100px;">Back</button>
+<button type="submit" class="btn btn-success" style="width:100px;float:right;">Submit</button>
+
+ 
+</div>
+ 
+</form>
+
+<form th:action="@{/declaration-requests-completed-ma}" method="post" id="back-to-home">
+	  <input type="hidden" name="forcepersonalId" th:value="${forcepersonalId}">
+      <input type="hidden" name="ameId" th:value="${ameId}">
+	 
+ </form>
+
+
+
+		</div>
+
+	
+
+<div th:replace="~{medical-sub-ordinate/alert-modal::message-alert-modal}"></div>
+</div>
+
+	</div>
+	<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			
+			setDefaultValues();
+			
+		});
+		</script>
+	
+<script>
+	function backToHome(){
+		
+	$("#back-to-home").submit();
+	}
+</script>
+
+<script>
+
+ function selectedValue(){
+	 var value=$('#pCat').val();
+	 
+	 if(value=='S-1'||value=='S-5'){
+		 
+     $('#sType').hide();
+     $('#sDuration').hide();
+    }else{
+	/*  document.getElementById("pTypeId").value='';
+	 document.getElementById("pDurationId").value=''; */
+	 
+	 $('#sType').show();
+     $('#sDuration').show();
+     
+	}
+ 
+ }
+</script>
+<script>
+
+function showHideColumns(val){
+	 if(val=='S-1'||val=='S-5'){
+		 
+	     $('#sType').hide();
+	     $('#sDuration').hide();
+	    }else{
+			
+			$('#sType').show();
+	     $('#sDuration').show();
+		}
+	
+}
+</script>
+
+
+	
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function() {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function() {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+	<!-- Signup Modal -->
+	
+		<div class="modal fade" id="signout-modal" data-bs-backdrop="static"
+			data-bs-keyboard="false" tabindex="-1"
+			aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Sign Out?</h5>
+
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<!-- Modal body -->
+						<div class="modal-body">
+							<p class="text-center">Are you sure you want to Sign Out?</p>
+							<form action="sign-out">
+								<div class="row">
+									<div class="col-md-6">
+										<button type="submit" class="btn btn-primary">Sign
+											Out</button>
+									</div>
+									<div class="col-md-6">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Cancel</button>
+									</div>
+
+								</div>
+
+							</form>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
+
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<!-- <script>
+		$(function() {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function() {
+			$("#one-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+<script>
+var currentTab = 0; // Current tab is set to be the first tab (0)
+showTab(currentTab); // Display the current tab
+
+function showTab(n) {
+  // This function will display the specified tab of the form...
+  var x = document.getElementsByClassName("tab");
+  x[n].style.display = "block";
+  //... and fix the Previous/Next buttons:
+	
+  if (n == 0) {
+    document.getElementById("prevBtn").style.display = "none";
+  } else {
+    document.getElementById("prevBtn").style.display = "inline";
+  }
+  if (n == (x.length - 1)) {
+    document.getElementById("nextBtn").innerHTML = "Submit";
+  } else {
+    document.getElementById("nextBtn").innerHTML = "Next";
+  }
+  //... and run a function that will display the correct step indicator:
+  fixStepIndicator(n);
+  fixTabIndicator(n)
+}
+
+function nextPrev(n) {
+  // This function will figure out which tab to display
+  var x = document.getElementsByClassName("tab");
+  // Exit the function if any field in the current tab is invalid:
+  if (n == 1 && !validateForm()) return false;
+  // Hide the current tab:
+  x[currentTab].style.display = "none";
+  // Increase or decrease the current tab by 1:
+  currentTab = currentTab + n;
+  // if you have reached the end of the form...
+  if (currentTab >= x.length) {
+    // ... the form gets submitted:
+    document.getElementById("regForm").submit();
+    return false;
+  }
+  // Otherwise, display the correct tab:
+  showTab(currentTab);
+}
+
+function validateForm() {
+  // This function deals with validation of the form fields
+  var x, y, i, valid = true;
+  x = document.getElementsByClassName("tab");
+  y = x[currentTab].getElementsByTagName("input");
+  // A loop that checks every input field in the current tab:
+  for (i = 0; i < y.length; i++) {
+    // If a field is empty...
+    if (y[i].value == "") {
+      // add an "invalid" class to the field:
+      y[i].className += " invalid";
+      // and set the current valid status to false
+      valid = false;
+    }
+  }
+  // If the valid status is true, mark the step as finished and valid:
+  if (valid) {
+    document.getElementsByClassName("step")[currentTab].className += " finish";
+  }
+  return valid; // return the valid status
+}
+
+function fixStepIndicator(n) {
+  // This function removes the "active" class of all steps...
+  var i, x = document.getElementsByClassName("step");
+  for (i = 0; i < x.length; i++) {
+    x[i].className = x[i].className.replace(" active", "");
+  }
+  //... and adds the "active" class on the current step:
+  x[n].className += " active";
+}
+function fixTabIndicator(n) {
+	  // This function removes the "active" class of all steps...
+	  var i, x = document.getElementsByClassName("tabstatus");
+	  for (i = 0; i < x.length; i++) {
+	    x[i].className = x[i].className.replace(" active", "");
+	  }
+	  //... and adds the "active" class on the current step:
+	  x[n].className += " active";
+	}
+</script>
+ -->
+<!-- ==========================================================RK============================================================ -->
+<script>
+$(document).ready(function() {
+	$('#regForm').submit(function(event) {
+		event.preventDefault();
+		$('#loading-overlay').show();
+		$('body').addClass('loading');
+        
+		var ameId = $("#ameId").val();
+        var psychiatricIllnessHistory=$("#psychiatricIllnessHistory").val();
+	    var wrong_decision_public_castigation=$("#wrong_decision_public_castigation").val();
+	    var alcholic_drug_abuse_history=$("#alcholic_drug_abuse_history").val();
+	    var injury_infective_metabolic_encephalopathy_history=$("#injury_infective_metabolic_encephalopathy_history").val();
+	    var objective_psychometric_scale=$("#objective_psychometric_scale").val();
+	    
+	    
+		var data={
+				ameId:ameId,
+				psychiatricIllnessHistory:psychiatricIllnessHistory,
+				wrong_decision_public_castigation:wrong_decision_public_castigation,
+				alcholic_drug_abuse_history:alcholic_drug_abuse_history,
+				injury_infective_metabolic_encephalopathy_history:injury_infective_metabolic_encephalopathy_history,
+				objective_psychometric_scale:objective_psychometric_scale,
+				
+        }
+
+		/* ===================header==================== */
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		$('.error').text('');
+
+
+
+
+		$.ajax({
+			type: 'POST',
+			url: 'validate-and-save-psychology-dealing-hand',
+			data:JSON.stringify(data),
+			contentType: 'application/json',
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(header, token);
+			},
+			success: function(response) {
+				if (response.isValid) {
+					
+					 $('#alert-modal .modal-title').text('Success');
+			            $('#alert-modal .modal-body h3').text(response.message);
+			            
+			            $('#alert-modal .modal-body i').removeClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+			                                             .addClass('fas fa-check-circle faa-tada animated')
+			                                             .removeAttr('style');
+			            
+			            $("#cross-close-button").attr('onclick', 'backToHome()');
+			            $("#okay-close-button").attr('onclick', 'backToHome()');
+			            $('#alert-modal').modal({
+			                backdrop: 'static',
+			                keyboard: false
+			              });
+						  	            $('#alert-modal').modal('show');
+						  
+					 }
+
+				else {  
+					
+					$.each(response.errors, function(field, errorMessage) {
+						 $('#' + field + '_error').text(errorMessage);
+						 /* shakeInputField(); */
+						});
+					}
+				
+},
+complete: function() {
+    $('#loading-overlay').hide();
+    $('body').removeClass('loading');
+},
+
+
+
+
+			error: function(xhr, status, error) {
+
+				if(xhr.responseText){
+
+					$('#alert-modal .modal-title').text('ERROR');
+		            $('#alert-modal .modal-body h3').text(xhr.responseText);
+		            
+		           $('#alert-modal .modal-body i')  .addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+	               .css('color', 'red');
+		           $('#alert-modal').modal({
+		                backdrop: 'static',
+		                keyboard: false
+		              });
+		            $('#alert-modal').modal('show');
+				}
+					
+					else{
+						$('#alert-modal .modal-title').text('ERROR');
+			            $('#alert-modal .modal-body h3').text('Server not responding please sign-in again');
+			            
+			            $('#alert-modal .modal-body i').addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+		                                               .css('color', 'red');
+			            $('#alert-modal').modal({
+			                backdrop: 'static',
+			                keyboard: false
+			              });
+			            $('#alert-modal').modal('show');
+						
+					}
+			}
+			
+		});
+	});
+});
+
+
+
+
+//-------------Default values----------//
+			function setDefaultValues() {
+
+				var psychiatricIllnessHistory = $("#psychiatricIllnessHistory").val();
+				var wrong_decision_public_castigation=$("#wrong_decision_public_castigation").val();
+				var alcholic_drug_abuse_history=$("#alcholic_drug_abuse_history").val();
+				var injury_infective_metabolic_encephalopathy_history=$("#injury_infective_metabolic_encephalopathy_history").val();
+				var objective_psychometric_scale=$("#objective_psychometric_scale").val();
+				
+				if (!psychiatricIllnessHistory) {
+					$("#psychiatricIllnessHistory").val('NIL');
+
+				}
+				
+				if (!wrong_decision_public_castigation) {
+					$("#wrong_decision_public_castigation").val('No');
+
+				}
+
+				if (!alcholic_drug_abuse_history) {
+					$("#alcholic_drug_abuse_history").val('No');
+
+				}
+				
+				if (!injury_infective_metabolic_encephalopathy_history) {
+					$("#injury_infective_metabolic_encephalopathy_history").val('No');
+
+				}
+				
+				if (!objective_psychometric_scale) {
+					$("#objective_psychometric_scale").val('NIL');
+
+				}
+
+				
+			}
+
+</script>
+
+
+</body>
+</html>

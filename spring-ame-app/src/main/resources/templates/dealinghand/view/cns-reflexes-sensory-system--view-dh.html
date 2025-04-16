@@ -1,0 +1,501 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>AME DashBoard Controller</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css" />
+<!-- Custom styles for this template -->
+<link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/base-responsive.css" />
+<link rel="stylesheet" href="css/animate.min.css" />
+<link rel="stylesheet" href="css/slicknav.min.css" />
+<link rel="stylesheet" href="css/font-awesome.min.css" />
+<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
+	type="text/css">
+	<script src="js/local/disable-back-button.js"></script>
+
+<script src="vendor/charts/Chart.js"></script>
+<script src="vendor/charts/moment.min.js"></script>
+<script src="vendor/charts/Chart.min.js"></script>
+<script src="vendor/charts/utils.js"></script>
+
+</head>
+
+
+<body>
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+		<div th:replace="~{dealinghand/left-menu-dh::sidebar-wrapper-menu-dh}"></div>
+<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<div th:replace="~{dealinghand/nav-bar::sidebar-wrapper-menu-nav-dh}"></div>
+
+
+			<div class="container mt-3">
+				<div class="wisecountnactionbg">
+
+
+
+					<form id="regForm" method="Post">
+
+						<div class="proc-box py-2 px-3 text-start">
+							<div class="row">
+								<div class="col-md-4">
+									
+										<label class="fw-medium">IRLA No/F No:</label> <span
+											th:text="${candidateDetails.forceId}"></span>
+									
+								</div>
+								<div class="col-md-4">
+			
+										<label class="fw-medium">Name:</label> <span
+											th:text="${candidateDetails.name}"></span>
+									</div>
+							
+								<div class="col-md-4">
+							
+										<label class="fw-medium">Gender:</label> <span
+											th:text="${candidateDetails.gender}"></span>
+									</div>
+						<div class="col-md-4">
+								<label class="fw-medium">Force Name:</label> <span
+									th:text="${candidateDetails.forceName}"></span>
+
+							</div>
+								<div class="col-md-4">
+							
+										<label class="fw-medium">Rank/Designation:</label> <span
+											th:text="${candidateDetails.designation}"></span>
+							
+								</div>
+
+								<div class="col-md-4">
+						
+										<label class="fw-medium">Grade: </label> <span
+											th:if="${candidateGazettedNonGazettedFlag=='Y'}"
+											th:text="GazettedOfficer"></span> <span
+											th:unless="${candidateGazettedNonGazettedFlag=='Y'}"
+											th:text="NonGazettedOfficer"></span>
+								
+								</div>
+							</div>
+</div>
+				
+
+
+	<div class="proc-box py-2 px-3 text-start">
+
+
+						<table class="table table-striped table-bordered">
+							<thead class="table-light">
+								<tr>
+									<td colspan="4">
+									<h5 class="m-0">Central Nervous System And Cranial Nerves Meningeal
+											Sign</h5>
+										
+									</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th colspan="4">Higher
+										Function</th>
+
+								</tr>
+								<tr>
+
+									<td><label> Memory(Recent & Remote)</label></td>
+									<td><span
+										th:text="${examDtoRequest.cns.memoryRecentRemote}"></span></td>
+									<td><label>Intelligence</label></td>
+									<td><span th:text="${examDtoRequest.cns.intelligence}"></span>
+									</td>
+								</tr>
+								<tr>
+
+									<td><label>Personality</label></td>
+									<td><span th:text="${examDtoRequest.cns.personality}"></span></td>
+									<td><label>Orientation(time,place &person)</label></td>
+									<td><span th:text="${examDtoRequest.cns.orientation}"></span>
+									</td>
+								</tr>
+								<tr>
+
+									<td><label>Cranial Nerves</label></td>
+									<td><span
+										th:text="${examDtoRequest.cranialNervesMeningealSign.cranialNerves}"></span></td>
+									<td><label>Menigeal Signs if any</label></td>
+									<td><span
+										th:text="${examDtoRequest.cranialNervesMeningealSign.meningealSignIfAny}"></span>
+									</td>
+								</tr>
+								<tr>
+									<th colspan="4">Motor
+										System</th>
+								</tr>
+								<tr>
+
+
+									<td><label>Nutrition of Musclesm</label></td>
+									<td><span
+										th:text="${examDtoRequest.cranialNervesMeningealSign.nutritionOfMuscles}"></span>
+									</td>
+
+									<td><label>Wasting</label></td>
+									<td><span
+										th:text="${examDtoRequest.cranialNervesMeningealSign.wasting}"></span></td>
+
+								</tr>
+								<tr>
+									<td><label>Tone</label></td>
+									<td><span
+										th:text="${examDtoRequest.cranialNervesMeningealSign.tone}"></span>
+									</td>
+									<td><label>Coordination</label></td>
+									<td><span
+										th:text="${examDtoRequest.cranialNervesMeningealSign.coordination}"></span></td>
+								</tr>
+
+								<tr>
+
+
+									<td><label>Abnormal movement/Fasciculation</label></td>
+									<td><span
+										th:text="${examDtoRequest.cranialNervesMeningealSign.abnormalMovementFasiculation}"></span>
+									</td>
+									<td><label>Power</label></td>
+									<td><span
+										th:text="${examDtoRequest.cranialNervesMeningealSign.power}"></span></td>
+								</tr>
+
+								<tr>
+
+
+									<td><label>DTR</label></td>
+									<td colSpan="3"><span
+										th:text="${examDtoRequest.cranialNervesMeningealSign.dtr}"></span>
+									</td>
+								</tr>
+
+
+							</tbody>
+						</table>
+
+					
+						<table class="table table-striped table-bordered">
+							<thead class="table-light">
+								<tr>
+									<td colspan="4">
+									<h5 class="m-0">Reflexes And Sensory System</h5>
+									</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th colspan="4">
+										Reflexes</th>
+								</tr>
+								<tr>
+									<td><label>Plantar-Reflexes</label></td>
+									<td><span th:text="${examDtoRequest.reflexes.plantar}"></span></td>
+									<td><label>Abdominal & Cremastric Reflexes</label></td>
+									<td><span th:text="${examDtoRequest.reflexes.abdominal}"></span></td>
+								</tr>
+								<tr>
+									<td><label>Cerebellar Signs</label></td>
+									<td><span
+										th:text="${examDtoRequest.reflexes.cerebellarSign}"></span></td>
+									<td><label>Gower's Sign</label></td>
+									<td><span th:text="${examDtoRequest.reflexes.gowerSign}"></span></td>
+								</tr>
+								<tr>
+									<th colSpan="4">Sensory
+										System</th>
+								</tr>
+								<tr>
+
+									<!-- <td><span th:text="${examDtoRequest.sensorysystem.sensorySystem}"></span></td> -->
+									<td><label>Reflexes</label></td>
+									<td><span
+										th:text="${examDtoRequest.sensorysystem.reflexes}"></span></td>
+									<td><label>Romberg's Sign</label></td>
+									<td><span
+										th:text="${examDtoRequest.sensorysystem.rombergSign}"></span></td>
+								</tr>
+								<tr>
+
+									<td><label>SLR(Right)</label></td>
+									<td><span
+										th:text="${examDtoRequest.sensorysystem.slrTestLimbRight}"></span></td>
+									<td><label>SLR(Left)</label></td>
+									<td><span
+										th:text="${examDtoRequest.sensorysystem.slrTestLimbLeft}"></span></td>
+								</tr>
+
+								<tr>
+
+									<td><label>Finger Nose Test</label></td>
+									<td><span
+										th:text="${examDtoRequest.sensorysystem.fingerNoseTest}"></span></td>
+									<td><label>Skull & Bone</label></td>
+									<td><span
+										th:text="${examDtoRequest.sensorysystem.skullAndBone}"></span></td>
+								</tr>
+						</table>	<hr>
+					<div class="d-grid gap-2 d-md-block w-100 mb-5">
+								<button type="button" class="btn btn-secondary"
+									onclick="backToHome()" style="width: 100px; float: left;">Back</button>
+
+
+
+							</div>
+						
+					</form>
+				</div>
+
+</div>
+
+
+
+				<form th:action="@{/declaration-requests-completed-ma}" method="post"
+					id="back-to-home">
+					<input type="hidden" name="forcepersonalId"
+						th:value="${forcepersonalId}"> <input type="hidden"
+						name="ameId" th:value="${ameId}">
+
+				</form>
+
+			</div>
+			<!-- /#page-content-wrapper -->
+
+		</div>
+		<!-- /#wrapper -->
+		<script>
+			function backToHome() {
+
+				$("#back-to-home").submit();
+			}
+		</script>
+
+
+		<!-- Bootstrap core JavaScript -->
+		<script src="vendor/jquery/jquery.min.js"></script>
+		<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+		<script src="js/jquery.slicknav.min.js"></script>
+		<script src="js/dashboard.js"></script>
+
+		<!-- Menu Toggle Script -->
+		<script>
+			$("#menu-toggle").click(function(e) {
+				e.preventDefault();
+				$("#wrapper").toggleClass("toggled");
+			});
+		</script>
+
+
+		<script>
+			$(document).ready(function() {
+				$('#backtotop').click(function() {
+					$("html, body").animate({
+						scrollTop : 0
+					}, 600);
+					return false;
+				});
+			});
+		</script>
+
+
+		<script>
+			$('.sub-menu ul').hide();
+			$('.sub-sub-menu ul').hide();
+			$(".sub-menu a").click(
+					function() {
+						$(this).parent(".sub-menu").children("ul").slideToggle(
+								"100");
+						$(this).find(".right").toggleClass(
+								"fa-caret-up fa-caret-down");
+					});
+
+			$(".sub-sub-menu a").click(
+					function() {
+						$(this).parent(".sub-sub-menu").children("ul")
+								.slideToggle("100");
+						$(this).find(".right").toggleClass(
+								"fa-caret-up fa-caret-down");
+					});
+		</script>
+
+
+
+		<!-- Signup Modal -->
+		<div class="modal fade" id="signout-modal" data-bs-backdrop="static"
+			data-bs-keyboard="false" tabindex="-1"
+			aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Sign Out?</h5>
+
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<!-- Modal body -->
+						<div class="modal-body">
+							<p class="text-center">Are you sure you want to Sign Out?</p>
+							<form action="sign-out">
+								<div class="row">
+									<div class="col-md-6">
+										<button type="submit" class="btn btn-primary">Sign
+											Out</button>
+									</div>
+									<div class="col-md-6">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Cancel</button>
+									</div>
+
+								</div>
+
+							</form>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+
+		<script src="vendor/jquery-ui/jquery-ui.js"></script>
+		<script>
+			$(function() {
+				$("#sortable-menu").sortable();
+				$("#sortable-menu").disableSelection();
+
+				$("#sortable-cards").sortable();
+				$("#sortable-cards").disableSelection();
+			});
+		</script>
+
+
+		<script>
+			$(function() {
+				$("#one-item-row").on("click", function() {
+					$(".b-customize").addClass("col-lg-12", 300);
+					$(".b-customize").removeClass("col-lg-4", 300);
+					$(".b-customize").removeClass("col-lg-6", 300);
+
+				});
+
+				$("#two-item-row").on("click", function() {
+					$(".b-customize").addClass("col-lg-6", 300);
+					$(".b-customize").removeClass("col-lg-4", 300);
+					$(".b-customize").removeClass("col-lg-12", 300);
+
+				});
+
+				$("#three-item-row").on("click", function() {
+					$(".b-customize").addClass("col-lg-4", 300);
+					$(".b-customize").removeClass("col-lg-6", 300);
+					$(".b-customize").removeClass("col-lg-12", 300);
+
+				});
+
+			});
+		</script>
+		<script>
+			var currentTab = 0; // Current tab is set to be the first tab (0)
+			showTab(currentTab); // Display the current tab
+
+			function showTab(n) {
+				// This function will display the specified tab of the form...
+				var x = document.getElementsByClassName("tab");
+				x[n].style.display = "block";
+				//... and fix the Previous/Next buttons:
+
+				if (n == 0) {
+					document.getElementById("prevBtn").style.display = "none";
+				} else {
+					document.getElementById("prevBtn").style.display = "inline";
+				}
+				if (n == (x.length - 1)) {
+					document.getElementById("nextBtn").innerHTML = "Submit";
+				} else {
+					document.getElementById("nextBtn").innerHTML = "Next";
+				}
+				//... and run a function that will display the correct step indicator:
+				fixStepIndicator(n);
+				fixTabIndicator(n)
+			}
+
+			function nextPrev(n) {
+				// This function will figure out which tab to display
+				var x = document.getElementsByClassName("tab");
+				// Exit the function if any field in the current tab is invalid:
+				if (n == 1 && !validateForm())
+					return false;
+				// Hide the current tab:
+				x[currentTab].style.display = "none";
+				// Increase or decrease the current tab by 1:
+				currentTab = currentTab + n;
+				// if you have reached the end of the form...
+				if (currentTab >= x.length) {
+					// ... the form gets submitted:
+					document.getElementById("regForm").submit();
+					return false;
+				}
+				// Otherwise, display the correct tab:
+				showTab(currentTab);
+			}
+
+			function validateForm() {
+				// This function deals with validation of the form fields
+				var x, y, i, valid = true;
+				x = document.getElementsByClassName("tab");
+				y = x[currentTab].getElementsByTagName("input");
+				// A loop that checks every input field in the current tab:
+				for (i = 0; i < y.length; i++) {
+					// If a field is empty...
+					if (y[i].value == "") {
+						// add an "invalid" class to the field:
+						y[i].className += " invalid";
+						// and set the current valid status to false
+						valid = false;
+					}
+				}
+				// If the valid status is true, mark the step as finished and valid:
+				if (valid) {
+					document.getElementsByClassName("step")[currentTab].className += " finish";
+				}
+				return valid; // return the valid status
+			}
+
+			function fixStepIndicator(n) {
+				// This function removes the "active" class of all steps...
+				var i, x = document.getElementsByClassName("step");
+				for (i = 0; i < x.length; i++) {
+					x[i].className = x[i].className.replace(" active", "");
+				}
+				//... and adds the "active" class on the current step:
+				x[n].className += " active";
+			}
+			function fixTabIndicator(n) {
+				// This function removes the "active" class of all steps...
+				var i, x = document.getElementsByClassName("tabstatus");
+				for (i = 0; i < x.length; i++) {
+					x[i].className = x[i].className.replace(" active", "");
+				}
+				//... and adds the "active" class on the current step:
+				x[n].className += " active";
+			}
+		</script>
+</body>
+</html>

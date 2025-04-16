@@ -1,0 +1,25 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="sidebar-wrapper-ame-declaration-pdf">
+
+
+<!-- Bootstrap Modal for PDF -->
+<div class="modal fade" id="pdfModal" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="pdfModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span style="font-size: 14px;font-weight:600;" id="fileName"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+    
+                <embed  src="" type="application/pdf" width="100%" height="600px" id="pdfIframe">    
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</html>

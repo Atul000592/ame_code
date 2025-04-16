@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<!-- Modal -->
+<div class="modal fade" id="alert-modal-for-unmapping-div-1" tabindex="-1" aria-labelledby="exampleModalLabel"
+	aria-hidden="true" th:fragment="alert-modal-for-unmapping-div-2">
+	<div class="modal-dialog modal-dialog-centered modal-lg">
+		<div class="modal-content" style="width:1000px;">
+			<div class="modal-header border-none">
+				<h1 class="modal-title fs-5 fw-bold" id="exampleModalLabel"></h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="cross-close-button"></button>
+			</div>
+			<div class="unmapping-details-modal-body text-center">
+			
+					<div class="container-2">
+						
+						<div class="row mt-3">
+							<div class="c2l-md-12">
+								<h5>Board Details</h5>
+							</div>
+						</div>
+
+						<hr>
+
+						<div class="row">
+							<div class="col-md-4">
+								<label>Board Id :-</label>
+							</div>
+							<div class="col-md-6">
+								<span class="s1" id="board-id"></span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">
+								<label> Board Place :- </label>
+							</div>
+							<div class="col-md-6">
+								<span class="s1" id="board-place"> </span>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-4">
+								<label> Board for :- </label>
+
+							</div>
+							<div class="col-md-6">
+								<span class="s1" id="board-for"> </span>
+							</div>
+						</div>
+
+
+						<div class="row">
+							<div class="col-md-4">
+								<label> Gazetted:- </label>
+
+							</div>
+							<div class="col-md-6">
+								<span class="s1" id="gazetted-or-non-gazetted"></span>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-4">
+								<label> Force Name:- </label>
+
+							</div>
+							<div class="col-md-6">
+								<span class="s1" id="board-at-force-name"></span>
+							</div>
+						</div>
+						
+						<br>
+
+					</div>
+					
+			<!---------------------------Force Personnel------------------------->
+			
+				<div class="container-2">
+				<hr>
+						<div class="row">
+							<div class="col-md-12">
+								<h5>Force Personnel Details</h5>
+							</div>
+						</div>
+
+						<hr>
+						
+						<div class="row">
+							<div class="col-md-4">
+								<label>IRLA/REGT No. :-</label>
+							</div>
+							<div class="col-md-6">
+								<span class="s1" id="force-personnel-irla-no"></span>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-4">
+								<label>Name :-</label>
+							</div>
+							<div class="col-md-6">
+								<span class="s1" id="force-personnel-name"></span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">
+								<label> Force Name :- </label>
+							</div>
+							<div class="col-md-6">
+								<span class="s1" id="force-personnel-force-name"> </span>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-4">
+								<label> Rank/Designation :- </label>
+
+							</div>
+							<div class="col-md-6">
+								<span class="s1" id="force-personnel-rank-or-designation"> </span>
+							</div>
+						</div>
+
+
+						<div class="row">
+							<div class="col-md-4">
+								<label> Unit :- </label>
+
+							</div>
+							<div class="col-md-6">
+								<span class="s1" id="force-personnel-unit-name"></span>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-4">
+								<label> Reason :- </label>
+
+							</div>
+							<div class="col-md-6">
+								<textarea class="form-control" id="unmapping-reason-id" placeholder="Please type the unmapping reason....." maxlength="500"
+								 required></textarea>
+								<span id="unmappingReason_error" class="error"></span>
+							</div>
+						</div>
+						<div class="row">
+							<input type="hidden" id="force-personnel-id"/>
+							
+						</div>
+						<br>
+
+					</div>			
+			
+			<!--  -->
+
+				</div>
+			<div class="modal-footer border-none">
+			<button type="button" class="btn btn-success" style="margin:auto;" id="okay-close-button">Unmap</button>
+			<button type="button" class="btn btn-danger" style="margin:auto;" data-bs-dismiss="modal">Cancel</button>
+				
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>

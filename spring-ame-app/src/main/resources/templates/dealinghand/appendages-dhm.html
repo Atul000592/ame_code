@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>AME DashBoard Controller</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+<div th:replace="~{medical-sub-ordinate/master-doc::master-wrapper-doc}"></div>
+	<script src="js/local/disable-back-button.js"></script>
+
+<script src="js/local/resetChangeForget.js"></script>
+
+</head>
+
+
+<body>
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+		<div th:replace="~{dealinghand/left-menu-dh::sidebar-wrapper-menu-dh}"></div>
+		
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+<div th:replace="~{medical-sub-ordinate/nav-bar::sidebar-wrapper-menu-nav-ama}"></div>
+
+			<div class="container mt-3">
+
+				<div class="wisecountnactionbg">
+
+									                   <div th:replace="~{medical-sub-ordinate/inner-user-details::sidebar-wrapper-inner-user-details}"></div>
+
+
+					<!-- candidate details end-->
+
+					<div id="loading-overlay">
+						<div class="spinner"></div>
+
+
+					</div>
+
+
+
+					<div class="proc-box py-2 px-3 text-start">
+
+
+						<form id="regForm">
+							<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+							<input type="hidden" name="forcepersonalId"
+								th:value="${forcepersonalId}"> <input type="hidden"
+								name="ameId" th:value="${ameId}" id="ameId">
+							<h4>Appendages(A)</h4>
+							<!-- One "tab" for each step in the form: -->
+							<hr>
+
+
+
+
+
+
+
+
+							<div class="row">
+								<div class="col-md-4">
+									<label class="fw-bold mb-2">Upper limb(U)</label> <label
+										class="fw-semibold">Any Loss/infirmity in any joint or
+										part must be indicated in detail</label>
+								</div>
+								<div class="col-md-4">
+									<label class="fw-bold mb-2">Right</label>
+									<textarea class="form-control"
+										th:field="*{appendages.anyLossInfirmityDetailsUpperRightLimb}"></textarea>
+									<span id="anyLossInfirmityDetailsUpperRightLimb_error"
+										class="error"></span>
+								</div>
+								<div class="col-md-4">
+									<label class="fw-bold mb-2">Left</label>
+									<textarea class="form-control"
+										th:field="*{appendages.anyLossInfirmityDetailsUpperLeftLimb}"></textarea>
+									<span id="anyLossInfirmityDetailsUpperLeftLimb_error"
+										class="error"></span>
+								</div>
+
+							
+							</div>
+
+							<hr>
+
+
+
+
+
+		<div class="row">
+								<div class="col-md-4">
+									<label class="fw-bold mb-2">Lower limb(L)</label> <label
+										class="fw-semibold">Any Loss/infirmity in any joint or part must be
+											indicated in detail</label>
+								</div>
+								<div class="col-md-4">
+									<label class="fw-bold mb-2">Right</label>
+									<textarea class="form-control"
+												th:field="*{appendages.anyLossInfirmityDetailsLowerLeftLimb}"
+												id="anyLossInfirmityDetailsLowerLeftLimb"></textarea> <span
+											id="anyLossInfirmityDetailsLowerLeftLimb_error" class="error"></span>
+								</div>
+								<div class="col-md-4">
+									<label class="fw-bold mb-2">Left</label>
+									<textarea class="form-control"
+												th:field="*{appendages.anyLossInfirmityDetailsLowerRightLimb}"
+												id="anyLossInfirmityDetailsLowerRightLimb"></textarea> <span
+											id="anyLossInfirmityDetailsLowerRightLimb_error"
+											class="error"></span>
+								</div>
+
+							
+							</div>
+
+
+			<hr>
+<div class="col-md-12 fw-bold mb-3">For conditions related to spine</div>
+							
+							
+							<div class="row mb-2">
+										<div class="col-md-4 fw-semibold">Spine</div>
+										<div class="col-md-8"><input type="text"
+											th:field="*{appendages.spine}" class="form-control" required />
+											<span id="spine_error" class="error"></span>
+									</div>
+
+</div>
+									
+									
+<hr>
+							<div class="d-grid gap-2 d-md-block">
+								<button type="button" class="btn btn-secondary"
+									onclick="backToHome()" style="width: 100px;">Back</button>
+								<button type="submit" class="btn btn-success"
+									style="width: 100px; float: right;">Submit</button>
+
+
+							</div>
+
+						</form>
+						<!-- ========================================================================================= -->
+						
+						<form th:action="@{/declaration-requests-completed-ma}"
+							method="post" id="back-to-home">
+							<input type="hidden" name="forcepersonalId"
+								th:value="${forcepersonalId}"> <input type="hidden"
+								name="ameId" th:value="${ameId}">
+
+						</form>
+						
+						<!-- ========================================================================================= -->
+					</div>
+
+
+				</div>
+			</div>
+			<div th:replace="~{medical-sub-ordinate/alert-modal::message-alert-modal}"></div>
+			
+		</div>
+		<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+	<!-- <script>
+		function backToHome() {
+
+			$("#back_to_home").submit();
+		}
+	</script>
+
+
+
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			setDefaultValues();
+		});
+	</script>
+
+
+	<script>
+		function backToHome() {
+
+			$("#back-to-home").submit();
+		}
+	</script>
+	<script>
+		/*============================================================================================================  */
+		function selectedUpperLimbCategory() {
+			var value = $("#upperLimbCategory").val();
+			if (value == 'A-1(U)') {
+
+				$("#typeUpperLimb").hide();
+				$("#durationUpperLimb").hide();
+
+			} else {
+				$('#typeUpperLimb').show();
+				$('#durationUpperLimb').show();
+			}
+
+		}
+
+		/*============================================================================================================  */
+		function selectedSpineCategory() {
+			var value = $("#spineShapeId").val();
+			if (value == 'A-1(S)') {
+
+				$("#spineType").hide();
+				$("#spineDuration").hide();
+			} else {
+				$('#spineType').show();
+				$('#spineDuration').show();
+			}
+
+		}
+		/*============================================================================================================  */
+		function selectedLowerLimbCategory() {
+			var value = $("#lowerLimbCategory").val();
+			if (value == 'A-1(L)') {
+
+				$("#typeLowerLimb").hide();
+				$("#durationLowerLimb").hide();
+			} else {
+				$('#typeLowerLimb').show();
+				$('#durationLowerLimb').show();
+			}
+
+		}
+
+		/*============================================================================================================  */
+
+		/*============================================================================================================  */
+
+		function selectedValeRight(prevValue) {
+
+			if (prevValue == 'E-1' || prevValue == 'E-5') {
+
+				$("#typeRight").hide();
+				$("#durationRight").hide();
+			} else {
+				$('#typeRight').show();
+				$('#durationRight').show();
+			}
+
+		}
+
+		function selectedValeLeft(prevValue) {
+
+			if (prevValue == 'E-1' || prevValue == 'E-5') {
+
+				$('#eTypeLeft').hide();
+				$('#eDurationLeft').hide();
+			} else {
+				$('#eTypeLeft').show();
+				$('#eDurationLeft').show();
+			}
+
+		}
+	</script>
+
+	<script>
+		$(document).ready(function () {
+			var prevValRight = document.getElementById('select-right').value;
+			selectedValeRight(prevValRight);
+			var prevValLeft = document.getElementById('select-left').value;
+			selectedValeLeft(prevValLeft);
+
+			$('#backtotop').click(function () {
+				$("html, body").animate({
+					scrollTop: 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function () {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function () {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+
+	<script>
+		function selectedValeRight() {
+
+			var valueOfe = $("#select-right").val();
+
+			if (valueOfe == 'E-1' || valueOfe == 'E-5') {
+
+				$("#typeRight").hide();
+				$("#durationRight").hide();
+			} else {
+				$('#typeRight').show();
+				$('#durationRight').show();
+			}
+
+		}
+	</script>
+	<script>
+		function selectedValeLeft() {
+			var valueOfe = $("#select-left").val();
+			if (valueOfe == 'E-1' || valueOfe == 'E-5') {
+
+				$('#eTypeLeft').hide();
+				$('#eDurationLeft').hide();
+			} else {
+				$('#eTypeLeft').show();
+				$('#eDurationLeft').show();
+			}
+
+		}
+	</script>
+	<script>
+		$(function () {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function () {
+			$("#one-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+
+		
+	</script>
+	
+	<!-- =======================================================RK==================================================== -->
+	<script>
+	$(document).ready(function() {
+		$('#regForm').submit(function(event) {
+			 event.preventDefault();
+			var ameId=$("#ameId").val();
+			var anyLossInfirmityDetailsUpperLeftLimb=$("#anyLossInfirmityDetailsUpperLeftLimb").val();
+			var anyLossInfirmityDetailsUpperRightLimb=$("#anyLossInfirmityDetailsUpperRightLimb").val();
+		// ==========================lower Limb==========================//
+
+		    var anyLossInfirmityDetailsLowerLeftLimb=$("#anyLossInfirmityDetailsLowerLeftLimb").val();
+		    var anyLossInfirmityDetailsLowerRightLimb=$("#anyLossInfirmityDetailsLowerRightLimb").val();
+
+		//================================================================//
+		   
+		    var spine=$("#spine").val();
+		      
+			var formData={
+					
+					ameId:ameId,
+                    anyLossInfirmityDetailsUpperLeftLimb:anyLossInfirmityDetailsUpperLeftLimb,
+					anyLossInfirmityDetailsUpperRightLimb:anyLossInfirmityDetailsUpperRightLimb,
+				   
+					// ==========================lower Limb==========================//
+
+				    anyLossInfirmityDetailsLowerLeftLimb:anyLossInfirmityDetailsLowerLeftLimb,
+				    anyLossInfirmityDetailsLowerRightLimb:anyLossInfirmityDetailsLowerRightLimb,
+				
+				    //================================================================//
+				    
+				    spine:spine,
+				    
+
+					
+			};
+
+			/* ===================header==================== */
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			$('.error').text('');
+
+			 $('#loading-overlay').show();
+			  $('body').addClass('loading');
+
+
+			$.ajax({
+				type: 'POST',
+				url: 'validate-and-save-appendages-dealing-hand',
+				data:JSON.stringify(formData),
+				contentType: 'application/json',
+				async:true,
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader(header, token);
+				},
+				success: function(response) {
+					
+					 
+
+					if (response.isValid) {
+						 $('#alert-modal .modal-title').text('Success');
+				         $('#alert-modal .modal-body h3').text(response.message);
+				         $('#alert-modal .modal-body i').removeClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+				                                             .addClass('fas fa-check-circle faa-tada animated')
+				                                             .removeAttr('style');
+				         $("#cross-close-button").attr('onclick', 'backToHome()');
+				         $("#okay-close-button").attr('onclick', 'backToHome()');
+				         $('#alert-modal').modal({
+				                backdrop: 'static',
+				                keyboard: false
+				              });
+					     $('#alert-modal').modal('show');
+							
+						 }
+
+					else {
+                             $.each(response.errors, function(field, errorMessage) {
+							 $('#' + field + '_error').text(errorMessage);
+							
+							});
+						}
+					
+	},
+	 complete: function() {
+         $('#loading-overlay').hide();
+         $('body').removeClass('loading');
+     },
+				error: function(xhr, status, error) {
+					if(xhr.responseText){
+
+					$('#alert-modal .modal-title').text('ERROR');
+		            $('#alert-modal .modal-body h3').text(xhr.responseText);
+		            
+		           $('#alert-modal .modal-body i')  .addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+	               .css('color', 'red');
+		           $('#alert-modal').modal({
+		                backdrop: 'static',
+		                keyboard: false
+		              });
+		            $('#alert-modal').modal('show');
+				}
+					
+					else{
+						$('#alert-modal .modal-title').text('ERROR');
+			            $('#alert-modal .modal-body h3').text('Server not responding please sign-in again');
+			            
+			            $('#alert-modal .modal-body i').addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+		                                               .css('color', 'red');
+			            $('#alert-modal').modal({
+			                backdrop: 'static',
+			                keyboard: false
+			              });
+			            $('#alert-modal').modal('show');
+						
+					}
+					}
+			});
+		});
+	});
+
+
+
+	//-------------Default values----------//
+	function setDefaultValues() {
+		var anyLossInfirmityDetailsUpperLeftLimb=$("#anyLossInfirmityDetailsUpperLeftLimb").val();
+		var anyLossInfirmityDetailsUpperRightLimb=$("#anyLossInfirmityDetailsUpperRightLimb").val();
+		var anyLossInfirmityDetailsLowerLeftLimb=$("#anyLossInfirmityDetailsLowerLeftLimb").val();
+		var anyLossInfirmityDetailsLowerRightLimb=$("#anyLossInfirmityDetailsLowerRightLimb").val();
+		var spine=$("#spine").val();
+		   
+		
+		if (!anyLossInfirmityDetailsUpperLeftLimb) {
+			$("#anyLossInfirmityDetailsUpperLeftLimb").val('NAD');
+			}
+			
+		if (!anyLossInfirmityDetailsUpperRightLimb) {
+			$("#anyLossInfirmityDetailsUpperRightLimb").val('NAD');
+			
+		}
+			
+		if (!anyLossInfirmityDetailsLowerLeftLimb) {
+			$("#anyLossInfirmityDetailsLowerLeftLimb").val('NAD');
+			}
+			
+		if (!anyLossInfirmityDetailsLowerLeftLimb) {
+			$("#anyLossInfirmityDetailsLowerRightLimb").val('NAD');
+			}
+		
+		if (!spine) {
+			$("#spine").val('NAD');
+			}
+		
+		
+		
+		}
+
+	
+	
+	</script>
+
+</body>
+
+</html>

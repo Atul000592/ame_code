@@ -1,0 +1,260 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css" />
+<!-- Custom styles for this template -->
+<link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/base-responsive.css" />
+<link rel="stylesheet" href="css/animate.min.css" />
+<link rel="stylesheet" href="css/slicknav.min.css" />
+<link rel="stylesheet" href="css/font-awesome.min.css" />
+<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
+type="text/css">
+
+<script src="vendor/charts/Chart.js"></script>
+<script src="vendor/charts/moment.min.js"></script>
+<script src="vendor/charts/Chart.min.js"></script>
+<script src="vendor/charts/utils.js"></script>
+    <style>
+    /* CSS comes here */
+    #video {
+        border: 1px solid black;
+        width: 320px;
+        height: 240px;
+    }
+
+    #photo {
+        border: 1px solid black;
+        width: 320px;
+        height: 240px;
+    }
+
+    #canvas {
+        display: none;
+    }
+
+    .camera {
+        width: 340px;
+        display: inline-block;
+    }
+
+    .output {
+        width: 340px;
+        display: inline-block;
+    }
+
+    #startbutton {
+        display: block;
+        position: relative;
+        margin-left: auto;
+        margin-right: auto;
+        bottom: 36px;
+        padding: 5px;
+        background-color: #6a67ce;
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        font-size: 14px;
+        color: rgba(255, 255, 255, 1.0);
+        cursor: pointer;
+    }
+
+    .contentarea {
+        font-size: 16px;
+        font-family: Arial;
+        text-align: center;
+    }
+    </style>
+    <title>Capture Individual Pics</title>
+</head>
+
+<body>
+    <div class="contentarea">
+        <h1>
+            Individual Visibility in Camera
+        </h1>
+        <div class="camera">
+            <video id="video">Video stream not available.</video>
+        </div>
+        <div><button id="startbutton">Take photo</button></div>
+        <canvas id="canvas"></canvas>
+        <form id="saveImage" action="Save-image-local">
+<div>
+<label> Pics Taken</label>
+</div>
+        <div class="output">
+            <img id="photo" alt="The screen capture will appear in this box.">
+        </div>
+        <input type="button" value="Save Image"  id ="savimage">
+        <button class="btn btn-primary" name="membersubmit" id="membersubmit">Submit mapping</button>
+
+        </form>
+    </div>
+    <div id="message">
+		
+	</div>
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="js/jquery.slicknav.min.js"></script>
+    <script>
+    /* JS comes here */
+    (function() {
+
+        var width = 320; // We will scale the photo width to this
+        var height = 0; // This will be computed based on the input stream
+
+        var streaming = false;
+
+        var video = null;
+        var canvas = null;
+        var photo = null;
+        var startbutton = null;
+
+        function startup() {
+            video = document.getElementById('video');
+            canvas = document.getElementById('canvas');
+            photo = document.getElementById('photo');
+            startbutton = document.getElementById('startbutton');
+
+            navigator.mediaDevices.getUserMedia({
+                    video: true,
+                    audio: false
+                })
+                .then(function(stream) {
+                    video.srcObject = stream;
+                    video.play();
+                })
+                .catch(function(err) {
+                alert("An error occurred: " + err);
+                    console.log("An error occurred: " + err);
+                });
+
+            video.addEventListener('canplay', function(ev) {
+                if (!streaming) {
+                    height = video.videoHeight / (video.videoWidth / width);
+
+                    if (isNaN(height)) {
+                        height = width / (4 / 3);
+                    }
+
+                    video.setAttribute('width', width);
+                    video.setAttribute('height', height);
+                    canvas.setAttribute('width', width);
+                    canvas.setAttribute('height', height);
+                    streaming = true;
+                }
+            }, false);
+
+            startbutton.addEventListener('click', function(ev) {
+                takepicture();
+                ev.preventDefault();
+            }, false);
+
+            clearphoto();
+        }
+
+
+        function clearphoto() {
+            var context = canvas.getContext('2d');
+            context.fillStyle = "#AAA";
+            context.fillRect(0, 0, canvas.width, canvas.height);
+
+            var data = canvas.toDataURL('image/pdf');
+            photo.setAttribute('src', data);
+        }
+
+        function takepicture() {
+            var context = canvas.getContext('2d');
+            if (width && height) {
+                canvas.width = width;
+                canvas.height = height;
+                context.drawImage(video, 0, 0, width, height);
+
+                var data = canvas.toDataURL('image/pdf');
+                photo.setAttribute('src', data);
+               
+               
+               
+            } else {
+                clearphoto();
+            }
+        }
+
+        window.addEventListener('load', startup, false);
+    })();
+    </script>
+    <script>
+$(document).ready(function() {
+$('#backtotop').click(function() {
+$("html, body").animate({
+scrollTop : 0
+}, 600);
+return false;
+});
+
+    $('#savimage').click(function(){
+
+
+var image = document.getElementById('photo').src;
+alert(image);
+
+var base64ImageContent = image.replace(/^data:image\/(png|jpg);base64,/, "");
+//var blob = new Blob(base64ImageContent,  { type: 'image/jpeg' });  
+alert(base64ImageContent);
+/* var formData = new FormData();
+formData.append('picture', blob); */
+var myjson = JSON.stringify(base64ImageContent);
+
+$.ajax({
+       type: "POST",
+       contentType: 'application/json',
+       url: "save-image-local",
+       data:base64ImageContent ,
+       cache: false,
+       timeout: 600000,
+       processData: false,
+       
+       
+       success: function (data) {
+
+
+           console.log("SUCCESS : ", data);
+           alert("image Uploaded sucessfully");
+           rows.remove();
+           document.getElementById("message").innerHTML = "image Has been uploaded";  
+         
+       },
+       error: function (e) {
+
+           
+
+           console.log("ERROR : ", e);
+           
+       }
+   });
+});
+});
+
+makeblob = function (dataURL) {
+        var BASE64_MARKER = ';base64,';
+        if (dataURL.indexOf(BASE64_MARKER) == -1) {
+            var parts = dataURL.split(',');
+            var contentType = parts[0].split(':')[1];
+            var raw = decodeURIComponent(parts[1]);
+            return new Blob([raw], { type: contentType });
+        }
+        var parts = dataURL.split(BASE64_MARKER);
+        var contentType = parts[0].split(':')[1];
+        var raw = window.atob(parts[1]);
+        var rawLength = raw.length;
+
+        var uInt8Array = new Uint8Array(rawLength);
+
+        for (var i = 0; i < rawLength; ++i) {
+            uInt8Array[i] = raw.charCodeAt(i);
+        }
+
+        return new Blob([uInt8Array], { type: contentType });
+    }
+</script>
+</body>
+
+</html>

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+<title>AME DashBoard Controller</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Custom styles for this template -->
+<div th:replace="~{UserMenu/user-menu-master::sidebar-wrapper-user-master}"></div>
+<script src="js/local/view-declaration-pdf/view-declaration-file.js"></script>
+
+<script src="js/local/check-up-list-candidate.js"></script>
+
+<style type="text/css">
+
+label{
+font-size: 15px;
+font-weight: 600;
+font-family: sans-serif;
+}
+</style>
+</head>
+
+
+<body>
+
+
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+		<div
+			th:replace="~{UserMenu/left-menu-user::sidebar-wrapper-menu-user}"></div>
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<div
+				th:replace="~{UserMenu/nav-bar-user::sidebar-wrapper-menu-nav-user}"></div>
+
+
+			<div class="container mt-3">
+
+				<!-- Content Row -->
+
+
+
+				<div id="b-homedb">
+
+
+
+					<div th:if="${declarationMessage!=null}"
+						style="width: 100%; color: darkred;">
+					
+					</div>
+
+					<div class="wisecountnactionbg">
+
+						<div class="proc-box py-2 px-3 ui-sortable-handle">
+
+							<h5>Declaration Panel</h5>
+							<div th:if="${message!=null}" th:text="${message}"
+								class="message-text"></div>
+
+							<div class="table-responsive">
+
+								<table class="table table-striped table-bordered table-hover" id="user">
+
+									<thead class="table-light">
+										<tr>
+											<th width="80">Serial No</th>
+											<th>Board ID</th>
+											<th>Year</th>
+											<th>Used For</th>
+											<th>Appointment Status</th>
+											<th>From Date</th>
+											<th>To Date</th>
+											<th width="200" colspan="2">Declaration Status</th>
+
+
+										</tr>
+									</thead>
+
+									<tr th:each="declarationDetails1,statcount :${declarationDtos}">
+										<td th:text="${statcount.count}"></td>
+										<td th:text="${declarationDetails1.boardId}"></td>
+										<td th:text="${declarationDetails1.year}"></td>
+										<td th:text="${declarationDetails1.usedFor}"></td>
+										<td>
+										<span th:if="${declarationDetails1.appointmentStatus=='Y'}" th:text="Valid">
+										
+										</span>
+										<span th:if="${declarationDetails1.appointmentStatus=='N'}" th:text="'Candidate Absent ( Invalidated ) '" 
+										style="color: red;font-family:monospace;font-size: 14px;">
+										
+										</span>
+										<span th:if="${declarationDetails1.appointmentStatus=='R'}" th:text="'Invalidate due to Review'" 
+										style="color: red;font-family:monospace;font-size: 14px;">
+										
+										</span>
+										</td>
+										<td th:text="${#dates.format(declarationDetails1.fromDate, 'dd-MM-yyyy')}"></td>
+										<td
+											th:text="${#dates.format(declarationDetails1.toDate, 'dd-MM-yyyy')}"></td>
+										<td>
+										<span th:if="${declarationDetails1.declarationStatus=='Y'}" th:text="Completed"> </span> 
+										  
+										    <span th:unless="${declarationDetails1.declarationStatus=='Y'}">
+										     <span th:if="${declarationDetails1.appointmentStatusCode==1}">
+										       <form th:action="@{personal-details}" method="post" class="d-inline">
+													<input type="hidden" name="forcePersonalId" th:value="${declarationDetails1.forcePersonalId}">
+													<input type="hidden" name="boardId" th:value="${declarationDetails1.boardId}"> 
+													<input type="submit" class="btn btn-info btn-sm" value="Take Action" style="font-family: monospace;">
+												</form>
+											</span>
+											<span th:unless="${declarationDetails1.appointmentStatusCode==1}" th:text="'Not Valid'" style="color: red;font-family:monospace;font-size: 14px;">
+											
+											</span>
+											</span>
+											
+										</td>
+
+
+
+
+										
+
+
+
+									</tr>
+
+
+								</table>
+							</div>
+
+
+
+						</div>
+
+					</div>
+
+
+					<div class="wisecountnactionbg">
+
+						<div class="proc-box py-2 px-3 ui-sortable-handle">
+
+							<h5>Esign & Print</h5>
+							<div th:if="${message!=null}" th:text="${message}"
+								class="message-text"></div>
+
+							<div class="table-responsive">
+
+								<table class="table table-striped table-bordered table-hover"
+									id="user">
+
+									<thead class="table-light">
+										<tr>
+											<th width="80">Serial No</th>
+											<th>Board ID / Place</th>
+											<th>Year</th>
+
+
+										
+											<th>E-Sign</th>
+											<th>Check UpList</th>
+											<th>PDF Download</th>
+
+
+										</tr>
+									</thead>
+
+									<tr th:each="EsignAndPrintData,statcount :${EsignAndPrintData}">
+										<td th:text="${statcount.count}"></td>
+                                        <td style="color:red;font-weight: 550;" th:text="${EsignAndPrintData.boardId + ' / ' + EsignAndPrintData.boardAtPlace}"></td>
+                                        
+										<td th:text="${EsignAndPrintData.year}"></td>
+										
+                                       <td>
+                                       <span th:if="${EsignAndPrintData.esignByCandidate==1}">
+									    <form th:action="@{download-declaration-file-uploaded}" method="get" target=”_blank” rel="noopener noreferrer">
+										<input type="hidden" th:value="${EsignAndPrintData.forcePersonalId}" name="forcepersonalId"> 
+										<input type="hidden" th:value="${EsignAndPrintData.ameId}" name="ameId"> 
+										<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+										<input type="submit" value="View Declaration Report" class="btn btn-primary">
+
+												</form>
+										</span>
+                                       <span th:unless="${EsignAndPrintData.esignByCandidate==1}">
+                                       	<form id="pdfForm" th:action="@{/generatePdf}" method="get">
+													<input type="hidden" name="forcepersonalId" th:value="${EsignAndPrintData.forcePersonalId}">
+													<input type="hidden" name="ameId" th:value="${EsignAndPrintData.ameId}">
+													<input type="submit" value="Esign Declaration" class="btn btn-info btn-sm">
+												</form>
+                                       </span>
+                                       
+                                       		</td>
+                                       		<td>
+                                       <span th:if="${EsignAndPrintData.checkUpListFlag=='Y'}">
+                                       <form  target=”_blank” rel="noopener noreferrer">
+										<input type="hidden" th:value="${EsignAndPrintData.forcePersonalId}" name="forcepersonalId"> 
+										<input type="hidden" th:value="${EsignAndPrintData.ameId}" name="ameId"> 
+										<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+										<input type="button" value="View CheckUp List" class="btn btn-primary" onclick="showCheckUpList(this)">
+										</form>
+                                        </span>
+                                        <span th:if="${EsignAndPrintData.checkUpListFlag=='C'}" th:text="Completed">
+                                        
+                                        </span>
+                                         <span th:if="${EsignAndPrintData.checkUpListFlag=='N'}" th:text="Pending">
+                                        
+                                        </span>
+                                       		
+                                       		</td>
+                                       		
+                                       		
+										<td>
+										<span th:if="${EsignAndPrintData.esignByCandidate==0}">
+										<form method="get" th:action="@{generate-decleration-pdf}" class="float-end mb-0" target="_blank" rel="noopener noreferrer">
+												<input type="hidden" name="forcepersonalId" th:value="${EsignAndPrintData.forcePersonalId}">
+												 <input type="hidden" name="ameId" th:value="${EsignAndPrintData.ameId}"> 
+												 <input class="btn btn-info btn-sm " type="submit"  style="font-family: monospace;" value="Take Print">
+											</form>
+										</span>
+										<span th:unless="${EsignAndPrintData.esignByCandidate==0}">
+						                              <p>Completed </p> 
+						                    </span>
+											
+											
+											</td>
+
+
+
+
+
+
+
+									</tr>
+
+
+								</table>
+							</div>
+
+
+
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+
+
+<div th:replace="~{UserMenu/model-check-up-list::sidebar-wrapper-check-up-list}"></div>
+<div th:replace="~{UserMenu/display-declaration-file::sidebar-wrapper-ame-declaration-pdf}"></div>
+
+		</div>
+		<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+
+
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function() {
+			$('#backtotop').click(function() {
+				$("html, body").animate({
+					scrollTop : 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function() {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function() {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+	<!-- Signup Modal -->
+
+
+	<style>
+div.ex1 {
+	background-color: lightblue;
+	width: 110px;
+	height: 110px;
+	overflow: scroll;
+}
+</style>
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function() {
+			$("#one-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+
+
+</body>
+</html>

@@ -1,0 +1,485 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<title>AME DashBoard User</title>
+
+<script src="js/local/disable-back-button.js"></script>
+
+
+
+<style>
+	/*  .marquee{
+width:100%;
+white-space: nowrap;
+overflow:hidden;
+box-sizing:border-box;
+
+display:inline-block;
+}
+
+.marquee:hover {
+	animation-play-state: paused;
+	animation: marquee 10s linear infinite, zoomInOut 5s ease-in-out infinite;
+}
+
+@keyframes zoomInOut{
+0%,100%{
+transform:scale(1);
+}
+50%{
+transform:scale(1.2);
+}
+}
+ 
+.marquee:hover::focus {
+	animation-play-state: paused;
+} */
+</style>
+
+<head>
+	<!-- Custom styles for this template -->
+	<div th:replace="~{UserMenu/user-menu-master::sidebar-wrapper-user-master}"></div>
+
+
+</head>
+
+
+<body class="d-flex flex-column h-100">
+	<!-- Begin page content -->
+	<main class="flex-shrink-0">
+
+		<div class="d-flex" id="wrapper">
+			<div th:replace="~{UserMenu/left-menu-user::sidebar-wrapper-menu-user}"></div>
+
+			<div id="page-content-wrapper">
+				<div th:replace="~{UserMenu/nav-bar-user::sidebar-wrapper-menu-nav-user}"></div>
+
+
+				<marquee class="marquee-bg marquee" id="alert-and-notification-marquee" behavior="scroll"
+					direction="left" scrollamount="12"
+					th:if="${not #lists.isEmpty(listOfAlertsAndNotificationsByForcePersonnelId)}">
+					<div th:each="item:${listOfAlertsAndNotificationsByForcePersonnelId}"
+						style="display: inline-block;">
+						<p>
+							&nbsp;&nbsp;||&nbsp;&nbsp;(
+							<span th:text="${item.dateOfEvent}?:''" class="error"></span>,&nbsp;&nbsp;<span
+								th:text="${item.examType}?:''" class="error"></span>,&nbsp;&nbsp;<span
+								th:text="${item.title}?:''" class="error"></span>,&nbsp;&nbsp;<span
+								th:text="${item.description}?:''" class="error"></span>)
+							&nbsp;&nbsp;||&nbsp;&nbsp;
+						</p>
+					</div>
+				</marquee>
+
+
+				<div class="container-fluid my-2">
+					<div class="row">
+						<div class="col-md-12">
+							<div th:if="${message!=null}" th:text="${message}" class="message-text"></div>
+						</div>
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-8" id="b-homedb">
+									<div class="wisecountnactionbg p-2">
+
+
+										<div class="row" id="sortable-cards">
+											<div class="col-lg-12 ">
+												<h5>Latest Data</h5>
+												<hr>
+											</div>
+											<div class="col-lg-6 col-sm-12 ">
+												<div class="proc-box">
+
+
+													<h4>
+														<i class="fas fa-user-graduate"></i> All AME Request
+													</h4>
+
+													<h3 class="" th:text="${myRequestCount}"></h3>
+
+
+													<a href="user-declaration-request">Click Here</a>
+
+												</div>
+											</div>
+
+											<div class="col-lg-6 col-sm-12 ">
+												<div class="proc-box">
+
+
+													<h4>
+														<i class="fas fa-university"></i> AME Decleration Status
+													</h4>
+
+													<h3 th:text="${myRequestCount}"></h3>
+
+
+
+													<a href="status-user-ame">Click Here</a>
+
+
+												</div>
+											</div>
+
+											<div th:if="${roleDtosList!=null}" class="col-lg-12 col-sm-12 ">
+												<div class="proc-box p-3">
+													<h4 class="mb-1">
+														 Role(s)
+													</h4>
+
+													<div class="row" id="role-panel">
+														<div class="col-md-4" th:each="roleDtosList: ${roleDtosList}">
+															<form th:action="@{${roleDtosList.uri}}" method="post"
+																class="role-form">
+
+
+																<input type="hidden" name="forcePersonalId"
+																	th:value="${roleDtosList.forcePersonalId}">
+
+																<input type="hidden" name="unit"
+																	th:value="${roleDtosList.unit}">
+
+																<input type="hidden" name="rCode"
+																	th:value="${roleDtosList.rCode}">
+
+																<input type="hidden" name="forceNo"
+																	th:value="${roleDtosList.forceNo}">
+
+																<input type="submit" th:value="${roleDtosList.roleCode}"
+																	id="button-button1" class="btn btn-primary btn3d">
+															</form>
+														</div>
+
+
+
+
+													</div>
+												</div>
+											</div>
+
+
+										</div>
+
+									</div>
+									<div class="my-5" id="b-homedb"></div>
+
+								</div>
+
+								<div class="col-md-4">
+									<div class="wisecountnactionbg p-2">
+										<h5>Notifications&nbsp; <i class="fa-solid fa-bell"></i></h5>
+										<hr>
+										<div id="contain" class="announ-scroll scroll custom-scroll">
+											<div id="table_scroll">
+												<p th:each="notificationItem:${notificationList}">
+
+													<b><span
+															th:text="${#dates.format(notificationItem.orderDate, 'dd-MM-yyyy')}"></span></b>
+
+
+													<br>
+
+													<i><span th:text="${notificationItem.description}"></span></i>
+
+
+													<a
+														th:href="@{/download-notification-file(filePath=${notificationItem.path})}">click
+														here
+													</a>
+													<br>
+											</div>
+										</div>
+
+
+
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+
+					</div>
+
+				</div>
+
+
+
+			</div>
+		</div>
+			
+		<!-- Modal -->
+				<div class="modal fade" id="confirmedSubmit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+					aria-labelledby="OTP-Alart" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h1 class="modal-title fs-4" id="exampleModalCenteredScrollableTitle"><b>Annual Medical
+										Examination (AME) <span style="color: darkred;">(Alert)</span> </b></h1>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<p style="font-size: 16px; font-weight: 600; font-family: 'Courier New', Courier, monospace;">
+									Please check your Personal Information before proceeding for Annual Medical Examination (AME). To check your personal information please 		
+								</span><a href="javascript:void(0);"  data-bs-toggle="modal" data-bs-target="#profileModal" onclick="fetchAndShowProfile()">Click here</a></span>
+								</p>
+
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+							</div>
+						</div>
+					</div>
+				</div>
+					
+	</main>
+
+
+	<footer class="mt-auto footer-bs">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="footer-nav">
+						<p class="text-start my-4 py-3 ps-4">Quick Links —</p>
+
+
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<ul class="footer-logo das-foot m-0 p-0">
+						<li><a onclick="return sitevisit()" href="http://www.assamrifles.gov.in/" target="_blank"
+								rel="noopener noreferrer"
+								title="Assam Rifiles (External Site that opens in a new window)"><img
+									src="images/assam-rifles-logo.png" alt="Assam Rifiles"
+									title="Assam Rifiles(External Site that opens in a new window)"></a></li>
+						<li><a onclick="return sitevisit()" href="http://bsf.gov.in/" target="_blank"
+								rel="noopener noreferrer"><img src="images/border-security-force-logo.png" alt="BSF"
+									title="BSF (External Site that opens in a new window)"></a></li>
+						<li><a onclick="return sitevisit()" href="http://www.cisf.gov.in/" target="_blank"
+								rel="noopener noreferrer"><img src="images/central-industrial-security-force.png"
+									alt="CISF" title="CISF (External Site that opens in a new window)"></a></li>
+						<li><a onclick="return sitevisit()" href="https://crpf.gov.in/" target="_blank"
+								rel="noopener noreferrer"><img src="images/Central-Reserve-Police-Force-logo.png"
+									alt="CRPF" title="CRPF (External Site that opens in a new window)"></a></li>
+						<li><a onclick="return sitevisit()" href="http://itbpolice.nic.in/itbpwebsite/index.html"
+								target="_blank" rel="noopener noreferrer"><img
+									src="images/Indo-tibetian-police-force.png" alt="ITBP"
+									title="ITBP (External Site that opens in a new window)"></a></li>
+						<li><a onclick="return sitevisit()" href="http://www.nsg.gov.in/" target="_blank"
+								rel="noopener noreferrer" title="NSG (External Site that opens in a new window)"><img
+									src="images/national-security-guard(NSG)-logo.png" alt="NSG"
+									title="NSG(External Site that opens in a new window)"></a></li>
+						<li><a onclick="return sitevisit()" href="https://www.ssb.gov.in/" target="_blank"
+								rel="noopener noreferrer" title="SSB (External Site that opens in a new window)"><img
+									src="images/sashastra-seema-bal-logo.png" alt="SSB"
+									title="SSB(External Site that opens in a new window)"> </a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="footer-bootom">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-sm-2">
+
+						<img src="images/digital-india.png" alt="digital india logo" width="80">
+					</div>
+					<div class="col-sm-8">
+						<p>
+							This site is hosted by <a href="https://www.nic.in/" target="_blank"
+								rel="noopener noreferrer">National
+								Informatics Centre</a> | <a href="https://meity.gov.in/" rel="noopener noreferrer"
+								target="_blank">Ministry of
+								Electronics and IT</a> | <a href="https://www.india.gov.in/" target="_blank"
+								rel="noopener noreferrer">Govt. of India.</a>
+						</p>
+					</div>
+					<div class="col-sm-2 text-end">
+
+						<img src="images/NIC.png" alt="NIC logo" width="80">
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</footer>
+
+
+
+
+	<button onclick="topFunction()" id="backtotop" title="Go to top">
+		<i class="bi bi-arrow-up-short"></i>
+	</button>
+
+
+
+</body>
+
+
+
+
+<script>
+	// Get the button
+	let mybutton = document.getElementById("backtotop");
+
+	// When the user scrolls down 20px from the top of the document, show the button
+	window.onscroll = function () {
+		scrollFunction()
+	};
+
+	function scrollFunction() {
+		if (document.body.scrollTop > 20
+			|| document.documentElement.scrollTop > 20) {
+			mybutton.style.display = "block";
+		} else {
+			mybutton.style.display = "none";
+		}
+	}
+
+	// When the user clicks on the button, scroll to the top of the document
+	function topFunction() {
+		document.body.scrollTop = 0;
+		document.documentElement.scrollTop = 0;
+	}
+</script>
+
+
+<!-- Menu Toggle Script -->
+<script>
+	$("#menu-toggle").click(function (e) {
+		e.preventDefault();
+		$("#wrapper").toggleClass("toggled");
+	});
+</script>
+
+
+<script>
+	$(document).ready(function () {
+		$('#backtotop').click(function () {
+			$("html, body").animate({
+				scrollTop: 0
+			}, 600);
+			return false;
+		});
+	});
+</script>
+
+
+<script>
+	$('.sub-menu ul').hide();
+	$('.sub-sub-menu ul').hide();
+	$(".sub-menu a").click(function () {
+		$(this).parent(".sub-menu").children("ul").slideToggle("100");
+		$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+	});
+
+	$(".sub-sub-menu a").click(function () {
+		$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+		$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+	});
+</script>
+
+
+
+
+
+
+
+
+<script src="vendor/jquery-ui/jquery-ui.js"></script>
+<script>
+	$(function () {
+		$("#sortable-menu").sortable();
+		$("#sortable-menu").disableSelection();
+
+		$("#sortable-cards").sortable();
+		$("#sortable-cards").disableSelection();
+	});
+</script>
+
+
+
+
+<script>
+
+	$(document).ready(function () {
+		$("#alert-and-notification-marquee").mouseenter(() => {
+			const marquee = document
+				.getElementById("alert-and-notification-marquee");
+
+			marquee.stop();
+		})
+	});
+
+
+
+	$(document).ready(function () {
+		$("#alert-and-notification-marquee").mouseleave(() => {
+			const marquee = document
+				.getElementById("alert-and-notification-marquee");
+
+			marquee.start();
+		})
+	});
+
+
+
+</script>
+
+<script>
+	$(document).ready(function () {
+
+		pageScroll();
+		$("#contain").mouseover(function () {
+			clearTimeout(my_time);
+		}).mouseout(function () {
+			pageScroll();
+		});
+
+	});
+
+	var my_time;
+	function pageScroll() {
+		var objDiv = document.getElementById("contain");
+		objDiv.scrollTop = objDiv.scrollTop + 1;
+		if ((objDiv.scrollTop + 330) == objDiv.scrollHeight) {
+			objDiv.scrollTop = 0;
+		}
+		my_time = setTimeout('pageScroll()', 25);
+	}
+</script>
+
+<script>
+		$(document).ready(function () {
+
+			const modal = document.querySelector('#confirmedSubmit');
+			var modalInstance = new bootstrap.Modal(modal);
+			modalInstance.show();
+
+			$(".b-navdropdown-click").click(function () {
+				if ($(".b-navdropdown").hasClass("hide")) {
+					$(".b-navdropdown").addClass("show");
+					$(".b-navdropdown").removeClass("hide");
+					// $(".b-icon-up").show();
+					// $(".b-icon-down").hide();
+				}
+				else if ($(".b-navdropdown").hasClass("show")) {
+					$(".b-navdropdown").addClass("hide");
+					$(".b-navdropdown").removeClass("show");
+					// $(".b-icon-down").show();
+					// $(".b-icon-up").hide();
+				}
+			});
+		});
+
+
+
+	</script>
+
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+
+
+<title>AME DashBoard Controller</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Custom styles for this template -->
+<div th:replace="~{UserMenu/user-menu-master::sidebar-wrapper-user-master}"></div>
+
+
+
+
+</head>
+
+
+<body>
+
+
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+		<div th:replace="~{UserMenu/left-menu-user::sidebar-wrapper-menu-user}"></div>
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<div th:replace="~{UserMenu/nav-bar-user::sidebar-wrapper-menu-nav-user}"></div>
+
+
+			<div class="container mt-3">
+
+				<div class="wisecountnactionbg">
+				
+					<div class="proc-box py-2 px-3 ui-sortable-handle">
+
+
+
+				<div id="b-homedb">
+
+				
+						<h5>Declaration Panel  </h5>
+					
+
+
+
+<div class="table-responsive">
+	
+<table class="table table-striped table-bordered table-hover" id="user">
+
+<thead class="table-light">
+<tr>
+<th width="80">Serial No</th>
+<th>IRLA No</th>
+
+<th>Name</th>
+<th>Rank</th>
+<th>Designation</th>
+<th>Date Of Declaration</th>
+<th>Declaration Year</th>
+
+</tr>
+</thead>
+
+<tr th:each="declarationDetails1,statcount :${individualModelsList}">
+<td th:text="${statcount.count}"></td>
+<td th:text="${declarationDetails1.forceId}"></td>
+<td th:text="${declarationDetails1.name}"></td>
+<td th:text="${declarationDetails1.rank}"></td>
+<td th:text="${declarationDetails1.designation}"></td>
+
+<td th:text="${#dates.format(declarationDetails1.declarationDate, 'dd-MM-yyyy')}" > </td>
+<td th:text="${declarationDetails1.declaration_year}"></td>
+</tr>
+
+
+</table>
+</div>
+<div>
+</div></div>
+
+				</div>
+
+		
+			<div class="my-5" id="b-homedb"></div>
+
+		</div>
+
+	</div>
+	</div>
+	
+
+
+
+
+
+
+
+
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function() {
+			$('#backtotop').click(function() {
+				$("html, body").animate({
+					scrollTop : 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function() {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function() {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+	<!-- Signup Modal -->
+
+
+
+<style>
+	div.ex1 {
+  background-color: lightblue;
+  width: 110px;
+  height: 110px;
+  overflow: scroll;
+}
+</style>
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function() {
+			$("#one-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+
+
+</body>
+</html>

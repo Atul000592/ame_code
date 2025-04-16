@@ -1,0 +1,340 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+<head>
+	<title>AMA DashBoard </title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+
+	
+	<style>
+	.close3 {
+    float: right;
+    font-size: 30px;
+    margin: -15px 0 0 0;
+}
+label {
+    font-weight: 500;
+    font-size: initial;
+}
+
+ 
+        /* CSS styles for the table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td,thead {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    
+
+</style>
+
+
+<div th:replace="~{user-management-template/force-admin-user/mg-header-menu::sidebar-wrapper-menu-header}"></div>
+
+<!--Create new Role js file PopUp File-->
+	<script src="js/local/role-modification.js"></script>
+
+	<!--Create new Role Css File Popup file -->
+	<link rel="stylesheet" href="css/local/role-modification.css" />
+	<link rel="stylesheet" href="css/master1.css" />
+</head>
+
+
+<body>
+
+   
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+
+		<div th:replace="~{user-management-template/force-admin-user/mg-left-menu::sidebar-wrapper-menu-cpf}"></div>
+
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<div th:replace="~{user-management-template/force-admin-user/nav-bar-mg::sidebar-wrapper-menu-nav-cpf}">
+			</div>
+
+		<div class="container-fluid mt-3">
+
+				<!-- Content Row -->
+
+				<div class="wisecountnactionbg">
+
+
+
+				<div  id="b-homedb">
+                        <span th:if="${message!=null}" th:text="${message}"> </span>
+				
+
+						<h6>Assign Privilege Modification</h6>
+						
+						
+						
+						
+						
+					<div class="proc-box py-2 px-3 text-start">
+						<div class="row">
+							<div class="col-md-4">
+								<label class="fw-medium">IRLA /REGT No:</label> <span
+									th:text="${user.forceId}"></span>
+							</div>
+							<div class="col-md-4">
+								<label class="fw-medium">Name:</label> <span
+									th:text="${user.name}"></span>
+							</div>
+							<div class="col-md-4">
+								<label class="fw-medium">Gender:</label> <span
+									th:text="${user.gender}"></span>
+							</div>
+							<div class="col-md-4">
+								<label class="fw-medium">Force Name:</label> 
+								<span th:text="${forceName}"></span>
+
+							</div>
+							<div class="col-md-4">
+								<label class="fw-medium">Rank/Designation:</label> <span
+									th:text="${user.designation}"></span>
+							</div>
+							<div class="col-md-4">
+							
+								</div>
+						</div>
+					</div>				
+					<div class="proc-box py-2 px-3 text-start">
+                     <table>
+						 <thead>
+							 <tr>
+								 <td>
+									 Edit Assign Privilage
+								 </td>
+							 </tr>
+							 <tr>
+								 <td>
+									 <label>S No</label>
+								 </td>
+								 <td>
+									 <label>RoleName</label>
+								 </td>
+								 <td>
+									 <label>
+										 Value
+									 </label>
+								 </td>
+							 </tr>
+						 </thead>
+						 <tbody>
+							 
+								 
+							 <tr>
+								<tr th:each="privilages,statcount: ${privilages}">
+									<td th:text="${statcount.count}"></td>
+                                      <td th:text="${privilages.name}" />
+                                        <td><input type="checkbox" th:checked="${privilages.checked}" th:value="${privilages.code}" 
+                                         th:id="'checkBox_'+${statcount.count}"  /> </tr>
+							 </tr>
+							 <tr>
+								 <td>
+									 <input type="hidden" th:value="${transactionId}" id="transactionId">
+								 </td>
+								 <td colspan="2" style="float: right;">
+									  
+
+				                       <input type="button" value="Submit" onclick="getCheckBox()" class="btn btn-primary float-end">
+
+								 </td>
+							 </tr>
+							 							
+
+						 </tbody>
+					 </table>
+                     </div>
+
+
+				<form th:action="@{mg-FadorCAPF-dash-board}" method="get" >
+					<input type="submit" value="Back" class="btn btn-primary btn-sm float-end">
+				</form>
+					</div>
+
+				</div>
+		
+				<form th:action="manage-all-existing-user-role" method="get" id="formId">
+					
+				</form>
+
+
+			</div>
+
+		</div>
+
+
+
+
+	</div>
+	<!-- /#page-content-wrapper -->
+
+
+
+
+
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function (e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function () {
+			$('#backtotop').click(function () {
+				$("html, body").animate({
+					scrollTop: 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function () {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function () {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+	
+
+
+	
+	<script>
+		$(function () {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function () {
+			$("#one-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+<script>
+	
+	function getCheckBox(){
+      var checkbox = document.getElementById('checkBox_1');
+      var checkbox2 = document.getElementById('checkBox_2');
+      var checkbox3 = document.getElementById('checkBox_3');
+
+
+// Check if it is checked
+if (checkbox.checked) {
+	checkbox=document.getElementById('checkBox_1').value;
+   }
+ else{
+   checkbox="0";
+}
+// Check if it is checked
+if (checkbox2.checked) {
+	checkbox2=document.getElementById('checkBox_2').value;
+   
+   }
+ else{
+checkbox2="0";
+
+}
+// Check if it is checked
+if (checkbox3.checked) {
+	checkbox3=document.getElementById('checkBox_3').value;
+    ;
+   }
+ else{
+checkbox3="0";
+
+}
+ var transactionId=document.getElementById('transactionId').value;
+
+	var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		$.ajax({
+			type: 'Post',
+			url: 'edit-role-assign-privilage',
+
+			data:
+			{
+				ch1: checkbox,ch2:checkbox2,ch3:checkbox3,transactionId:transactionId
+			},
+			beforeSend: function(xhr) { xhr.setRequestHeader(header, token); },
+			success: function(success) {
+				alert("Privilages Has been Change....!")
+			   document.getElementById("formId").submit();
+			},
+			error: function(e) {
+				console.log("ERROR : ", e);
+
+			}
+		});
+
+	}
+	
+</script>
+
+
+
+
+</body>
+

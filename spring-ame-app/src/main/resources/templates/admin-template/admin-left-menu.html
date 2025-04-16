@@ -1,0 +1,60 @@
+<div class="dashboard-bgcolor border-right" id="sidebar-wrapper"
+	th:fragment="admin-left-menu">
+	<div class="sidebar-heading">
+
+		<img src="images/collage_CAPF.jpg" title="collage_CAPF"
+			alt="collage_CAPFo" width="40px" class="rounded-circle me-2"> <span>
+			Annual Medical Examinations(AME)</span>
+
+
+
+	</div>
+
+
+
+
+	<div class="list-group list-group-flush b-leftmenu">
+
+		<ul id="sortable-menu">
+			<li><a href='dashboard-user'><i class="bi bi-house-door"></i>Home DashBoard</a></li>
+			<li><a href='bda-dashboard'><i class="bi bi-buildings"></i> BDA DashBoard</a></li>
+			<li class='sub-menu'><a href='javascript:void(0)'> <i class="bi bi-heart-pulse"></i>Medical
+					Board <i class="bi bi-chevron-down"></i></a>
+				<ul>
+
+					 <!-- <li><a class="b-newpage" href="search-all">Formation</a></li>  -->
+					 <li><a class="b-newpage" href="create-medical-board">Formation</a></li> 
+					<li><a class="b-newpage" href="view-board">View </a></li>
+					<li><a class="b-newpage" href="board-member-modification">Modification of Board </a></li>
+					<li class='sub-menu'><a href='javascript:void(0)'>Map Individual to board</a>
+						<ul>
+							<li><a class="b-newpage" href="map-individual-to-board-for-ngo-data">Map Individual to board for NGO</a></li>
+							<li><a class="b-newpage" href="map-individual-to-board-for-go-data">Map Individual to board for GO</a></li>
+						
+						
+						</ul>
+					
+					<li><a class="b-newpage" href="view-mapped-individual-to-board">View Mapped Member</a></li>
+                    <li><a class="b-newpage" href="unmap-individual-to-board"> Unmap Member</a></li>
+							
+							</ul>
+							</li>
+							
+					
+									<li class='sub-menu'><a href='javascript:void(0)'><i class="bi bi-person-fill-add"></i> Doctor <i class="bi bi-chevron-down"></i></a>
+									
+											<ul>
+					<li><a class="b-newpage" href="identity-doctor-for-force">Identify Doctor</a></li>
+							
+							
+							
+					<li><a class="b-newpage" href="doctor-list">View Doctor's</a></li>
+					<li><a class="b-newpage" href="#">Modified
+							Doctor's</a></li>
+</ul>
+</li>
+					
+	</div>
+</div>
+
+</html>

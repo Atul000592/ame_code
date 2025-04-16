@@ -1,0 +1,792 @@
+package nic.ame.master.util;
+
+
+
+import nic.ame.constant.CommonConstant;
+
+
+public class MapUriToUser {
+
+	
+	
+	
+	public static int getUriForShowingAmeDeclarationFormToUser(String rCode) {
+
+		switch (rCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return  CommonConstant.AME_DECLARATION_FORM_TO_DEALING_HAND_URI;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return  CommonConstant.AME_DECLARATION_FORM_TO_BOARD_MEMEBER_URI; 
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.AME_DECLARATION_FORM_TO_AME_URI;
+			case CommonConstant.ROLE_NAME_AMA_PO:
+				return CommonConstant.AME_DECLARATION_FORM_TO_AME_PO;
+			default:
+				return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+	}
+	
+	
+	
+	public static int getUriForShowingAmeDeclarationListToUser(String rCode) {
+
+		switch (rCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.AME_DECLARATION_LIST_TO_DEALING_HAND_URI;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.AME_DECLARATION_LIST_TO_BOARD_MEMEBER_URI;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.AME_DECLARATION_LIST_TO_AME_URI;
+			case CommonConstant.ROLE_NAME_AMA_PO:
+				return CommonConstant.AME_DECLARATION_LIST_TO_AME_PO;
+			default:
+				return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+
+	}
+
+	public static int getUriAfterAMEDeclarationDataCheck(String rCode) {
+
+		switch (rCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.AME_DECLARATION_DATA_CHECK_TO_DEALING_HAND_URI;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.AME_DECLARATION_DATA_CHECK_BOARD_MEMEBER_URI;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.AME_DECLARATION_DATA_CHECK_AME_URI;
+			
+		default:
+			 return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+	}
+	
+	public static int getUriForPendingAndUpLoad(String rCode) {
+
+		switch (rCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.PENDING_FOR_CHECKUP_UPOAD_DEALINGHAND_URI;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.PENDING_FOR_CHECKUP_UPOAD_BOARD_MEMBER_URI;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.PENDING_FOR_CHECKUP_UPOAD_AME_URI;
+			
+			case CommonConstant.ROLE_NAME_AMA_PO:
+				return CommonConstant.PENDING_FOR_CHECKUP_UPOAD_AME_PO;
+				
+			case CommonConstant.ROLE_NAME_AA:
+				return CommonConstant.APPLICATION_UNDER_PROCESS_AA_URI;
+
+
+			default:
+				return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+	}
+	
+	
+	public static int getUriForApplicationUnderProcess(String rCode) {
+
+		switch (rCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.APPLICATION_UNDER_PROCESS_DEALING_HAND_URI;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.APPLICATION_UNDER_PROCESS_BOARD_MEMEBER_URI;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.APPLICATION_UNDER_PROCESS_AMA_URI;
+				case CommonConstant.ROLE_NAME_AMA_PO:
+				return CommonConstant.APPLICATION_UNDER_PROCESS_PO_URI;
+				case CommonConstant.ROLE_NAME_AA:
+					return CommonConstant.APPLICATION_UNDER_PROCESS_AA_URI;
+
+
+
+				
+
+			default:
+				return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+	}
+	
+	public static int getUriForApplicationUnderProcessAndFillReport(String rCode) {
+
+		switch (rCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.APPLICATION_UNDER_PROCESS_FILL_REPORT_DEALING_HAND_URI;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.APPLICATION_UNDER_PROCESS_FILL_REPORT_BOARD_MEMBER_URI;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.APPLICATION_UNDER_PROCESS_FILL_REPORT_AME_URI;
+			
+				case CommonConstant.ROLE_NAME_AMA_PO:
+				return CommonConstant.APPLICATION_UNDER_PROCESS_FILL_REPORT_PO_URI;
+
+
+			default:
+				return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+	}
+	
+	
+	
+	
+	public static int getUriForViewUserRoleDetails(String rCode) {
+		
+		switch (rCode) {
+
+		case CommonConstant.ROLE_NAME_BDA_AD:
+			return CommonConstant.URI_FOR_VIEW_USER_ROLE_DETAILS_BOARD_DETAILING_AUTHORITY;
+			
+		case CommonConstant.ROLE_NAME_SP_ADMIN:
+			return CommonConstant.URI_FOR_VIEW_USER_ROLE_DETAILS_SUPER_ADMIN;
+			
+		case CommonConstant.ROLE_NAME_CAPF_AD:
+			return CommonConstant.URI_FOR_VIEW_USER_ROLE_DETAILS_CAPF_ADMIN;
+			
+		case CommonConstant.ROLE_NAME_FORCE_AD:
+			return CommonConstant.URI_FOR_VIEW_USER_ROLE_DETAILS_FORCE_ADMIN;
+			
+		case CommonConstant.ROLE_NAME_UNIT_AD:
+			return CommonConstant.URI_FOR_VIEW_USER_ROLE_DETAILS_UNIT_ADMIN;
+         
+		default:
+			return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+		}
+	
+	
+	//======================================================manage-existing-role===================================================//
+	public static int getUriManageExistingRole(String rCode) {
+		
+		switch (rCode) {
+
+		case CommonConstant.ROLE_NAME_BDA_AD:
+			return CommonConstant.URI_FOR_MANAGING_EXISTING_USER_BDA_ADMIN;
+			
+		case CommonConstant.ROLE_NAME_SP_ADMIN:
+			return CommonConstant.URI_FOR_MANAGING_EXISTING_USER_SUPER_ADMIN;
+			
+		case CommonConstant.ROLE_NAME_CAPF_AD:
+			return CommonConstant.URI_FOR_MANAGING_EXISTING_USER_CAPF_ADMIN;
+			
+		case CommonConstant.ROLE_NAME_FORCE_AD:
+			return CommonConstant.URI_FOR_MANAGING_EXISTING_USER_FORCE_ADMIN;
+			
+		case CommonConstant.ROLE_NAME_UNIT_AD:
+			return CommonConstant.URI_FOR_MANAGING_EXISTING_USER_UNIT_ADMIN;
+			
+	
+		default:
+			return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+	
+	
+      }
+
+
+
+	public static int getUriToDisplayPhysicalMeasurmentForm(String roleCode) {
+		
+
+		switch (roleCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.PHYSICAL_MEASURMENT_MEDICAL_DEALING_HAND_URI;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.PHYSICAL_MEASURMENT_BOARD_MEMBER_URI;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.PHYSICAL_MEASURMENT_AMA_URI;
+			
+				case CommonConstant.ROLE_NAME_AMA_PO:
+				return CommonConstant.PHYSICAL_MEASURMENT_PO_URI;
+
+
+			default:
+				return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+	}
+
+
+
+	public static int getUriToForPhychologicalAssessmentAsLaidDownForm(String roleCode) {
+
+		switch (roleCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.PSYCHOLOGICAL_ASSESSMENT_AS_LAID_DOWN_DEALING_HAND_URI;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.PSYCHOLOGICAL_ASSESSMENT_AS_LAID_DOWN_BOARD_MEMBER_URI;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.PSYCHOLOGICAL_ASSESSMENT_AS_LAID_DOWN_AMA_URI;
+			
+				case CommonConstant.ROLE_NAME_AMA_PO:
+				return CommonConstant.PSYCHOLOGICAL_ASSESSMENT_AS_LAID_DOWN_PO_URI;
+
+
+			default:
+				return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+	}
+
+
+
+	public static int getUriToForHearingForm(String roleCode) {
+		switch (roleCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.HEARING_DEALING_HAND_URI;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.HEARING_BOARD_MEMBER_URI;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.HEARING_DOWN_AMA_URI;
+			
+				case CommonConstant.ROLE_NAME_AMA_PO:
+				return CommonConstant.HEARING_DOWN_PO_URI;
+
+
+			default:
+				return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+	}
+
+
+
+	public static int getUriToForAppendagesForm(String roleCode) {
+		switch (roleCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.APPENDAGES_DEALING_HAND_URI;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.APPENDAGES_BOARD_MEMBER_URI;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.APPENDAGES_DOWN_AMA_URI;
+			
+				case CommonConstant.ROLE_NAME_AMA_PO:
+				return CommonConstant.APPENDAGES_DOWN_PO_URI;
+
+
+			default:
+				return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+	}
+
+
+
+	public static int getUriToForEyeForm(String roleCode) {
+		switch (roleCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.EYE_DEALING_HAND_URI;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.EYE_BOARD_MEMBER_URI;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.EYE_DOWN_AMA_URI;
+			
+				case CommonConstant.ROLE_NAME_AMA_PO:
+				return CommonConstant.EYE_DOWN_PO_URI;
+
+
+			default:
+				return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+	}
+
+
+
+	public static int getUriToForGeneralExaminationForm(String roleCode) {
+		
+		switch (roleCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.GENERAL_EXAMINATION_DEALING_HAND_URI;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.GENERAL_EXAMINATION_BOARD_MEMBER_URI;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.GENERAL_EXAMINATION_DOWN_AMA_URI;
+			
+				case CommonConstant.ROLE_NAME_AMA_PO:
+				return CommonConstant.GENERAL_EXAMINATION_DOWN_PO_URI;
+
+
+			default:
+				return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+	}
+
+
+
+	public static int getUriToForCNSCNMReflexForm(String roleCode) {
+
+		switch (roleCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.CNS_CNM_DEALING_HAND_URI;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.CNS_CNM_BOARD_MEMBER_URI;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.CNS_CNM_DOWN_AMA_URI;
+				case CommonConstant.ROLE_NAME_AMA_PO:
+				return CommonConstant.CNS_CNM_DOWN_PO_URI;
+
+
+			default:
+				return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+	}
+
+
+
+	public static int getUriToForAbdominForm(String roleCode) {
+		switch (roleCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.ABDOMIN_DEALING_HAND_URI;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.ABDOMIN_BOARD_MEMBER_URI;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.ABDOMIN_DOWN_AMA_URI;
+			
+				case CommonConstant.ROLE_NAME_AMA_PO:
+				return CommonConstant.ABDOMIN_DOWN_PO_URI;
+
+
+			default:
+				return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+	}
+
+
+
+	
+	
+	//===================================== PHYSICAL_MEASURMENT_VIEW======================================================//
+	
+	
+	public static int getUriToForPhysicalMeasurementView(String roleCode) {
+		switch (roleCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.PHYSICAL_MEASURMENT_VIEW_DEALING_HAND_URI;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.PHYSICAL_MEASURMENT_VIEW_BOARD_MEMBER_URI;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.PHYSICAL_MEASURMENT_VIEW_DOWN_AMA_URI;
+			
+				case CommonConstant.ROLE_NAME_AMA_PO:
+				return CommonConstant.PHYSICAL_MEASURMENT_VIEW_DOWN_PO_URI;
+
+
+			default:
+				return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+	}
+
+
+
+	public static int getUriToForPsychologyView(String roleCode) {
+		switch (roleCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.PSYCHOLOGY_VIEW_DEALING_HAND_URI;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.PSYCHOLOGY_VIEW_BOARD_MEMBER_URI;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.PSYCHOLOGY_VIEW_DOWN_AMA_URI;
+			
+				case CommonConstant.ROLE_NAME_AMA_PO:
+				return CommonConstant.PSYCHOLOGY_VIEW_DOWN_PO_URI;
+
+
+			default:
+				return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+	}
+
+
+
+	public static int getUriToForHearingView(String roleCode) {
+		switch (roleCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.HEARING_VIEW_DEALING_HAND_URI;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.HEARING_VIEW_BOARD_MEMBER_URI;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.HEARING_VIEW_DOWN_AMA_URI;
+			
+				case CommonConstant.ROLE_NAME_AMA_PO:
+				return CommonConstant.HEARING_VIEW_DOWN_AMA_URI;
+
+
+			default:
+				return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+	}
+
+
+
+	public static int getUriToForGeneralExaminationView(String roleCode) {
+		switch (roleCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.General_Examination_VIEW_DEALING_HAND_URI;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.General_Examination_VIEW_BOARD_MEMBER_URI;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.General_Examination_VIEW_DOWN_AMA_URI;
+			
+				case CommonConstant.ROLE_NAME_AMA_PO:
+				return CommonConstant.General_Examination_VIEW_DOWN_PO_URI;
+
+
+			default:
+				return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+	}
+
+
+
+	public static int getUriToForCNSReflexesView(String roleCode) {
+		switch (roleCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.CNS_REFELEX_VIEW_DEALING_HAND_URI;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.CNS_REFELEX_VIEW_BOARD_MEMBER_URI;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.CNS_REFELEX_VIEW_DOWN_AMA_URI;
+			
+				case CommonConstant.ROLE_NAME_AMA_PO:
+				return CommonConstant.CNS_REFELEX_VIEW_DOWN_PO_URI;
+
+
+			default:
+				return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+	}
+
+
+
+	public static int getUriToForAbdominAndRespiratoryView(String roleCode) {
+		switch (roleCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.ABDOMIN_AND_RESPIRATORY_VIEW_DEALING_HAND_URI;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.ABDOMIN_AND_RESPIRATORY_VIEW_BOARD_MEMBER_URI;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.ABDOMIN_AND_RESPIRATORY_VIEW_DOWN_AMA_URI;
+			
+				case CommonConstant.ROLE_NAME_AMA_PO:
+				return CommonConstant.ABDOMIN_AND_RESPIRATORY_VIEW_DOWN_PO_URI;
+
+
+			default:
+				return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+
+	}
+
+
+
+	public static int getUriToForAppendagesView(String roleCode) {
+		switch (roleCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.APPENDAGES_VIEW_DEALING_HAND_URI;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.APPENDAGES_VIEW_BOARD_MEMBER_URI;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.APPENDAGES_VIEW_DOWN_AMA_URI;
+			
+				case CommonConstant.ROLE_NAME_AMA_PO:
+				return CommonConstant.APPENDAGES_VIEW_DOWN_PO_URI;
+
+
+			default:
+				return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+	}
+
+
+
+	public static int getUriToForEyeFactorView(String roleCode) {
+		switch (roleCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.EYE_FACTOR_VIEW_DEALING_HAND_URI;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.EYE_FACTOR_VIEW_BOARD_MEMBER_URI;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.EYE_FACTOR_VIEW_DOWN_AMA_URI;
+				case CommonConstant.ROLE_NAME_AMA_PO:
+				return CommonConstant.EYE_FACTOR_VIEW_DOWN_PO_URI;
+
+
+			default:
+				return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+	}
+
+
+
+	public static int getUriToForInvestigationForm(String roleCode) {
+		switch (roleCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.INVESTIGATION_DEALING_HAND_URI;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.INVESTIGATION_BOARD_MEMBER_URI;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.INVESTIGATION_DOWN_AMA_URI;
+			
+				case CommonConstant.ROLE_NAME_AMA_PO:
+				return CommonConstant.INVESTIGATION_DOWN_PO_URI;
+		default:
+			return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}	
+	}
+
+
+
+	public static int getUriToForFinalDetails(String roleCode) {
+		switch (roleCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.FINAL_DEATILS_DEALING_HAND_URI;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.FINAL_DEATILS_BOARD_MEMBER_URI;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.FINAL_DEATILS_AMA_URI;
+			
+				case CommonConstant.ROLE_NAME_AMA_PO:
+				return CommonConstant.FINAL_DEATILS_PO_URI;
+
+
+			default:
+				return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+	}
+
+
+
+	public static int getUriToForPrintingDeclarationForm(String roleCode) {
+		switch (roleCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.PRINT_AME_DECLARATION_DEALING_HAND_URI;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.PRINT_AME_DECLARATION_BOARD_MEMBER_URI;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.PRINT_AME_DECLARATION_AMA_URI;
+			
+		default:
+			return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}	
+	}
+
+
+
+	public static int getUriToFormGynecology(String roleCode) {
+		switch (roleCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.GYNECOLOGY_FORM_DEALING_HAND_URI;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.GYNECOLOGY_FORM__BOARD_MEMBER_URI;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.GYNECOLOGY_FORM__AMA_URI;
+		case CommonConstant.ROLE_NAME_AMA_PO:
+			return CommonConstant.GYNECOLOGY_FORM__PO_URI;
+			
+		default:
+			return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}	
+	}
+
+
+
+	public static int getUriToForgynecologyViewView(String roleCode) {
+		switch (roleCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.GYNECOLOGY_VIEW_DEALING_HAND_URI;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.GYNECOLOGY_VIEW__BOARD_MEMBER_URI;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.GYNECOLOGY_VIEW__AMA_URI;
+			
+		case CommonConstant.ROLE_NAME_AMA_PO:
+			return CommonConstant.GYNECOLOGY_VIEW__PO_URI;
+			
+			
+		
+			
+		default:
+			return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}	
+	}
+
+
+
+	public static int getUriToUploadDeclarationForm(String roleCode) {
+		switch (roleCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.UPLOAD_DECLARATION_FROM_DAM;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.UPLOAD_DECLARATION_FROM_BM;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.UPLOAD_DECLARATION_FROM_AMA;
+			
+				case CommonConstant.ROLE_NAME_AMA_PO:
+				return CommonConstant.UPLOAD_DECLARATION_FROM_AMA;
+
+
+			default:
+				return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+	}
+
+
+
+	public static int getUriToUploadDeclarationFinal(String roleCode) {
+		switch (roleCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.UPLOAD_DECLARATION_FROM_FINAL_DAM;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.UPLOAD_DECLARATION_FROM_FINAL_BM;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.UPLOAD_DECLARATION_FROM_FINAL_AMA;
+			
+				case CommonConstant.ROLE_NAME_AMA_PO:
+				return CommonConstant.UPLOAD_DECLARATION_FROM_FINAL_AMA;
+
+
+			default:
+				return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+	}
+
+
+
+	public static int getUriToCheckUplistUpload(String roleCode) {
+		switch (roleCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.UPLOAD_MEDICAL_CHECK_UP_PAGE_DH;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.UPLOAD_MEDICAL_CHECK_UP_PAGE_BM;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.UPLOAD_MEDICAL_CHECK_UP_PAGE_AMA;
+			
+				case CommonConstant.ROLE_NAME_AMA_PO:
+				return CommonConstant.UPLOAD_MEDICAL_CHECK_UP_PAGE_PO;
+
+
+			default:
+				return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+	}
+
+
+
+	public static int getUriForAmeResltDisplayCode(String roleCode) {
+		switch (roleCode) {
+
+		case CommonConstant.ROLE_NAME_DHM:
+			return CommonConstant.AME_RESULT_FOR_DEALING_HAND_URI;
+			
+		case CommonConstant.ROLE_NAME_BM_AD:
+			return CommonConstant.AME_RESULT_FOR_BOARD_MEMEBER_URI;
+			
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.AME_RESULT_FOR_AMA_URI;
+			
+		default:
+			return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+	}
+	
+public static int getUriToForAmependingStatus(String roleCode) {
+		
+		switch (roleCode) {
+
+		
+		case CommonConstant.ROLE_NAME_AMA_AD:
+			return CommonConstant.APPLICATION_UNDER_PENDING_STATUS_AME_URI;
+			
+				
+
+
+			default:
+				return CommonConstant.DEFAULT_URI_FOR_UNAUTHORIZED_ACCESS;
+		}
+	}
+	
+	
+}

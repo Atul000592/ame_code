@@ -1,0 +1,263 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>AMA DashBoard</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css" />
+<!-- Custom styles for this template -->
+<link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/base-responsive.css" />
+<link rel="stylesheet" href="css/animate.min.css" />
+<link rel="stylesheet" href="css/slicknav.min.css" />
+<link rel="stylesheet" href="css/master1.css" />
+<link rel="stylesheet" href="css/font-awesome.min.css" />
+<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
+	type="text/css">
+
+<script src="vendor/charts/Chart.js"></script>
+<script src="vendor/charts/moment.min.js"></script>
+<script src="vendor/charts/Chart.min.js"></script>
+<script src="vendor/charts/utils.js"></script>
+<script src="js/local/resetChangeForget.js"></script>
+
+</head>
+
+
+<body class="d-flex flex-column h-100">
+
+	<main class="flex-shrink-0">
+		<div class="d-flex" id="wrapper">
+
+			<!-- Sidebar -->
+
+			<div th:replace="~{user-management-template/controlling-officer/mg-left-menu::sidebar-wrapper-menu-cho}"></div>
+
+			<!-- /#sidebar-wrapper -->
+
+			<!-- Page Content -->
+			<div id="page-content-wrapper">
+
+				<div th:replace="~{user-management-template/controlling-officer/nav-bar-mg::sidebar-wrapper-menu-nav-cho}"></div>
+
+<br>
+
+				<div class="container-fluid">
+					
+
+					<div class="container-fluid">
+					
+					<div class="row">
+						<div class="col-md-12" id="b-homedb">
+							<div class="wisecountnactionbg">
+							
+
+								<div class="row" id="sortable-cards">
+
+									<div class="col-lg-6 col-sm-12 ">
+												<div class="proc-box">
+													
+												
+														<h4><i class="fas fa-user-graduate"></i> Force Personnel Mapped</h4>
+
+														<h3 class="" th:text="${coCount}"></h3>
+															
+
+													<a href="ame-appointment-status-check">Click Here</a>
+												
+												</div>
+											</div>
+								<div class="col-lg-6 col-sm-12 ">
+												<div class="proc-box">
+													
+												
+														<h4><i class="fas fa-user-graduate"></i> AME COMPLETED</h4>
+
+														<h3 class="" th:text="${ameCompleteCount}"></h3>
+															
+
+													<a href="ame-result-status-check">Click Here</a>
+												
+												</div>
+											</div>
+						  	<div class="col-lg-6 col-sm-12 ">
+												<div class="proc-box">
+													
+												
+														<h4><i class="fas fa-user-graduate"></i> AME UNDER PROCESS</h4>
+
+														<h3 class="" th:text="${ameUnderProcess}"></h3>
+															
+
+													<a href="ame-appointment-status-check">Click Here</a>
+												
+												</div>
+											</div>
+								</div>
+
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+
+			
+
+		
+			
+
+			</div>
+
+		</div>
+
+
+		</div>
+		<!-- /#page-content-wrapper -->
+
+	
+	</main>
+	<!-- /#wrapper -->
+
+
+
+	<!-- Bootstrap core JavaScript -->
+	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="js/jquery.slicknav.min.js"></script>
+	<script src="js/dashboard.js"></script>
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function() {
+			$('#backtotop').click(function() {
+				$("html, body").animate({
+					scrollTop : 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function() {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function() {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+		
+			$(document).ready(function () {
+			$("#editUser-on a").click(function () {
+				//Do stuff when clicked
+				$("#editUser").submit();
+			});
+		});
+
+		
+		
+	</script>
+
+
+
+	<!-- Signup Modal -->
+	<div class="modal fade" id="signout-modal">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Sign Out?</h5>
+
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<!-- Modal body -->
+						<div class="modal-body">
+							<p class="text-center">Are you sure you want to Sign Out?</p>
+							<form action="sign-out">
+								<div class="row">
+									<div class="col-md-6">
+										<button type="submit" class="btn btn-primary">Sign
+											Out</button>
+									</div>
+									<div class="col-md-6">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Cancel</button>
+									</div>
+
+								</div>
+
+							</form>
+
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>
+
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function() {
+			$("#one-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+
+	<script>
+	function completedRequest(){
+		alert("NO AME REQUEST COMPLETED YET.................!")
+		return false;
+	}
+	
+</script>
+
+</body>
+</html>

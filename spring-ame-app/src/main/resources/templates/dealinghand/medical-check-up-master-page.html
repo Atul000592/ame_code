@@ -1,0 +1,247 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<title>AMA DashBoard</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>AME DashBoard Controller</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+<script src="js/local/resetChangeForget.js"></script>
+<script src="js/local/medical-checkup-list.js"></script>
+
+</head>
+<div th:replace="~{medical-sub-ordinate/master-doc::master-wrapper-doc}"></div>
+
+
+<body>
+
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+
+		<div th:replace="~{dealinghand/left-menu-dh::sidebar-wrapper-menu-dh}"></div>
+
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+			<div
+				th:replace="~{medical-sub-ordinate/nav-bar::sidebar-wrapper-menu-nav-ama}"></div>
+
+
+
+			<div class="container mt-3">
+				<div class="wisecountnactionbg">
+
+
+					<!-- Content Row -->
+					<div class="proc-box py-2 px-3">
+						<div class="row">
+							<div class="col-md-3">
+								<div class="alert alert-primary my-2">
+									<label class="fw-bold">IRLA /REGT NO:</label> <span
+										th:text="${candidateDetails.forceId}"></span>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="alert alert-primary my-2">
+									<label class="fw-bold">Name :</label> <span
+										th:text="${candidateDetails.name}"></span>
+								</div>
+
+							</div>
+							<div class="col-md-3">
+								<div class="alert alert-primary my-2">
+									<label class="fw-bold">Designation/Rank :</label> <span
+										th:text="${candidateDetails.designation}"></span>
+								</div>
+
+							</div>
+							<div class="col-md-3">
+								<div class="alert alert-primary my-2">
+									<label class="fw-bold">Gender:</label> <span
+										th:text="${candidateDetails.gender}"></span>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="alert alert-primary my-2">
+									<label class="fw-bold">Force Name : </label> <span
+										th:text="${candidateDetails.forceName}"></span>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="alert alert-primary my-2">
+									<label class="fw-bold"> Grade : </label> <span
+										th:if="${candidateGazettedNonGazettedFlag=='Y'}"
+										th:text="Gazetted-Officer"></span> <span
+										th:unless="${candidateGazettedNonGazettedFlag=='Y'}"
+										th:text="Non-Gazetted-Officer"></span>
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+
+					<div id="b-homedb">
+						<table class="a table " id="testTable">
+
+							<thead>
+
+								<tr>
+									<td colspan="5" align="center"
+										style="background-color: #004F98; color: white">
+										<h6>
+											<b>Medical Check Up List</b>
+										</h6>
+									</td>
+								</tr>
+								<tr style="background-color: #004F98; color: white">
+
+									<td><b>Test Name</b></td>
+									<td><b>Action</b></td>
+									<td></td>
+								</tr>
+
+							</thead>
+							<tbody id="testTableBody">
+								<tr th:each="checkUpListDtos, stat: ${checkUpListDtos}">
+									<td th:text="${checkUpListDtos.name}" class="testName"
+										id="testName"></td>
+									<td><input type="checkbox" name="testValue"
+										th:checked="${checkUpListDtos.Checked}"></td>
+
+									<td><input type="hidden" th:name="testCode"
+										th:value="${checkUpListDtos.code}"></td>
+									<td><input type="hidden" th:value="${ameId}" class="ameId"
+										id="ameId"></td>
+									<td><input type="hidden"
+										th:value="${candidateForcePersonalId}"
+										class="candidateForcePersonalId"
+										name="candidateForcePersonalId"></td>
+								</tr>
+							</tbody>
+						</table>
+
+
+
+						<div class="col-12">
+							<button onclick="finalSubmitCheckUpList()"
+								class=" btn btn-success mb-5" style="float: right;">Final
+								Submit</button>
+
+						</div>
+					</div>
+				</div>
+
+
+
+
+
+
+<form  id="myForm" name="myForm" ></form>
+
+
+
+
+
+
+</div>
+			</div>
+			<!-- /#page-content-wrapper -->
+
+		</div>
+		<!-- /#wrapper -->
+
+
+
+
+
+
+
+		<!-- Menu Toggle Script -->
+		<script>
+		$("#menu-toggle").click(function (e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+		<script>
+		$(document).ready(function () {
+			$('#backtotop').click(function () {
+				$("html, body").animate({
+					scrollTop: 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+		<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function () {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function () {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+
+
+
+		<script src="vendor/jquery-ui/jquery-ui.js"></script>
+		<script>
+		$(function () {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+		<script>
+		$(function () {
+			$("#one-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+</body>
+
+</html>

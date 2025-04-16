@@ -1,0 +1,668 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>AME DashBoard Controller</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css" />
+<!-- Custom styles for this template -->
+
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous" />
+<link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/base-responsive.css" />
+<link rel="stylesheet" href="css/animate.min.css" />
+<link rel="stylesheet" href="css/slicknav.min.css" />
+<link rel="stylesheet" href="css/font-awesome.min.css" />
+<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
+	type="text/css">
+
+<script src="vendor/charts/Chart.js"></script>
+<script src="vendor/charts/moment.min.js"></script>
+<script src="vendor/charts/Chart.min.js"></script>
+<script src="vendor/charts/utils.js"></script>
+
+
+<script src="js/local/resetChangeForget.js"></script>
+
+</head>
+
+
+<body>
+
+
+
+
+<!-- wrapper -->
+	<div class="d-flex" id="wrapper">
+     
+		<!-- Sidebar -->
+				<div th:replace="~{dealinghand/left-menu-dh::sidebar-wrapper-menu-dh}"></div>
+
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content wrapper -->
+		<div id="page-content-wrapper">
+
+			<div th:replace="~{dealinghand/nav-bar::sidebar-wrapper-menu-nav-dh}"></div>
+			<div class="contener">
+
+			<form class="wisecountnactionbg" method="post">
+
+					
+						<h4 style="text-align: center;">
+							<b>AME FINAL DETAILS</b>
+						</h4>
+						
+						
+						<div class="container-1">
+						
+						<div class="heading-content" >
+							
+							<h5>
+								Personnel Details
+							</h5>
+							
+						</div>
+						<div class="row">
+							<label for="" class="col-3"><b>IRLA
+									No./Force No.:</b></label>
+							<div class="col-3">
+								<span th:text="${forcePersonalDetails.irlaNumber}" class=""></span>
+							</div>
+
+							<label for="" class="col-3"><b>Name:</b></label>
+							<div class="col-3">
+								<span th:text="${forcePersonalDetails.Name}"></span>
+							</div>
+
+						</div>
+						<div class="row">
+							<label for="" class="col-md-3"><b>Rank:</b></label>
+							<div class="col-sm-3">
+								<span th:text="${forcePersonalDetails.rank}"></span>
+
+							</div>
+
+							<label for="" class="col-3"><b>Gender:</b></label>
+							<div class="col-md-3">
+								<span th:text="${forcePersonalDetails.gender}"> </span>
+							</div>
+
+						</div>
+						<div class="row">
+
+
+
+							<label for="" class="col-md-3"><b>Force:</b></label>
+							<div class="col-md-3">
+								<span th:text="${forcePersonalDetails.forceName}"></span>
+							</div>
+							<label for="" class="col-3"><b>Unit:</b></label>
+							<div class="col-md-3">
+								<span th:text="${forcePersonalDetails.unitName}"></span>
+							</div>
+
+
+						</div>
+						<div class="row">
+
+
+
+
+							<label for="" class="col-md-3"><b>Date
+									of birth:</b></label>
+							<div class="col-md-3">
+								<span
+									th:text="${#dates.format(forcePersonalDetails.dob,'dd-MM-yyyy')}"></span>
+							</div>
+
+							<label for="" class="col-3"><b>Date
+									of Joining:</b></label>
+							<div class="col-md-3">
+								<span
+									th:text="${#dates.format(forcePersonalDetails.doj,'dd-MM-yyyy')}"></span>
+							</div>
+
+
+						</div>
+						<div class="row mb-3">
+
+
+
+							<label for="" class="col-md-3"><b>Date
+									of Declaration:</b></label>
+							<div class="col-md-3">
+								<span th:text="${#dates.format(declarationDate, 'dd-MM-yyyy')}"></span>
+
+							</div>
+
+
+						</div>
+
+</div>
+
+
+
+
+
+						
+
+					
+				<div class="container-2">
+
+<div class="heading-content" >
+							
+							<h5>
+								Board Member Details         
+							</h5>
+							
+						</div>
+					<div class="row">
+
+						<label for="" class="col-4"><b>Medical
+								Board For:</b></label>
+						<div class="col-2">
+							<span th:text="${medicalBoard.gFlag}"></span>
+
+						</div>
+						<label for="" class="col-4"><b>Medical
+								Examination Type:</b></label>
+						<div class="col-2">
+							<span th:text="${medicalBoard.useFor}"></span>
+
+						</div>
+
+
+					</div>
+
+					<div class="row">
+
+
+
+						<label for="" class="col-4"><b>Situated
+								At(Place):</b></label>
+						<div class="col-2">
+							<span th:text="${medicalBoard.place}"></span>
+
+						</div>
+						<label for="" class="col-4"><b>Medical
+								Examination Year:</b></label>
+						<div class="col-2">
+							<span th:text="${medicalBoard.boardYear}"></span>
+
+						</div>
+
+
+					</div>
+
+					<div class="row ">
+
+
+
+						<label for="" class="col-4"><b>Status:</b></label>
+						<div class="col-2">
+							<span th:text="${medicalBoard.status}"></span>
+
+						</div>	
+					
+						<label for="" class="col-4"><b>Constituted
+								On:</b></label>
+						<div class="col-2">
+							<span
+								th:text="${#dates.format(medicalBoard.createdOn,'dd-MM-yyyy')}"></span>
+
+						</div>
+
+
+					</div>
+
+
+					<div class="row">
+
+
+
+						
+						
+						
+							<label for="" class="col-4"><b>Force
+								Name:</b></label>
+						<div class="col-4">
+							<span th:text="${medicalBoard.forceName}"></span>
+
+						</div>
+						
+						
+
+					</div>
+					
+					
+					
+					<div class="row">
+					<label for="" class="col-4"><b>Constituted
+								By:</b></label>
+						<div class="col">
+							<span th:text="${createdBy}"></span>
+
+						</div>
+					
+					</div>
+					
+					
+					
+					
+					
+					
+				</div>
+
+				
+				<div class="container-3">
+						<div class="heading-content" >
+					
+					<h5>Medical Board Member Details</h5>
+					
+				</div>
+					
+						<table class="a">
+							<thead>
+								<tr>
+
+								</tr>
+								<tr>
+									<th>Force Name</th>
+									<th>Force ID</th>
+									<th>Name</th>
+									<th>Designation</th>
+
+									<th>Assigned role</th>
+									<!-- <th>Action</th>
+ -->
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="medicalBoardMember : ${medicalBoardMemberDtoList}"
+									 class="memberData">
+									<td th:text="${medicalBoardMember.forceCodeName}"></td>
+									<td th:text="${medicalBoardMember.forcePersonalId}"></td>
+									<td th:text="${medicalBoardMember.Name}"></td>
+									<td th:text="${medicalBoardMember.designation}"></td>
+
+									<!-- <td th:text="${individual.country}"></td>-->
+									<td th:text="${medicalBoardMember.roleName}"></td>
+									<!-- <td>
+												<form>
+													<input type="hidden" name="boardId" th:value="${boardId}" id="boardId">
+													<input type="hidden" name="boardMemberForcePersonalId" th:value=" ${medicalBoardMember.forcePersonalId}" id="boardMemberForcePersonalId">
+													<input type="hidden" name="roleName" th:value="${medicalBoardMember.roleName}" id="roleNameId">
+													    
+													<input type="button" value="Edit"  onclick="transferRole(this)">
+												</form> -->
+
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+
+
+
+				<div class="conatiner-4">
+
+						
+				<div class="heading-content" >
+					
+					<h5>
+						<i class=""></i>Final Categorizations
+					</h5>
+					
+				</div>
+						
+						
+						
+						<div class="row">
+							<label for="" class="col-2"><b>Appendages:</b></label>
+							<div class="col-10">
+							<table class="a">
+								<tr>
+									<th>Upper Limb Shape</th>
+									<th>Lower Limb Shape</th>
+									
+								</tr>
+								<tr>
+								
+								    <td th:text="${ameMasterStatus.upperLimbShape}"/>
+									<td th:text="${ameMasterStatus.lowerLimbShape}"/>
+									
+								</tr>
+							</table>
+						</div>
+						</div>
+						<br>
+						<div class="row">
+							<label for="" class="col-2"><b>Eye:</b></label>
+							<div class="col-10">
+							<table class="a">
+								<tr>
+									<th>Left Eye Shape</th>
+									<th>Right Eye Shape</th>
+									
+								</tr>
+								<tr>
+									<td th:text="${ameMasterStatus.leftEyeShape}"></td>
+									<td th:text="${ameMasterStatus.rightEyeShape}"></td>
+									
+								</tr>
+							</table>
+						</div>
+						</div>
+					<div class="row" th:text="${ameMasterStatus.gynaecologyShape}">
+						<label for="" class="col-sm-2"><b>Gynecology:</b></label>
+						<div class="col-sm-4">
+							<span th:text="${ameMasterStatus.gynaecologyShape}"></span>
+						</div>
+					</div>
+					<div class="row">
+							<label for="" class="col-sm-2"><b>Hearing:</b></label>
+							<div class="col-sm-4">
+								<span th:text="${ameMasterStatus.hearingShape}"></span>
+							</div>
+						</div>
+
+
+						<div class="row">
+							<label for="" class="col-sm-2"><b>Physical:</b></label>
+							<div class="col-sm-4">
+								<span  th:text="${ameMasterStatus.physicalShape}"> </span>
+							</div>
+						</div>
+
+
+						<div class="row">
+							<label for="" class="col-sm-2"><b>Psychology:</b></label>
+							<div class="col-sm-4">
+								<span th:text="${ameMasterStatus.psycological_shape}"></span>
+							</div>
+						</div>
+
+						
+
+
+
+						<div class="row mb-3">
+							<label for="title" class="col-3"><b>Final
+									Shape Awarded:</b></label>
+							<div class="col-9">
+								<textarea class="form-control"
+									placeholder="Enter Final Shape Awarded" required></textarea>
+							</div>
+						</div>
+
+
+
+
+
+
+						<div class="row mb-3">
+							<label for="title" class="col-3"><b>Advice/Employability/restriction(s)if
+									any:</b></label>
+							<div class="col-9">
+								<textarea class="form-control"
+									placeholder="Enter Advice/Employability/restriction(s)if any"
+									required></textarea>
+							</div>
+						</div>
+
+
+
+					</div>
+
+					<hr>
+
+
+
+
+
+
+<div class="d-grid gap-2 d-md-block">
+                      <button type="button" class="btn btn-secondary" onclick="backToHome()" style="width:100px;">Back</button>
+                      <button type="submit" class="btn btn-success" style="width:100px;float:right;">Submit</button>
+</div>
+
+				</form>
+				<form th:action="@{/declaration-requests-completed-ma}" method="post" id="back-to-home">
+					<input type="hidden" name="forcepersonalId" th:value="${forcepersonalId}">
+					<input class="btn btn-secondary" type="hidden" name="ameId" th:value="${ameId}">
+
+				</form>
+				</div>
+		</div>
+	<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+	<script>
+		function backToHome() {
+
+			$("#back-to-home").submit();
+		}
+	</script>
+
+	<!-- Bootstrap core JavaScript -->
+	<script src="vendor/jquery/jquery.min.js"></script>
+		<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="js/jquery.slicknav.min.js"></script>
+	<script src="js/dashboard.js"></script>
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function() {
+			$('#backtotop').click(function() {
+				$("html, body").animate({
+					scrollTop : 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function() {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function() {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+	<!-- Signup Modal -->
+
+		<div class="modal fade" id="signout-modal" data-bs-backdrop="static"
+			data-bs-keyboard="false" tabindex="-1"
+			aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Sign Out?</h5>
+
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<!-- Modal body -->
+						<div class="modal-body">
+							<p class="text-center">Are you sure you want to Sign Out?</p>
+							<form action="sign-out">
+								<div class="row">
+									<div class="col-md-6">
+										<button type="submit" class="btn btn-primary">Sign
+											Out</button>
+									</div>
+									<div class="col-md-6">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Cancel</button>
+									</div>
+
+								</div>
+
+							</form>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
+
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function() {
+			$("#one-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+	<script>
+		var currentTab = 0; // Current tab is set to be the first tab (0)
+		showTab(currentTab); // Display the current tab
+
+		function showTab(n) {
+			// This function will display the specified tab of the form...
+			var x = document.getElementsByClassName("tab");
+			x[n].style.display = "block";
+			//... and fix the Previous/Next buttons:
+
+			if (n == 0) {
+				document.getElementById("prevBtn").style.display = "none";
+			} else {
+				document.getElementById("prevBtn").style.display = "inline";
+			}
+			if (n == (x.length - 1)) {
+				document.getElementById("nextBtn").innerHTML = "Submit";
+			} else {
+				document.getElementById("nextBtn").innerHTML = "Next";
+			}
+			//... and run a function that will display the correct step indicator:
+			fixStepIndicator(n);
+			fixTabIndicator(n)
+		}
+
+		function nextPrev(n) {
+			// This function will figure out which tab to display
+			var x = document.getElementsByClassName("tab");
+			// Exit the function if any field in the current tab is invalid:
+			if (n == 1 && !validateForm())
+				return false;
+			// Hide the current tab:
+			x[currentTab].style.display = "none";
+			// Increase or decrease the current tab by 1:
+			currentTab = currentTab + n;
+			// if you have reached the end of the form...
+			if (currentTab >= x.length) {
+				// ... the form gets submitted:
+				document.getElementById("regForm").submit();
+				return false;
+			}
+			// Otherwise, display the correct tab:
+			showTab(currentTab);
+		}
+
+		function validateForm() {
+			// This function deals with validation of the form fields
+			var x, y, i, valid = true;
+			x = document.getElementsByClassName("tab");
+			y = x[currentTab].getElementsByTagName("input");
+			// A loop that checks every input field in the current tab:
+			for (i = 0; i < y.length; i++) {
+				// If a field is empty...
+				if (y[i].value == "") {
+					// add an "invalid" class to the field:
+					y[i].className += " invalid";
+					// and set the current valid status to false
+					valid = false;
+				}
+			}
+			// If the valid status is true, mark the step as finished and valid:
+			if (valid) {
+				document.getElementsByClassName("step")[currentTab].className += " finish";
+			}
+			return valid; // return the valid status
+		}
+
+		function fixStepIndicator(n) {
+			// This function removes the "active" class of all steps...
+			var i, x = document.getElementsByClassName("step");
+			for (i = 0; i < x.length; i++) {
+				x[i].className = x[i].className.replace(" active", "");
+			}
+			//... and adds the "active" class on the current step:
+			x[n].className += " active";
+		}
+		function fixTabIndicator(n) {
+			// This function removes the "active" class of all steps...
+			var i, x = document.getElementsByClassName("tabstatus");
+			for (i = 0; i < x.length; i++) {
+				x[i].className = x[i].className.replace(" active", "");
+			}
+			//... and adds the "active" class on the current step:
+			x[n].className += " active";
+		}
+	</script>
+	<script>
+		function selectValue(e) {
+			var i = e.value;
+			alert(i);
+		}
+	</script>
+
+</body>
+</html>

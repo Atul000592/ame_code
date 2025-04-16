@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<head>
+<meta charset="ISO-8859-1">
+
+
+<title>AME DashBoard Controller</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script src="js/local/resetChangeForget.js"></script>
+<div th:replace="~{medical-sub-ordinate/master-doc::master-wrapper-doc}"></div>
+<script src="js/local/check-up-list-candidate.js"></script>
+</head>
+
+<!-- Include jQuery -->
+    <script src="ame-datatable-js/3.5.1/jquery.min.js"></script>
+    
+    <!-- Include DataTables CSS -->
+    <link rel="stylesheet" href="ame-datatable-css/1.11.5/jquery.dataTables.min.css">
+    
+    <!-- Include DataTables JavaScript -->
+    <script src="ame-datatable-js/1.11.5/jquery.dataTables.min.js"></script>
+    
+<script src="js/local/resetChangeForget.js"></script>
+<script>
+	 $(document).ready(function() {
+            $('#example').DataTable();
+        });
+        
+        
+         $(document).ready(function() {
+            $('#example1').DataTable();
+        });
+        
+        
+        
+</script>
+
+
+<body>
+
+
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+		<div th:replace="~{dealinghand/left-menu-dh::sidebar-wrapper-menu-dh}"></div>
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<!--nav-->
+   <div th:replace="~{UserMenu/nav-bar-user::sidebar-wrapper-menu-nav-user}"></div>
+
+			<div class="container mt-3">
+				<div class="wisecountnactionbg">
+
+					<div class="proc-box p-3" id="b-homedb">
+
+						<h4>Declaration Accepted </h4>
+						
+						<hr>
+
+
+	<div class="table-responsive ui-sortable-handle">
+							<table class="table table-striped table-bordered table-hover" style="font-size: 12px;padding:0px;"
+								id="example">
+
+								<thead class="table-light">
+						
+									<tr>
+										<th>Serial No</th>
+										<th>IRLA No</th>
+										<th>Name</th>
+
+										<th>Rank/Designation</th>
+										<th>Date Of Declaration</th>
+										<th>Print</th>
+										<th>Action</th>
+									
+									</tr>
+								</thead>
+								<tr
+									th:each="declarationDetails1,statcount :${declarationDetails}">
+									<td th:text="${statcount.count}"></td>
+									<td th:text="${declarationDetails1.forceId}"></td>
+
+									<td th:text="${declarationDetails1.name}"></td>
+
+									<td th:text="${declarationDetails1.designation}"></td>
+									<td
+										th:text="${#dates.format(declarationDetails1.declarationDate, 'dd/MM/yyyy')}"></td>
+										<td>
+											<form th:action="@{print-ame-declaration-form-details}"
+											method="post" target="_blank" rel="noopener noreferrer">
+											<input type="hidden"
+												th:value="${declarationDetails1.forcePersonalId}"
+												name="forcepersonalId"> <input type="hidden"
+												th:value="${declarationDetails1.ameId}"
+												name="ameId"> <input type="hidden"
+												th:value="${_csrf.token}" name="_csrf"> <input
+												type="submit" value="Take Print" class="btn btn-info btn-sm">
+
+										</form>
+										</td>
+									<td>
+										<form action="upload-file-page" method="post">
+											<input type="hidden" th:value="${declarationDetails1.ameId}"
+												name="ameId"> <input type="hidden"
+												th:value="${declarationDetails1.forcePersonalId}"
+												name="candidateForcePersonalId"> <input
+												type="hidden" th:value="${_csrf.token}" name="_csrf">
+											<input type="submit" value="UploadFile">
+										</form>
+									</td>
+									<!--<td>
+<form action="declaration-requests-completed-ma" method="post"> 
+<input type="hidden" th:value="${declarationDetails1.forcePersonalId}" name="forcepersonalId">
+<input type="hidden" th:value="${declarationDetails1.ameId}" name="ameId">
+<input type="submit">
+
+</form>
+</td>-->
+
+								</tr>
+
+							</table>
+
+						</div>
+
+
+<div>
+
+</div>
+</div></div>
+
+<div >
+	<form th:action="@{dealing-hand-dashboard}" method="get">
+		<input type="submit" value="Back" style="margin-top: 5%;margin-left: 2%;" class="btn btn-primary">
+		
+	</form>
+	
+</div>
+
+
+			<div class="proc-box px-2 ">
+<h6 clas="table-heade">AME Declaration Upload Completed  (<span style="color:darkred;font-size: 16px;">CheckUp List Pending)</span></h6>
+
+			<table class="table table-striped table-bordered table-hover"
+				id="example1" style="font-size: 12px;padding:0px;">
+              <thead class="table-light">
+					<tr>
+						<th>Serial No</th>
+						<th>IRLA No</th>
+						<th>Name</th>
+						<th>Rank/Designation</th>
+						<th>Date Of Declaration</th>
+						<th>Form Uploaded(Action)</th>
+						<th>Check Uplist(Action)</th>
+					</tr>
+				</thead>
+				<tr
+					th:each="AppointmentCompletedList,statcount1 :${AppointmentCompletedList}">
+					<td th:text="${statcount1.count}"></td>
+					<td th:text="${AppointmentCompletedList.forceId}"></td>
+					<td th:text="${AppointmentCompletedList.name}"></td>
+					<td th:text="${AppointmentCompletedList.rank}"></td>
+
+					<td th:text="${AppointmentCompletedList.declarationDate}"></td>
+					<td>
+					<form th:action="@{download-declaration-file-uploaded}" method="get" target=”_blank” rel="noopener noreferrer">
+				    <input type="hidden" th:value="*{AppointmentCompletedList.forcePersonalId}" name="forcepersonalId">
+				<input type="hidden" th:value="*{AppointmentCompletedList.ameId}" name="ameId">
+				<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+				<input type="submit" value="View Declaration" class="btn btn-primary btn-sm">
+                 </form>
+					</td>
+					<td th:if="${AppointmentCompletedList.checkUpListFlag=='0'}">
+						<form action="ame-check-up-list" method="post">
+							<input type="hidden"
+								th:value="${AppointmentCompletedList.forcePersonalId}"
+								name="CandidateforcePersonalId"> <input
+								type="hidden" th:value="${AppointmentCompletedList.ameId}"
+								name="ameId"> <input type="hidden"
+								th:value="${_csrf.token}" name="_csrf"> <input
+								type="submit" value="Provide-checkupList">
+						</form>
+					</td>
+					<td
+						th:Unless="${AppointmentCompletedList.checkUpListFlag=='0'}">
+						
+										<form action="check-up-list-to-candidate-view" method="post">
+											<input type="hidden"
+												th:value="${AppointmentCompletedList.forcePersonalId}"
+												name="forcepersonalId"> <input
+												type="hidden" th:value="${AppointmentCompletedList.ameId}"
+												name="ameId"> <input type="hidden"
+												th:value="${_csrf.token}" name="_csrf"> 
+												<input type="button" onclick="showCheckUpList(this)" value="Check Up LIst" class="btn btn-success btn-sm">
+										</form></td>
+				</tr>
+
+			</table>
+
+		</div>
+</div>
+
+				</div>
+		</div>
+
+	</div>
+
+
+<div th:replace="~{UserMenu/model-check-up-list::sidebar-wrapper-check-up-list}"></div>
+
+	</div>
+	<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function() {
+			$('#backtotop').click(function() {
+				$("html, body").animate({
+					scrollTop : 0
+				}, 600);
+				return false;
+			});
+		});
+		
+		
+			$(document).ready(function() {
+			$('#uploadFile').click(function() {
+				alert("dawawawawawawawawawawawawawawawaw");
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function() {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function() {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+	<!-- Signup Modal -->
+	<div class="modal fade" id="signout-modal">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header text-center d-block p-5 border-bottom-0">
+					<h3 class="modal-title">Sign Out?</h3>
+					<button type="button" class="close position-absolute"
+						style="right: 15px; top: 8px;" data-dismiss="modal">&times;</button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body">
+					<p class="text-center">Are you sure you want to Sign Out?</p>
+					<div class="text-center py-4">
+						<form action="sign-out">
+							<button type="submit" class="btn btn-primary b-btn mx-3">Sign
+								Out</button>
+							<button class="btn btn-secondary mx-3" data-dismiss="modal">Cancel</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function() {
+			$("#one-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+
+
+</body>
+</html>

@@ -1,0 +1,881 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+<head>
+<title>AMA DashBoard</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<div th:replace="~{po-template/master-doc-po::master-wrapper-doc-po}"></div>
+
+
+<style>
+
+.table-heade{background: #005776;
+    color: #fff;
+    margin: 0;
+    padding: 10 15px;
+    margin-top: 15px;}
+</style>
+
+
+<!--data Table Css files-->
+
+<link rel="stylesheet" href="css/local/dataTableCss/dataTables.bootstrap5.min.css" />
+
+
+<!--data Table js Files-->
+
+	<script type="text/javascript"src="js/local/dataTableJs/jquery.dataTables.min.js"></script>
+	<script src="js/local/dataTableJs/dataTables.bootstrap5.min.js"></script>
+
+	<script>
+		
+		$(document).ready( function () {
+		   		$('#user').DataTable();
+		     } );
+			 $(document).ready( function () {
+			 		   		$('#user2').DataTable();
+			 		     } );
+			 
+			 
+	</script>
+</head>
+
+
+<body>
+
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+
+		<div
+			th:replace="~{aa-template/left-menu-aa::sidebar-wrapper-menu-po}"></div>
+
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<!--nav-->
+			<div
+				th:replace="~{po-template/nav-bar-po::sidebar-wrapper-menu-nav-po}"></div>
+
+			<div class="container-fluid mt-3">
+
+				<!-- Content Row -->
+
+				<div class="wisecountnactionbg">
+				
+				<div id="loading-overlay">
+						<div class="spinner"></div>
+					</div>
+					<h5>AME APPOINTMENT PANEL</h5>
+<hr>
+
+
+					<div id="b-homedb">
+				
+
+<div class="row">
+<div class="col-md-4 row align-items-center">
+
+
+
+							  <div class="col-auto">
+								<label class="fw-bold"> Board Id:- </label>
+								</div>
+								  <div class="col-auto">
+								
+								
+								 <label th:text="${boardId}">
+
+								</label>
+							</div>
+							</div>
+							<div class="col-md-4 row align-items-center">
+							
+							  <div class="col-auto">
+								<label class="fw-bold"> From Date: </label>
+								</div>
+								  <div class="col-auto"> <input type="date" name="fromDate"
+									id="fromDate" class="form-control" th:min="${#dates.format(#dates.createNow(),'yyyy-MM-dd')}" >
+									<span id="fromDate_error" class="error"></span>
+							</div>
+							
+							</div>
+							<div class="col-md-4 row  align-items-center">
+						  <div class="col-auto">
+								<label class="fw-bold"> To Date: </label></div>
+								  <div class="col-auto"> <label> <input type="date"
+									name="toDate" id="toDate" class="form-control" th:min="${#dates.format(#dates.createNow(),'yyyy-MM-dd')}" >
+										<span id="toDate_error" class="error"></span>
+								</label>
+							</div>
+						</div>
+						
+						</div>
+						
+<div class="table-responsive ui-sortable-handle">
+	<h6 class="table-heade">List of Personal (Appointment Pending)</h6>
+						<table class="table table-striped table-bordered table-hover" style="font-size: 12px;padding: 0px;" id="user">
+
+							<thead class="table-light">
+														<tr>
+									<th width="30" >Serial No</thw>
+									<th>Board Id</th>
+									<th>IRLA No</th>
+
+									<th>Name</th>
+									<th>Rank/Designation</th>
+									<th>Gender</th>
+
+									<th>Force</th>
+									<th>Unit</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:if="${not #lists.isEmpty(boardMemberDtos)}"
+									th:each="boardMemberDtos,statcount :${boardMemberDtos}">
+									<td th:text="${statcount.count}"></td>
+									<td th:text="${boardMemberDtos.boardId}"></td>
+									<td th:text="${boardMemberDtos.irlaNumber}"></td>
+									<td th:text="${boardMemberDtos.name}"></td>
+									<td th:text="${boardMemberDtos.rank}"></td>
+								    <td th:text="${boardMemberDtos.gender}"></td>
+
+									<td th:text="${boardMemberDtos.forceName}"></td>
+									<td th:text="${boardMemberDtos.unitName}"></td>
+									<td><input type="checkbox"
+										th:value="${boardMemberDtos.forcePersonalId}"
+										id="forcePersonalId" name="candidateId"> <input
+										type="hidden" name="boardId"
+										th:value="${boardMemberDtos.boardId}" id="boardId"></td>
+
+
+								</tr>
+								
+							</tbody>
+
+
+
+						</table>
+						
+						<table>
+							<tr th:if="${not #lists.isEmpty(boardMemberDtos)}">
+																<td colspan="3">REMARK</td>
+																<td colspan="5">
+																<textarea id="remark" name="remark"
+																		rows="2" cols="100" class="form-control"></textarea></td>
+															</tr>
+															<tr><span id="remark_error" class="error"></span>
+															</tr>
+															<tr th:unless="${not #lists.isEmpty(boardMemberDtos)}">
+																<td colspan="8" >NO DATA IS FOR DISPLAY</td>
+															</tr>
+						</table>
+					
+					</div>
+					<div class="table-responsive ui-sortable-handle">
+						<table class="table table-striped table-bordered table-hover" style="font-size: 12px;padding: 0px;" id="example">
+
+							<tbody>
+
+							</tbody>
+						</table>
+						</div>	<button class="btn btn-primary sendList float-end"  id="sendData">Submit</button>
+						
+				
+				             <form th:action="@{pending-for-appointment-ame-aa}" method="get">
+								 
+						     <button type="submit" class="btn btn-secondary">Back</button>
+							 </form>
+						
+					
+					
+						
+						<div class="clarfixed"></div>
+				
+							
+				<div class="table-responsive ui-sortable-handle w-100">
+				<h5 class="table-heade">List of Personal (Appointment Completed)</h5>
+							<table class="table table-striped table-bordered table-hover" style="font-size: 12px;padding: 0px;" id="user2">
+
+									<thead class="table-light">
+								
+									<tr>
+										<th>Serial No</th>
+										<th>Board Id</th>
+										<th>IRLA No</th>
+
+										<th>Name</th>
+										<th>Gender</th>
+
+										<th>Force Name</th>
+										<th>Unit Name</th>
+										<th>From Date</th>
+										<th>To Date</th>
+										<th>Declaration Status</th>
+										<th>Appointment Status</th>
+											<th>Action</th>
+									</tr>
+								</thead>
+								<tbody th:if="${listOfAppointment}!=null">
+									<tr th:each="listOfAppointment,statcount :${listOfAppointment}">
+										<td th:text="${statcount.count}" id="count"></td>
+										<td th:text="${listOfAppointment.boardId}" id="board-id"></td>
+										<td th:text="${listOfAppointment.irlaNo}" id="force-personnel-irla-no"></td>
+										<td th:text="${listOfAppointment.name}" id="force-personnel-name"></td>
+										<td th:text="${listOfAppointment.gender}" id="force-personnel-gender"></td>
+
+										<td th:text="${listOfAppointment.forceName}" id="force-personnel-force-name"></td>
+										<td th:text="${listOfAppointment.unitName}" id="force-personnel-unit-name"></td>
+										<td
+											th:text="${#dates.format(listOfAppointment.fromDate, 'dd/MM/yyyy')}" id="force-personnel-from-date"></td>
+										<td
+											th:text="${#dates.format(listOfAppointment.toDate, 'dd/MM/yyyy')}" id="force-personnel-to-date"></td>
+										<td th:text="${listOfAppointment.declarationStatus}" id="force-personnel-declaration-status"></td>
+										<td th:text="${listOfAppointment.appointmentStatusDescription}" id="force-personnel-appointment-status-description"></td>
+										<td th:if="${listOfAppointment.rescheduleFlag}" >
+										<button class="btn btn-success reschedule-button" th:value="${listOfAppointment.forcePersonalId}">Reschedule</button></td>
+										<td th:unless="${listOfAppointment.rescheduleFlag}">-----</td>
+											
+
+
+									</tr>
+
+								</tbody>
+
+
+							</table>
+							<table id="example2" class="table table-striped table-bordered table-hover" style="font-size: 12px;padding: 0px;">
+
+
+							</table>
+
+						</div>
+					</div>
+
+
+					<div class="my-5" id="b-homedb"></div>
+
+				</div>
+
+			</div>
+			<div th:replace="~{medical-sub-ordinate/alert-modal::message-alert-modal}"></div>
+	<div th:replace="~{medical-sub-ordinate/alert-modal-for-rescheduling::message-alert-modal}"></div>
+
+<form action="give-appointment-to-force-personal-po" method="post" id="formId">
+	<input type="hidden" name="forcepersonalId" id="forcePersonenl" th:value="${LoginForcePersonalId}">
+	<input type="hidden" name="boardId" id="boardId" th:value="${boardId}">
+	<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+
+</form>
+
+		</div>
+		<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+
+
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function() {
+			$('#backtotop').click(function() {
+				$("html, body").animate({
+					scrollTop : 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function() {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function() {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+	<!-- Signup Modal -->
+	<div class="modal fade" id="signout-modal">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Sign Out?</h5>
+
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<!-- Modal body -->
+					<div class="modal-body">
+						<p class="text-center">Are you sure you want to Sign Out?</p>
+						<form action="sign-out">
+							<div class="row">
+								<div class="col-md-6">
+									<button type="submit" class="btn btn-primary">Sign Out</button>
+								</div>
+								<div class="col-md-6">
+									<button type="button" class="btn btn-secondary"
+										data-bs-dismiss="modal">Cancel</button>
+								</div>
+
+							</div>
+
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function() {
+			$("#one-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+
+
+
+
+	<script>
+	
+	function backToPage()
+	{
+		$("#formId").submit();
+	}
+	
+	
+		//Map list of forcePersonal to the given board
+
+		$(document)
+			.ready(function() {
+					$("#sendData").click(
+						function() {
+							
+
+							/* =====================Spinner================= */
+				              $('#loading-overlay').show();
+							  $('body').addClass('loading');
+
+							var arr = new Array();
+							var Myarray = new Array();
+							var board_id_a = $("#boardId").val();
+							var toDate = $("#toDate").val();
+							var fromDate = $("#fromDate").val();
+							var remark = $("#remark").val();
+							 if (board_id_a == 0) {
+								 alert("Please select board Id ");
+									return false;
+									}
+									if (fromDate == "") {
+										 $('#alert-modal .modal-title').text('Message');
+							             $('#alert-modal .modal-body h3').text("Please Select From Date!");
+							             $('#alert-modal .modal-body i').addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+						                                               .css('color', 'red');
+					                     $('#alert-modal').modal({
+							                backdrop: 'static',
+							                keyboard: false
+							              });
+							             $('#alert-modal').modal('show');
+							             
+									
+										$('#loading-overlay').hide();
+								         $('body').removeClass('loading');
+										return false;
+										}
+										if (toDate == "") {
+											 $('#alert-modal .modal-title').text('Message');
+								             $('#alert-modal .modal-body h3').text("Please Select To Date!");
+								             $('#alert-modal .modal-body i').addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+							                                               .css('color', 'red');
+						                     $('#alert-modal').modal({
+								                backdrop: 'static',
+								                keyboard: false
+								              });
+								             $('#alert-modal').modal('show');
+								             
+											$('#loading-overlay').hide();
+									         $('body').removeClass('loading');
+											return false;
+											}
+										
+										/* if(fromDate.toDate()>toDate.toDate()){
+											 $('#alert-modal .modal-title').text('Message');
+								             $('#alert-modal .modal-body h3').text("From Date must be before to Date!");
+								             $('#alert-modal .modal-body i').addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+							                                               .css('color', 'red');
+						                     $('#alert-modal').modal({
+								                backdrop: 'static',
+								                keyboard: false
+								              });
+								             $('#alert-modal').modal('show');
+								             
+											$('#loading-overlay').hide();
+									         $('body').removeClass('loading');
+											return false;
+											} */
+											if (remark == "") {
+												 $('#alert-modal .modal-title').text('Message');
+									             $('#alert-modal .modal-body h3').text("Please give Remark!");
+									             $('#alert-modal .modal-body i').addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+								                                               .css('color', 'red');
+							                     $('#alert-modal').modal({
+									                backdrop: 'static',
+									                keyboard: false
+									              });
+									             $('#alert-modal').modal('show');
+											
+												$('#loading-overlay').hide();
+										         $('body').removeClass('loading');
+												return false;
+												}
+
+												var table = document.getElementById("user");
+												var ajaxTable = document.getElementById("example");
+												var table2 = document.getElementById("user2");
+												var ajaxtable2 = document.getElementById("example2");
+
+												var token = $("meta[name='_csrf']").attr("content");
+												var header = $("meta[name='_csrf_header']").attr("content");
+												$.each(
+													$("input[name='candidateId']:checked"),
+													function() {
+												arr.push($(this).val());});
+												if (arr.length===0) {
+													 $('#alert-modal .modal-title').text('Message');
+										             $('#alert-modal .modal-body h3').text("Please select force personnel to provide appointment!");
+										             $('#alert-modal .modal-body i').addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+									                                               .css('color', 'red');
+								                     $('#alert-modal').modal({
+										                backdrop: 'static',
+										                keyboard: false
+										              });
+										             $('#alert-modal').modal('show');
+												
+													$('#loading-overlay').hide();
+											         $('body').removeClass('loading');
+													return false;
+													}
+												arr.push(remark);
+												arr.push(fromDate);
+												arr.push(toDate);
+												arr.push(board_id_a);
+
+												
+												var data = JSON.stringify(arr);
+
+												$
+														.ajax({
+
+															type : "post",
+
+															url : "send-request-to-save-ame-appointmnet-for-forcePersonal",
+															cache : false,
+															dataType : 'json',
+															contentType : "application/json",
+															data : data,
+															beforeSend : function(xhr) {
+
+																xhr.setRequestHeader(header,token);
+															},
+													success : function(response) { 
+														if(response.isValid){
+															
+															$('#alert-modal .modal-title').text('Message');
+												            $('#alert-modal .modal-body h3').text("Appointment is completed successfully");
+												             
+													        $('#alert-modal .modal-body i').removeClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+													                                             .addClass('fas fa-check-circle faa-tada animated')
+													                                             .removeAttr('style'); $('#alert-modal').modal({
+												                backdrop: 'static',
+												                keyboard: false
+												              });
+										                    $("#cross-close-button").attr('onclick', 'backToPage()');
+													        $("#okay-close-button").attr('onclick', 'backToPage()');
+													          
+												             $('#alert-modal').modal('show');
+																
+																while (table.rows.length > 0) {
+																			table.deleteRow(0);
+																		}
+
+																		while (ajaxTable.rows.length > 0) {
+																			ajaxTable.deleteRow(0);
+																		}
+																		while (ajaxtable2.rows.length > 0) {
+																			ajaxtable2.deleteRow(0);
+																		}
+																		while (table2.rows.length > 0) {
+																			table2.deleteRow(0);
+																		}
+																		document.getElementById("toDate").value = "";
+																		document.getElementById("fromDate").value = "";
+																	   //createTableUnMapped(response.boardMemberDtos);
+		                                                                appointmentCompleted(response.listOfAppointment);
+																	   //$("#formId").submit();
+														}
+														else{
+															$.each(response.errors, function(field, errorMessage) {
+																 $('#' + field + '_error').text(errorMessage);
+																
+																});
+															
+														}
+														
+								
+
+															},complete: function() {
+														         $('#loading-overlay').hide();
+														         $('body').removeClass('loading');
+														     },
+															error : function() {
+																alert('Error while request..');
+															}
+														});
+
+											});
+						});
+
+		function appointmentCompleted(response) {
+/* 			var trHTML = '';
+			trHTML += '<thead class="table-light" ><tr><td colspan="9" ><h5 style="margin-left:40%;">List of Personal (Appointment Completed)</h5></td></tr><tr><th>Serial No</th><th>Board Id</th><th>IRLA No</th><th>Name</th><th>Force Name</th><th>Unit Name</th><th>From Date</th><th>To Date</th><th>Declaration Status</th></tr></thead>';
+
+			$.each(response, function(i, o) {
+				trHTML += '<tr><td>' + i + '</td><td>' + o.boardId
+						+ '</td><td>' + o.irlaNo + '</td><td>' + o.name
+						+ '</td><td>' + o.forceName + '</td><td>' + o.unitName
+						+ '</td><td> ' + o.fromDate + '</td><td>' + o.toDate
+						+ '</td><td>' + o.declarationStatus + '</td></tr>';
+			});
+
+			$('#example2').append(trHTML); */
+
+		}
+
+		function createTableUnMapped(response) {
+			var trHTML = '';
+			trHTML += '<thead class="table-light" style="font-size: 12px;padding: 0px;"><tr><th>Serial No</th><th>Board Id</th><th>IRLA No</th><th>Name</th><th>Rank</th><th>Designation</th><th>Date Of Declaration</th><th >Action</th></tr></thead>';
+
+			$
+					.each(
+							response,
+							function(i, o) {
+								trHTML += '<tr><td>'
+										+ i
+										+ '</td><td>'
+										+ o.boardId
+										+ '</td><td>'
+										+ o.name
+										+ '</td><td>'
+										+ o.irlaNumber
+										+ '</td><td>'
+										+ o.name
+										+ '</td><td>'
+										+ o.rank
+										+ '</td><td>'
+										+ o.forceName
+										+'</td><td> <input type="checkbox" name="candidateId"  value="'
+										+ o.forcePersonalId
+										+ '"'
+										+ '</td><td> <input type="hidden" name="boardId" id="boardId" value="'
+										+ o.boardId + '"' + '</td></tr>'
+							});
+
+			trHTML += '<td colspan="3">REMARK</td><td colspan="5"><textarea id="remark" name="remark" rows="2" cols="100"></textarea></td></tr>';
+
+			$('#example').append(trHTML);
+		}
+		/*-----------------Reschedule button---------------*/
+	
+			
+			$(".reschedule-button").click(function(){
+				
+				
+				var forcePersonnelId=$(this).val();
+				var boardId = $("#boardId").val();
+				var token = $("meta[name='_csrf']").attr("content");
+				var header = $("meta[name='_csrf_header']").attr("content");
+
+				 dataToSend={
+							boardId:boardId,
+							forcePersonnelId:forcePersonnelId,
+						   }
+				$.ajax({
+
+					type: 'POST',
+					url: 'get-board-and-force-personal-details',
+					data:JSON.stringify(dataToSend),
+					contentType: 'application/json',
+					beforeSend: function(xhr) {
+						xhr.setRequestHeader(header, token);
+					},
+					success: function (response) {
+
+						if (response.isValid) {
+
+							   $('#alert-modal-for-rescheduling-id .modal-title').text('RESCHEDULING APPOINTMENT');
+					           $('#alert-modal-for-rescheduling-id .modal-body #board-id').text(response.boardMemberDetails.boardId);
+					           $('#alert-modal-for-rescheduling-id .modal-body #board-id').val(response.boardMemberDetails.boardId);
+						          
+					           $('#alert-modal-for-rescheduling-id .modal-body #board-place').text(response.boardMemberDetails.place);
+					           $('#alert-modal-for-rescheduling-id .modal-body #board-for').text(response.boardMemberDetails.usedFor);
+					           if(response.boardMemberDetails.gazettedFlag==="0"){
+					        	   $('#alert-modal .modal-body #gazetted-or-non-gazetted').text("Non-Gazetted");
+									   
+					           }
+					           else{
+					           $('#alert-modal-for-rescheduling-id .modal-body #gazetted-or-non-gazetted').text("Gazetted");
+					           }
+					           $('#alert-modal-for-rescheduling-id .modal-body #board-at-force-name').text(response.boardMemberDetails.boardAtForceNo);
+						          
+					          
+					           
+					           //----------------------Force Personnel Details----------------------------//
+								$('#alert-modal-for-rescheduling-id .modal-body #force-personnel-irla-no').text(response.forcePersonnelDetails.forceId);
+								$('#alert-modal-for-rescheduling-id .modal-body #force-personnel-name').text(response.forcePersonnelDetails.name);
+								$('#alert-modal-for-rescheduling-id .modal-body #force-personnel-force-name').text(response.forcePersonnelDetails.forceCodeName);
+								$('#alert-modal-for-rescheduling-id .modal-body #force-personnel-rank-or-designation').text(response.forcePersonnelDetails.rank);
+						        $('#alert-modal-for-rescheduling-id .modal-body #force-personnel-unit-name').text(response.forcePersonnelDetails.unitName);
+						        $('#alert-modal-for-rescheduling-id .modal-body #force-personnel-id').val(forcePersonnelId);
+							    $('#alert-modal-for-rescheduling-id').modal({
+					                backdrop: 'static',
+					                keyboard: false
+					              });
+							   $('#alert-modal-for-rescheduling-id').modal('show');
+						      }
+						else{
+							 $('#alert-modal .modal-title').text('No Record Found');
+				             $('#alert-modal .modal-body h3').text(response.message);
+				             $('#alert-modal .modal-body i').addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+			                                               .css('color', 'red');
+		                     $('#alert-modal').modal({
+				                backdrop: 'static',
+				                keyboard: false
+				              });
+				             $('#alert-modal').modal('show');
+				          
+							
+						}
+
+
+
+
+					},
+					error: function () {
+
+						if(xhr.responseText){
+
+							$('#alert-modal .modal-title').text('ERROR');
+				            $('#alert-modal .modal-body h3').text(xhr.responseText);
+				            
+				           $('#alert-modal .modal-body i')  .addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+			               .css('color', 'red');
+				           $('#alert-modal').modal({
+				                backdrop: 'static',
+				                keyboard: false
+				              });
+				            $('#alert-modal').modal('show');
+						}
+							
+							else{
+								$('#alert-modal .modal-title').text('ERROR');
+					            $('#alert-modal .modal-body h3').text('Server not responding please sign-in again');
+					            
+					            $('#alert-modal .modal-body i').addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+				                                               .css('color', 'red');
+					            $('#alert-modal').modal({
+					                backdrop: 'static',
+					                keyboard: false
+					              });
+					            $('#alert-modal').modal('show');
+								
+							}
+					}
+				});
+			})
+				
+			$(document).ready(function(){
+				$("#okay-reschedule-button").click(function(){
+					/* ===============clearing previous error message============ */
+					$('.error').text('');
+					
+					
+					/* =====================Spinner================= */
+		              $('#loading-overlay').show();
+					  $('body').addClass('loading');
+
+                    
+					const forcePersonnelId=$("#force-personnel-id").val();
+					const boardId = $("#board-id").text();
+					const fromDate=$("#reschedule-from-date").val();
+					const toDate=$("#reschedule-to-date").val();
+					const rescheduleVarible=$("#force-personnel-appointment-status-code").val();
+					
+					
+					var token = $("meta[name='_csrf']").attr("content");
+					var header = $("meta[name='_csrf_header']").attr("content");
+
+					 dataToSend={
+								boardId:boardId,
+								forcePersonnelId:forcePersonnelId,
+								fromDate:fromDate,
+								toDate:toDate,
+								rescheduleVarible:rescheduleVarible
+					 
+					 }
+					$.ajax({
+
+						type: 'POST',
+						url: 'reschedule-appointment-for-force-personnel',
+						data:JSON.stringify(dataToSend),
+						contentType: 'application/json',
+						beforeSend: function(xhr) {
+							xhr.setRequestHeader(header, token);
+						},
+						success: function (response) {
+
+							if (response.isValid) {
+								 $('#alert-modal-for-rescheduling-id').modal('hide');
+								    $('#alert-modal .modal-title').text('Success');
+						            $('#alert-modal .modal-body h3').text(response.message);
+						            
+						            $('#alert-modal .modal-body i').removeClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+						                                             .addClass('fas fa-check-circle faa-tada animated')
+						                                             .removeAttr('style');
+						            
+						           $('#alert-modal').modal({
+						                backdrop: 'static',
+						                keyboard: false
+						              });
+									  	            $('#alert-modal').modal('show');
+								 
+							      }
+							else{
+								$.each(response.errors, function(field, errorMessage) {
+									 $('#' + field + '_error').text(errorMessage);
+									
+									});
+					          
+								
+							}
+
+
+                         
+                        
+                          $("#formId").submit();
+
+						}, complete: function() {
+					         $('#loading-overlay').hide();
+					         $('body').removeClass('loading');
+					     },
+							error: function(xhr, status, error) {
+
+								if(xhr.responseText){
+									 $('#alert-modal-for-rescheduling-id').modal('hide');
+									$('#alert-modal .modal-title').text('ERROR');
+						            $('#alert-modal .modal-body h3').text(xhr.responseText);
+						            
+						           $('#alert-modal .modal-body i')  .addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+					               .css('color', 'red');
+						           $('#alert-modal').modal({
+						                backdrop: 'static',
+						                keyboard: false
+						              });
+						            $('#alert-modal').modal('show');
+								}
+									
+									else{
+										$('#alert-modal .modal-title').text('ERROR');
+							            $('#alert-modal .modal-body h3').text('Server not responding please sign-in again');
+							            
+							            $('#alert-modal .modal-body i').addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+						                                               .css('color', 'red');
+							            $('#alert-modal').modal({
+							                backdrop: 'static',
+							                keyboard: false
+							              });
+							            $('#alert-modal').modal('show');
+										
+									}
+							}
+					})
+				})					
+			})
+				
+			
+		
+		
+		
+		
+		
+		
+		
+	</script>
+
+
+
+
+</body>
+</html>

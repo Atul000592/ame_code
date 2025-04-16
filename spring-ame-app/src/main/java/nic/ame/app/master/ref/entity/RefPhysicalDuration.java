@@ -1,0 +1,46 @@
+package nic.ame.app.master.ref.entity;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Table
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+
+
+public class RefPhysicalDuration {
+	@Id
+	@GeneratedValue(strategy =GenerationType.IDENTITY )
+	private int id;
+    private String p_duration;
+    private String description;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getP_duration() {
+		return p_duration;
+	}
+	public void setP_duration(String p_duration) {
+		this.p_duration = p_duration;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+    
+    
+}

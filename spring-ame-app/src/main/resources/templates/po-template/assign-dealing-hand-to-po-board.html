@@ -1,0 +1,623 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+<head>
+<title>AME DashBoard Controller</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<div th:replace="~{po-template/master-doc-po::master-wrapper-doc-po}"></div>
+<style>
+	.blink {
+            animation: blinker 1.5s linear infinite;
+            color: rgb(255, 0, 0);
+            font-size: 15px;
+            /* Larger, responsive font size */
+            margin-bottom: 14px;
+        }
+
+        @keyframes blinker {
+            50% {
+                opacity: 0;
+            }
+        }
+</style>
+
+
+
+<!--data Table Css files-->
+
+<link rel="stylesheet" href="css/local/dataTableCss/dataTables.bootstrap5.min.css" />
+
+
+<!--data Table js Files-->
+
+	<script type="text/javascript"src="js/local/dataTableJs/jquery.dataTables.min.js"></script>
+	<script src="js/local/dataTableJs/dataTables.bootstrap5.min.js"></script>
+
+<!--daeling hand js file-->
+<script src="js/local/create-dealing-hand.js"></script>
+
+<!-- dealing css file-->
+<link rel="stylesheet" href="css/local/createNewDealingHand.css" />
+
+
+	 <!-- Include Select2 CSS -->
+    <link href="css/local/select2@4.1.0-rc.0/dist/select2.min.css" rel="stylesheet" />
+    
+     <!-- Include Select2 JS -->
+    <script src="js/local/select2@4.1.0-rc.0/dist/select2.min.js"></script>
+
+</head>
+
+
+<body>
+	<div class="d-flex" id="wrapper">
+
+		<div
+			th:replace="~{po-template/left-menu-po::sidebar-wrapper-menu-po}"></div>
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<div th:replace="~{po-template/nav-bar-po::sidebar-wrapper-menu-nav-po}"></div>
+
+
+			<div class="container">
+
+				<div class="wisecountnactionbg my-5">
+
+					<div id="b-homedb">
+
+						<h5>Assign Dealing Hand To Board</h5>
+						<hr>
+						<div class="row">
+							<div class="col-md-12">
+								<span id="message" style="color: darkred; font-weight: 600;">
+
+								</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-2" style="font-weight: 600;">
+								<label> Medical Board :- </label>
+							</div>
+							<div class="col-md-5">
+								<label> <select id="boardId" class="form-select">
+										<option value="0">Select</option>
+										<option th:each="downDtosList: ${downDtosList}"
+											th:value="${downDtosList.boardId}"
+											th:text="${downDtosList.value}"></option>
+								</select>
+
+								</label>
+							</div>
+							
+						</div>
+						<br>
+						<div class="row">
+							<div class="col-md-1" style="font-weight: 600;">
+							<label>Force</label>	
+							</div>
+							<div class="col-md-3" style="font-weight: 600;">
+									<select id="forceName_id" class="form-select">
+									<option value="0">Select</option>
+									<option th:each="forceList: ${forceList}"
+										th:value="${forceList.forceNo}"
+										th:text="${forceList.forceCodeName}"></option>
+								</select>
+							</div>
+						
+							<div class="col-md-1" style="font-weight: 600;">
+									<label>Unit</label>	
+
+							</div>
+						
+							<div class="col-md-3" style="font-weight: 600;">
+								 <select id="unit_Id" class="form-select">
+								</select>
+							</div>
+							
+							<div class="col-md-1" style="font-weight: 600;">
+									<label>Attach Unit</label>	
+
+							</div>
+							
+							<div class="col-md-3" style="font-weight: 600;">
+								<select id="attch_unit" class="form-select" >
+									
+								</select>
+							</div>
+							
+						</div>
+						<hr>
+                      
+                    <span>
+						BoardId For Which Dealing Hand Will Be Assigned:-
+					</span> <span  style="font-size: 15px;color: red;"> 
+						<input type="text" readonly id="boardId_Id">
+					</span> 
+                     
+						<table class="table table-striped table-bordered table-hover"
+								id="tab-personal" style="font-size: 14px;">
+								<thead class="table-light">
+									<tr>
+
+										
+										<th>Force</th>
+										<th>IRLA No</th>
+										<th>Name</th>
+										<th>Designation</th>
+									    <th>Gender</th>
+
+										<th>Unit</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody id="myTable">
+
+								</tbody>
+							</table>
+
+	
+
+					</div>
+					<div class="my-5" id="b-homedb"></div>
+
+				</div>
+
+				<form th:action="@{search-fp-dh-assign}" method="post" id="formId">
+					<input type="hidden" name="boardId" id="boardIdId">
+				</form>
+
+			</div>
+
+
+
+
+		</div>
+		<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+
+
+	<!--Model-2 for role Assign-->
+	<!-- The Modal -->
+	<div id="assign-dealing-hand" class="modal3">
+
+		<!-- Modal content -->
+		<div class="modal-content3">
+			<span class="close3" onclick="closeModel()">&times;</span>
+			<form th:action="@{assign-dealing-hand-to-board-po}" method="post"
+				id="form_id" enctype="multipart/form-data">
+
+
+				<!-- <div class="container-2">
+
+
+					<div class="row">
+						<div class="col-md-12">
+							<h5>Assign Dealing Hand To Board</h5>
+						</div>
+					</div>
+
+					<hr>
+
+					<div class="row">
+						<div class="col-md-4">
+							<label>IRLA No :-</label>
+						</div>
+						<div class="col-md-6">
+							<span class="s1" id="irlaNo"></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label> Name :- </label>
+						</div>
+						<div class="col-md-6">
+							<span class="s1" id="name"> </span>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-4">
+							<label> Designation :- </label>
+
+						</div>
+						<div class="col-md-6">
+							<span class="s1" id="rank"> </span>
+						</div>
+					</div>
+
+
+					<div class="row">
+						<div class="col-md-4">
+							<label> Force Name :- </label>
+
+						</div>
+						<div class="col-md-6">
+							<span class="s1" id="forceName"></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label> Unit :- </label>
+						</div>
+						<div class="col-md-6">
+							<span class="s1" id="unit"> </span>
+						</div>
+
+					</div>
+					<br>
+
+				</div> -->
+				
+				<div class="container-2">
+								<div class="row">
+									<div class="col-md-12">
+										<h5>Create New Role</h5>
+									</div>
+								</div>
+
+								<hr>
+
+								<div class="row mb-2">
+									<div class="col-md-4">
+										<label>IRLA No :-</label>
+									</div>
+									<div class="col-md-6">
+										<span class="s1" id="irlaNo"></span>
+									</div>
+								</div>
+								<div class="row mb-2">
+									<div class="col-md-4">
+										<label> Name :- </label>
+									</div>
+									<div class="col-md-6">
+										<span class="s1" id="name"> </span>
+									</div>
+								</div>
+
+								<div class="row mb-2">
+									<div class="col-md-4">
+										<label> Designation :- </label>
+
+									</div>
+									<div class="col-md-6">
+										<span class="s1" id="rank" > </span>
+									</div>
+								</div>
+
+
+								<div class="row mb-2">
+									<div class="col-md-4">
+										<label> Force Name :- </label>
+
+									</div>
+									<div class="col-md-6">
+										<span class="s1" id="forceName"></span>
+									</div>
+								</div>
+								<div class="row mb-2">
+									<div class="col-md-4">
+										<label> Unit :- </label>
+									</div>
+									<div class="col-md-6">
+										<span class="s1" id="unitName"> </span>
+									</div>
+
+								</div>
+							
+
+							</div>
+
+				<div class="container-3">
+					<div class="row">
+						<div class="col-md-4">
+							<label> Order Number *</label>
+						</div>
+						<div class="col-md-6">
+							<input type="text" name="orderNumber" class="form-control"required>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label> Order Date *</label>
+						</div>
+						<div class="col-md-6">
+
+							<input type="date" name="orderDate" th:max="${#dates.format(#dates.createNow(),'yyyy-MM-dd')}" id="date-input"
+							class="form-control"	required>
+						</div>
+					</div>
+				<!--	<div class="row">
+						<div class="col-md-4">
+							<label> Order By (Name/Irla No) *</label>
+						</div>
+						<div class="col-md-6">
+
+							<input type="text" name="name_irlaNo" class="form-control"required>
+						</div>
+					</div>
+					 <div class="row">
+						<div class="col-md-4">
+							<label> Designation *</label>
+						</div>
+						<div class="col-md-6">
+							<input type="text" name="designation" required>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label> Department * </label>
+						</div>
+						<div class="col-md-6">
+							<select name="department" id="departmentId">
+								<option value="0">MHA</option>
+								<option value="1">Assam Rifle</option>
+								<option value="2">BSF</option>
+								<option value="3">CISF</option>
+							</select>
+						</div>
+					</div> -->
+					
+						<div class="row mb-2">
+									<div class="col-md-4">
+										<label> Department * </label>
+									</div>
+									<div class="col-md-6">
+										<select class="form-select"  name="department" id="departmentId"
+											onchange="getDesignationList(this)">
+
+										</select>
+									</div>
+								</div>
+								<div class="row mb-2">
+									<div class="col-md-4">
+										<label> Designation *</label>
+									</div>
+									<div class="col-md-6">
+										<select class="form-select" name="designation" id="rankDropDown" 
+										onchange="getForcePersonnelList(this)" required>
+											<option value="0">Select</option>
+										</select>
+
+									</div>
+								</div>
+								
+									<div class="row mb-2">
+									<div class="col-md-4">
+										<label> Order By (Name/Irla No) *</label>
+									</div>
+									<div class="col-md-6">
+										<select class="form-select" name="name_irlaNo" id="orderByDropDown" style="text-transform:uppercase" required>
+										  <option value="">select</option>
+										</select>
+
+									</div>
+								</div>
+					
+
+					<div class="row">
+						<div class="col-md-4">
+							<label> Role Type *</label>
+						</div>
+						<div class="col-md-6">
+							<span> <label>Dealing Hand</label>
+							</span> <input type="hidden" name="roleId" th:value="${roleCodeId}"
+								id="roleIdId">
+
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label>Board Id</label>
+						</div>
+						<div class="col-md-4">
+							<label><span id="boardIdId_Id"></span></label>
+						</div>
+
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label>Attach File *</label>
+						</div>
+						<div class="col-md-6">
+							<input type="file" name="file"  class="form-control" required id="file">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<label>Remark *</label>
+						</div>
+						<div class="col-md-6">
+							<input type="text" name="remark"  class="form-control" required>
+						</div>
+					</div>
+
+					<hr>
+					<div class="row">
+						
+                         <div class="col-md-12">
+							<button
+								
+							class="btn btn-danger float-left"	onclick="closeModel()">Cancel</button>
+							<button type="submit"  id="assign_btn"
+								class="btn btn-success float-end">Assign</button>
+						</div>
+						<div class="col-md-0">
+							<input type="hidden" name="forcePersonalIdAssignRole"
+								id="forcePersonalIdAssignRole"> <input type="hidden"
+								name="roleIdIdDealingHand" id="roleIdIdDealingHand"> <input
+								type="hidden" name="boardIdDealingHand" id="boardIdDealingHand">
+
+							
+
+
+						</div>
+
+					</div>
+
+
+				</div>
+			</form>
+		</div>
+	</div>
+
+
+
+
+	<!-- Signup Modal -->
+	<div class="modal fade" id="signout-modal">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header text-center d-block p-5 border-bottom-0">
+					<h3 class="modal-title">Sign Out?</h3>
+					<button type="button" class="close position-absolute"
+						style="right: 15px; top: 8px;" data-dismiss="modal">&times;</button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body">
+					<p class="text-center">Are you sure you want to Sign Out?</p>
+					<div class="text-center py-4">
+						<form action="sign-out">
+							<button type="submit" class="btn btn-primary b-btn mx-3">Sign
+								Out</button>
+							<button class="btn btn-secondary mx-3" data-dismiss="modal">Cancel</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function (e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function () {
+			$('#backtotop').click(function () {
+				$("html, body").animate({
+					scrollTop: 0
+				}, 600);
+				return false;
+			});
+
+			$('#btn-sub-dh').click(function () {
+				//var irlaNumberId = $("#irlaNumberId").val();
+				var boardId = $('#boardId :selected').val();
+
+				if (boardId == 0 || boardId == '') {
+					alert("Please Select Board");
+					return false;
+				}
+
+				else {
+
+					//document.getElementById("irlaNoId").value = irlaNumberId;
+					document.getElementById("boardIdId").value = boardId;
+
+					$("#formId").submit();
+				}
+
+
+			});
+
+
+
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function () {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function () {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function () {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function () {
+			$('#example').DataTable({
+
+			});
+		});
+	</script>
+	<script>
+		$(function () {
+			$("#one-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+		
+		
+			
+					  $(document).ready(function() {
+            $('#unit_Id').select2();
+        });
+        
+        				  $(document).ready(function() {
+            $('#attch_unit').select2();
+        });
+	</script>
+
+
+
+</body>
+
+</html>

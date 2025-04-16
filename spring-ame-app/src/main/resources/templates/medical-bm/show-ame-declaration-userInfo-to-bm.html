@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+<head>
+	<title>AME DashBoard Controller</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<div th:replace="~{medical-sub-ordinate/master-doc::master-wrapper-doc}"></div>
+
+	<meta charset="ISO-8859-1">
+	<title>Insert title here</title>
+
+
+</head>
+
+</div>
+
+<script>
+
+	$("#target").submit(function (event) {
+
+		var mesg = $("#remark").val();
+		if (mesg == "") {
+			alert("please add a Remark ........!")
+			return false;
+		}
+		return true;
+	});
+
+
+</script>
+<script type="text/javascript">
+	$(function () {
+		var dtToday = new Date();
+
+		var month = dtToday.getMonth() + 1;
+		var day = dtToday.getDate();
+		var year = dtToday.getFullYear();
+		if (month < 10)
+			month = '0' + month.toString();
+		if (day < 10)
+			day = '0' + day.toString();
+		var maxDate = year + '-' + month + '-' + day;
+		$('#inputdate').attr('min', maxDate);
+	});
+</script>
+
+
+
+
+
+<body>
+
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+		<div
+			th:replace="~{medical-bm/left-menu-bm::sidebar-wrapper-menu-bm}"></div>
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+		<div
+				th:replace="~{medical-bm/nav-bar-bm::sidebar-wrapper-menu-nav-bm}"></div>
+
+			<div class="container-fluid my-2">
+
+				<!-- Content Row -->
+
+
+
+				<div class="wisecountnactionbg p-2" id="b-homedb">
+
+
+					<div class="proc-box">
+
+
+
+						<hr>
+						<div class="px-3 text-start">
+
+															<div th:each="individualModel: ${individualModel}">
+									<div class="row mb-2">
+										<div class="col-md-3 fw-semibold">IRLA /REGT No.</div>
+										<div class="col-md-3" th:text="${individualModel.forceId}"></div>
+									
+										<div class="col-md-3 fw-semibold">NAME</div>
+										<div class="col-md-3" th:text="${individualModel.name}"></div>
+									</div>
+										<div class="row ">
+										<div class="col-md-3 fw-semibold">DESIGNATION</div>
+										<div class="col-md-3" th:text="${designation}"></div>
+									
+										<!--<div class="col-md-3 fw-semibold">RANK</div> -->
+										<div class="col-md-3 fw-semibold">Declaration Date</div>
+										<div class="col-md-3" th:text="${#dates.format(individualModel.declarationDate,'dd-MM-yyyy')}">
+										</div>
+
+									</div>
+								</div>
+						
+						</div>
+
+
+					</div>
+					<div class="proc-box px-3">
+
+
+						<h6>DECLARATION BY THE PERSONNEL OF CAPFs,NSG &AR TO BE
+							EXAMINED FOR SHAPE CATEGORISATION</h6>
+						<hr>
+
+
+						<table class="table table-bordered text-start">
+							<tr>
+								<td>
+									1)
+								</td>
+								<td>Date of Recruitment (Joining in the Force)</td>
+								<td>
+									<span
+										th:text="${#dates.format(individualModel.date_of_joining,'dd-MM-yyyy')}"></span>
+								</td>
+							</tr>
+
+							<tr>
+								<td>2)</td>
+								<td>Have you ever been examined for any major ailmentor hospitalized during last one
+									year ?</td>
+								<td>
+									<span th:if="${dataList1.majorailmenthospitalized=='Y'}">Yes</span>
+									<span th:if="${dataList1.majorailmenthospitalized==''}">No Defined</span>
+									<span th:unless="${dataList1.majorailmenthospitalized=='Y'}">No</span>
+
+								</td>
+							</tr>
+							<tr>
+								<td rowspan="9">3)</td>
+
+
+							<tr>
+								<th style="border: none!important;"> Are You a patient of ?</th>
+							</tr>
+							<tr>
+								<td class="pt"> a) &nbsp;Hypertension (High Blood Pressure)</td>
+								<td style="border: none!important;"> <span
+										th:if="${dataList1.diabetesmellitus=='Y'}">Yes</span>
+									<span th:if="${dataList1.diabetesmellitus==''}">No Defined</span>
+									<span th:unless="${dataList1.diabetesmellitus=='Y'}">No
+								</td>
+							</tr>
+							<tr>
+								<td class="pt">b) &nbsp;Ischemic Heart-disease</td>
+								<td style="border: none!important;" colspan="2">
+									<span th:if="${dataList1.ichaemicheart=='Y'}">Yes</span>
+									<span th:if="${dataList1.ichaemicheart==''}">No Defined</span>
+									<span th:unless="${dataList1.ichaemicheart=='Y'}">No</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="pt">c) &nbsp;Diabetes Mellitus</td>
+								<td style="border: none !important;" colspan="2"><span
+									th:if="${dataList1.diabetesmellitus=='Y'}">Yes</span> <span
+									th:if="${dataList1.diabetesmellitus==''}">No Defined</span> <span
+									th:unless="${dataList1.diabetesmellitus=='Y'}">No</span></td>
+							</tr>
+							<tr>
+								<td class="pt">d) &nbsp;Chronic Cough/Bronchial asthma/COPD</td>
+									<td style="border: none !important;" colspan="2"><span
+									th:if="${dataList1.copd=='Y'}">Yes</span> <span
+									th:if="${dataList1.copd==''}">No Defined</span> <span
+									th:unless="${dataList1.copd=='Y'}">No</span></td>
+							</tr>
+							<tr>
+								<td class="pt">e) &nbsp;Epilepsy</td>
+								<td style="border: none!important;">
+									<span th:if="${dataList1.epilepsy=='Y'}">Yes</span>
+									<span th:if="${dataList1.epilepsy==''}">No Defined</span>
+									<span th:unless="${dataList1.epilepsy=='Y'}">No
+								</td>
+							</tr>
+							<tr>
+								<td class="pt">f) &nbsp;Persistent Headache</td>
+								<td style="border: none!important;">
+									<span th:if="${dataList1.persistent_headache=='Y'}">Yes</span>
+									<span th:if="${dataList1.persistent_headache==''}">No Defined</span>
+									<span th:unless="${dataList1.persistent_headache=='Y'}">No
+								</td>
+							</tr>
+							<tr>
+								<td class="pt">g) &nbsp;Mental Instability</td>
+								<td style="border: none!important;">
+									<span th:if="${dataList1.menatlinstability=='Y'}">Yes</span>
+									<span th:if="${dataList1.menatlinstability==''}">No Defined</span>
+									<span th:unless="${dataList1.menatlinstability=='Y'}">No
+								</td>
+							</tr>
+
+
+
+
+							</tr>
+
+
+
+							<tr>
+
+								<td>4)</td>
+								<td>Have you suffered from giddiness at any time ?</td>
+								<td>
+
+									<span th:if="${dataList1.giddiness=='Y'}">Yes</span>
+									<span th:if="${dataList1.giddiness==''}">No Defined</span>
+									<span th:unless="${dataList1.giddiness=='Y'}">No
+								</td>
+							</tr>
+							<tr>
+								<td>5)</td>
+								<td>Have you suffered from chest pain/palpitation</td>
+								<td>
+
+									<span th:if="${dataList1.chestpainpalpitation=='Y'}">Yes</span>
+									<span th:if="${dataList1.chestpainpalpitation==''}">No Defined</span>
+									<span th:unless="${dataList1.chestpainpalpitation=='Y'}">No
+								</td>
+							</tr>
+							<tr>
+								<td>6)</td>
+								<td>Did you ever suffer from Tuberculosis ? </td>
+								<td>
+
+									<span th:if="${dataList1.tb=='Y'}">Yes</span>
+									<span th:if="${dataList1.tb==''}">No Defined</span>
+									<span th:unless="${dataList1.tb=='Y'}">No
+								</td>
+							</tr>
+							<tr>
+								<td>7)</td>
+								<td colspan="2">Your</td>
+
+							</tr>
+							<tr>
+								<td></td>
+								<td>a)&nbsp;Appetite</td>
+								<td><span th:text="${dataList1.appetite}"></span></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>b)&nbsp;Sleep</td>
+								<td><span th:text="${dataList1.sleep}"></span></td>
+							</tr>
+							<tr>
+								<td>8)</td>
+								<td>Smoking habit</td>
+								<td>
+
+									<span th:if="${dataList1.smokinghabit=='Y'}">Yes</span>
+									<span th:if="${dataList1.smokinghabit==''}">No Defined</span>
+									<span th:unless="${dataList1.smokinghabit=='Y'}">No
+								</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>Number of cigarettes Per day</td>
+
+								<td th:text="${dataList1.numberofcigarettes}" />
+
+
+							</tr>
+							<tr>
+								<td>9)</td>
+								<td>Alcohol intake</td>
+								<td>
+
+									<span th:if="${dataList1.alcoholintake=='Y'}">Yes</span>
+									<span th:if="${dataList1.alcoholintake==''}">No Defined</span>
+									<span th:unless="${dataList1.alcoholintake=='Y'}">No
+								</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>Average quantity per day</td>
+
+								<td th:text="${dataList1.quantityperday}" />
+							</tr>
+							<tr>
+								<td>10)</td>
+								<td>Any Accident/Injury/major Surgery undergone so far</td>
+								<td>
+
+									<span th:if="${dataList1.accidentinjurysurgery=='Y'}">Yes</span>
+									<span th:if="${dataList1.accidentinjurysurgery==''}">No Defined</span>
+									<span th:unless="${dataList1.accidentinjurysurgery=='Y'}">No
+								</td>
+							</tr>
+							<tr>
+							<tr>
+								<td>11)</td>
+								<td>
+									Have you been transferred recently or under order of transfer ?
+								</td>
+								<td>
+
+									<span th:if="${dataList1.recentTransferData=='Y'}">Yes</span>
+									<span th:if="${dataList1.recentTransferData==''}">No Defined</span>
+									<span th:unless="${dataList1.recentTransferData=='Y'}">No
+								</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>Previous Unit</td>
+								<td>
+									<span th:text="${individualModel.previous_unit}"></span>
+								</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>New Unit</td>
+								<td><span th:text="${individualModel.curent_new_unit}"></span></td>
+							</tr>
+
+							<tr>
+								<td>12)</td>
+								<td>Date of Last AME:</td>
+								<td><span
+										th:text="${#dates.format(individualModel.lastAmeDate,'dd-MM-yyyy HH:mm')}"></span>
+								</td>
+							</tr>
+							<tr>
+								<td>13)</td>
+								<td>Place of Last AME:</td>
+								<td><span th:text="${individualModel.lastAmePlace}"></span> </td>
+							</tr>
+
+							<tr>
+								<td>14)</td>
+								<td>Medical Category of Last AME:</td>
+								<td><span th:text="${dataList1.lastAmeStatus}"></td>
+							</tr>
+						
+
+							<tr>
+								<td>15)</td>
+								<td style="color: rgb(0, 0, 0);">I Agree/Don't agree to undergo HIV Test</td>
+
+								<td style="color: red;">
+									<span th:if="${dataList1.hivTest=='Y'}">Agree</span>
+									<span th:if="${dataList1.hivTest==''}">No Defined</span>
+									<span th:unless="${dataList1.hivTest=='Y'}">Do Not Agree
+									</span>
+								</td>
+							</tr>
+
+						</table>
+						<p class="certifieddesc fst-italic fw-medium">It is further certified that the above facts
+							stated by me are true to my best of knowledge and belief. I
+							have not suppressed any fact concerning my health condition ever in past and as is at
+							present
+							<span class="text-danger">-- Yes</span>
+						</p>
+					 
+
+
+					</div>
+					<hr>
+					<div class="proc-box px-3">
+						<h5>Please give remark</h5>
+						<hr>
+						<form th:action="@{/ame-declaration-checked-approved-bm}" method="post" id="target">
+
+							<div class="row">
+								<div class="col-md-2">GIVE REMARK</div>
+								<div class="col-md-10"><textarea id="remark" name="remark" rows="4" cols="50"
+										class="form-control" required></textarea></div>
+							</div>
+
+
+							<hr>
+
+
+							<input type="hidden" th:value="${forcepersonalId}" name="forcepersonalId"
+								id="forcepersonalId">
+							<input type="hidden" th:value="${AmeId}" name="ameId" id="ameId">
+							<!--  <input type="hidden" name="status" th:value="A">
+      <input type="hidden" id="forceId" th:value="${forceId}">
+       <input type="hidden" id="name" th:value="${name}"> -->
+
+							<input type="submit" class="btn btn-success float-end" value="Submit" id="formsubmit">
+
+						</form>
+						
+                        <form th:action="@{medical-subordinate-dashboard}" method="get">
+								 
+						     <input type="submit"  style="margin-right: 80%;" value="Back" class="btn btn-success float-end" >
+							 </form>
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+		<div class="my-5" id="b-homedb"></div>
+
+	</div>
+
+	</div>
+
+
+
+
+	</div>
+	<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+
+
+
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function (e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function () {
+			$('#backtotop').click(function () {
+				$("html, body").animate({
+					scrollTop: 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+	<script>
+		$(document).ready(function () {
+			$('#formsubmit').click(function () {
+				var forcePersonalId = $("#forcepersonalId").val();
+
+				var forceId = $("#forceId").val();
+				var name = $("#name").val();
+
+				alert("User : " + name + " and IRLA Number " + forceId + " has been notified successfully for the  given appointment data and time ")
+				return true;
+			});
+		});
+
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function () {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function() {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+	<!-- Signup Modal -->
+	<div class="modal fade" id="signout-modal">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header text-center d-block p-5 border-bottom-0">
+					<h3 class="modal-title">Sign Out?</h3>
+					<button type="button" class="close position-absolute" style="right: 15px; top: 8px;"
+						data-dismiss="modal">&times;</button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body">
+					<p class="text-center">Are you sure you want to Sign Out?</p>
+					<div class="text-center py-4">
+						<form action="sign-out">
+							<button type="submit" class="btn btn-primary b-btn mx-3">Sign
+								Out</button>
+							<button class="btn btn-secondary mx-3" data-dismiss="modal">Cancel</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function() {
+			$("#one-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+
+
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,877 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>AME DashBoard Controller</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+
+	<div th:replace="~{medical-sub-ordinate/master-doc::master-wrapper-doc}"></div>
+
+	<script src="js/local/disable-back-button.js"></script>
+
+<script src="js/local/resetChangeForget.js"></script>
+
+</head>
+
+
+<body>
+	<!-- 
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
+		<a class="navbar-brand" href="#">Logo</a>
+		<ul class="navbar-nav">
+			<li class="nav-item">
+				<a class="nav-link" href="#">Link</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#">Link</a>
+			</li>
+		</ul>
+	</nav>
+ -->
+
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+		<!-- Sidebar -->
+		<div th:replace="~{dealinghand/left-menu-dh::sidebar-wrapper-menu-dh}"></div><!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<div th:replace="~{medical-sub-ordinate/nav-bar::sidebar-wrapper-menu-nav-ama}"></div>
+
+
+			<div class="container mt-3">
+
+				<div class="wisecountnactionbg">
+
+					<div th:replace="~{medical-sub-ordinate/inner-user-details::sidebar-wrapper-inner-user-details}">
+					</div>
+
+
+					<!-- candidate details end-->
+
+					<div id="loading-overlay">
+						<div class="spinner"></div>
+
+
+					</div>
+					<div class="proc-box p-3 text-start">
+
+						<form id="regForm">
+							<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+							<h4 class="m-0">Eye Factor</h4>
+
+
+							<hr>
+							<div class="row mb-2">
+								<div class="col-sm-4">
+									<b>Examination</b>
+								</div>
+								<div class="col-sm-4">
+									<b>Right Eye</b>
+								</div>
+								<div class="col-sm-4 text-start">
+									<b>Left Eye</b>
+								</div>
+							</div>
+
+							<!--Distance Vision -->
+							<div class="row">
+
+								<div class="col-sm-4">
+									<div class="row">
+
+										<div class="col-sm-6">Distance Vision</div>
+										<div class="col-sm-6 mb-2">
+											<select class="form-select" th:field="*{eyeFactor.distant_vision}"
+												id="distant-vision" onchange="distantVision()">
+												<option th:value="${eyeFactor.distant_vision}"
+													th:text="*{eyeFactor.distant_vision}?:'Select'"></option>
+												<option value="without-glasses">without-glasses</option>
+												<option value="with-glasses">with-glasses</option>
+											</select>
+
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-8">
+									<!-- without glasses -->
+									<div class="row" id="distant-vision-without-glasses">
+
+										<div class="col-6 mb-2">
+											<select class="form-select" th:field="*{eyeFactor.distant_vision_rt_wog}"
+												id="distant_vision_rt_wog">
+												<option th:value="${eyeFactor.distant_vision_rt_wog}"
+													th:text="*{eyeFactor.distant_vision_rt_wog}">select</option>
+												<option th:each="eyeVisonScaleMasters : ${eyeVisonScaleMasters}"
+													th:value="${eyeVisonScaleMasters.name}"
+													th:text="${eyeVisonScaleMasters.name}"></option>
+											</select> <span id="distant_vision_rt_wog_error" class="error"></span>
+										</div>
+										<div class="col-6 mb-2">
+											<select class="form-select" th:field="*{eyeFactor.distant_vision_lt_wog}"
+												id="distant_vision_lt_wog">
+												<option th:value="${eyeFactor.distant_vision_lt_wog}"
+													th:text="*{eyeFactor.distant_vision_lt_wog}">select</option>
+												<option th:each="eyeVisonScaleMasters : ${eyeVisonScaleMasters}"
+													th:value="${eyeVisonScaleMasters.name}"
+													th:text="${eyeVisonScaleMasters.name}"></option>
+											</select> <span id="distant_vision_lt_wog_error" class="error"></span>
+										</div>
+									</div>
+
+									<!-- with glasses -->
+									<div class="row" id="distant-vision-with-glasses">
+
+										<div class="col-6 mb-2">
+											<select class="form-select" id="distant_vision_rt_wg"
+												th:field="*{eyeFactor.distant_vision_rt_wg}">
+												<option th:value="${eyeFactor.distant_vision_rt_wg}"
+													th:text="*{eyeFactor.distant_vision_rt_wg}">select</option>
+												<option th:each="eyeVisonScaleMasters : ${eyeVisonScaleMasters}"
+													th:value="${eyeVisonScaleMasters.name}"
+													th:text="${eyeVisonScaleMasters.name}"></option>
+											</select> <span id="distant_vision_rt_wg_error" class="error"></span>
+										</div>
+										<div class="col-6 mb-2">
+											<select class="form-select" id="distant_vision_lt_wg"
+												th:field="*{eyeFactor.distant_vision_lt_wg}">
+												<option th:value="${eyeFactor.distant_vision_lt_wg}"
+													th:text="*{eyeFactor.distant_vision_lt_wg}">select</option>
+												<option th:each="eyeVisonScaleMasters : ${eyeVisonScaleMasters}"
+													th:value="${eyeVisonScaleMasters.name}"
+													th:text="${eyeVisonScaleMasters.name}"></option>
+											</select> <span id="distant_vision_lt_wg_error" class="error"></span>
+										</div>
+									</div>
+
+								</div>
+
+							</div>
+
+
+							<!--Near Vision -->
+							<div class="row">
+
+								<div class="col-sm-4">
+									<div class="row">
+										<div class="col-sm-6">Near Vision</div>
+										<div class="col-sm-6 mb-2">
+											<select class="form-select" th:field="*{eyeFactor.near_vision}"
+												id="near-vision" onchange="nearVision()">
+												<option th:value="${eyeFactor.near_vision}"
+													th:text="*{eyeFactor.near_vision}?:'Select'"></option>
+												<option value="without-glasses">without-glasses</option>
+												<option value="with-glasses">with-glasses</option>
+											</select>
+
+
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-8">
+									<!-- without glasses -->
+									<div class="row" id="near-vision-without-glasses">
+
+										<div class="col-sm-6 mb-2">
+											<select class="form-select" th:field="*{eyeFactor.near_vision_rt_wog}"
+												id="near_vision_rt_wog">
+												<option th:value="*{eyeFactor.near_vision_rt_wog}"
+													th:text="*{eyeFactor.near_vision_rt_wog}">Select</option>
+												<option th:each="nearVisionScaleMasters : ${nearVisionScaleMasters}"
+													th:value="${nearVisionScaleMasters.name}"
+													th:text="${nearVisionScaleMasters.name}"></option>
+											</select> <span id="near_vision_rt_wog_error" class="error"></span>
+										</div>
+										<div class="col-sm-6 mb-2">
+											<select class="form-select" th:field="*{eyeFactor.near_vision_lt_wog}"
+												id="near_vision_lt_wog">
+												<option th:value="*{eyeFactor.near_vision_lt_wog}"
+													th:text="*{eyeFactor.near_vision_lt_wog}">Select</option>
+												<option th:each="nearVisionScaleMasters : ${nearVisionScaleMasters}"
+													th:value="${nearVisionScaleMasters.name}"
+													th:text="${nearVisionScaleMasters.name}"></option>
+											</select> <span id="near_vision_lt_wog_error" class="error"></span>
+										</div>
+									</div>
+
+									<!-- with glasses -->
+									<div class="row" id="near-vision-with-glasses">
+
+										<div class="col-6 mb-2">
+											<select class="form-select" th:field="*{eyeFactor.near_vision_rt_wg}"
+												id="near_vision_rt_wg">
+
+												<option th:value="*{eyeFactor.near_vision_rt_wg}"
+													th:text="*{eyeFactor.near_vision_rt_wg}">Select</option>
+												<option th:each="nearVisionScaleMasters : ${nearVisionScaleMasters}"
+													th:value="${nearVisionScaleMasters.name}"
+													th:text="${nearVisionScaleMasters.name}"></option>
+											</select> <span id="near_vision_rt_wg_error" class="error"></span>
+										</div>
+										<div class="col-6 mb-2">
+											<select class="form-select" th:field="*{eyeFactor.near_vision_lt_wg}"
+												id="near_vision_lt_wg">
+												<option th:value="*{eyeFactor.near_vision_lt_wg}"
+													th:text="*{eyeFactor.near_vision_lt_wg}">Select</option>
+
+												<option th:each="nearVisionScaleMasters : ${nearVisionScaleMasters}"
+													th:value="${nearVisionScaleMasters.name}"
+													th:text="${nearVisionScaleMasters.name}"></option>
+											</select> <span id="near_vision_lt_wg_error" class="error"></span>
+										</div>
+									</div>
+
+								</div>
+
+							</div>
+
+
+
+							<div class="row">
+								<div class="col-sm-4">Colour Vision</div>
+								<div class="col-sm-4 mb-2">
+									<select th:field="*{eyeFactor.color_vision_rt}" class=" form-select"
+										id="color_vision_rt" required>
+										<option th:value="${eyeFactor.color_vision_rt}"
+											th:text="*{eyeFactor.color_vision_rt}"></option>
+										<option th:each="innerList : ${eyeVisionDropDown.c2}"
+											th:text="${innerList.value}" th:value="${innerList.value}">
+										</option>
+									</select> <span id="color_vision_rt_error" class="error"></span>
+
+								</div>
+								<div class="col-sm-4 mb-2">
+									<select th:field="*{eyeFactor.color_vision_lt}" class="form-select"
+										id="color_vision_lt" required>
+										<option th:value="${eyeFactor.color_vision_lt}"
+											th:text="*{eyeFactor.color_vision_lt}"></option>
+										<option th:each="innerList : ${eyeVisionDropDown.c2}"
+											th:text="${innerList.value}" th:value="${innerList.value}">
+										</option>
+									</select> <span id="color_vision_lt_error" class="error"></span>
+
+								</div>
+							</div>
+
+
+							<div class="row">
+								<div class="col-sm-4">Field of Vision</div>
+
+								<div class="col-sm-4 mb-2">
+
+									<select th:field="*{eyeFactor.field_of_vision_rt}" class="form-select"
+										id="field_of_vision_rt" required>
+										<option th:value="${eyeFactor.field_of_vision_rt}"
+											th:text="*{eyeFactor.field_of_vision_rt}"></option>
+										<option th:each="innerList : ${eyeVisionDropDown.c3}"
+											th:text="${innerList.value}" th:value="${innerList.value}">
+										</option>
+									</select> <span id="field_of_vision_rt_error" class="error"></span>
+
+								</div>
+								<div class="col-sm-4 mb-2">
+									<select th:field="*{eyeFactor.field_of_vision_lt}" class="form-select"
+										id="field_of_vision_lt" required>
+										<option th:value="${eyeFactor.field_of_vision_lt}"
+											th:text="*{eyeFactor.field_of_vision_lt}"></option>
+										<option th:each="innerList : ${eyeVisionDropDown.c3}"
+											th:text="${innerList.value}" th:value="${innerList.value}">
+										</option>
+									</select> <span id="field_of_vision_lt_error" class="error"></span>
+
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-sm-4">Any other Pathology</div>
+								<div class="col-sm-4 mb-2">
+									<input type="text" class="form-control"
+										th:field="*{eyeFactor.any_other_pathology_rt}" id="any_other_pathology_rt">
+									<span id="any_other_pathology_rt_error" class="error"></span>
+
+								</div>
+								<div class="col-sm-4 mb-2">
+									<input type="text" class="form-control"
+										th:field="*{eyeFactor.any_other_pathology_lt}" id="any_other_pathology_lt">
+									<span id="any_other_pathology_lt_error" class="error"></span>
+
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-4">IOL</div>
+								<div class="col-sm-4 mb-2">
+									<select th:field="*{eyeFactor.iol_rt}" class="form-select" id="iol_rt" required>
+										<option th:value="${eyeFactor.iol_rt}" th:text="*{eyeFactor.iol_rt}"></option>
+										<option th:each="innerList : ${eyeVisionDropDown.c4}"
+											th:text="${innerList.value}" th:value="${innerList.value}">
+										</option>
+									</select> <span id="iol_rt_error" class="error"></span>
+
+
+								</div>
+								<div class="col-sm-4 mb-2">
+									<select th:field="*{eyeFactor.iol_lt}" class="form-select" id="iol_lt" required>
+										<option th:value="${eyeFactor.iol_lt}" th:text="*{eyeFactor.iol_lt}"></option>
+										<option th:each="innerList : ${eyeVisionDropDown.c4}"
+											th:text="${innerList.value}" th:value="${innerList.value}">
+										</option>
+									</select> <span id="iol_lt_error" class="error"></span>
+
+
+								</div>
+							</div>
+							<hr>
+
+
+
+
+
+
+							<input type="hidden" name="forcepersonalId" th:value="${forcepersonalId}"> <input
+								type="hidden" name="ameId" th:value="${ameId}" id="ameId"> <input type="hidden"
+								th:value="${_csrf.token}" name="_csrf">
+
+							<div class="d-grid gap-2 d-md-block">
+								<button type="button" class="btn btn-secondary" onclick="backToHome()"
+									style="width:100px;">Back</button>
+								<button type="submit" class="btn btn-success"
+									style="width:100px;float:right;">Submit</button>
+
+
+							</div>
+
+						</form>
+						<form th:action="@{/declaration-requests-completed-ma}" method="post" id="back-to-home">
+							<input type="hidden" name="forcepersonalId" th:value="${forcepersonalId}"> <input
+								type="hidden" name="ameId" th:value="${ameId}">
+
+
+						</form>
+
+					</div>
+				</div>
+			</div>
+
+			<div th:replace="~{medical-sub-ordinate/alert-modal::message-alert-modal}"></div>
+
+
+
+		</div>
+
+	</div>
+
+	<script>
+		function backToHome() {
+
+			$("#back-to-home").submit();
+		}
+	</script>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			distantVision();
+			nearVision();
+			setDefaultValues();
+		});
+	</script>
+
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function (e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			setDefaultValues();
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function () {
+			var prevValRight = document.getElementById('select-right').value;
+			selectedValeRight(prevValRight);
+			var prevValLeft = document.getElementById('select-left').value;
+			selectedValeLeft(prevValLeft);
+
+			$('#backtotop').click(function () {
+				$("html, body").animate({
+					scrollTop: 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function () {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function () {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+	<!-- Signup Modal -->
+
+	<div class="modal fade" id="signout-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Sign Out?</h5>
+
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<!-- Modal body -->
+					<div class="modal-body">
+						<p class="text-center">Are you sure you want to Sign Out?</p>
+						<form action="sign-out">
+							<div class="row">
+								<div class="col-md-6">
+									<button type="submit" class="btn btn-primary">Sign Out</button>
+								</div>
+								<div class="col-md-6">
+									<button type="button" class="btn btn-secondary"
+										data-bs-dismiss="modal">Cancel</button>
+								</div>
+
+							</div>
+
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+
+	<script>
+		/*
+			function hideDistantVision() {
+				var distantVision = $("#distant-vision").val();
+				var withoutGlasses = $("#without-glasses");
+				var withGlasses = $("#with-glasses");
+				if (!distantVision) {
+					withoutGlasses.hide();
+					withGlasses.hide();
+				}
+
+			} */
+	</script>
+	<script>
+		function distantVision() {
+			var distantVision = $("#distant-vision").val();
+
+			if (distantVision) {
+				if (distantVision == "without-glasses") {
+					$("#distant-vision-without-glasses").show();
+					$("#distant-vision-with-glasses").hide();
+
+				}
+				if (distantVision == "with-glasses") {
+					$("#distant-vision-without-glasses").hide();
+					$("#distant-vision-with-glasses").show();
+
+				}
+			} else {
+				$("#distant-vision-without-glasses").hide();
+				$("#distant-vision-with-glasses").hide();
+
+			}
+
+		}
+	</script>
+
+	<script>
+		function nearVision() {
+			var nearVision = $("#near-vision").val();
+
+			if (nearVision) {
+				if (nearVision == "without-glasses") {
+					$("#near-vision-without-glasses").show();
+					$("#near-vision-with-glasses").hide();
+
+				}
+				if (nearVision == "with-glasses") {
+					$("#near-vision-without-glasses").hide();
+					$("#near-vision-with-glasses").show();
+
+				}
+			} else {
+				$("#near-vision-without-glasses").hide();
+				$("#near-vision-with-glasses").hide();
+			}
+
+		}
+	</script>
+
+
+	<script>
+		function selectedValue() {
+
+			var valueOfe = $("#eyeCategory").val();
+
+			if (valueOfe == 'E-1' || valueOfe == 'E-5') {
+
+				$("#type").hide();
+				$("#duration").hide();
+			} else {
+				$("#type").show();
+				$("#duration").show();
+			}
+
+		}
+	</script>
+	<script>
+		function selectedValueLeft() {
+			var valueOfe = $("#select-left").val();
+			if (valueOfe == 'E-1' || valueOfe == 'E-5') {
+
+				$('#eTypeLeft').hide();
+				$('#eDurationLeft').hide();
+			} else {
+				$('#eTypeLeft').show();
+				$('#eDurationLeft').show();
+			}
+
+		}
+	</script>
+	<script>
+		$(function () {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function () {
+			$("#one-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+
+
+
+
+	</script>
+
+	<!-- =================================================Validation================================================================ -->
+
+
+	<script>
+		$(document).ready(function () {
+			$('#regForm').submit(function (event) {
+				event.preventDefault();
+
+				$('#loading-overlay').show();
+				$('body').addClass('loading');
+
+				var ameId = $("#ameId").val();
+
+				var distant_vision = $("#distant-vision").val();
+
+				var distant_vision_rt_wg = $("#distant_vision_rt_wg").val();
+				var distant_vision_rt_wog = $("#distant_vision_rt_wog").val();
+
+				var distant_vision_lt_wg = $("#distant_vision_lt_wg").val();
+				var distant_vision_lt_wog = $("#distant_vision_lt_wog").val();
+
+				var near_vision = $("#near-vision").val();
+
+				var near_vision_rt_wg = $("#near_vision_rt_wg").val();
+				var near_vision_rt_wog = $("#near_vision_rt_wog").val();
+
+				var near_vision_lt_wg = $("#near_vision_lt_wg").val();
+				var near_vision_lt_wog = $("#near_vision_lt_wog").val();
+
+				var color_vision_rt = $("#color_vision_rt").val();
+				var color_vision_lt = $("#color_vision_lt").val();
+
+				var field_of_vision_rt = $("#field_of_vision_rt").val();
+				var field_of_vision_lt = $("#field_of_vision_lt").val();
+
+				var any_other_pathology_rt = $("#any_other_pathology_rt").val();
+				var any_other_pathology_lt = $("#any_other_pathology_lt").val();
+
+				var iol_rt = $("#iol_rt").val();
+				var iol_lt = $("#iol_lt").val();
+
+
+
+
+
+
+				var data = {
+					ameId: ameId,
+
+					distant_vision: distant_vision,
+
+					distant_vision_rt_wg: distant_vision_rt_wg,
+					distant_vision_rt_wog: distant_vision_rt_wog,
+
+					distant_vision_lt_wg: distant_vision_lt_wg,
+					distant_vision_lt_wog: distant_vision_lt_wog,
+
+					near_vision: near_vision,
+
+					near_vision_rt_wg: near_vision_rt_wg,
+					near_vision_rt_wog: near_vision_rt_wog,
+
+					near_vision_lt_wg: near_vision_lt_wg,
+					near_vision_lt_wog: near_vision_lt_wog,
+
+
+					color_vision_rt: color_vision_rt,
+					color_vision_lt: color_vision_lt,
+
+
+					field_of_vision_rt: field_of_vision_rt,
+					field_of_vision_lt: field_of_vision_lt,
+
+
+					any_other_pathology_rt: any_other_pathology_rt,
+					any_other_pathology_lt: any_other_pathology_lt,
+
+
+					iol_rt: iol_rt,
+					iol_lt: iol_lt,
+
+
+
+				}
+
+				/* ===================header==================== */
+				var token = $("meta[name='_csrf']").attr("content");
+				var header = $("meta[name='_csrf_header']").attr("content");
+				$('.error').text('');
+
+
+
+
+				$.ajax({
+					type: 'POST',
+					url: 'validate-and-save-eye-dealing-hand',
+					data: JSON.stringify(data),
+					contentType: 'application/json',
+					beforeSend: function (xhr) {
+						xhr.setRequestHeader(header, token);
+					},
+					success: function (response) {
+						if (response.isValid) {
+							$('#alert-modal .modal-title').text('Success');
+							$('#alert-modal .modal-body h3').text(response.message);
+							$('#alert-modal .modal-body i').removeClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+								.addClass('fas fa-check-circle faa-tada animated')
+								.removeAttr('style');
+							$("#cross-close-button").attr('onclick', 'backToHome()');
+							$("#okay-close-button").attr('onclick', 'backToHome()');
+							$('#alert-modal').modal({
+								backdrop: 'static',
+								keyboard: false
+							});
+							$('#alert-modal').modal('show');
+						}
+
+						else {
+
+							$.each(response.errors, function (field, errorMessage) {
+
+								$('#' + field + '_error').text(errorMessage);
+
+							});
+						}
+
+					},
+					complete: function () {
+						$('#loading-overlay').hide();
+						$('body').removeClass('loading');
+					},
+					error: function (xhr, status, error) {
+
+						if (xhr.responseText) {
+
+							$('#alert-modal .modal-title').text('ERROR');
+							$('#alert-modal .modal-body h3').text(xhr.responseText);
+
+							$('#alert-modal .modal-body i').addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+								.css('color', 'red');
+							$('#alert-modal').modal({
+								backdrop: 'static',
+								keyboard: false
+							});
+							$('#alert-modal').modal('show');
+						}
+
+						else {
+							$('#alert-modal .modal-title').text('ERROR');
+							$('#alert-modal .modal-body h3').text('Server not responding please sign-in again');
+
+							$('#alert-modal .modal-body i').addClass('fas fa-exclamation-circle fa-lg animate__animated animate__shakeX')
+								.css('color', 'red');
+							$('#alert-modal').modal({
+								backdrop: 'static',
+								keyboard: false
+							});
+							$('#alert-modal').modal('show');
+
+						}
+					}
+				});
+			});
+		});
+
+
+		//-------------Default values----------//
+		function setDefaultValues() {
+
+			var distant_vision = $("#distant-vision").val();
+			var distant_vision_rt_wog = $("#distant_vision_rt_wog").val();
+			var distant_vision_lt_wog = $("#distant_vision_lt_wog").val();
+
+			var near_vision = $("#near-vision").val();
+			var near_vision_rt_wog = $("#near_vision_rt_wog").val();
+			var near_vision_lt_wog = $("#near_vision_lt_wog").val();
+
+			var color_vision_rt = $("#color_vision_rt").val();
+			var color_vision_lt = $("#color_vision_lt").val();
+
+			var field_of_vision_rt = $("#field_of_vision_rt").val();
+			var field_of_vision_lt = $("#field_of_vision_lt").val();
+
+			var any_other_pathology_rt = $("#any_other_pathology_rt").val();
+			var any_other_pathology_lt = $("#any_other_pathology_lt").val();
+
+			var iol_rt = $("#iol_rt").val();
+			var iol_lt = $("#iol_lt").val();
+
+
+			if (!distant_vision) {
+				$("#distant-vision").val('without-glasses');
+				distantVision();
+
+
+			}
+			if (!distant_vision_rt_wog) {
+				$("#distant_vision_rt_wog").val('6/6');
+
+			}
+			if (!distant_vision_lt_wog) {
+				$("#distant_vision_lt_wog").val('6/6');
+
+			}
+
+
+			if (!near_vision) {
+			
+				$("#near-vision").val('without-glasses');
+				nearVision();
+
+			}
+
+			if (!near_vision_rt_wog) {
+				$("#near_vision_rt_wog").val('N-5');
+
+			}
+			if (!near_vision_lt_wog) {
+				$("#near_vision_lt_wog").val('N-5');
+
+			}
+
+			if (!color_vision_rt) {
+				$("#color_vision_rt").val('CP-1');
+
+			}
+			if (!color_vision_lt) {
+				$("#color_vision_lt").val('CP-1');
+
+			}
+
+			if (!field_of_vision_rt) {
+				$("#field_of_vision_rt").val('NORMAL');
+
+			}
+
+			if (!field_of_vision_lt) {
+				$("#field_of_vision_lt").val('NORMAL');
+
+			}
+			if (!any_other_pathology_rt) {
+				$("#any_other_pathology_rt").val('NIL');
+
+			}
+			if (!any_other_pathology_lt) {
+				$("#any_other_pathology_lt").val('NIL');
+
+			}
+			if (!iol_rt) {
+				$("#iol_rt").val('Absent');
+
+			}
+			if (!iol_lt) {
+				$("#iol_lt").val('Absent');
+
+			}
+
+		}
+
+
+
+
+
+	</script>
+
+
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<div class="dashboard-bgcolor border-right" id="sidebar-wrapper"
+	th:fragment="sidebar-wrapper-menu-bm">
+	<div class="sidebar-heading">
+
+		<img src="images/collage_CAPF.jpg" title="collage_CAPF"
+			alt="collage_CAPFo" width="40px" class="rounded-circle me-2"> <span>
+			Annual Medical Examinations(AME)</span>
+
+
+
+	</div>
+	<div class="list-group list-group-flush b-leftmenu">
+
+		<ul id="sortable-menu">
+			<li><a href="dashboard-user">Home</a></li>
+			<li><a href='role-map-to-ame-bm-dashboard'>BM
+					DashBoard</a></li>
+			<li class='sub-menu'><a href='javascript:void(0)'>AME
+					(NGO's) <i class="fa fa-caret-down"></i>
+			</a>
+				<ul>
+					<li><a class="b-newpage" href='appointment-and-board-List'>BoardList</a></li>
+					<li><a class="b-newpage" href="show-ame-declaration-list">See
+							Declaration</a></li>
+
+					<li><a class="b-newpage"
+						href='display-pending-requests-upload-checkup'>Upload
+							Declaration</a></li>
+					<li><a class="b-newpage"
+						href='display-pending-requests-upload-checkup'>Investigation/Check-Up
+							List</a></li>
+					<li><a class="b-newpage" href='application-under-process-ma'>Fill
+							AME</a></li>
+					<li><a class="b-newpage" href='NGO/Result/result-of-all-ngo'>Result</a></li>
+
+				</ul></li>
+
+			<li class='sub-menu'><a href='javascript:void(0)'>AME (GO's)
+					<i class="fa fa-caret-down"></i>
+			</a>
+				<ul>
+					<li><a class="b-newpage" href="#">See Declaration</a></li>
+					<li><a class="b-newpage" href='#'>Upload Declaration</a></li>
+					<li><a class="b-newpage" href='#'>Investigation/Checkup
+							List</a></li>
+					<li><a class="b-newpage" href='#'>Fill AME</a></li>
+					<li><a class="b-newpage" href='#'>Result</a></li>
+					<li><a class="b-newpage" href='appointment-and-board-List'>BoardList</a></li>
+
+
+
+
+				</ul></li>
+			<li class='sub-menu'><a href='javascript:void(0)'>Dealing
+					Hand <i class="fa fa-caret-down"></i>
+			</a>
+				<ul>
+					<li><a class="b-newpage" href="assign-dealing-hand-to-unit">Appointment
+							of Dealing hand </a></li>
+					<li><a class="b-newpage" href="view-dealing-hand-list">View
+							DealingHand List</a></li>
+
+				</ul></li>
+
+			<li><a href="" class="btn-link" data-bs-toggle="modal"
+				data-bs-target="#exampleModal"> Alert <!-- <span class="badge rounded-pill text-bg-danger">5</span> -->
+			</a></li>
+			<!-- Modal -->
+			<div class="modal fade" id="exampleModal" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-header boder-none">
+							<h1 class="modal-title fs-5" id="exampleModalLabel">Alert</h1>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body text-center">
+							<h3>Are you sure?</h3>
+							<i class="far fa-check-circle faa-tada animated"></i>
+							<p>Do you really want to delete these records? This process
+								cannot be undone.</p>
+						</div>
+						<div class="modal-footer boder-none">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">Close</button>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+		</ul>
+	</div>
+</div>

@@ -1,0 +1,149 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+<head>
+	<title>Contact Us</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<div th:replace="~{user-management-template/force-admin-user/mg-header-menu::sidebar-wrapper-menu-header}"></div>
+
+
+
+</head>
+
+<body class="d-flex flex-column h-100">
+	<main class="flex-shrink-0">
+		<div class="d-flex" id="wrapper">
+			<div th:replace="~{user-management-template/force-admin-user/mg-left-menu::sidebar-wrapper-menu-cpf}"></div>
+			<div id="page-content-wrapper">
+				<div th:replace="~{user-management-template/force-admin-user/nav-bar-mg::sidebar-wrapper-menu-nav-cpf}">
+				</div>
+				<div class="container">
+						<div class="proc-box py-2 px-3 ui-sortable-handle text-start">
+					<h4 class="m-0">Force Personal List</h4>
+					<hr>
+					<table class="table table-striped table-bordered table-hover">
+						<thead class="table-light">
+							<tr>
+								<th>ID</th>
+								<th>Name</th>
+								<th>Email</th>
+								<th>Department</th>
+								<th>Designation</th>
+								<th>Mobile No</th>
+								<th>Contact Type</th>
+								
+								
+
+
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="user : ${list}">
+								<td th:text="${user.id}"></td>
+								<td th:text="${user.name}"></td>
+								<td th:text="${user.email}"></td>
+								<td th:text="${user.department}"></td>
+								<td th:text="${user.designation}"></td>
+								<td th:text="${user.mobileNo}"></td>
+								<td th:text="${user.contactType}"></td>
+								<td>
+									<a th:href="@{/edit-contact-us-form(id=${user.id})}"
+										class="btn btn-primary btn-sm">Edit</a>
+								</td>
+
+
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</main>
+
+
+
+</body>
+<script>
+
+	$("#menu-toggle").click(function (e) {
+		e.preventDefault();
+		$("#wrapper").toggleClass("toggled");
+	});
+</script>
+
+
+<script>
+	$(document).ready(function () {
+		$('#backtotop').click(function () {
+			$("html, body").animate({
+				scrollTop: 0
+			}, 600);
+			return false;
+		});
+	});
+</script>
+<script>
+	$('.sub-menu ul').hide();
+	$('.sub-sub-menu ul').hide();
+	$(".sub-menu a").click(function () {
+		$(this).parent(".sub-menu").children("ul").slideToggle("100");
+		$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+	});
+
+	$(".sub-sub-menu a").click(function () {
+		$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+		$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+	});
+
+	$(document).ready(function () {
+		$("#editUser-on a").click(function () {
+			//Do stuff when clicked
+			$("#editUser").submit();
+		});
+	});
+
+
+
+</script>
+<script src="vendor/jquery-ui/jquery-ui.js"></script>
+<script>
+	$(function () {
+		$("#sortable-menu").sortable();
+		$("#sortable-menu").disableSelection();
+
+		$("#sortable-cards").sortable();
+		$("#sortable-cards").disableSelection();
+	});
+</script>
+
+
+<script>
+	$(function () {
+		$("#one-item-row").on("click", function () {
+			$(".b-customize").addClass("col-lg-12", 300);
+			$(".b-customize").removeClass("col-lg-4", 300);
+			$(".b-customize").removeClass("col-lg-6", 300);
+
+		});
+
+		$("#two-item-row").on("click", function () {
+			$(".b-customize").addClass("col-lg-6", 300);
+			$(".b-customize").removeClass("col-lg-4", 300);
+			$(".b-customize").removeClass("col-lg-12", 300);
+
+		});
+
+		$("#three-item-row").on("click", function () {
+			$(".b-customize").addClass("col-lg-4", 300);
+			$(".b-customize").removeClass("col-lg-6", 300);
+			$(".b-customize").removeClass("col-lg-12", 300);
+
+		});
+
+	});
+</script>
+
+</html>

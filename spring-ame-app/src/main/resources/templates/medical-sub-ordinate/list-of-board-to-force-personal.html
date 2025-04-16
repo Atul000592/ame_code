@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<head>
+<meta charset="ISO-8859-1">
+
+
+<title>AME DashBoard Controller</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<div th:replace="~{medical-sub-ordinate/master-doc::master-wrapper-doc}"></div>
+
+
+</head>
+
+
+<body>
+
+
+
+	<div class="d-flex" id="wrapper">
+
+		<!-- Sidebar -->
+		<div
+			th:replace="~{medical-sub-ordinate/left-menu-ama::sidebar-wrapper-menu-ama}"></div>
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<div
+				th:replace="~{medical-sub-ordinate/nav-bar::sidebar-wrapper-menu-nav-ama}"></div>
+
+	<div class="container mt-3">
+				<div class="wisecountnactionbg">
+
+				<!-- Content Row -->
+
+
+				<div id="b-homedb" class="proc-box p-3">
+
+				
+						<h4>List Of Board to
+							Personal</h4>
+						<p>**Note:-List of board Assign to you with your role Type</p>
+
+
+
+						<div>
+							<span th:if="${message!=null}" th:text="${message}"> </span>
+						</div>
+				
+
+
+								<div class="table-responsive ui-sortable-handle">
+									<table class="table table-striped table-bordered table-hover mb-0" id="user">
+
+										<thead class="table-light">
+											<tr>
+												<th>Serial No</th>
+												<th>BoardID</th>
+												<th>UserFor</th>
+												<th>ForceName</th>
+											
+												<th>Created On</th>
+												<th>Appointment Completed</th>
+												<th>Appointment Pending</th>
+												<th>Action</th>
+											</tr>
+										</thead>
+										<tr th:each="boardList,statcount :${boardList}">
+											<td th:text="${statcount.count}"></td>
+											<td th:text="${boardList.boardId}"></td>
+											<td th:text="${boardList.usedFor}"></td>
+
+
+											<td th:text="${boardList.forceName}"></td>
+										
+											<td th:text="${boardList.createdOn}"></td>
+											<td th:text="${boardList.appointmentCompletedCount}"></td>
+											<td th:text="${boardList.appointmentPendingCount}"></td>
+
+
+											<td>
+												<form action="give-appointment-to-force-personal-for-ama"
+													method="post">
+													<input type="hidden"
+														th:value="${boardList.forcePersonalId}"
+														name="forcepersonalId"> <input type="hidden"
+														th:value="${boardList.boardId}" name="boardId"> <input
+														type="hidden" th:value="${_csrf.token}" name="_csrf">
+													<input type="submit" value="View Details" class="btn btn-info btn-sm">
+
+												</form>
+											</td>
+										</tr>
+
+									</table>
+
+								</div>
+								</div>
+								
+				             <form th:action="@{medical-subordinate-dashboard}" method="get">
+								 
+						     <input type="submit" value="Back" class="btn btn-primary float-end">
+							 </form>
+							
+
+			
+				<div class="my-5" id="b-homedb"></div>
+
+			</div>
+
+		</div>
+
+
+
+
+	</div>
+	<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function() {
+			$('#backtotop').click(function() {
+				$("html, body").animate({
+					scrollTop : 0
+				}, 600);
+				return false;
+			});
+		});
+	</script>
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function() {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function() {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+	</script>
+
+
+
+	<!-- Signup Modal -->
+	<div class="modal fade" id="signout-modal">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Sign Out?</h5>
+
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<!-- Modal body -->
+						<div class="modal-body">
+							<p class="text-center">Are you sure you want to Sign Out?</p>
+							<form action="sign-out">
+								<div class="row">
+									<div class="col-md-6">
+										<button type="submit" class="btn btn-primary">Sign
+											Out</button>
+									</div>
+									<div class="col-md-6">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Cancel</button>
+									</div>
+
+								</div>
+
+							</form>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
+	</div>
+
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function() {
+			$("#one-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function() {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+
+
+</body>
+</html>

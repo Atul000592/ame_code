@@ -1,0 +1,122 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<script type="text/javascript" language="javascript" src="http://www.technicalkeeda.com/js/javascripts/plugin/jquery.js"></script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Spring Jquery Ajax Demo</title>
+<style>
+Table.GridOne {
+    padding: 3px;
+    margin: 0;
+    background: lightyellow;
+    border-collapse: collapse;  
+    width:35%;
+}
+Table.GridOne Td {  
+    padding:2px;
+    border: 1px solid #ff9900;
+    border-collapse: collapse;
+}
+</style>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>How To Get Multiple Checkbox Value In jQuery</title>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+  <h2>Filterable Table</h2>
+  <p>Type something in the input field to search the table for first names, last names or emails:</p>  
+  <input class="form-control" id="myInput" type="text" placeholder="Search..">
+  <br>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+		<th>S.No</th>
+        <th>IRLA NO</th>
+        <th>NAME</th>
+        <th>FORCE NAME</th>
+        <th>UNIT NAME</th>
+      </tr>
+    </thead>
+    <tbody id="myTable">
+      <tr th:each="dataList: ${dataList}">
+      <td>
+		   <label><input type="checkbox" th:value="${datalist.forcePersonalId}" name="candidateId"></label>   
+	  </td>
+	  <td th:text="${datalist.forcePersonalId}">
+		  
+	  </td>
+      </tr>
+      
+      <tr> <button type="button">Send the list</button></tr>
+    </tbody>
+  </table>
+  
+ 
+</div>
+
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+
+        
+        <label><input type="checkbox" value="laravel" name="language"> Laravel </label>        
+        
+        <br>
+        <button type="button">Send the list</button>
+    
+  <script>
+      $(document).ready(function() {
+          $("button").click(function(){
+              var arr=new Array();
+             
+              $.each($("input[name='candidateId']:checked"), function(){
+                  arr.push($(this).val());
+                  
+              });
+              
+              var data=JSON.stringify(arr);
+              alert(JSON.stringify(arr));
+               $.ajax({
+				   
+        type: "post",
+      
+        url: "send-ngo-request-to-ama",
+        cache: false,
+        dataType: 'json',       
+		 contentType: "application/json",
+        data:data,
+        success: function(response){
+            $('#result').html("");
+            alert(response);
+           
+            },
+        error: function(){                      
+            alert('Error while request..');
+        }
+    });
+
+              
+          });
+      });
+  </script>
+</body>
+</html>
+</html>

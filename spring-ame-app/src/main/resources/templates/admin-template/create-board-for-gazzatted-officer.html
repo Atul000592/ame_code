@@ -1,0 +1,821 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>AME DashBoard Controller</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+	<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css" />
+	<!-- Custom styles for this template -->
+	<link rel="stylesheet" href="css/base.css" />
+	<link rel="stylesheet" href="css/base-responsive.css" />
+	<link rel="stylesheet" href="css/animate.min.css" />
+	<link rel="stylesheet" href="css/slicknav.min.css" />
+	<link rel="stylesheet" href="css/font-awesome.min.css" />
+	<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+	<script src="js/local/disable-back-button.js"></script>
+
+	<!-- Bootstrap core JavaScript -->
+	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="js/jquery.slicknav.min.js"></script>
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<!-- dataTable  -->
+	<script type="text/javascript" src="js/moment.min.js"></script>
+
+	<script src="ame-datatable-js/1.11.5/jquery.dataTables.js"></script>
+	<script src="ame-datatable-js/1.11.5/jquery.3.7.0.js"></script>
+	<link href="ame-datatable-css/1.11.5/jquery.dataTables.css" rel="stylesheet" type="text/css">
+
+	<!--file size Validation js-->
+	<script src="js/local/board-formation.js"></script>
+
+	<!-- Include Select2 CSS -->
+	<link href="css/local/select2@4.1.0-rc.0/dist/select2.min.css" rel="stylesheet" />
+
+	<!-- Include Select2 JS -->
+	<script src="js/local/select2@4.1.0-rc.0/dist/select2.min.js"></script>
+    <script src="js/local/resetChangeForget.js"></script>
+
+	<style>
+		.dataTables_wrapper .dataTables_length {
+			float: left;
+			margin-bottom: 15px;
+		}
+
+		label {
+			font-weight: 500;
+			font-size: 15px;
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		}
+	</style>
+
+
+
+</head>
+
+
+<body>
+
+	<div class="d-flex" id="wrapper">
+		<div th:replace="~{admin-template/admin-left-menu::admin-left-menu}"></div>
+
+
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<div th:replace="~{admin-template/nav-bar-bda::sidebar-wrapper-menu-nav-bda}"></div>
+
+			<div class="container mt-3">
+
+				<div class="wisecountnactionbg">
+
+					<div id="b-homedb">
+
+						<h5>Board Formation for Gazetted Officers</h5>
+						<hr>
+
+						<div class="row">
+							<div class="col-md-2">
+								<label> Select Force Name:- </label>
+							</div>
+							<div class="col-md-3">
+								<select id="forceName_id" class="form-select" onchange="getForceData(this)">
+									<option th:value="${forceId}" th:text="${forceName}">Select
+									</option>
+									<option th:each="forceList: ${forceList}" th:value="${forceList.forceNo}"
+										th:text="${forceList.forceName}"></option>
+								</select>
+							</div>
+							<div class="col-md-1" style="font-weight: 600;">
+								<label> Unit:- </label>
+							</div>
+							<div class="col-md-2">
+
+
+								<select id="unit_Id" class="form-select" onchange="getUnitData(this)">
+								</select>
+
+
+							</div>
+							<div class="col-md-2" style="font-weight: 600;">
+								<label> Attach Unit:- </label>
+							</div>
+							<div class="col-md-2">
+
+
+								<select id="attach_unit" class="form-select" onchange="getAttachUnitData(this)">
+								</select>
+
+
+							</div>
+						</div>
+
+						<div class="proc-box p-3" style="overflow: scroll;">
+
+							<!-- <form th:action="@{/search1}" method="get">
+					  <input type="text" name="keyword" th:value="${keyword}"  placeholder="Find by IRLA, Name & Designation" size="50" >
+					  <button type="submit" class="btn btn-info" >Search</button>
+					  <button type="submit" class="btn btn-info" >Reset</button>
+					  </form> -->
+
+
+							<div class="table-responsive">
+								<h5 class="text-start fw-bold">List of Doctors</h5>
+								<hr>
+								<table class="table table-striped table-bordered table-hover" id="forcePersonalData"
+									style="font-size: 14px;	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+">
+									<thead class="table-light">
+
+										<tr>
+											<th>Force Name</th>
+											<th>IRLA No</th>
+											<th>Name</th>
+											<th>Gender</th>
+											<th>Designation</th>
+											<th>Unit</th>
+
+
+
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody id="forcePersonalDoctor">
+										<tr th:each="individual : ${forcePersonalList}" th:field="${individual}"
+											class="memberData">
+
+											<td th:text="${individual.forceName}" id="force_no"></td>
+											<td th:text="${individual.irlaNumber}" id="irlaNumber" class="irlaNumberCls"
+												th:value="${individual.forcePersonalId}"></td>
+											<td th:text="${individual.name}" id="personalName"></td>
+											<td th:text="${individual.gender}" id="gender"></td>
+
+											<td th:text="${individual.designation}" id="designation"></td>
+											<td th:text="${individual.unitName}"></td>
+
+
+
+											<td>
+
+												<button class="btn btn-info btn-sm" name="btnAddToList"
+													onclick="addtoList(this)">Add</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+
+
+
+						</div>
+
+
+
+						<div class="proc-box p-3 text-start">
+							<div id="b-homedb">
+
+
+								<h4 class="text-start fw-bold">Added Members in Board</h4>
+								<hr>
+								<!--<form th:action="@{/search}" method="get">
+					  <input type="text" name="keyword" th:value="${keyword}"  placeholder="Find by IRLA, Name & Designation" size="50" >
+					  <button type="submit" class="btn btn-info" >Search</button>
+					  <button type="submit" class="btn btn-info" >Reset</button>
+					  </form>-->
+								<div style="display: none;" class="unitList" id="unitList">
+
+									<select class="roleTypeSelect" id="roleTypeSelect">
+										<option value="0">select option</option>
+										<option th:each="option : ${roleTypeList}" th:value="${option.id}"
+											th:text="${#strings.toUpperCase(option.roleName)}"></option>
+									</select>
+
+
+								</div>
+
+
+								<div style="display: none;" class="deleteFromList" id="deleteFromList">
+
+									<button class="btnDltefromList" name="btnDltefromList" id='btnDltefromList'
+										onclick="deleteFromList(this)">
+										Delete</button>
+									<!--<i class="fa fa-remove"></i>-->
+
+
+								</div>
+
+								<!-- <form  action="add-committee-member1"  name="membersubmitt" th:object="${committeeMemberData}"> -->
+								<table class="table table-striped table-bordered table-hover" id="finallisttable">
+									<thead class="table-light" style="font-size: 14px;font-family:Serif ;">
+										<tr>
+											<th>Force Name</th>
+											<th>IRLA No</th>
+											<th>Name</th>
+											<th>Gender</th>
+											<th>Designation</th>
+											<th>Member Type</th>
+											<th colspan="2">Action</th>
+										</tr>
+									</thead>
+									<tbody class="finallist" name="tbodyfinal" id="tbodyfinal" style="font-size: 14px;">
+										<!--<tr th:each="individual : ${forcePersonalList}" th:field="${individual}">
+					        
+					        <td th:text="${individual.forcePersonalId}"></td>
+					        <td th:text="${individual.Name}"></td>
+					        <td th:text="${individual.designation}"></td>
+					        <td th:text="${individual.force_no}"></td>
+					        <td th:text="${individual.country}"></td>
+					        <td>
+					        <a th:href="@{/update/{forcePersonalId}(id=${individual.forcePersonalId})}" ><i class="fa fa-edit" ></i></a>
+					        <a th:href="@{/delete/{forcePersonalId}(forcePersonalId=${individual.forcePersonalId})}" ><i class="fa fa-remove"></i></a>
+					        </td>
+					      </tr>-->
+									</tbody>
+								</table>
+
+
+								<div class="row d-flex align-items-center">
+									<div class="col-md-3">
+										<label>Board For *</label>
+									</div>
+									<div class="col-md-3">
+										<input type="radio" id="gFlag" name="gFlag" value="1" checked>
+										<label>Gazetted Officers</label>
+									</div>
+								
+								</div>
+								
+								<hr>
+
+								<div class="row d-flex align-items-center mb-3">
+									<div class="col-md-3">
+										<label>Medical Examination Type *</label>
+									</div>
+									<div class="col-md-3">
+										<select class="form-select" id="examTypesListSelect">
+											<option value="0">select option</option>
+											<option th:each="option : ${examTypesList}" th:value="${option.examName}"
+												th:text="${option.examName}"></option>
+										</select>
+									</div>
+									<div class="col-md-3">
+										<span style="color: darkred;">*Hint (AME , RMB ,IMB)</span>
+									</div>
+
+
+
+								</div>
+								<hr>
+
+								<div class="row d-flex align-items-center mb-3">
+
+									<div class="col-md-3">
+										<label>Medical Board For *</label>
+									</div>
+									<div class="col-md-3">
+										<select class="form-select" id="boardAtForceNo" onchange="addUnitList(this)">
+											<option value="0">select option</option>
+											<option th:each="option : ${forceList}" th:value="${option.forceNo}"
+												th:data="${option.forceNo}" th:text="${option.forceName}"></option>
+										</select>
+									</div>
+
+									<div class="col-md-3">
+										<label>Situated At (Place) *</label>
+									</div>
+									<div class="col-md-3">
+										<select class="form-select" id="committeePlace">
+
+											<option value="0">select option</option>
+											<!--
+							    <option th:each="option : ${unitList}" th:value="${option.unitName}" th:text="${option.unitName}"></option>
+							 -->
+										</select>
+									</div>
+								</div>
+
+
+
+
+								<hr>
+
+
+
+								<div class="row d-flex align-items-center">
+									<div class="col-md-3">
+										<label>Validity</label>
+									</div>
+									<div class="col">
+										<label>From Date</label>
+									</div>
+									<div class="col-md-3">
+										<input type="date" name="committeeFromDate" id="committeeFromDate"
+											class="form-control">
+									</div>
+									<div class="col">
+										<label>To Date</label>
+									</div>
+									<div class="col-md-3">
+										<input type="date" name="committeeToDate" id="committeeToDate"
+											class="form-control">
+									</div>
+								</div>
+								<br>
+								<div class="row d-flex align-items-center">
+
+
+									<div class="col-md-3">
+										<label for="year">Medical Examination Year</label>
+									</div>
+									<div class="col-md-3">
+
+
+										<select id="dropdownYear" class="form-select"></select>
+									</div>
+
+
+								</div>
+							</div>
+
+
+
+
+							<hr>
+
+							<div class="row">
+								<div class="col float-start">
+									<form th:action="@{bda-dashboard}" method="get">
+										<input type="submit" class="btn btn-primary" value="Back">
+									</form>
+								</div>
+								<div class="col float-end">
+									<button name="membersubmit" class="btn btn-info" id="membersubmitcall"
+										style="float: right;">CREATE
+										BOARD</button>
+								</div>
+
+							</div>
+
+
+
+
+
+							<!--</form>-->
+							<br>
+							<!-- </form> -->
+						</div>
+
+
+
+						<input type="hidden" th:value="${forceNo}" id="forceNumber">
+						<input type="hidden" th:value="${unitId}" id="unitNumber">
+
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+
+		<form action="get-force-personal-by-unit-doctor" method="post" id="formId">
+			<input type="hidden" name="forceId" id="forceId"> <input type="hidden" name="unitId" id="unitId"> <input
+				type="hidden" th:value="${_csrf.token}" name="_csrf">
+
+		</form>
+
+
+		<form th:action="@{create-board-for-gazetted-officer}" method="get" id="formRedirect">
+
+			<input type="hidden" th:value="${_csrf.token}" name="_csrf">
+
+		</form>
+
+
+
+
+	</div>
+	<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+
+
+
+
+
+	<!--	<script src="js/dashboard.js"></script>-->
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function (e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
+
+
+	<script>
+		$(document).ready(function () {
+			$('#backtotop').click(function () {
+				$("html, body").animate({
+					scrollTop: 0
+				}, 600);
+				return false;
+			});
+
+
+
+
+
+			$(document).ready(function () {
+				$('#forcePersonalData').DataTable();
+			});
+
+
+
+
+
+			// for Committe submitt
+
+			$('#membersubmitcall').click(function () {
+				var formData = [];
+
+				var table = $(tbodyfinal);
+				console.log(table.children.length);
+				var token = $("meta[name='_csrf']").attr("content");
+				var header = $("meta[name='_csrf_header']").attr("content");
+				var rows = table.find('.memberData');
+				if (rows.length != 0) {
+					for (var i = 0; i < rows.length; i++) {
+						var rowData = {};
+
+						rowData['name'] = $(rows[i]).find('#personalName').text();
+						rowData['designation'] = $(rows[i]).find('#designation').text();
+						rowData['gender'] =$(rows[i]).find('#gender').text();
+
+						rowData['roleName'] = $(rows[i]).find('#roleTypeSelect :selected').val();
+						rowData['forcePersonalId'] = rows[i].cells.irlaNumber.attributes.value.nodeValue;
+
+
+						// selected place of Board
+						rowData['boardAtForceNo'] = $('#boardAtForceNo :selected').val();
+
+						rowData['place'] = $('#committeePlace :selected').val();
+
+						//rowData['place'] = $('#committeePlace').val();
+						rowData['fromDate'] = $('#committeeFromDate').val();
+						rowData['toDate'] = $('#committeeToDate').val();
+						rowData['usedFor'] = $('#examTypesListSelect :selected').val();
+
+						rowData['boardYear'] = $('#dropdownYear').val();
+						rowData['forceNo'] = $('#boardAtForceNo :selected').val();
+						var gflagData;
+						var ele = document.getElementsByName('gFlag');
+
+					    for (j = 0; j < ele.length; j++) {
+						if (ele[j].checked)
+							gflagData = ele[j].value;
+					    }
+
+						rowData['gFlag']=gflagData;
+
+
+
+						// set all data
+
+						formData.push(rowData);
+					}
+
+
+					console.log(formData);
+					var datan = "hello";
+					var data1 = JSON.stringify(formData);
+					
+					
+
+					var committePlace = $('#committeePlace :selected').val();
+					var examType = $('#examTypesListSelect :selected').val();
+					var boardAtForceNo = $('#boardAtForceNo :selected').val();
+					if (examType == 0) {
+						alert("Medical Examination Type can not be empty -----Please select..");
+						return false;
+					}
+					if (boardAtForceNo == 0) {
+						alert("board At Force can not be empty -----Please select..");
+						return false;
+					}
+					if (committePlace == 0) {
+						alert("Situated At(Place) can not be empty -----Please select..");
+						return false;
+					}
+					if (gflagData == -1) {
+						alert("GAZETTED / NON-GAZETTED FLAG CAN NOT BE NULL");
+						return false;
+					}
+
+					//set value of committeeMemberData 
+					$('committeeMemberData').val(JSON.stringify(formData));
+
+					//$('membersubmit').submit(
+
+					$.ajax({
+						type: "POST",
+						contentType: "application/json",
+						url: "create-medical-board-for gazzatted",
+						data: data1,
+						dataType: 'json',
+						/* cache: false,
+						timeout: 600000, */
+						beforeSend: function (xhr) {
+
+							xhr.setRequestHeader(header, token);
+						},
+						success: function (response) {
+
+
+
+							if (response.isValid) {
+								alert(response.message);
+								$('#formRedirect').unbind('submit').submit();
+							}
+
+							else {
+								$.each(response.errors, function (field, errorMessage) {
+									alert(errorMessage);
+									$('#' + field + '_error').text(errorMessage);
+
+								});
+							}
+
+						},
+						error: function (e) {
+
+
+
+							console.log("ERROR : ", e);
+
+						}
+					});
+				}
+				else {
+					alert("Please Choose Atleast one member in Board");
+				}
+
+				// JSON.stringify(formData)
+				// form submit
+				//$('membersubmitt').submit();
+				//form.submit();
+				//e.submit();
+				//document.membersubmitt.submit();
+
+			}
+			);
+
+		});
+	</script>
+
+
+
+	<script>
+		function addtoList(e) {
+			var row = $(e).closest('.memberData');
+
+			var rowCopy = row.clone(true);
+			var len = rowCopy[0].cells.length;
+			console.log(len);
+			rowCopy[0].deleteCell(6);
+			console.log(rowCopy[0].cells.length);
+			var col = $(roleTypeSelect);
+
+			var colCopy = col.clone(true);
+
+			console.log(rowCopy[0].cells[0]);
+			rowCopy[0].append(colCopy[0]);
+			var colDelete = $(btnDltefromList);
+			var colDeleteCopy = colDelete.clone(true);
+			//rowCopy[0].append(colDeleteCopy[0].innerHTML);
+			console.log(rowCopy[0].cells.length);
+			//rowCopy[0].append(colDeleteCopy[0]);
+			rowCopy[0].insertCell(-1).appendChild(colDeleteCopy[0])
+
+			$('#tbodyfinal').append(rowCopy);
+
+			//cell=rowCopy[0].insertCell(4);
+			//rowCopy[0].cells[4].append(col);
+			console.log(rowCopy[0].cells.length);
+			//table.appendChild(row);
+
+		}
+	</script>
+	<script>
+		function deleteFromList(e) {
+			var row = $(e).closest('.memberData').remove();
+
+			//rowCopy[0].appendChild(colDeleteCopy[0]);
+
+			//$('#tbodyfinal').append(rowCopy);
+
+			//cell=rowCopy[0].insertCell(4);
+			//rowCopy[0].cells[4].append(col);
+
+			//table.appendChild(row);
+
+		}
+	</script>
+
+	<script>
+		function addUnitList(e) {
+			//var row =$(e).closest('.memberData');
+
+			var fId = $(e).children("option:selected").val();
+			console.log(fId);
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+
+			var forceId = {
+				'forceId': fId
+			};
+			$.ajax({
+				type: "POST",
+				contentType: "application/json",
+				url: "get-force-unitList",
+				data: JSON.stringify(forceId),
+				dataType: 'json',
+				cache: false,
+				timeout: 600000,
+				beforeSend: function (xhr) {
+
+					xhr.setRequestHeader(header, token);
+				},
+				success: function (data) {
+
+					console.log("SUCCESS : ", data);
+
+					var dropdown = document.getElementById("committeePlace");
+					dropdown.innerHTML = "";
+					for (let i = 0; i < data.length; i++) {
+						const option = document.createElement("option");
+						option.text = data[i].unitName;
+						option.value = data[i].unitId;
+						option.setAttribute("data", data[i].forceId);
+						dropdown.appendChild(option);
+					}
+
+					//rows[0].insertCell(4).appendChild(dropdown);
+
+				},
+				error: function (e) {
+
+					console.log("ERROR : ", e);
+
+				}
+			});
+
+			// ajax
+
+			// in success
+			//create an select tag
+			//Iterate on list from response...
+			//create an option tag for each item..
+
+		}
+	</script>
+
+
+
+
+
+	<script>
+		$('.sub-menu ul').hide();
+		$('.sub-sub-menu ul').hide();
+		$(".sub-menu a").click(function () {
+			$(this).parent(".sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		$(".sub-sub-menu a").click(function () {
+			$(this).parent(".sub-sub-menu").children("ul").slideToggle("100");
+			$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+		});
+
+		// ==================year dropDown==========================//
+	</script>
+
+
+
+
+	<!-- Signup Modal -->
+	<div class="modal fade" id="signout-modal">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header text-center d-block p-5 border-bottom-0">
+					<h3 class="modal-title">Sign Out?</h3>
+					<button type="button" class="close position-absolute" style="right: 15px; top: 8px;"
+						data-dismiss="modal">&times;</button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body">
+					<p class="text-center">Are you sure you want to Sign Out?</p>
+					<div class="text-center py-4">
+						<form action="sign-out">
+							<button type="submit" class="btn btn-primary b-btn mx-3">Sign
+								Out</button>
+							<button class="btn btn-secondary mx-3" data-dismiss="modal">Cancel</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<script src="vendor/jquery-ui/jquery-ui.js"></script>
+	<script>
+		$(function () {
+			$("#sortable-menu").sortable();
+			$("#sortable-menu").disableSelection();
+
+			$("#sortable-cards").sortable();
+			$("#sortable-cards").disableSelection();
+		});
+	</script>
+
+
+	<script>
+		$(function () {
+			$("#one-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-12", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+
+			});
+
+			$("#two-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+			$("#three-item-row").on("click", function () {
+				$(".b-customize").addClass("col-lg-4", 300);
+				$(".b-customize").removeClass("col-lg-6", 300);
+				$(".b-customize").removeClass("col-lg-12", 300);
+
+			});
+
+		});
+	</script>
+
+	<script>
+		// Get the current year
+		const currentYear = new Date().getFullYear();
+		const startYear = currentYear - 1; // You can set this to any starting year you prefer
+
+		// Get the dropdown element
+		const yearDropdown = document.getElementById('dropdownYear');
+
+		// Populate the dropdown with options
+		for (let year = currentYear; year >= startYear; year--) {
+			const option = document.createElement('option');
+			option.value = year;
+			option.text = year;
+			yearDropdown.add(option);
+		}
+
+
+
+
+		$(document).ready(function () {
+			$('#unit_Id').select2();
+		});
+
+		$(document).ready(function () {
+			$('#attach_unit').select2();
+		});
+		$(document).ready(function () {
+			$('#committeePlace').select2();
+		});
+			$(document).ready(function () {
+			$('#forceName_id').select2();
+		});
+		
+		
+
+	</script>
+
+
+</body>
+
+</html>
