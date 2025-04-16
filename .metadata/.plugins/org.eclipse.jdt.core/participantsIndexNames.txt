@@ -1,9 +1,0 @@
-INDEX VERSION 1.134
-C:\Users\NIC\Documents\workspace-spring-tool-suite-4-4.27.0.RELEASE\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1769363744.index
-\spring-form-making\src\main\java
-C:\Users\NIC\Documents\workspace-spring-tool-suite-4-4.27.0.RELEASE\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3490237936.index
-\spring-form-making\src\main\java
-C:\Users\NIC\Documents\workspace-spring-tool-suite-4-4.27.0.RELEASE\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\4158561713.index
-\bkv_liveaudit\src
-C:\Users\NIC\Documents\workspace-spring-tool-suite-4-4.27.0.RELEASE\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\178396106.index
-\bkv_liveaudit\src
