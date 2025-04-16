@@ -42,9 +42,16 @@ public class ExaminationApplicationFlowHistory {
 	@Column(name = "ip_address")
 	private String ipAddress;
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "fk_boardId")
-	private MedicalBoard boardId;
+	@Column(name = "board_id")
+	private Long boardId;
+
+	public Long getBoardId() {
+		return boardId;
+	}
+
+	public void setBoardId(Long boardId) {
+		this.boardId = boardId;
+	}
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "fk_receiver_role_id")
@@ -128,13 +135,9 @@ public class ExaminationApplicationFlowHistory {
 		this.ipAddress = ipAddress;
 	}
 
-	public MedicalBoard getBoardId() {
-		return boardId;
-	}
+	
 
-	public void setBoardId(MedicalBoard boardId) {
-		this.boardId = boardId;
-	}
+	
 
 	public RefRoleMedical getReceiverRoleCode() {
 		return receiverRoleCode;

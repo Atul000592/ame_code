@@ -237,9 +237,9 @@ public class EsignController {
 	public String response(@RequestParam(value = "respon", required = false) String respon,
 			HttpServletResponse response, HttpServletRequest request, RedirectAttributes redirectAttributes,
 			Model model) throws Exception, FileNotFoundException {
-
+	
 		HttpSession session = request.getSession(false);
-
+		
 		String tnxId = null;
 		tnxId = XMLReadResponseData.GetTxnId(respon);
 	
@@ -264,6 +264,7 @@ public class EsignController {
 				filePathForSave = file.getAbsolutePath();
 				candidateIrlaNuber = (String) session.getAttribute("candidateIrlaNuber");
 				ameId = (String) session.getAttribute("ameId");
+				Long boardId =  (long) session.getAttribute("boardId");
 				int rCodeMedical = (int) session.getAttribute("rCodeMedical");
 
 				if (status) {
@@ -330,7 +331,7 @@ public class EsignController {
 						ExaminationApplicationFlowHistory examinationApplicationFlowHistory = new ExaminationApplicationFlowHistory();
 						examinationApplicationFlowHistory.setAmeApprovalStatus(optional.get());
 						examinationApplicationFlowHistory.setAmeId(ameId);
-						examinationApplicationFlowHistory.setBoardId(null);
+						examinationApplicationFlowHistory.setBoardId(boardId);
 						examinationApplicationFlowHistory
 								.setCreatedBy(forcePersonnelOptional.get().getForcePersonalId());
 						examinationApplicationFlowHistory.setCreateOn(LocalDateTime.now());
@@ -381,7 +382,7 @@ public class EsignController {
 						ExaminationApplicationFlowHistory examinationApplicationFlowHistory = new ExaminationApplicationFlowHistory();
 						examinationApplicationFlowHistory.setAmeApprovalStatus(optional.get());
 						examinationApplicationFlowHistory.setAmeId(ameId);
-						examinationApplicationFlowHistory.setBoardId(null);
+						examinationApplicationFlowHistory.setBoardId(boardId);
 						examinationApplicationFlowHistory
 								.setCreatedBy(forcePersonnelOptional.get().getForcePersonalId());
 						examinationApplicationFlowHistory.setCreateOn(LocalDateTime.now());
@@ -434,7 +435,7 @@ public class EsignController {
 						ExaminationApplicationFlowHistory examinationApplicationFlowHistory = new ExaminationApplicationFlowHistory();
 						examinationApplicationFlowHistory.setAmeApprovalStatus(optional.get());
 						examinationApplicationFlowHistory.setAmeId(ameId);
-						examinationApplicationFlowHistory.setBoardId(null);
+						examinationApplicationFlowHistory.setBoardId(boardId);
 						examinationApplicationFlowHistory
 								.setCreatedBy(forcePersonnelOptional.get().getForcePersonalId());
 						examinationApplicationFlowHistory.setCreateOn(LocalDateTime.now());

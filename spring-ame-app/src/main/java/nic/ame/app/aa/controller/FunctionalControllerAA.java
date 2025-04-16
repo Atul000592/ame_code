@@ -287,6 +287,7 @@ public class FunctionalControllerAA {
 		return "aa-template/list-of-board-aa";
 
 	}
+	
 	@CrossOrigin(origins = {StringConstants.CROSS_ORIGIN_BASE_URL, StringConstants.CROSS_ORIGIN_AME_URL},allowCredentials = "true") 
 	@GetMapping("download-ame-final-report-uploaded-go")
 	    public ResponseEntity<InputStreamResource> downloadAmeFinalReportUploadedGO(@RequestParam("ameId") String ameId) {
