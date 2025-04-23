@@ -8,6 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import nic.ame.app.master.model.AmeApplicationFlowStatus;
 import nic.ame.app.master.model.go.AmeFinalReportDetailsGo;
+import nic.ame.app.master.model.go.AmeFinalReportFileDirGo;
 
 public interface AmeFinalReportDetailsGoRepository extends CrudRepository<AmeFinalReportDetailsGo,String>{
 
@@ -36,5 +37,9 @@ public interface AmeFinalReportDetailsGoRepository extends CrudRepository<AmeFin
 	
 	@Query(nativeQuery = true,value = "SELECT * FROM public.ame_final_report_details_go where ame_id=?1 and status=?2")
 	Optional<AmeFinalReportDetailsGo> findByAmeIdAndStatus(String ameId,int rowEnableStatus);
+	
+	
+	@Query(value="SELECT * FROM public.ame_final_report_details_go where ame_id=?1",nativeQuery = true)
+	Optional<AmeFinalReportDetailsGo> findByAmeIds(String ameId);
 
 }

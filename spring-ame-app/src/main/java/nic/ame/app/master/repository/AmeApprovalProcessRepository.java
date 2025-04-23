@@ -34,5 +34,8 @@ public interface AmeApprovalProcessRepository extends CrudRepository<AmeApproval
 	List<String> findAmeIdByRoleCodeAndBoardIdGOCompleted(@Param("boardIds") List<String> boardIds);
 
 	AmeApprovalProcess findByAmeId(String ameId);
+	
+	@Query(value = "SELECT ame_id FROM tt_ame_approval_process " + "WHERE fk_board_id IN (:boardIds) ", nativeQuery = true)
+	List<String> findAmeIdByBoardId(@Param("boardIds") List<String> boardIds);
 
 }

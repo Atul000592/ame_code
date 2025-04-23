@@ -164,4 +164,10 @@ public interface MedicalBoardMemberRepo extends JpaRepository<MedicalBoardMember
     nativeQuery = true)
 	    List<String> findBoardIdsByForcePersonalIdAndRole(String forcePersonalId, 
 	                                                       String roleCode);
+	
+	@Query(value = "SELECT board_id FROM medical_board_member " +
+            "WHERE force_personal_id = :forcePersonalId " +
+            "ORDER BY board_year", 
+    nativeQuery = true)
+	    List<String> findBoardIdsByForcePersonalId(String forcePersonalId);
 }

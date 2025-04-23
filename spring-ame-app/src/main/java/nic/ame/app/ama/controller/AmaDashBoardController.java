@@ -17,6 +17,8 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import nic.ame.app.aa.model.ApprovalStatus;
+import nic.ame.app.aa.repository.ApprovalStatusRepository;
 import nic.ame.app.admin.dto.DropDownDto;
 import nic.ame.app.admin.dto.MedicalBoardDetailDto;
 import nic.ame.app.admin.dto.MedicalBoardMemberDto;
@@ -35,13 +37,22 @@ import nic.ame.app.master.medical.model.AmeMasterStatus;
 import nic.ame.app.master.medical.model.MedicalCheckUpMaster;
 import nic.ame.app.master.medical.service.AmeAssessmentDisplayService;
 import nic.ame.app.master.medical.service.AmeMasterStatusService;
+import nic.ame.app.master.model.AmeApplicationFlowStatus;
+import nic.ame.app.master.model.AmeApprovalProcess;
 import nic.ame.app.master.model.AmeDeclarationIndividualModel;
 import nic.ame.app.master.model.Force;
 import nic.ame.app.master.model.ForcePersonnel;
+import nic.ame.app.master.model.go.AmeFinalReportDetailsGo;
+import nic.ame.app.master.model.go.AmeFinalReportFileDirGo;
+import nic.ame.app.master.model.go.repository.AmeFinalReportDetailsGoRepository;
+import nic.ame.app.master.model.go.repository.AmeFinalReportFileDirGoRepository;
+import nic.ame.app.master.repository.AmeApplicationFlowStatusRepo;
+import nic.ame.app.master.repository.AmeApprovalProcessRepository;
 import nic.ame.app.master.repository.AmeParametersRepository;
 import nic.ame.app.master.repository.ForcePersonnelRepository;
 import nic.ame.app.master.service.AmaDeclarationCountService;
 import nic.ame.app.master.service.AmeApplicationFlowStatusService;
+import nic.ame.app.master.service.ForcePersonalService;
 import nic.ame.app.master.service.LoginUserDetails;
 import nic.ame.app.master.service.MapUriToUserService;
 import nic.ame.constant.CommonConstant;
@@ -69,62 +80,68 @@ public class AmaDashBoardController {
 
 	@Autowired
 	private AmeMasterStatusService ameMasterStatusService;
-	
+
 	@Autowired
 	private MedicalBoardIndividualMappingRepo medicalBoardIndividualMappingRepo;
-	
+
 	@Autowired
 	private MedicalBoardRepo medicalBoardRepo;
-	
-	
-	
 
-	
 	@Autowired
 	private AmeParametersRepository ameParametersRepository;
 
-	
 	@Autowired
 	private AmeApplicationFlowStatusService ameApplicationFlowStatusService;
 
 	@Autowired
 	private MedicalBoardMemberRepo medicalBoardMemberRepo;
-	
+
 	@Autowired
 	private RefForceService refForceService;
-	
+
 	@Autowired
 	private MapUriToUserService mapUriToUserService;
-	
+	@Autowired
+	private MedicalBoardMemberRepo medicalBoardMemberRepository;
+
+	@Autowired
+	private AmeApprovalProcessRepository ameApprovalProcessRepository;
+
+	@Autowired
+	private AmeApplicationFlowStatusRepo ameApplicationFlowStatusRepo;
+
+	@Autowired
+	private ForcePersonalService forcePersonalService;
 	
 	@Autowired
-	private ForceRepo forceRepo;
+	private AmeFinalReportDetailsGoRepository ameFinalReportFileDirGoRepository;
 	
-	private Logger logger =LoggerFactory.getLogger(AmaDashBoardController.class);
+	@Autowired
+	private ApprovalStatusRepository approvalStatusRepository;
 
-	@GetMapping({ "/medical-attendent-dashboard",
-			"/medical-subordinate-dashboard" })
+	@Autowired
+	private ForceRepo forceRepo;
+
+	private Logger logger = LoggerFactory.getLogger(AmaDashBoardController.class);
+
+	@GetMapping({ "/medical-attendent-dashboard", "/medical-subordinate-dashboard" })
 	public String goToBoardMemberDashboard(HttpSession session, Model model) {
-		
-	
+
 		String gazettedNonGazettedFlag = (String) session.getAttribute("gazettedNonGazettedFlag");
 		model.addAttribute("gazettedNonGazettedFlag", gazettedNonGazettedFlag);
-		
-		
-	
-		
+
 		String boardId = (String) session.getAttribute("boardId");
-		MedicalBoard boardOptional= medicalBoardRepo.findByBoardId(boardId);
-		
-		//MedicalBoard board=new MedicalBoard();
-		MedicalBoardDetailDto  boardDetailDto=new MedicalBoardDetailDto();
- 		if(boardOptional.getBoardId()!=null) {
- 			boardDetailDto=medicalBoardMemberService.findBoardDetailsByBoardId(boardId);
- 			model.addAttribute("boardDetails",boardDetailDto );
- 		}else {
- 		
- 			model.addAttribute("boardDetails", boardDetailDto);
- 		}
+		MedicalBoard boardOptional = medicalBoardRepo.findByBoardId(boardId);
+
+		// MedicalBoard board=new MedicalBoard();
+		MedicalBoardDetailDto boardDetailDto = new MedicalBoardDetailDto();
+		if (boardOptional.getBoardId() != null) {
+			boardDetailDto = medicalBoardMemberService.findBoardDetailsByBoardId(boardId);
+			model.addAttribute("boardDetails", boardDetailDto);
+		} else {
+
+			model.addAttribute("boardDetails", boardDetailDto);
+		}
 		Integer pendingCount = amaDeclarationCountService.getAMADeclarationPendingListCount(boardId.trim());
 		String pendingCountValue;
 		if (pendingCount == null) {
@@ -140,7 +157,8 @@ public class AmaDashBoardController {
 		} else {
 			appointmentCompletedValue = String.valueOf(appointmentCompleted);
 		}
-		//Integer totalCompletedAma = amaDeclarationCountService.findDataForDealingHandCount(unit,forceNo);
+		// Integer totalCompletedAma =
+		// amaDeclarationCountService.findDataForDealingHandCount(unit,forceNo);
 		String totalCompletedAmaValue = "0";
 		String forcePersonalId = (String) session.getAttribute("forcepersonalId");
 		// Optional<ForcePersonal> optional=
@@ -155,27 +173,25 @@ public class AmaDashBoardController {
 			model.addAttribute("errorMsg", "You have been sign out // Session expired.....! or Invalid User....");
 			return "bootstrap_medical_temp/index";
 		}
-	
-		
 
-		int  AmeDeclarationFormUploadPendingCount=ameApplicationFlowStatusService.ameDeclarationFormUploadCompletedPending(boardId);
+		int AmeDeclarationFormUploadPendingCount = ameApplicationFlowStatusService
+				.ameDeclarationFormUploadCompletedPending(boardId);
 		int AMEDeclarationFormUploadCompletedCount = ameApplicationFlowStatusService
 				.ameDeclarationFormUploadCompleted(boardId);
-		int AMECheckupListPendingCount=ameApplicationFlowStatusService.ameCheckupListProvidedPending(boardId);
-		int AMECheckupListProvidedCount = ameApplicationFlowStatusService
-				.ameCheckupListProvided(boardId);
-        model.addAttribute("AmeDeclarationFormUploadPendingCount",AmeDeclarationFormUploadPendingCount);
-		model.addAttribute("AMEDeclarationFormUploadCompletedCount",AMEDeclarationFormUploadCompletedCount);
-	    model.addAttribute("AMECheckupListPendingCount",AMECheckupListPendingCount);
-		model.addAttribute("AMECheckupListProvidedCount",AMECheckupListProvidedCount);
-		
+		int AMECheckupListPendingCount = ameApplicationFlowStatusService.ameCheckupListProvidedPending(boardId);
+		int AMECheckupListProvidedCount = ameApplicationFlowStatusService.ameCheckupListProvided(boardId);
+		model.addAttribute("AmeDeclarationFormUploadPendingCount", AmeDeclarationFormUploadPendingCount);
+		model.addAttribute("AMEDeclarationFormUploadCompletedCount", AMEDeclarationFormUploadCompletedCount);
+		model.addAttribute("AMECheckupListPendingCount", AMECheckupListPendingCount);
+		model.addAttribute("AMECheckupListProvidedCount", AMECheckupListProvidedCount);
+
 		System.out.println(">>>>>>>>>>>>>>>>>>>" + boardId);
 		model.addAttribute("loginUserDetails", loginUserDetails.getLoginUserDetails(forcePersonalId));
 		model.addAttribute("pendingcountama", pendingCountValue);
 		model.addAttribute("appointmentcompletedama", appointmentCompletedValue);
 		model.addAttribute("totalCompletedAma", totalCompletedAmaValue);
-		model.addAttribute("boardCount",medicalBoardIndividualMappingRepo.boardCount(forcePersonalId,
-				Integer.parseInt( ameParametersRepository.getAmeParameterValue(CommonConstant.AME_STATUS_YES_FLAG))));
+		model.addAttribute("boardCount", medicalBoardIndividualMappingRepo.boardCount(forcePersonalId,
+				Integer.parseInt(ameParametersRepository.getAmeParameterValue(CommonConstant.AME_STATUS_YES_FLAG))));
 
 		model.addAttribute("boardId", boardId);
 		return "medical-sub-ordinate/dashboard-ma";
@@ -206,8 +222,6 @@ public class AmaDashBoardController {
 		}
 
 	}
-
-	
 
 	@GetMapping("/application-under-process-ama")
 	public String showdeclarationtocontroller(Model model, HttpSession httpSession) {
@@ -243,8 +257,7 @@ public class AmaDashBoardController {
 
 	@PostMapping("/back-to-index-page-ama")
 	public String backToFromIndexPageAMA(Model model, HttpServletRequest request,
-			@RequestParam("forcepersonalId") String candidateforcepersonalId,
-			@RequestParam("ameId") String ameId,
+			@RequestParam("forcepersonalId") String candidateforcepersonalId, @RequestParam("ameId") String ameId,
 			HttpSession httpSession) {
 		/*
 		 * Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
@@ -276,8 +289,7 @@ public class AmaDashBoardController {
 	@PostMapping("ame-check-up-list")
 	public String medicalCheckUpListDisplayPage(Model model, String ameId, String CandidateforcePersonalId,
 			HttpSession httpSession) {
-		
-		
+
 		String gazettedNonGazettedFlag = (String) httpSession.getAttribute("gazettedNonGazettedFlag");
 		model.addAttribute("gazettedNonGazettedFlag", gazettedNonGazettedFlag);
 		String forcePersonalId = (String) httpSession.getAttribute("forcepersonalId");
@@ -285,51 +297,45 @@ public class AmaDashBoardController {
 		model.addAttribute("candidateDetails", loginUserDetails.getCandicateForcePersonalId(CandidateforcePersonalId));
 
 		int rCode = (int) httpSession.getAttribute("rCodeMedical");
-    
-		logger.info("rCode>>>>>>>>>"+rCode);
+
+		logger.info("rCode>>>>>>>>>" + rCode);
 		String uri = mapUriToUserService.getUriForCheckListForCandidate(rCode);
-		logger.info("rCode>>>>>>>>>"+uri);
+		logger.info("rCode>>>>>>>>>" + uri);
 
 		List<MedicalCheckUpMaster> medicalMaster = ameAssessmentDisplayService.checkUpMasters();
-		
-		
-       		
-		
-		
-		List<MedicalCheckUpListDto> checkUpListDtos=new ArrayList<>();
-		
-		if (medicalMaster != null && !medicalMaster.isEmpty()) {
-			
-		    for (int i = 0; i < medicalMaster.size(); i++) {
-		    	
-		    	MedicalCheckUpListDto checkUpListDto=new MedicalCheckUpListDto();
-		    	checkUpListDto.setCode(medicalMaster.get(i).getTestCode());
-		    	checkUpListDto.setName(medicalMaster.get(i).getTestName());
-                 if(medicalMaster.get(i).getDefaultCheckedFlag()==1)
-                	 checkUpListDto.setChecked(true);
-                 else
-                	 checkUpListDto.setChecked(false);
 
-                //logger.info("Test Add........checkUplist");
-                checkUpListDtos.add(checkUpListDto);
-            
-            }
-		     
+		List<MedicalCheckUpListDto> checkUpListDtos = new ArrayList<>();
+
+		if (medicalMaster != null && !medicalMaster.isEmpty()) {
+			for (int i = 0; i < medicalMaster.size(); i++) {
+				MedicalCheckUpListDto checkUpListDto = new MedicalCheckUpListDto();
+				checkUpListDto.setCode(medicalMaster.get(i).getTestCode());
+				checkUpListDto.setName(medicalMaster.get(i).getTestName());
+				if (medicalMaster.get(i).getDefaultCheckedFlag() == 1)
+					checkUpListDto.setChecked(true);
+				else
+					checkUpListDto.setChecked(false);
+
+				// logger.info("Test Add........checkUplist");
+				checkUpListDtos.add(checkUpListDto);
+
+			}
+
 		}
-		
-		model.addAttribute("checkUpListDtos",checkUpListDtos);
+
+		model.addAttribute("checkUpListDtos", checkUpListDtos);
 		model.addAttribute("ameId", ameId);
 		model.addAttribute("candidateForcePersonalId", CandidateforcePersonalId);
-		
-				return uri;
+
+		return uri;
 
 	}
-	
-	//========================Redirect to Ame Fill form page=======================//
+
+	// ========================Redirect to Ame Fill form
+	// page=======================//
 	@PostMapping("/index-page-ama")
 	public String redirectFromIndexPageAMA(Model model, HttpServletRequest request,
-			@RequestParam("forcepersonalId") String candidateforcepersonalId,
-			@RequestParam("ameId") String ameId,
+			@RequestParam("forcepersonalId") String candidateforcepersonalId, @RequestParam("ameId") String ameId,
 			HttpSession httpSession) {
 		/*
 		 * Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
@@ -357,19 +363,14 @@ public class AmaDashBoardController {
 
 		}
 	}
-	
-	
-	
 
 	@GetMapping("appointment-and-board-List")
 	public String getBoardListByForcePersonal(Model model, HttpSession httpSession) {
-		
-		
-		
+
 		String forcePersonalId = (String) httpSession.getAttribute("forcepersonalId");
-		
+
 		model.addAttribute("loginUserDetails", loginUserDetails.getCandicateForcePersonalId(forcePersonalId));
-		
+
 		List<MedicalBoardMemberDto> list = medicalBoardMemberService.listOfBoardByForcePersonalId(forcePersonalId);
 
 		if (list.size() == 0) {
@@ -383,15 +384,16 @@ public class AmaDashBoardController {
 	}
 
 	@GetMapping("/pending-for-appointment-controller-ma")
-	public String getAppointmentDetailsAma(Model model,HttpSession httpSession) {
-		
+	public String getAppointmentDetailsAma(Model model, HttpSession httpSession) {
+
 		String forcePersonalId = (String) httpSession.getAttribute("forcepersonalId");
-		String boardId=(String) httpSession.getAttribute("boardId");
-		
+		String boardId = (String) httpSession.getAttribute("boardId");
+
 		model.addAttribute("loginUserDetails", loginUserDetails.getCandicateForcePersonalId(forcePersonalId));
-		
-		List<MedicalBoardMemberDto> list = medicalBoardMemberService.listOfBoardByLoginForcePersonnelBoardId(boardId,forcePersonalId);
-		
+
+		List<MedicalBoardMemberDto> list = medicalBoardMemberService.listOfBoardByLoginForcePersonnelBoardId(boardId,
+				forcePersonalId);
+
 		if (list.size() == 0) {
 
 			model.addAttribute("boardList", list);
@@ -402,42 +404,116 @@ public class AmaDashBoardController {
 		return "medical-sub-ordinate/list-of-board-to-force-personal";
 	}
 
-@GetMapping(path = "/assign-dealing-hand-to-unit")
-public String assignDealingHandPage(Model model ,HttpSession httpSession) {
+	@GetMapping(path = "/assign-dealing-hand-to-unit")
+	public String assignDealingHandPage(Model model, HttpSession httpSession) {
 
-	String loginForcePersonalId = (String) httpSession.getAttribute("forcepersonalId");
-	//String sBoardId=(String) httpSession.getAttribute("sBoardId");
-	ForcePersonnelDto forcePersonalDto=loginUserDetails.getLoginUserDetails(loginForcePersonalId);
-    model.addAttribute("loginUserDetails", forcePersonalDto);
-	List<DropDownDto> downDtosList=new ArrayList<>();
+		String loginForcePersonalId = (String) httpSession.getAttribute("forcepersonalId");
+		// String sBoardId=(String) httpSession.getAttribute("sBoardId");
+		ForcePersonnelDto forcePersonalDto = loginUserDetails.getLoginUserDetails(loginForcePersonalId);
+		model.addAttribute("loginUserDetails", forcePersonalDto);
+		List<DropDownDto> downDtosList = new ArrayList<>();
 
-    List<MedicalBoardMember> medicalBoardsList=medicalBoardMemberRepo.findByForcePersonalId(loginForcePersonalId);
-    
-    for (MedicalBoardMember medicalBoardMember : medicalBoardsList) {
-    	MedicalBoard medicalBoardData=medicalBoardRepo.getByBoardId(medicalBoardMember.getBoardId());
-    	if(medicalBoardData.getBoardId()!=null) {
-    		DropDownDto downDto=new DropDownDto();
-    		StringBuffer buffer=new StringBuffer();
-    		String place=refForceService.getUnitNameByUnitId(Integer.parseInt(medicalBoardData.getBoardAtForceNo()),medicalBoardData.getPlace());
-    		buffer=buffer.append(medicalBoardData.getBoardId()).append(" || "+place).append(" || "+medicalBoardData.getUsedFor()+" || ");
-    		if(medicalBoardData.getGazettedFlag()==1) {
-    			buffer.append("Gazetted");
-    		}else {
-    			buffer.append("Non-Gazetted");
-    		}
-    		downDto.setBoardId(medicalBoardData.getBoardId());
-    	    downDto.setValue(buffer.toString());
-    	    downDtosList.add(downDto);	
-    	}
+		List<MedicalBoardMember> medicalBoardsList = medicalBoardMemberRepo.findByForcePersonalId(loginForcePersonalId);
+
+		for (MedicalBoardMember medicalBoardMember : medicalBoardsList) {
+			MedicalBoard medicalBoardData = medicalBoardRepo.getByBoardId(medicalBoardMember.getBoardId());
+			if (medicalBoardData.getBoardId() != null) {
+				DropDownDto downDto = new DropDownDto();
+				StringBuffer buffer = new StringBuffer();
+				String place = refForceService.getUnitNameByUnitId(
+						Integer.parseInt(medicalBoardData.getBoardAtForceNo()), medicalBoardData.getPlace());
+				buffer = buffer.append(medicalBoardData.getBoardId()).append(" || " + place)
+						.append(" || " + medicalBoardData.getUsedFor() + " || ");
+				if (medicalBoardData.getGazettedFlag() == 1) {
+					buffer.append("Gazetted");
+				} else {
+					buffer.append("Non-Gazetted");
+				}
+				downDto.setBoardId(medicalBoardData.getBoardId());
+				downDto.setValue(buffer.toString());
+				downDtosList.add(downDto);
+			}
+		}
+
+		List<Force> forcesList = forceRepo.findForceListByForceId(forcePersonalDto.getForceNo());
+
+		model.addAttribute("downDtosList", downDtosList);
+		model.addAttribute("forceList", forcesList);
+
+		return "medical-sub-ordinate/assign-dealing-hand-to-unit";
 	}
 
-    List<Force> forcesList=forceRepo.findForceListByForceId(forcePersonalDto.getForceNo());
-    
-	model.addAttribute("downDtosList",downDtosList);
-	model.addAttribute("forceList", forcesList);
-	
-	
-	return"medical-sub-ordinate/assign-dealing-hand-to-unit";
-}
+	@GetMapping("request-status-of-board-member")
+	public String getRequestByForcePersonal(Model model, HttpSession httpSession) throws Exception {
+		String forcePersonalId = (String) httpSession.getAttribute("forcepersonalId");
+		model.addAttribute("loginUserDetails", loginUserDetails.getCandicateForcePersonalId(forcePersonalId));
+
+		List<String> boardIds = medicalBoardMemberRepository.findBoardIdsByForcePersonalId(forcePersonalId);
+		if (boardIds.isEmpty()) {
+			model.addAttribute("boardList", boardIds);
+			return "medical-bm/request-status";
+		}
+
+		List<String> ameIds = ameApprovalProcessRepository.findAmeIdByBoardId(boardIds);
+		if (ameIds.isEmpty()) {
+			model.addAttribute("boardList", ameIds);
+			return "medical-bm/request-status";
+		}
+
+		List<AmeApplicationFlowStatus> forcePersonnelDetails = ameApplicationFlowStatusRepo.findByAmeIds(ameIds);
+		if (forcePersonnelDetails.isEmpty()) {
+			model.addAttribute("boardList", forcePersonnelDetails);
+			return "aa-template/list-of-board-aa";
+		}
+
+		List<ForcePersonnel> forcePersonallist = new ArrayList<>();
+		for (AmeApplicationFlowStatus ameApplicationFlowStatus : forcePersonnelDetails) {
+			Optional<ForcePersonnelDto> optionalForcePersonalDto = forcePersonalService
+					.findByForcePersonalId(ameApplicationFlowStatus.getForcepersonalId());
+
+			if (optionalForcePersonalDto.isPresent()) {
+				ForcePersonnel forcePersonnel = new ForcePersonnel();
+				forcePersonnel.setName(optionalForcePersonalDto.get().getName());
+				forcePersonnel.setForceNo(optionalForcePersonalDto.get().getForceNo());
+				
+				Force force = this.forceRepo.findByForceNo(optionalForcePersonalDto.get().getForceNo());
+				forcePersonnel.setDesignationRankName(force.getForceCodeName());
+				forcePersonnel.setForceId(optionalForcePersonalDto.get().getForceId());
+				forcePersonnel.setUnit(optionalForcePersonalDto.get().getUnit());
+				forcePersonnel.setAmeId(ameApplicationFlowStatus.getAmeId());
+				
+				Optional<ApprovalStatus> optionalApprovalStatus = this.approvalStatusRepository.findByAmeId(ameApplicationFlowStatus.getAmeId());
+
+				if (optionalApprovalStatus.isPresent()) {
+				    ApprovalStatus approvalStatus = optionalApprovalStatus.get();
+				    forcePersonnel.setStatus(approvalStatus.getRemark());
+				} else {
+				    forcePersonnel.setStatus("Status not Found");
+				}
+
+			Optional<AmeFinalReportDetailsGo> optionalAmeFinalReportDirGo=	this.ameFinalReportFileDirGoRepository.findByAmeIds(ameApplicationFlowStatus.getAmeId());
+			if(!optionalAmeFinalReportDirGo.isEmpty()) {
+				AmeFinalReportDetailsGo ameFinalReportDirGo=optionalAmeFinalReportDirGo.get();
+				forcePersonnel.setLastAmeShape(ameFinalReportDirGo.getFinalCategoryAwarded());
+			}else {
+				throw new Exception("ameFinalReportFileDirGo not found");
+			}
+			
+				AmeApprovalProcess ameProcessOpt = ameApprovalProcessRepository
+						.findByAmeId(ameApplicationFlowStatus.getAmeId());
+				if (ameProcessOpt != null) {
+					forcePersonnel.setRemark(ameProcessOpt.getSenderRemark());
+				} else {
+					forcePersonnel.setRemark("");
+				}
+
+				forcePersonallist.add(forcePersonnel);
+			}
+		}
+
+		model.addAttribute("boardList", forcePersonallist);
+		model.addAttribute("forcepersonalId", forcePersonalId);
+		return "medical-bm/request-status";
+	}
 
 }

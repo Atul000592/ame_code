@@ -69,6 +69,14 @@ public class ForcePersonnel {
     @Transient
     private String ameId;
     
+    @Transient
+    private String remark;
+    
+    
+    @Transient
+    private String status;
+    
+    
     
     
   //-----------------------------------------------------Getters and Setters------------------------------------------------------------//	
@@ -275,6 +283,22 @@ public class ForcePersonnel {
 
 	public void setAmeId(String ameId) {
 		this.ameId = ameId;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
     
     
